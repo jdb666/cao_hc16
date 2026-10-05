@@ -16,6 +16,11 @@ for k, lab in ARIA.items():
     tag = f"<!--SVG:{k}-->"; assert tag in s, tag
     s = s.replace(tag, v)
 assert "/*P3D*/null" in s
-s = s.replace("/*P3D*/null", open(f"{d}/p3d.json").read())
+import json, sys, yaml
+sys.path.insert(0, '/home/claude/cao/etudes')
+from greement_hc16 import greement
+P3D = json.load(open(f"{d}/p3d.json"))
+P3D['rig']['hc16'] = greement(yaml.safe_load(open('/home/claude/cao/cotes.yaml'))['hc16_origine'])   # gréement HC16 d'origine (book, CV de comparaison)
+s = s.replace("/*P3D*/null", json.dumps(P3D, separators=(',', ':')))
 open(f"{d}/plateforme_hc16.html", "w").write(s)
 print("OK plateforme_hc16.html", len(s))

@@ -1,0 +1,247 @@
+{
+ "s1_hc16_av": {
+  "cv": "x 3 176 · z 3 739\nHC16 d'origine, rond de chute compris (voiles redessinées) ; par les triangles : x 2 964 · z 3 418",
+  "chav": "100 %\nréférence : HC16 d'origine",
+  "surf": "18,9 m²\nHC16 d'origine : GV 13,77 + foc 5,12 m²"
+ },
+ "s1_hc16_ar": {
+  "cv": "x 3 176 · z 3 739\nHC16 d'origine, rond de chute compris (voiles redessinées) ; par les triangles : x 2 964 · z 3 418",
+  "chav": "100 %\nréférence : HC16 d'origine",
+  "surf": "18,9 m²\nHC16 d'origine : GV 13,77 + foc 5,12 m²"
+ },
+ "s1_hc16_pr": {
+  "cv": "x 3 206 · z 3 735\nHC16 d'origine, rond de chute compris (voiles redessinées) ; par les triangles : x 2 964 · z 3 418",
+  "chav": "100 %\nréférence : HC16 d'origine",
+  "surf": "18,9 m²\nHC16 d'origine : GV 13,77 + foc 5,12 m²"
+ },
+ "s1_hc16_fa": {
+  "cv": "x 3 176 · z 3 739\nHC16 d'origine, rond de chute compris (voiles redessinées) ; par les triangles : x 2 964 · z 3 418",
+  "chav": "100 %\nréférence : HC16 d'origine",
+  "surf": "18,9 m²\nHC16 d'origine : GV 13,77 + foc 5,12 m²"
+ },
+ "s1_hc16_de": {
+  "cv": "x 3 176 · z 3 739\nHC16 d'origine, rond de chute compris (voiles redessinées) ; par les triangles : x 2 964 · z 3 418",
+  "chav": "100 %\nréférence : HC16 d'origine",
+  "surf": "18,9 m²\nHC16 d'origine : GV 13,77 + foc 5,12 m²"
+ },
+ "s2_rando_av": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s2_rando_ar": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s2_rando_pr": {
+  "cv": "x 3 010 · z 3 951\nHC16 d'origine x 3 206 · z 3 735 : 196 en avant, 216 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s2_rando_fa": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s2_rando_de": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_transp_av": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_transp_ar": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_transp_pr": {
+  "cv": "x 3 010 · z 3 951\nHC16 d'origine x 3 206 · z 3 735 : 196 en avant, 216 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_transp_fa": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_transp_de": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_coffre_av": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_coffre_ar": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_coffre_de": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s3_coffre_pr": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s4_00_av": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "62 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "11,1 m²\n50 % des deux voiles pleines"
+ },
+ "s4_00_pr": {
+  "cv": "x 3 010 · z 3 951\nHC16 d'origine x 3 206 · z 3 735 : 196 en avant, 216 plus haut",
+  "chav": "62 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "11,1 m²\n50 % des deux voiles pleines"
+ },
+ "s4_00_fa": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "62 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "11,1 m²\n50 % des deux voiles pleines"
+ },
+ "s4_00_de": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "62 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "11,1 m²\n50 % des deux voiles pleines"
+ },
+ "s4_50_av": {
+  "cv": "x 2 578 · z 3 564\nHC16 d'origine x 3 176 · z 3 739 : 597 en avant, 175 plus bas",
+  "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "5,5 m²\n25 % des deux voiles pleines"
+ },
+ "s4_50_pr": {
+  "cv": "x 2 601 · z 3 563\nHC16 d'origine x 3 206 · z 3 735 : 605 en avant, 172 plus bas",
+  "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "5,5 m²\n25 % des deux voiles pleines"
+ },
+ "s4_50_fa": {
+  "cv": "x 2 578 · z 3 564\nHC16 d'origine x 3 176 · z 3 739 : 597 en avant, 175 plus bas",
+  "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "5,5 m²\n25 % des deux voiles pleines"
+ },
+ "s4_50_de": {
+  "cv": "x 2 578 · z 3 564\nHC16 d'origine x 3 176 · z 3 739 : 597 en avant, 175 plus bas",
+  "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "5,5 m²\n25 % des deux voiles pleines"
+ },
+ "s4_75_av": {
+  "cv": "x 2 344 · z 3 174\nHC16 d'origine x 3 176 · z 3 739 : 832 en avant, 565 plus bas",
+  "chav": "12 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "2,8 m²\n12 % des deux voiles pleines"
+ },
+ "s4_75_pr": {
+  "cv": "x 2 359 · z 3 173\nHC16 d'origine x 3 206 · z 3 735 : 847 en avant, 561 plus bas",
+  "chav": "12 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "2,8 m²\n12 % des deux voiles pleines"
+ },
+ "s4_75_fa": {
+  "cv": "x 2 344 · z 3 174\nHC16 d'origine x 3 176 · z 3 739 : 832 en avant, 565 plus bas",
+  "chav": "12 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "2,8 m²\n12 % des deux voiles pleines"
+ },
+ "s4_75_de": {
+  "cv": "x 2 344 · z 3 174\nHC16 d'origine x 3 176 · z 3 739 : 832 en avant, 565 plus bas",
+  "chav": "12 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "2,8 m²\n12 % des deux voiles pleines"
+ },
+ "s5_bas_ar": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_bas_ar_transp": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_bas_av_transp": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_bas_pr_transp": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_haut_ar": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_haut_ar_transp": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_haut_av_transp": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "s5_haut_pr_transp": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_livarde": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "d_joue": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_pied_mat": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_brelage": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_accroches": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_bancs": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_haubans": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_ecoute": {
+  "cv": "x 2 911 · z 3 956\nHC16 d'origine x 3 123 · z 3 747 : 212 en avant, 209 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_assiette_0": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "d_assiette_150": {
+  "cv": "x 2 974 · z 3 953\nHC16 d'origine x 3 176 · z 3 739 : 202 en avant, 214 plus haut",
+  "chav": "124 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ }
+}

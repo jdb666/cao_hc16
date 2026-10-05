@@ -347,6 +347,17 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
       croises_arriere: true  # rétablis (JD 29/09 soir) : vers un pontet au bord intérieur du pont opposé (jusqu'à la cadène, ils traverseraient le pont bombé)
       pontet_interieur: {x: 2690, dy: 186, dz: 8}
 
+hc16_origine:              # gréement Hobie 16 d'origine, approché (book, comparaison des CV) : mât 8,08 m (26'6"), GV 13,77 m² et foc 5,12 m² (manuel Hobie Cat Europe 2015),
+                           # GV : guindant 7 315, bordure 2 743, chute 7 666 (Good Old Boat, données voilier) ; foc : contour fait pour 5,12 m² entre l'étai et un point d'écoute plausible
+  mat: {x: 2070, z: 700, quete_deg: 7.5, longueur: 8080, diam: 75}   # rotule sur le dessus de la poutre AV au milieu (670 + 30) ; quête 7,5° (hypothèse du 24/09)
+  gv: {amure_w: 600, tetiere_w: 7950, bordure: 2740, chute: 7666, surface: 13.77, lattes: 7}   # bôme à 1,30 m de la flottaison
+  foc: {surface: 5.12, point_ecoute: [2250, 1000], jeu_amure: 150, jeu_tete: 150}
+  etai: {capelage_w: 6100, patte_oie: 1130, ferrure: [250, 1000, 440]}   # pattes d'oie ≥ 44" (1 118) entre les ferrures d'étrave et le point d'étai
+  cadene_hauban: [2250, 1150, 330]
+  ecoute_gv: [4145, 565]   # chariot sur la poutre AR
+  ecoute_foc: [2070, 330, 690]
+  cv_reference: {x: 3010, z: 3360}   # CV HC16 retenu le 24/09 (triangles de voilure) pour placer le pied de mât Rando
+
 safrans:
   x: 5120
   corde: 220

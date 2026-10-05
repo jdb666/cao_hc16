@@ -4,13 +4,13 @@
   "<b>Épaisseurs</b> : bordé cintré CP 4 ; fond et C4 CP 6 ; joues CP 9 ; cloisons, parois du puits et couples ±331 CP 6 ; couples ±850, accroches, assises et couples de banc CP 9 ; table CP 10 (ou CP 6 raidi dessous). Les pièces de 18 à 40 sont faites de plis collés.",
   "<b>Cintrage</b> : rayon mini ≈ 330, à l'épaule de l'arrondi avant (au droit des joues) et à la pointe du milieu. Faire d'abord un essai à froid du CP 4 sur une chute.",
   "<b>Demi-plaques</b> : celle de CP 4 ne porte qu'un renfort de pont (RP, 372 × 300), celle de CP 6 qu'un couple ±331 avec son accroche (K331) : à prendre dans des chutes si elles suffisent.",
-  "<b>Découpes tracées</b> : trous Ø 40 des fourreaux de livarde dans le dessus, bas du puits moteur dans le fond, fentes de C4 où passent les couples-accroches, trous Ø 8 du brêlage dans leurs lèvres, trappes de C4 (la chute fait la trappe), échancrure de C4 et passage de la tête du moteur dans la table, poches des pièces d'angle (ouvertes dessous), entailles des joues au droit des couples de banc.",
+  "<b>Découpes tracées</b> : bas du puits moteur dans le fond, fentes de C4 où passent les couples-accroches, trous Ø 8 du brêlage dans leurs lèvres, trappes de C4 (la chute fait la trappe), échancrure de C4 et passage de la tête du moteur dans la table, poches des pièces d'angle (ouvertes dessous), entailles des joues au droit des couples de banc, trou Ø 34 du godet et ouverture du collier des supports de livarde (LG, LC).",
   "<b>À percer au montage</b> (non tracés) : tube des colliers Ø 50 dans les joues et le dessus, tubes carbone Ø 40 dans le fond, passages du laçage.",
   "<b>Couples-accroches</b> (K850, K331, PM) : d'une pièce avec leur accroche, ils traversent C4 ; profil de la poutre + 2 avec la lèvre sous le nez. Présenter un gabarit sur la poutre réelle, qui est cintrée, avant de découper. <b>Couples de banc</b> (BC) : profil du longeron + 2, entiers ; c'est la joue qui est entaillée.",
   "<b>DXF</b> : bord de plaque sur le calque PANNEAU, contours sur DECOUPE, repères sur REPERES ; un fichier par plaque et un fichier par pièce, à l'échelle 1, en millimètres."
  ],
  "hors": [
-  "Tubes carbone Ø 40 × 2 : quatre appuis sur le pont (2 × 147 et 2 × 131, haut coupé à la pente du fond) et deux fourreaux de livarde de 300.",
+  "Tubes carbone Ø 40 × 2 : quatre appuis sur le pont (2 × 147 et 2 × 131, haut coupé à la pente du fond).",
   "Tube alu Ø 50 × 2 de 2 240 entre les colliers, démontable.",
   "Bout Ø 5 : laçage des bancs, 5 × ≈ 2,5 m ; brêlage, 6 brins de 255, 390 et 855 par bord, ≈ 3 m sans les tours.",
   "Colliers de mât (étriers boulonnés sur les joues) : forme en attente du croquis de JD.",
