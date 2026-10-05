@@ -100,7 +100,8 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     godet: {diam: 34, au_dessus_bas: 15}
     collier: {diam: 32, ouverture: 30, sous_haut: 60}   # 60 sous le haut de la joue : 20 sous le hauban direct AV   # livarde rangée (JD 30/09) : trou dans le dessus, 180 devant l'axe du mât au collier,
                                                                                                      # contre la joue ; fourreau de 300 dans le coffre, collier ouvert sur le dessus pour la tenir
-  table: {x0: 1384, x1: 2118, demi_y: 360, ep: 10, decoupe_moteur: {x0: 1771, x1: 2055, demi_y: 70}}   # planche légère qui ferme le tout (JD 30/09) : de l'avant de la caisse jusqu'au-dessus de la poutre AV, découpée pour la tête et la barre du moteur
+  table: {x0: 1384, x1: 1760, demi_y: 360, ep: 10, decoupe_moteur: {x0: 1771, x1: 2055, demi_y: 70}}   # planche légère (JD 30/09) ; raccourcie (JD 05/10) : elle ne couvre plus que la caisse, le capot arrière prend la suite (avant : x1 2 118, au-dessus de la poutre AV)
+  capot_arriere: {x0: 1760, z_c4: 740, demi_y: 360, ep: 6, decoupe_moteur: {x0: 1771, demi_y: 70}}   # (JD 05/10) dessus du milieu en pente de x 1 760 (z 810) à C4 (z 750) : les haubans collier -> milieu de la poutre AV passent au-dessus
   dessus_plat_demi: 360      # même cassure que le fond : bordé central C5 cylindrique, trappe de batterie plane dans C5
   dessus_cotes_au_dessus_collier: 25   # dessus au droit des joues = haut du collier
   pattes_collier:          # pattes alu sur la face extérieure des joues, devant et derrière le mât
@@ -339,6 +340,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     croise_dz: 45            # œil des croisés sur un plot au-dessus du collier (35 -> 45 avec les joues arrondies, JD 30/09)
     croises_arriere: false   # retirés (JD 29/09) : remplacés par le tube entre les colliers
     x_croise_ar: 1995
+    collier_poutre: {dz: 100, poutre_dz: 10, x_poutre: 2085}   # (JD 05/10) hauban du collier au milieu de la poutre AV, en diagonale au-dessus du coffre : œil sur un plot 80 au-dessus de l'attache AR du collier, ferrure sur le dessus de la poutre (y 0)
     tube_colliers: {diam: 50, ep: 2, x: 1741, z: 1075}   # tube alu entre les joues, juste devant les colliers (avancé de 64 et descendu de 22, JD 29/09 soir) : la tête du moteur passe derrière ; démontable
     semelle:                 # plan horizontal des semelles (JD 29/09) : directs AV et AR ; croisés passés à l'arrière (libèrent le moteur relevé)
       attache_dx: 60         # pontets sur la semelle, 60 devant et derrière le pied de mât

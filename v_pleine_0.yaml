@@ -179,12 +179,20 @@ coffre:
       sous_haut: 60
   table:
     x0: 1384
-    x1: 2118
+    x1: 1760
     demi_y: 360
     ep: 10
     decoupe_moteur:
       x0: 1771
       x1: 2055
+      demi_y: 70
+  capot_arriere:
+    x0: 1760
+    z_c4: 750
+    demi_y: 360
+    ep: 6
+    decoupe_moteur:
+      x0: 1771
       demi_y: 70
   dessus_plat_demi: 360
   dessus_cotes_au_dessus_collier: 25
@@ -555,6 +563,9 @@ coffre:
     croise_dz: 45
     croises_arriere: false
     x_croise_ar: 1995
+    collier_poutre:
+      dz: 80
+      poutre_dz: 10
     tube_colliers:
       diam: 50
       ep: 2
@@ -569,6 +580,48 @@ coffre:
         x: 2690
         dy: 186
         dz: 8
+hc16_origine:
+  mat:
+    x: 2070
+    z: 700
+    quete_deg: 7.5
+    longueur: 8080
+    diam: 75
+  gv:
+    amure_w: 600
+    tetiere_w: 7950
+    bordure: 2740
+    chute: 7666
+    surface: 13.77
+    lattes: 7
+  foc:
+    surface: 5.12
+    point_ecoute:
+    - 2250
+    - 1000
+    jeu_amure: 150
+    jeu_tete: 150
+  etai:
+    capelage_w: 6100
+    patte_oie: 1130
+    ferrure:
+    - 250
+    - 1000
+    - 440
+  cadene_hauban:
+  - 2250
+  - 1150
+  - 330
+  ecoute_gv:
+  - 4145
+  - 565
+  ecoute_foc:
+  - 2070
+  - 330
+  - 690
+  cv_reference:
+    x: 3010
+    z: 3360
 safrans:
   x: 5120
   corde: 220

@@ -86,7 +86,7 @@ BR = [o for o in maillages(H.build(rel), tol=2.0) if o['n'] == 'bras_tube_moteur
 # relevage : coupe dans le plan de l'arbre (y du moteur), silhouettes des pièces mobiles en marche
 D = {ch.name: forme(ch) for ch in walk(AF) if ch.obj is not None}
 km = full['coffre']['_moteur']; xs, ym = km['x_arbre'], km['y']
-fixes = {'coffre': ['coffre_coque'], 'cloisons': ['coffre_cloison_moteur', 'coffre_batterie_avant', 'coffre_caisse_couvercle', 'coffre_table'], 'bac': ['batterie_bac'], 'cellule': ['batterie'],
+fixes = {'coffre': ['coffre_coque'], 'cloisons': ['coffre_cloison_moteur', 'coffre_batterie_avant', 'coffre_caisse_couvercle', 'coffre_table', 'coffre_capot_arriere'], 'bac': ['batterie_bac'], 'cellule': ['batterie'],
          'ancre': ['ancre_faisceau', 'ancre_verge', 'ancre_anneau'],
          'tableau': ['moteur_tableau'], 'bride': ['moteur_etrier', 'moteur_bride'], 'poutre': ['poutre_av'], 'trampoline': ['trampoline'], 'tube': ['tube_colliers']}
 coupe = {k: chemin(unary_union([g for g in (coupe_y(D[n], ym) for n in ns if n in D) if g is not None])) for k, ns in fixes.items()}

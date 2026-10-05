@@ -2,7 +2,7 @@
 Lit cotes.yaml, construit l'assemblage CadQuery, exporte STEP.
 Usage : python hc16_rando.py [cotes.yaml] [sortie.step]
 """
-import math, sys, yaml, json, os
+import math, sys, yaml, json, os, re
 import cadquery as cq
 from cadquery import Vector as V
 
@@ -1098,6 +1098,49 @@ def coffre(A, k):
             segs = [cq.Solid.makeCylinder(rc, (q1 - q0).Length, q0, (q1 - q0).normalized()) for q0, q1 in zip(pts, pts[1:])]
             segs += [cq.Solid.makeSphere(rc, q) for q in pts[1:-1]]
             A.add(cq.Compound.makeCompound(segs), name=f"lacage_banc_{j}", color=corde)
+    capot_arriere(A, k)
+
+def capot_arriere(A, k):
+    """(JD 05/10) Capot arrière en pente : au milieu (|y| <= demi_y), le dessus descend de z_dessus en x0 jusqu'à z_c4 contre C4,
+    pour que les haubans collier -> milieu de la poutre AV passent au-dessus du coffre. Panneau plan CP fixe, découpé pour la tête
+    du moteur ; deux joues triangulaires ferment les côtés jusqu'aux pans du dessus ; C4 et les couples sous le capot sont arasés."""
+    ca_ = k.get("capot_arriere")
+    if not ca_:
+        return
+    g_ = k["_geom"]; xa, e = k["face_ar_x"], k["ep_bordé"]
+    x0c, zc4, dyc, epc = ca_["x0"], ca_["z_c4"], ca_["demi_y"], ca_.get("ep", e)
+    z0c = g_["zt"]
+    pente = (z0c - zc4) / (xa - x0c)
+    zpl = lambda x_: z0c - pente * (x_ - x0c)
+    def prisme(dz=0.0, dy=0.0, x1=None, z_haut=3000.0):          # tout ce qui est au-dessus du plan du capot abaissé de dz, de x0c à x1, |y| <= dyc + dy
+        x1 = xa + 0.5 if x1 is None else x1
+        pts = [(x0c - 0.01, zpl(x0c - 0.01) - dz), (x1, zpl(x1) - dz), (x1, z_haut), (x0c - 0.01, z_haut)]
+        return cq.Workplane("XZ", origin=(0, dyc + dy, 0)).polyline(pts).close().extrude(2 * (dyc + dy)).val()
+    ext_s = COFFRE_CACHE.get("ext")
+    sol_ = lambda o: o.val() if isinstance(o, cq.Workplane) else o
+    arase = re.compile(ca_.get("araser", r"^(coffre_coque|couple_coffre_.*_331|moteur_puits|coffre_cloison_moteur)$"))
+    for ch in A.children:                                            # coque : capot ôté au-dessus du plan ; pièces intérieures arasées sous le panneau
+        if ch.obj is None or not arase.match(ch.name):
+            continue
+        ch.obj = sol_(ch.obj).cut(prisme(0.0 if ch.name == "coffre_coque" else epc))
+    # panneau du capot : plaque sous le plan, de x0c à la face intérieure de C4, découpée au-dessus du puits pour la tête du moteur
+    pan = prisme(epc, 0.0, xa - e).cut(prisme(0.0, 1.0, xa + 1))
+    dmo = ca_.get("decoupe_moteur")
+    if dmo:
+        pan = pan.cut(cq.Solid.makeBox(xa + 10 - dmo["x0"], 2 * dmo["demi_y"], 2000, V(dmo["x0"], -dmo["demi_y"], -500)))
+    for ch in A.children:                                            # le panneau remplace la peau du dessus : plus de recouvrement
+        if ch.name == "coffre_coque":
+            ch.obj = sol_(ch.obj).cut(pan)
+    A.add(pan, name="coffre_capot_arriere", color=cq.Color(0.95, 0.95, 0.93))
+    # joues du capot : de son bord jusqu'aux pans du dessus, dans les plans y = ±(dyc - e/2)
+    for sg in (1, -1):
+        lame = cq.Solid.makeBox(xa - e - x0c, e, 800, V(x0c, (dyc - e) if sg > 0 else -dyc, zc4 - 100))
+        jc = lame.intersect(prisme(0.0, 1.0, xa))
+        if ext_s is not None:
+            jc = jc.intersect(ext_s)
+        if jc.Volume() > 1:
+            A.add(jc, name=f"coffre_capot_joue_{'babord' if sg > 0 else 'tribord'}", color=cq.Color(0.95, 0.95, 0.93))
+    k["_capot_arriere"] = dict(x0=x0c, z0=z0c, z_c4=zc4, demi_y=dyc, pente_deg=round(math.degrees(math.atan(pente)), 1))
 
 CFG_MAT = {}
 PLAT = {}               # plateforme vue par le coffre (poutres, longerons, pièces d'angle)
@@ -1428,6 +1471,18 @@ def build(cfg, plateforme_seule=False):
                 if hs_.get("vers_martingale"):              # variante : de la semelle au pied du pilier de martingale
                     mg_ = p.get("martingale", {})
                     liens.append(("semelle_ar_martingale", s_ar, V(fb, 0, zav - mg_.get("pied_sous_axe_extremites", 170))))
+            cpo = hb_.get("collier_poutre")
+            if cpo:                                       # (JD 05/10) du collier au milieu de la poutre AV, en diagonale au-dessus du coffre
+                pm_ = cfg["plateforme"]; fbx = cpo.get("x_poutre", pm_["poutre_av_x"])
+                tranche = A.objects["poutre_av"].obj if hasattr(A, "objects") and "poutre_av" in A.objects else None
+                if tranche is not None:
+                    zt_p = tranche.intersect(cq.Solid.makeBox(10, 2, 400, V(fbx - 5, -1, 400))).BoundingBox().zmax
+                else:
+                    zt_p = pm_.get("poutre_av_z", pm_["poutre_z"]) + pm_.get("poutre_av_fleche", 0) + pm_["poutre_diam"] / 2
+                haut_ = p_ar + V(cpo.get("dx", 0), sgm * cpo.get("dy", 0), cpo["dz"])
+                bas_ = V(fbx, 0, zt_p + cpo.get("poutre_dz", 10))
+                liens.append(("collier_poutre", haut_, bas_))
+                cfg["coffre"].setdefault("_collier_poutre", {})[nom] = dict(haut=(haut_.x, haut_.y, haut_.z), bas=(bas_.x, bas_.y, bas_.z))
             for tag, q0, q1 in liens:
                 A.add(cq.Solid.makeCylinder(hb_["diam"] / 2, (q1 - q0).Length, q0, (q1 - q0).normalized()), name=f"hauban_coffre_{tag}_{nom}", color=inox)
             tc_ = hb_.get("tube_colliers")
