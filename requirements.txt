@@ -1,0 +1,10 @@
+cadquery==2.8.0
+cadquery-ocp==7.9.3.1.1
+shapely==2.1.2
+numpy
+scipy
+matplotlib
+pyyaml
+ezdxf==1.4.4
+pillow
+playwright  # captures de la page 3D (facultatif)

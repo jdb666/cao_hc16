@@ -1,0 +1,315 @@
+# HC16 + gréement Nacra 5.80 Rando, mâts posés sur le pont — sans coffre
+# Repère : origine = étrave à la flottaison, dans l'axe du bateau
+#   X vers l'arrière, Y vers bâbord, Z vers le haut. Unités : mm.
+# Source : profil et plan F. Chevalier recalés (±30 mm), plan Rando (JD).
+
+coques:
+  longueur: 5050           # P1 (relevé 28/09/2026)
+  entraxe: 2000            # V1 = A1 : axe à axe des coques, aux deux poutres
+  quille:        [[0,420],[150,120],[500,-54],[1000,-143],[1500,-188],[2400,-188],[3200,-143],[4200,-54],[5050,60]]   # Chevalier, creux recalé sur P6 (500 à la poutre AV)
+  pont:          [[0,450.0],[500,398.1],[1000,351.1],[1500,324.2],[2000,312.3],[2500,310.3],[3000,318.4],[3500,326.5],[4000,339.6],[4500,357.6],[5000,378.7],[5050,380.0]]   # P7 : cordeau étrave (450) -> tableau (380) moins les flèches relevées
+  demi_largeur:  [[0,4],[300,70],[800,140],[1500,187],[2500,199],[3500,193],[4500,175],[5050,152]]   # Chevalier ×1,168 : D3 = 190 au pied de mât
+  bouge_pont: 35           # bombé : la ligne "pont" est le dessus du bombé, dans l'axe (non relevé : V7)
+
+plateforme:
+  poutre_av_x: 2070        # P2
+  poutre_ar_x: 4145        # P3 = 4 140 et D1 = 2 080 : 4 145
+  poutre_av_z: 539.5       # axe aux bouts ; P5 : dessus du longeron 250 au-dessus du pont au pylône AV
+  poutre_ar_z: 524         # A3 : dessus de la poutre AR 210 au-dessus du pont
+  poutre_z: 532            # moyenne (utilisée par le coffre tant qu'il n'est pas recalé)
+  poutre_av_fleche: 100    # V2 : dessus au milieu − dessus au ras des pièces d'angle
+  poutre_av_y_libre: 925   # parabole entre les pièces d'angle (ajustement sur photo de face, écart rms < 1 px), droite au-delà
+  poutre_axe_u: 16.5       # D5 = 2 170 (face AV poutre AV → face AR poutre AR) : l'axe relevé passe 16,5 derrière le centre du nez, au milieu de la section
+  poutre_diam: 62          # nez du profil en goutte (DWG)
+  poutre_longueur: 2080    # bouts dans les pièces d'angle (y ±1 040), le longeron passant à l'extérieur
+  longeron_y: 1093         # D2 : 2 230 entre faces extérieures des longerons (28/09) → axe du nez à 1 115 − 22
+  longeron_dans_pieces: 60 # le longeron entre de 60 dans chaque pièce d'angle
+  longeron_diam: 44        # nez du profil en goutte (DWG)
+  pylone_diam: 70          # non relevé
+  piece_angle:             # pièces d'angle poutre / longeron, d'après les photos du 28/09 (cotes approchées)
+    y_int: 925               # face intérieure (A2 = 1 850)
+    y_ext: 1122              # nez arrondi : 7 au-delà de la face extérieure du longeron
+    y_nez: 1040              # le nez couvre y 1 040 → y_ext
+    y_pylone: 1000           # emboîture sur le pylône (axe de coque)
+    manchon: 54              # manchon de poutre : ±54 autour de l'axe relevé (poutre 95,5 + parois)
+    manchon_demi_h: 40
+    nez_x: 97                # le nez dépasse de 97 devant l'axe de la poutre AV (derrière pour l'AR) : ≈ 50 devant la face de la poutre, à confirmer (D6)
+    nez_x_fin: 5             # le nez s'arrête 5 devant l'axe : le longeron sort de la pièce
+    nez_demi_h: 35
+    nez_r: 35
+    bossage_d: 84
+    bossage_bas: 58          # bas de l'emboîture sous l'axe de poutre
+  trampoline_z: 580        # au centre du trampoline (bord avant sur la poutre cintrée, bord arrière à 524)
+  martingale:              # V4, V5 (28/09/2026) ; pilier + deux tiges inox rigides (pas des câbles)
+    pied_sous_axe_extremites: 170   # V4 : bas du pilier sous l'axe de la poutre aux extrémités
+    y_cable: 1000                   # V5 : attaches des tiges à 1 000 de l'axe du bateau (axe des coques)
+    cable_sous_axe_extremites: 49   # (ancien paramètre) remplacé par le jour ci-dessous
+    jour_sous_poutre: 15            # V5 : jour de 15 entre le dessous de la poutre et la tige, au ras de la pièce d'angle (confirmé photo)
+    y_jour: 925
+    tige_diam: 6                    # Ø des tiges inox : non relevé
+
+mats:
+  x_pied: 1766             # CV voiles pleines = CV HC16 d'origine (3010 mm) avec 3° de quête
+  y_axe: 1151              # contre le flasque : largeur/2 + diam/2 + 1 (coffre 2 240) ; tout près du bord du pont (1 190), la paroi de coque reprend l'effort vertical (JD 29/09)
+  z_pied: 348.1            # dessus de la semelle CP au pied de mât : renfort de pont 8 + bourrage 3 mini (pente P4) + CP 18
+  collier_hauteur: 750     # collier à 0,75 m du pied, le long du mât, porté par la joue
+  longueur: 7300
+  diam: 60
+  quete_deg: 3
+  haubanage: 700           # le long du mât, depuis le pied
+  semelle:                 # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
+    y_mat: 1151            # axe du mât : 151 à l'extérieur de l'axe de coque, bord du mât à 9 du bord du pont
+    dx: [-110, 110]        # autour du pied de mât (x_pied)
+    dy: [-131, 35]         # côté bâbord (miroir à tribord) : y 1 020 → 1 186, reçoit aussi les tubes du coffre (y 1 066)
+    ep: 18                 # 2 × CP 9 collés
+    bourrage_min: 3
+    inclinaison_laterale: 0   # mât vertical en travers ; la quête (quete_deg) et l'inclinaison sont fixées par la semelle et le collier
+    pente_pont_p4: 2.13    # pente locale du pont retenue au pied de mât (P4 + assiette 0,43°), au lieu de 1,32° pour la tonture du modèle
+    renfort:               # renfort de pont cintré sur toute la largeur (JD 29/09) : 2 plis croisés de CP 4 collés en place
+      ep: 8
+      dx: [-150, 150]
+      demi_y: 186          # toute la largeur du pont (demi-largeur 190)
+
+voile:                     # repère du mât : u perpendiculaire vers l'arrière, w le long du mât depuis le pied
+  contour: [[0,1123],[2839,1603],[2295,3587],[1575,5363],[823,6803],[0,7163]]   # plan Rando 1/25 : amure, écoute, rond de chute, têtière
+  livarde:                 # tube carbone droit, d'un seul côté de la voile, du mât (5,10 m sous la têtière) au point d'écoute (JD 29/09)
+    w_mat: 2060
+    diam: 30
+    ep: 1.5
+    jeu_mat: 5
+    rangee: auto           # auto : rangée dès que la voile est roulée, même en partie
+    rangement: {dx: 85, dy: 0, dw: 800}  # debout devant le mât, parallèle au mât ; pied dans un godet sur l'avant du collier (w 800), au-dessus des yeux de haubans :
+                                         # sur la semelle, les haubans AV (yeux à 60 devant le mât) barrent la place ; dx devant l'axe du mât, dy vers l'extérieur
+  enroulement: {babord: 0.5, tribord: 0.5}      # part de surface enroulée : 0 = pleine, 1 = roulée
+
+coffre:                    # joues ellipsoïdales (pointe avant du coffre, collier, bout arrière du banc) ; coffre sous la joue ; CP cousu-collé
+  largeur: 2240            # joues à ±1 120 : mâts à ±1 151, tout près du bord du pont ; joues au-dessus du nez des longerons (±1 115)
+  face_ar_x: 2022.5        # C4 contre le nez de la poutre AV, sans jour (JD 29/09) ; poches dans les coins arrière pour le nez et le manchon des pièces d'angle
+  poches_pieces_angle: {jeu: 4}   # coins arrière du coffre évidés autour des pièces d'angle AV (nez jusqu'à x 1 973, manchon dès x 2 016), parois CP comme le bordé
+  fond_z: 378              # fond polygonal à 3 segments : plat au milieu (sous la chaise moteur)
+  fond_plat_demi: 360       # plat C1 de 720 : le bac de batterie (650) y repose à plat
+  fond_z_cotes: 465        # au droit des joues (base des joues)
+  dessus_z: 800            # dessus plat relevé de 40 (JD 29/09) : batterie en travers sur cales, à côté du canal de la tête
+  dessus_plat_demi: 360      # même cassure que le fond : bordé central C5 cylindrique, trappe de batterie plane dans C5
+  dessus_cotes_au_dessus_collier: 25   # dessus au droit des joues = haut du collier
+  pattes_collier:          # pattes alu sur la face extérieure des joues, devant et derrière le mât
+    larg: 60
+    ep: 10
+    ecart: 50              # du bord de la patte à l axe du collier (dégage le mât incliné)
+    recouvrement: 120      # longueur boulonnée sur la joue
+    au_dessus_axe_collier: 40
+  dessus_au_dessus_collier: 25   # haut du coffre et des joues = haut du collier
+  avant_x: 1390            # pointe avant du coffre (inchangée : la batterie en travers rentre à côté du canal de la tête)
+  fond_pente: {deg: 0, x0: 1683}    # fond plat (JD 29/09 : pente fixée à 0°)
+  plateau_z: 900           # plateau intérieur
+  ep_bordé: 6
+  ep_plateau: 6
+  ep_fond: 6
+  ep_face_ar: 6
+  ep_flasque: 9            # joues porte-mât
+  ep_cloison: 6
+  pas_cloisons: 560
+  cloisons_y: []           # ancienne C9.1 (y -500) remplacée par le compartiment batterie (JD 29/09)
+  compartiment_batterie: {jeu: 10, ep: 6}   # 3 cloisons CP 6 à 10 du bac (avant, tribord, bâbord) + C4 ; fermé par la trappe T1
+  batterie:                # Dyness 24 V 100 Ah (531 × 206 × 217, 19,3 kg) dans son bac 650 × 315 × 320
+    bac: [650, 315, 320]   # y (en travers), x, z : en long, il faudrait avancer la pointe de 340 et les haubans AV du collier traverseraient les joues
+    cellule: [531, 206, 217]
+    masse: 19.3
+    x_ar: 2005.5           # 11 mm devant C4 : le bac descend à la verticale par la trappe du dessus
+    y_ext: -790            # à tribord du canal de la tête (y -790 → -140), hors des poches des pièces d'angle
+    appui_direct: false    # sur deux cales qui rattrapent la pente du fond
+    jeu_cale: 3
+    cale_ep: 20
+  trappe:                  # trappe de la batterie, au-dessus du bac, dans le dessus en pente près de la joue tribord
+    x0: 1681.5
+    x1: 2010.5
+    y0: -795
+    y1: -135
+    z_seuil: 600           # ne coupe que le dessus
+  trappes_c4:              # trappes de visite dans la face arrière, au-dessus de la poutre (seuls autres accès)
+    - {y0: -1060, y1: -812, z0: 700, z1: 880}   # à tribord du compartiment batterie (paroi à y -806)
+    - {y0: 770, y1: 1060, z0: 700, z1: 880}   # à l'extérieur du puits
+  moteur:                  # Haswing Protruar 2.0 24 V
+    mode: avant2           # JD 29/09 : monté à l'envers au milieu, nacelle tournée de 160°, relevé vers l'avant sans tourner
+    avant2:
+      bascule: 0             # 0 = en marche ; 90 = relevé, arbre à l'horizontale devant le coffre, nacelle debout
+      y: 35                  # arbre à 35 côté bâbord : nacelle tournée de 160° (hélice décalée), le bas du moteur reste centré
+      pivot_x: 1620          # coin de la tête à 11 de C4 au pire de la bascule (vers 80°) ; relevé : 11
+      pivot_z: 530           # en marche : nacelle à -310 ; relevé : nez de nacelle sous les haubans croisés du collier
+      arbre_devant_pivot: 10
+      arbre_au_dessus: 110   # arbre au-dessus de la bride : hélice au plus profond
+      rotation: 160          # nacelle tournée de 160° (butée de direction) : poussée à 20° de l'axe
+      tableau: {derriere_pivot: 60, ep: 40, sous_pivot: 40, h: 70, demi_larg: 118}  # planche de serrage derrière l'arbre (bride à l'envers), collée entre les parois du canal
+      fente: {larg: 60, haut: 580, ep: 6}      # fente étroite de l'arbre : fond et face avant, coffrage fermé au-dessus
+      canal: {x0: 1454, demi_larg: 118, ep: 6, x_ouvert: 1975}   # canal de la tête : ouvert dessus jusqu'à x 1 975 (passage de la tête)
+    transversal:
+      bascule: 0           # 0 = en marche ; 90 = relevé, couché vers bâbord dans le coffre
+      x_arbre: 1775
+      charniere_z: 500     # axe de la charnière (longitudinal)
+      charniere_decalage: 80   # axe 80 côté tribord (côté tête) : relevé, le moteur se couche 80 au-dessus de la charnière
+      palier_av_x: 1510
+      palier_ar_x: 1625
+      bride_sous_charniere: 40 # bord haut de la planche 40 sous l'axe
+      arbre_au_dessus: 120 # en marche : axe d'hélice à -330
+      planche_ep: 40
+      planche_h: 70
+      planche_demi_larg: 100
+      flasque_ep: 20
+      encoche_arbre: 80    # le volet laisse passer l'arbre en marche
+      volet: true
+      fente:               # ouverture du fond pour la bascule, fermée par le volet une fois le moteur relevé
+        x0: 1610
+        x1: 1966
+        y0: -40
+        y1: 905
+    ancien_mode: transversal      # "arriere" : bascule vers l'arrière sous la martingale ; "avant" et "vertical" : variantes
+    arriere:               # bascule vers l'arrière sous la martingale
+      type_chaise: fixe    # "fixe" : planche fixe, le moteur bascule sur l'axe de sa bride ; "pivotante" : variante à charnière
+      bascule: 0           # 0 = en marche ; 90 = relevé à l'horizontale sous la martingale et le trampoline
+      y: 620               # décalé sur bâbord : tête sous la pente haute du dessus (plat élargi à ±360)
+      encoche_c4:          # passage de l'arbre basculé sous le bas de la face arrière
+        demi_y: 45
+        z: 470
+      x_arbre: 1850
+      bride_axe_z: 405     # axe de bascule de la bride : descendu de 15 (plateforme relevée) ; relevé, 17 sous la tige de martingale et le trampoline
+      bride_axe_devant_arbre: 10     # géométrie de bride estimée (à relever sur la Protruar)
+      bride_axe_derriere_planche: 60
+      bride_axe_sur_planche: 40      # l'axe est 40 au-dessus du bord de la planche
+      arbre_au_dessus: 120 # arbre 120 au-dessus de l'axe : hélice à -410 en marche ; relevé, la tête reste devant la planche
+      rotation_tete_avant_bascule: 90  # barre tournée de 90° avant de basculer : nacelle en travers
+      planche_ep: 40
+      planche_h: 70         # 7 cm suffisent au serrage de la bride
+      demi_larg: 100
+      demi_passage: 110    # joues de part et d'autre du passage de la tête
+      ep_joue: 25
+      long_joue: 160
+      carter:              # boîte sous le coffre prolongeant les joues de chaise : la tête relevée y est protégée
+        x_av: 1420
+        ep: 9
+      niche:               # boîte dans le coffre, ouverte en dessous : loge la tête en marche et son balayage
+        x0: 1429
+        x1: 2016.5
+        demi_y: 125          # 250 : la tête (200 × 140, diagonale 244) tourne de 90° dans le puits avant la bascule
+        z_haut: 2000         # parois jusqu'au bordé
+        ep: 6
+      # variante chaise pivotante (type_chaise: pivotante)
+      charniere_z: 490
+      charniere_derriere_arbre: 70
+      bride_z: 500
+      arbre_au_dessus_bascule: 50
+      planche_ep_piv: 40
+      ep_ferrure: 10
+      long_ferrure: 80
+    avant:                 # moteur reculé et rehaussé au maximum, dans une boîte au milieu du coffre ; bascule vers l'avant par une fente
+      bascule: 0           # 0 = en marche ; 90 = relevé à l'horizontale vers l'avant
+      rotation_tete: 160   # tête tournée de 160° : l'hélice tire vers l'avant (poussée à 20° de l'axe)
+      x_arbre: 1575        # reculé au maximum : en bascule, l'angle de la tête passe 16 mm devant la face arrière
+      pivot_z: 610         # rehaussé : axe d'hélice à -240 en marche (immersion mini raisonnable pour Ø 236)
+      tableau_ep: 40       # tableau de serrage derrière l'arbre, sous le fond du coffre
+      demi_larg: 90
+      tableau_haut: 470    # 140 sous l'axe : la tête basculée passe au-dessus
+      tableau_bas: 350
+      ep_joue: 25
+      long_joue: 120
+      boite:               # boîte étroite dans le coffre : loge la tête en marche et au relevage ; trappe au-dessus
+        demi_y: 100
+        ep: 6
+        x_ar: 1960
+        z_fente: 660       # passage de l'arbre dans la face avant au relevage
+        face_fermee: false # la tête dépasse du coffre en marche : boîte ouverte devant et dessus (capot amovible)
+    levee: 0               # 0 = en marche ; 650 = relevé (course de réglage de l'arbre ≈ 620–700 mm selon Haswing)
+    arbre_l: 900           # arbre 900 mm (35,5")
+    arbre_d: 30
+    bride_nacelle_max: 850 # distance bride -> axe de nacelle, arbre descendu au maximum (estimée)
+    recul_arbre: 70        # axe de l'arbre derrière la face arrière de la chaise
+    tete: [200, 140, 260]  # tête (estimée), barre franche repliée à la verticale
+    nacelle_d: 100
+    nacelle_l: 300
+    helice_d: 236          # hélice tripale 9,3"
+    chaise:                # tableau de serrage sous le fond du coffre, au milieu ; la bride serre son bord haut
+      x_face_ar: 1700
+      ep: 40
+      demi_larg: 120
+      z_bride: 500         # bord haut = fond du coffre : hélice à -350 en marche
+      z_bas: 380
+    puits:                 # boîte verticale à travers le coffre (tête et arbre au relevage), trappe au-dessus
+      x0: 1660
+      x1: 1910
+      demi_y: 120
+      ep: 6
+  joues:
+    montee_fin_devant_mat: 0
+  pylones:                 # seuls appuis du coffre sur le pont : tubes carbone sous les joues, posés sur les semelles (JD 29/09)
+    type: tube
+    diam: 40
+    ep: 2
+    dx: [-50, 50]          # deux tubes par bord, de part et d'autre du pied de mât
+    y_int: 45              # axe à 45 à l'intérieur de la joue
+    dy: 90                 # (ancien pylône CP)
+  accroches_poutre:        # accroches sur la poutre AV : demi-profil DWG + jeu, ouvertes vers le bas, collées derrière C4 (JD 29/09)
+    y: [-850, -500, -150, 150, 500, 850]   # symétriques : le moteur ne passe plus sous la poutre
+    ep: 9
+    jeu: 2
+    au_dessus: 45          # dépasse de 45 au-dessus de la poutre
+    sous_axe: 45           # devant le nez, descend sous le nez (31 + 2 + lèvre 12) : joue avant de la mâchoire
+    sous_assise: [-850, 850]   # sous les bancs : l'accroche monte jusqu'à l'assise et sert de couple avant
+    machoire: {type: corniere, larg: 50, ep: 4, aile_h: 32, aile_v: 40, jeu: 2}   # cornière alu contre C4, aile sous le nez jusqu'à son centre ; 2 × M6 à travers C4 dans un doublage intérieur ; quart inférieur arrière ouvert (trampoline, tige)
+    fin_x: 2112            # 6 avant la fente du trampoline (queue à 2 118)
+  bancs:
+    plan_z: 585            # fond du banc au-dessus du trampoline (574 au bord intérieur, à l'avant) : le banc repose sur ses couples
+    longueur: 1195.5       # depuis C4 : fin des bancs et des joues à x 3 218 (inchangée)
+    x_debut: 2022.5          # assise collée contre C4 (bancs liés au coffre, JD 29/09) : passe au-dessus de la poutre et des pièces d'angle
+    y_int: 800             # assise de 311 de large (jusqu'à la joue à 1 111)
+    hauteur: 100
+    rayon_aretes: 20
+    ep_assise: 9
+    ep_cotes: 6
+    ep_fond: 4
+    poutre_x: 2070
+    poutre_z: 539.5
+    longeron_y: 1093
+    encoche_poutre_r: 42
+    encoche_longeron_r: 28
+    couples_x: [2136, 2410, 2680, 2950, 3212]   # couples transversaux accrochés au longeron (demi-profil DWG + jeu, ouverts vers le bas)
+    couple_ep: 9
+    caisson: false         # banc ouvert dessous (JD 29/09) : assise seule sur les couples, rien sous l'assise
+    joue_jusqu_au_longeron: true   # rangement entre trampoline et assise (JD 29/09) : la joue (dossier) descend jusqu'au longeron, les couples sont entaillés
+    jeu_joue_longeron: 2
+    evidement: {ame: 45, rayon: 25, marge: 15}   # couples évidés sous l'assise (JD 29/09) : âme de 45 sous l'assise, pleins au-dessus du longeron
+    rayon_assise: 4
+    couple_ext: 1140       # joue extérieure du couple : 25 au-delà du nez du longeron, pour boulonner la mâchoire (JD 29/09)
+    couple_sous_axe: 36    # à l'extérieur du nez, descend jusque sous le nez (22 + 2 + lèvre 12)
+    machoire: {ep: 9, levre: 12, u_ext: -47, v_haut: -4}   # CP 9 boulonné (2 × M6) contre la face arrière du couple : ferme le quart inférieur extérieur ; quart inférieur intérieur ouvert (trampoline)
+    lacage: {x: [2136, 2410, 2680, 2950, 3212], diam: 5, haut: 25}   # d'un longeron à l'autre sous la toile (JD 29/09) ; plus de moteur sous le trampoline : tous les couples
+  haubans:                 # coffre haubané sur les pièces d'origine (JD 28/09) ; attaches sur le collier, devant et derrière le mât
+    diam: 4
+    attache_dx: 60           # attaches à ±60 de l'axe du mât, dans le plan du collier
+    etrave: {x: 50, dz: 12}  # pattes d'étrave (pointes des coques), sur l'axe de coque, au-dessus du pont
+    cadene: {x: 2690, dy: 186, dz: 8}   # cadènes d'origine, bord extérieur du pont, ≈ 620 derrière la poutre AV (photo de dessus)
+    croises_avant: true      # croisés vers la patte d'étrave opposée
+    croises_arriere: false   # retirés (JD 29/09) : remplacés par le tube entre les colliers
+    x_croise_ar: 1995
+    tube_colliers: {diam: 50, ep: 2}   # tube alu entre les colliers (JD 29/09), traverse les joues ; démontable pour sortir la batterie
+    semelle:                 # plan horizontal des semelles (JD 29/09) : directs AV et AR ; croisés passés à l'arrière (libèrent le moteur relevé)
+      attache_dx: 60         # pontets sur la semelle, 60 devant et derrière le pied de mât
+      dz: 10                 # hauteur de l'œil au-dessus de la semelle
+      croises_avant: false   # leur croisement (x 820, z 412) tombait sur l'hélice du moteur relevé
+      croises_arriere: false # vers la cadène opposée, ils traversent le pont de l'autre coque (bombé) : retirés
+
+safrans:
+  x: 5120
+  corde: 220
+  hauteur: 800
+  z_centre: -120
+  epaisseur: 20
+  barre_x: 5350
+  barre_z: 300
+
+tente:                     # tente igloo (camping au mouillage) : couvre coffre, bancs et trampoline ; voiles roulées
+  x0: 1540                 # bord avant : lacé sur le dessus du coffre (latte transversale), nez du coffre dehors
+  x1: 4145                 # bord arrière : poutre arrière (axe)
+  demi_y: 1093             # bords latéraux : dessus des joues puis des bancs, puis le long des longerons
+  z_arriere: 555           # dessus de la poutre arrière
+  sommet_z: 1900           # 1 330 au-dessus du trampoline
+  exposant: 0.5            # forme : 1 = coussin, 0.5 = dôme à parois raides
+  arceau_diam: 11          # 2 arceaux alu Ø 11 en diagonale, croisés au sommet

@@ -1,0 +1,285 @@
+<title>Coffre porte-mâts HC16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F0; --sheet:#F7F8F8; --ink:#18262E; --ink2:#4A5A63; --rule:#C5CED2; --grid:#DCE2E4;
+  --ok6:#D69B64; --ok6-line:#8F5A2C; --ok9:#A8683A; --ok9-line:#5E3717; --mas:#6E4A2E; --cap:#E8B783;
+  --accent:#1F6F8B; --warn:#9A5B12;
+  --f-disp:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --paper:#10181C; --sheet:#152026; --ink:#DCE4E7; --ink2:#9AABB3; --rule:#2E3D44; --grid:#223037;
+    --ok6:#C98E58; --ok6-line:#E7B98C; --ok9:#9A6036; --ok9-line:#E0A878; --mas:#8C6444; --cap:#E8B783; --accent:#6DB9D4; --warn:#E0A55A; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --paper:#10181C; --sheet:#152026; --ink:#DCE4E7; --ink2:#9AABB3; --rule:#2E3D44; --grid:#223037;
+  --ok6:#C98E58; --ok6-line:#E7B98C; --ok9:#9A6036; --ok9-line:#E0A878; --mas:#8C6444; --cap:#E8B783; --accent:#6DB9D4; --warn:#E0A55A; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--f-disp);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.2vw,44px);line-height:1.05}
+h2{font-size:26px;line-height:1.15}
+h3{font-size:18px}
+p{margin:0;max-width:68ch}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+header{display:grid;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:22px}
+.figs{display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--f-mono);font-size:13px;color:var(--ink2)}
+.figs b{color:var(--ink);font-weight:500;font-size:15px}
+section{display:grid;gap:16px}
+.lead{color:var(--ink2)}
+.viewer{position:relative;width:100%;aspect-ratio:16/10;max-height:70vh;min-height:320px;background:var(--sheet);border:1px solid var(--rule);touch-action:none;overflow:hidden}
+.viewer canvas{display:block;width:100%;height:100%}
+.lbl{position:absolute;transform:translate(-50%,-50%);font:500 11px/1 var(--f-mono);color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:3px 5px;pointer-events:none;white-space:nowrap}
+.ctrl{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;font-size:14px}
+.ctrl label{display:flex;gap:8px;align-items:center}
+.ctrl input[type=range]{width:min(260px,60vw)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--ink2)}
+.sw{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:6px;border:1px solid var(--rule)}
+button.v{font:500 13px var(--f-body);background:transparent;color:var(--ink);border:1px solid var(--rule);padding:5px 11px;cursor:pointer}
+button.v:hover{border-color:var(--ink2)}
+button.v:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tbl{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+th{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);background:var(--paper);position:sticky;top:0}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+td.r{font-family:var(--f-mono);font-weight:500;white-space:nowrap}
+td.note{color:var(--ink2);font-size:12.5px;min-width:180px}
+tr.grp td{background:var(--paper);font:600 14px var(--f-disp);letter-spacing:.02em;color:var(--ink)}
+.ep{display:inline-block;white-space:nowrap;font:500 11px var(--f-mono);padding:1px 6px;border:1px solid var(--rule)}
+.planches{display:grid;gap:34px}
+figure{margin:0;display:grid;gap:8px}
+figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;align-items:baseline}
+figcaption .t{font:600 18px var(--f-disp)}
+figcaption .m{font:13px var(--f-mono);color:var(--ink2)}
+.svgbox{overflow-x:auto;background:var(--sheet);border:1px solid var(--rule)}
+svg.planche{display:block;width:100%;min-width:720px;height:auto}
+svg.planche .feuille{fill:var(--paper);stroke:var(--ink2);stroke-width:3}
+svg.planche .grille{stroke:var(--grid);stroke-width:2;stroke-dasharray:14 12}
+svg.planche .piece{stroke-width:3;vector-effect:non-scaling-stroke}
+svg.planche .pC,svg.planche .pB{fill:color-mix(in srgb,var(--ok6) 45%,transparent);stroke:var(--ok6-line)}
+svg.planche .pJ,svg.planche .pP,svg.planche .pM{fill:color-mix(in srgb,var(--ok9) 45%,transparent);stroke:var(--ok9-line)}
+svg.planche .piece{stroke-width:1.4}
+svg.planche .rep{font-family:var(--f-mono);font-weight:500;fill:var(--ink)}
+svg.planche .dim{font-family:var(--f-mono);fill:var(--ink2)}
+svg.planche .cote{font-family:var(--f-mono);fill:var(--ink2)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;align-items:start}
+.card{background:var(--sheet);border:1px solid var(--rule);padding:14px 16px;display:grid;gap:10px}
+.card p{font-size:13px;color:var(--ink2)}
+.card table{font-size:13px}
+.card td,.card th{padding:4px 8px}
+ol.steps{margin:0;padding-left:1.4em;display:grid;gap:10px;max-width:78ch}
+ol.steps li::marker{font-family:var(--f-mono);color:var(--ink2)}
+.callout{border-left:3px solid var(--warn);padding:10px 14px;background:var(--sheet);border-radius:0;max-width:78ch;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Hobie 16 · gréement Rando · cousu-collé okoumé</span>
+  <h1>Coffre porte-mâts HC16</h1>
+  <p class="lead">Structure du coffre, des joues-dossiers et des bancs, avec les développés imbriqués sur panneaux de 2 500 × 1 220 mm. Cotes en millimètres, relevées sur le modèle 3D du 26/09/2026.</p>
+  <div class="figs" id="figs"></div>
+</header>
+
+<section id="structure">
+  <h2>Structure</h2>
+  <p class="lead">Faites tourner la vue et écartez les pièces pour voir l'assemblage. Les repères correspondent à la nomenclature et aux plans de découpe.</p>
+  <div class="ctrl">
+    <label for="ex">Vue éclatée <input id="ex" type="range" min="0" max="1" step="0.01" value="0.45"></label>
+    <label for="ctx"><input id="ctx" type="checkbox" checked> Poutre, longerons et mâts</label>
+    <label for="lab"><input id="lab" type="checkbox" checked> Repères</label>
+    <span style="display:flex;gap:6px;flex-wrap:wrap"><button class="v" data-v="av">Trois quarts avant</button><button class="v" data-v="ar">Trois quarts arrière</button><button class="v" data-v="de">Dessous</button><button class="v" data-v="co">Côté</button></span>
+  </div>
+  <div class="viewer" id="viewer"></div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--ok6)"></i>CP 6 mm : coffre, cloisons, niche, bancs</span>
+    <span><i class="sw" style="background:var(--ok9)"></i>CP 9 mm : joues, assises, pylônes, carter</span>
+    <span><i class="sw" style="background:var(--cap)"></i>capot de chargement</span>
+    <span><i class="sw" style="background:var(--mas)"></i>chaise moteur (CP 25 / massif)</span>
+    <span><i class="sw" style="background:#8A979F"></i>existant : poutre, longerons, mâts, pattes alu</span>
+  </div>
+</section>
+
+<section id="nomenclature">
+  <h2>Nomenclature</h2>
+  <div class="tbl"><table id="nomen"><thead><tr><th>Repère</th><th>Pièce</th><th>Ép.</th><th>Qté</th><th>Hors-tout L × H</th><th>Surface</th><th>Planche</th><th>Remarque</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="decoupe">
+  <h2>Plans de découpe</h2>
+  <p class="lead">Quatre panneaux okoumé marine 2 500 × 1 220. Les pièces sont posées à 10 mm des rives et à 8 mm minimum les unes des autres. Les dimensions sous chaque repère sont l'encombrement de la pièce telle qu'elle est posée. Les fichiers DXF à l'échelle 1 (calques PANNEAU, DECOUPE, REPERES) accompagnent ce plan.</p>
+  <div class="planches" id="planches"></div>
+</section>
+
+<section id="cotes">
+  <h2>Cotes de traçage des pièces courbes</h2>
+  <p class="lead">Pour tracer à la main : reporter les points sur le panneau et les relier avec une latte souple.</p>
+  <div class="cols" id="ords"></div>
+</section>
+
+<section id="montage">
+  <h2>Montage</h2>
+  <ol class="steps">
+    <li>Découper les pièces en laissant 10 mm de surcote sur le chant bas des bordés C4 et C5 : le bordé prend une légère torsion d'environ 6° entre le milieu et la joue, à ajuster en place.</li>
+    <li>Assembler à plat la face arrière C3, les deux demi-fonds C1 et C2 et les trois cloisons C7 sur la cloison centrale, qui sert de gabarit. Coutures au fil de cuivre ou aux colliers tous les 100 mm.</li>
+    <li>Poser les deux joues J1 : l'encoche en U vient sur la poutre avant, la base à l'aplomb des câbles de martingale.</li>
+    <li>Cintrer les bordés sur les cloisons, en partant du dessus plat contre la face arrière, puis coudre le long du fond et des joues.</li>
+    <li>Monter la niche moteur C8 et, sous le fond, les joues de chaise M2, le fond M3, la face M4 et la planche de serrage M1.</li>
+    <li>Joints congés époxy intérieurs, retrait des coutures, joints extérieurs et stratification verre 200 g/m² sur les arêtes vives (rayon mini 15 mm).</li>
+    <li>Découper le capot C6 dans C5 après stratification, poser une hiloire de 30 mm et un joint mousse.</li>
+    <li>Monter les bancs B1 à B4 contre les joues, puis les pylônes P1 et P2 à ajuster au bombé du pont.</li>
+  </ol>
+  <div class="callout">Les deux compartiments extérieurs (au-delà des cloisons à ±650) restent fermés : réserve de flottabilité, avec une petite trappe de visite chacun. Le fond en V ramène l'eau vers la cloison centrale : prévoir un orifice de vidange bouché de chaque côté, en bas de la face arrière.</div>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const D = /*DATA*/null;
+const $ = s => document.querySelector(s);
+const fmt = (v, d = 0) => v.toLocaleString('fr-FR', {minimumFractionDigits: d, maximumFractionDigits: d});
+
+/* ---------- chiffres clés ---------- */
+(() => {
+  const s6 = D.nomen.filter(r => r.ep === 6 && r.ref !== 'C6').reduce((a, r) => a + r.surf, 0);
+  const s9 = D.nomen.filter(r => r.ep === 9).reduce((a, r) => a + r.surf, 0);
+  const kg = s6 * 6 * 0.52 + s9 * 9 * 0.52;
+  const nb = D.nomen.reduce((a, r) => a + r.qte, 0);
+  $('#figs').innerHTML = [
+    ['4', 'panneaux 2 500 × 1 220 (3 en 6 mm, 1 en 9 mm)'],
+    [nb, 'pièces'],
+    [fmt(s6, 2) + ' m²', 'de CP 6 mm'],
+    [fmt(s9, 2) + ' m²', 'de CP 9 mm'],
+    ['≈ ' + fmt(kg) + ' kg', 'de bois nu (okoumé 520 kg/m³)'],
+  ].map(([b, t]) => `<span><b>${b}</b> ${t}</span>`).join('');
+})();
+
+/* ---------- nomenclature ---------- */
+(() => {
+  const groups = [['C', 'Coffre'], ['J', 'Joues'], ['B', 'Bancs'], ['P', 'Pylônes'], ['M', 'Chaise et carter moteur']];
+  const tb = $('#nomen tbody'); let h = '';
+  for (const [g, name] of groups) {
+    h += `<tr class="grp"><td colspan="8">${name}</td></tr>`;
+    for (const r of D.nomen.filter(r => r.ref[0] === g))
+      h += `<tr><td class="r">${r.ref}</td><td>${r.nom}</td><td><span class="ep">${r.ep} mm</span></td><td class="n">${r.qte}</td><td class="n">${fmt(r.L)} × ${fmt(r.H)}</td><td class="n">${fmt(r.surf, 2)} m²</td><td class="n">${r.planche}</td><td class="note">${r.note || ''}</td></tr>`;
+  }
+  tb.innerHTML = h;
+})();
+
+/* ---------- planches ---------- */
+$('#planches').innerHTML = D.planches.map(p => `<figure id="planche-${p.id}"><figcaption><span class="t">${p.id} · ${p.titre.split('—')[0].trim()}</span><span class="m">utilisation ${p.taux} %${p.id === '6-C' ? ' · chutes : hiloire du capot, renforts, doublages des joues au collier' : ''}</span></figcaption><div class="svgbox">${p.svg}</div></figure>`).join('');
+
+/* ---------- cotes de traçage ---------- */
+(() => {
+  const o = D.ord; const card = (t, p, head, rows) => `<div class="card"><h3>${t}</h3><p>${p}</p><div style="overflow-x:auto"><table><thead><tr>${head.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td class="n">${fmt(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
+  $('#ords').innerHTML =
+    card('J1 · joue', 'Abscisse depuis la pointe avant, hauteur au-dessus de la base. Encoche en U de la poutre à 610 mm (Ø 73).', ['x', 'hauteur'], o.joue) +
+    card('C7.2 · cloison centrale', 'Hauteur au-dessus du bas, retrait de l’arrondi avant mesuré depuis le chant arrière.', ['hauteur', 'longueur'], o.cloison0) +
+    card('C7.1 / C7.3 · cloisons à ±650', 'Même principe que la cloison centrale.', ['hauteur', 'longueur'], o.cloison650) +
+    card('C4 / C5 · bordé développé', 'Points des deux grands chants tous les 50 mm le long du chant milieu. Origine : angle bas du chant milieu ; le chant bas (1 115 mm) est sur l’axe x.', ['milieu x', 'milieu y', 'joue x', 'joue y'], o.borde);
+})();
+
+/* ---------- vue 3D ---------- */
+(() => {
+  const W = $('#viewer');
+  const R = new THREE.WebGLRenderer({antialias: true, alpha: true});
+  R.setPixelRatio(Math.min(devicePixelRatio, 2)); W.appendChild(R.domElement);
+  const S = new THREE.Scene(), C = new THREE.PerspectiveCamera(32, 1, 10, 40000);
+  S.add(new THREE.HemisphereLight(0xffffff, 0x8a939a, 0.78));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.55); dl.position.set(-3, 6, 4); S.add(dl);
+  const cs = getComputedStyle(document.documentElement);
+  const col = n => new THREE.Color(cs.getPropertyValue(n).trim() || '#999');
+  const COL = {'6': col('--ok6'), '9': col('--ok9'), 'm': col('--mas'), 'c': col('--cap')};
+  const LINE = {'6': col('--ok6-line'), '9': col('--ok9-line'), 'm': col('--ok9-line'), 'c': col('--ok6-line')};
+  const OX = 2300, OZ = 650;
+  const w2t = (x, y, z) => new THREE.Vector3(x - OX, z - OZ, y);
+  const parts = [];
+  function addPart(ref, geo, grp, ex, center) {
+    const m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({color: COL[grp], side: THREE.DoubleSide}));
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), new THREE.LineBasicMaterial({color: LINE[grp]}));
+    const g = new THREE.Group(); g.add(m); g.add(e); S.add(g);
+    const dir = new THREE.Vector3(ex[0], ex[2], ex[1]);
+    parts.push({ref, g, dir, center});
+  }
+  for (const o of D.objs) {
+    const shape = new THREE.Shape(o.poly[0].map(([x, y]) => new THREE.Vector2(x, y)));
+    for (const h of o.poly.slice(1)) shape.holes.push(new THREE.Path(h.map(([x, y]) => new THREE.Vector2(x, y))));
+    const base = new THREE.ExtrudeGeometry(shape, {depth: o.ep, bevelEnabled: false, curveSegments: 4});
+    o.inst.forEach((i, k) => {
+      const geo = base.clone(); const p = geo.attributes.position;
+      for (let j = 0; j < p.count; j++) {
+        const u = p.getX(j), v = p.getY(j), w = p.getZ(j);
+        const X = i.O[0] + u * i.U[0] + v * i.V[0] + w * i.N[0], Y = i.O[1] + u * i.U[1] + v * i.V[1] + w * i.N[1], Z = i.O[2] + u * i.U[2] + v * i.V[2] + w * i.N[2];
+        const t = w2t(X, Y, Z); p.setXYZ(j, t.x, t.y, t.z);
+      }
+      geo.computeVertexNormals(); geo.computeBoundingBox();
+      const c = new THREE.Vector3(); geo.boundingBox.getCenter(c);
+      const ex = [o.ex[0], o.ex[1] * (i.O[1] < 0 || (i.O[1] === 0 && i.V[1] < 0) ? -Math.sign(o.ex[1]) * Math.sign(o.ex[1]) * Math.abs(o.ex[1]) / o.ex[1] : 1), o.ex[2]];
+      const sgn = (c.z < -1) ? -1 : 1;
+      addPart(k === 0 ? o.ref : '', geo, o.grp, [o.ex[0], Math.abs(o.ex[1]) * (o.ex[1] === 0 ? 0 : sgn), o.ex[2]], c);
+    });
+  }
+  for (const ms of D.meshes) {
+    if (!ms.t.length) continue;
+    const geo = new THREE.BufferGeometry(); const pos = [];
+    for (const [x, y, z] of ms.v) { const t = w2t(x, y, z); pos.push(t.x, t.y, t.z); }
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(ms.t); geo.computeVertexNormals(); geo.computeBoundingBox();
+    const c = new THREE.Vector3(); geo.boundingBox.getCenter(c);
+    const m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({color: COL[ms.grp], side: THREE.DoubleSide}));
+    const g = new THREE.Group(); g.add(m); S.add(g);
+    parts.push({ref: ms.ref, g, dir: new THREE.Vector3(ms.ex[0], ms.ex[2], ms.ex[1]), center: c});
+  }
+  /* contexte : poutre avant cintrée, longerons, pieds de mâts, pattes */
+  const ctx = new THREE.Group(); S.add(ctx);
+  const gris = new THREE.MeshLambertMaterial({color: 0x8A979F});
+  const k = D.ctx, pts = [];
+  for (let i = 0; i <= 30; i++) { const y = -k.poutre.L + 2 * k.poutre.L * i / 30; pts.push(w2t(k.poutre.x, y, k.poutre.z + k.poutre.f * (1 - (y / k.poutre.L) ** 2))); }
+  ctx.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 60, k.poutre.r, 16), gris));
+  const cyl = (a, b, r, mat) => { const v = new THREE.Vector3().subVectors(b, a), l = v.length(); const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, l, 18), mat); m.position.copy(a).addScaledVector(v, .5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v.normalize()); ctx.add(m); };
+  for (const s of [1, -1]) {
+    cyl(w2t(k.longerons.x0, s * k.longerons.y, k.longerons.z), w2t(k.longerons.x0 + 1500, s * k.longerons.y, k.longerons.z), k.longerons.r, gris);
+    const q = k.mats.q * Math.PI / 180;
+    cyl(w2t(k.mats.x, s * k.mats.y, k.mats.z), w2t(k.mats.x + k.mats.L * Math.sin(q), s * k.mats.y, k.mats.z + k.mats.L * Math.cos(q)), k.mats.r, new THREE.MeshLambertMaterial({color: 0x2B2F33}));
+    for (const dx of [-(k.pattes.ecart + k.pattes.larg), k.pattes.ecart]) {
+      const b = new THREE.Mesh(new THREE.BoxGeometry(k.pattes.larg, k.pattes.z1 - k.pattes.z0, 10), gris);
+      b.position.copy(w2t(k.pattes.xc + dx + k.pattes.larg / 2, s * (k.pattes.wi + 5), (k.pattes.z0 + k.pattes.z1) / 2)); ctx.add(b);
+    }
+  }
+  /* étiquettes */
+  const labels = parts.filter(p => p.ref).map(p => { const el = document.createElement('div'); el.className = 'lbl'; el.textContent = p.ref; W.appendChild(el); return {p, el}; });
+  /* caméra orbitale */
+  const T = new THREE.Vector3(0, 0, 0); let th = 2.35, ph = 1.1, rd = 5200;
+  const V = {av: [2.35, 1.1, 5200], ar: [-0.75, 1.05, 5200], de: [2.5, 2.25, 4800], co: [Math.PI / 2, Math.PI / 2, 5600]};
+  document.querySelectorAll('button.v').forEach(b => b.onclick = () => { [th, ph, rd] = V[b.dataset.v]; });
+  const pp = new Map(); let pd = 0;
+  W.addEventListener('pointerdown', e => { W.setPointerCapture(e.pointerId); pp.set(e.pointerId, [e.clientX, e.clientY]); });
+  W.addEventListener('pointermove', e => { if (!pp.has(e.pointerId)) return; const o = pp.get(e.pointerId); if (pp.size === 1) { th += (e.clientX - o[0]) * .008; ph = Math.min(3.1, Math.max(.05, ph - (e.clientY - o[1]) * .008)); } pp.set(e.pointerId, [e.clientX, e.clientY]); if (pp.size === 2) { const [a, b] = [...pp.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pd) rd = Math.min(15000, Math.max(1500, rd * pd / d)); pd = d; } });
+  const up = e => { pp.delete(e.pointerId); pd = 0; }; W.addEventListener('pointerup', up); W.addEventListener('pointercancel', up);
+  W.addEventListener('wheel', e => { e.preventDefault(); rd = Math.min(15000, Math.max(1500, rd * Math.exp(e.deltaY * .001))); }, {passive: false});
+  const size = () => { const w = W.clientWidth, h = W.clientHeight; R.setSize(w, h); C.aspect = w / h; C.updateProjectionMatrix(); };
+  new ResizeObserver(size).observe(W); size();
+  const v = new THREE.Vector3();
+  function loop() {
+    const ex = +$('#ex').value * 700;
+    for (const p of parts) p.g.position.copy(p.dir).multiplyScalar(ex);
+    ctx.visible = $('#ctx').checked;
+    C.position.set(T.x + rd * Math.sin(ph) * Math.cos(th), T.y + rd * Math.cos(ph), T.z + rd * Math.sin(ph) * Math.sin(th)); C.lookAt(T);
+    R.render(S, C);
+    const show = $('#lab').checked, w = W.clientWidth, h = W.clientHeight;
+    for (const {p, el} of labels) {
+      v.copy(p.center).add(p.g.position).project(C);
+      const vis = show && v.z < 1 && Math.abs(v.x) < 1 && Math.abs(v.y) < 1;
+      el.hidden = !vis; if (vis) { el.style.left = ((v.x + 1) / 2 * w) + 'px'; el.style.top = ((1 - v.y) / 2 * h) + 'px'; }
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>

@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+plans/_r/
+# doublon compressé du STEP complet
+hc16_rando_complet.step.zip

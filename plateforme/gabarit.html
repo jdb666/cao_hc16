@@ -1,0 +1,912 @@
+<title>Plateforme HC16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F0; --sheet:#F7F8F8; --ink:#18262E; --ink2:#4A5A63; --rule:#C5CED2; --grid:#DCE2E4;
+  --accent:#1F6F8B; --old:#C23B4E; --dim:#A85C0F; --warn:#9A5B12; --warnbg:#F6E7D2; --oldbg:#F7E1E4; --okbg:#DDECF1; --good:#2E6B45; --goodbg:#DDEEE2;
+  --wood:#9C5F2C; --woodbg:#EFD9C0; --water:#2D7FA6;
+  --f-disp:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --paper:#10181C; --sheet:#152026; --ink:#DCE4E7; --ink2:#9AABB3; --rule:#2E3D44; --grid:#223037;
+    --accent:#6DB9D4; --old:#E77A8A; --dim:#E0A55A; --warn:#E0A55A; --warnbg:#3A2A16; --oldbg:#3A1D23; --okbg:#173341; --good:#7FC79A; --goodbg:#16301F;
+    --wood:#D99A5E; --woodbg:#3B2A1C; --water:#6DB9D4; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --paper:#10181C; --sheet:#152026; --ink:#DCE4E7; --ink2:#9AABB3; --rule:#2E3D44; --grid:#223037;
+  --accent:#6DB9D4; --old:#E77A8A; --dim:#E0A55A; --warn:#E0A55A; --warnbg:#3A2A16; --oldbg:#3A1D23; --okbg:#173341; --good:#7FC79A; --goodbg:#16301F;
+  --wood:#D99A5E; --woodbg:#3B2A1C; --water:#6DB9D4; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--f-disp);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,4.4vw,46px);line-height:1.05}
+h2{font-size:26px;line-height:1.15}
+h3{font-size:18px;line-height:1.25}
+p{margin:0;max-width:70ch}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+header{display:grid;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:24px}
+.lead{color:var(--ink2)}
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px 24px;margin-top:6px}
+.figs div{display:grid;gap:2px;border-top:2px solid var(--ink);padding-top:8px}
+.figs span{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.figs b{font:500 19px/1.2 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+section{display:grid;gap:16px}
+.viewer{position:relative;width:100%;aspect-ratio:16/10;max-height:72vh;min-height:340px;background:var(--sheet);border:1px solid var(--rule);touch-action:none;overflow:hidden;cursor:grab}
+.viewer:active{cursor:grabbing}
+.viewer canvas{display:block;width:100%;height:100%}
+.nogl{position:absolute;inset:0;display:grid;place-items:center;padding:24px;color:var(--ink2);text-align:center}
+.lbl{position:absolute;transform:translate(-50%,-50%);font:500 11px/1 var(--f-mono);color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:3px 6px;pointer-events:none;white-space:nowrap}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-size:14px}
+.ctrl .grp{display:flex;flex-wrap:wrap;gap:6px}
+.ctrl label{display:flex;gap:7px;align-items:center;cursor:pointer}
+button.v{font:500 13px var(--f-body);background:transparent;color:var(--ink);border:1px solid var(--rule);padding:5px 11px;cursor:pointer}
+button.v:hover{border-color:var(--ink2)}
+button.v[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button.v:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:var(--ink2)}
+.sw{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:6px;border:1px solid var(--rule)}
+.sw.line{height:0;border:0;border-top:2px dashed var(--old);width:22px;vertical-align:4px}
+.sw.dim{height:0;border:0;border-top:2px solid var(--dim);width:22px;vertical-align:4px}
+.sw.mesh{background-color:#FFFFFF;background-image:linear-gradient(90deg,rgba(110,122,128,.55) 1px,transparent 1px),linear-gradient(rgba(110,122,128,.55) 1px,transparent 1px);background-size:4px 4px;border-color:#7E888E}
+.planches{display:grid;gap:30px}
+figure{margin:0;display:grid;gap:8px}
+figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 20px;align-items:baseline}
+figcaption .t{font:600 19px var(--f-disp)}
+figcaption .m{font:13px var(--f-mono);color:var(--ink2)}
+.svgbox{overflow-x:auto;background:#FFFFFF;border:1px solid var(--rule)}
+.svgbox svg{display:block;width:100%;min-width:760px;height:auto}
+.tbl{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+th{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);background:var(--paper)}
+td.id{font:500 12.5px var(--f-mono);white-space:nowrap}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.n.rel{color:var(--dim);font-weight:500}
+td.n.old{color:var(--old)}
+td.note{color:var(--ink2);font-size:12.5px;min-width:200px}
+tr.grp td{background:var(--paper);font:600 15px var(--f-disp);letter-spacing:.02em;color:var(--ink)}
+.na{color:var(--ink2);font-style:italic}
+.hyp{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--rule)}
+.hyp li{display:grid;grid-template-columns:112px 1fr;gap:6px 18px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.hyp li > div{display:grid;gap:4px}
+.hyp p{color:var(--ink2);font-size:14px}
+.chip{justify-self:start;align-self:start;font:500 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor;white-space:nowrap}
+.chip.rel{color:var(--warn);background:var(--warnbg)}
+.chip.ecart{color:var(--old);background:var(--oldbg)}
+.chip.hyp{color:var(--accent);background:var(--okbg)}
+.chip.ok{color:var(--good);background:var(--goodbg)}
+.impact{margin:0;padding-left:20px;display:grid;gap:8px;max-width:78ch}
+.impact li::marker{color:var(--ink2)}
+.impact b{font-weight:600}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.94em}
+.relev{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px 32px;align-items:start;border-top:1px solid var(--rule);padding-top:18px}
+.relev .cmd{display:grid;gap:14px;align-content:start;min-width:0}
+.relev .hd{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.relev .hd label{font:600 18px/1.25 var(--f-disp);cursor:pointer}
+.relev output{font:500 24px/1 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--wood)}
+.relev .barre{display:flex;gap:12px;align-items:center}
+.relev input[type=range]{flex:1 1 auto;min-width:0;margin:0;accent-color:var(--wood);cursor:pointer}
+.relev .barre button.v{flex:0 0 auto;min-width:92px}
+.relev .ticks{display:flex;justify-content:space-between;font:500 11px/1 var(--f-mono);color:var(--ink2);margin-top:-6px;padding-right:104px}
+.relev dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px}
+.relev dl div{display:grid;gap:2px;border-top:2px solid var(--ink);padding-top:6px;min-width:0}
+.relev dt{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.relev dd{margin:0;font:500 18px/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
+.relev dd small{display:block;font:400 12px/1.35 var(--f-body);color:var(--ink2)}
+.relev ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
+.relev ol li::marker{font:500 12px var(--f-mono);color:var(--wood)}
+.relev .note{font-size:13px;color:var(--ink2)}
+.voiles{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.voiles .ttl{font:600 18px/1.25 var(--f-disp)}
+.voiles .lig{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr) auto;align-items:center;gap:10px;font-size:14px}
+.voiles .lig input[type=range]{width:100%;margin:0;accent-color:var(--wood);cursor:pointer}
+.voiles .lig output{font:500 16px/1 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--wood);min-width:64px;text-align:right}
+.voiles .radios{display:flex;flex-wrap:wrap;gap:4px 16px;grid-column:2 / 4}
+.voiles select{font:inherit;padding:3px 6px;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+.voiles .res{display:grid;gap:12px;min-width:0}
+.voiles dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px}
+.voiles dl div{display:grid;gap:2px;border-top:2px solid var(--ink);padding-top:6px;min-width:0}
+.voiles dt{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.voiles dd{margin:0;font:500 18px/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
+.voiles dd small,.voiles td small{display:block;font:400 12px/1.35 var(--f-body);color:var(--ink2)}
+.tv{width:100%;border-collapse:collapse;font:500 14px/1.3 var(--f-mono);font-variant-numeric:tabular-nums}
+.tv th,.tv td{text-align:left;padding:6px 8px 6px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.tv thead th{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.tv tbody th{font:600 13px/1.3 var(--f-body)}
+@media (max-width:760px){.voiles{grid-template-columns:minmax(0,1fr)}.voiles .lig{grid-template-columns:minmax(0,1fr) auto}.voiles .lig > span:first-child{grid-column:1 / -1}.voiles .radios{grid-column:1 / -1}.tv{font-size:12px}}
+.coupe{background:var(--sheet);border:1px solid var(--rule);min-width:0;padding:0}
+.coupe svg{display:block;width:100%;height:auto;max-height:86vh}
+.coupe text{font-family:var(--f-mono);fill:var(--ink2)}
+.coupe .t-bois{fill:var(--wood)}
+.coupe .t-eau{fill:var(--water)}
+.coupe .t-mot{fill:var(--ink)}
+.c-eau{stroke:var(--water);stroke-width:3;fill:none}
+.c-eau2{stroke-dasharray:14 8}
+.c-profil{fill:var(--woodbg);fill-opacity:.55;stroke:var(--wood);stroke-width:2.5;stroke-dasharray:12 9}
+.c-coffre{fill:var(--woodbg);stroke:var(--wood);stroke-width:2.5;stroke-linejoin:round}
+.c-puits{fill:var(--wood);fill-opacity:.45;stroke:var(--wood);stroke-width:2}
+.c-tableau{fill:var(--wood);stroke:var(--wood);stroke-width:1.5}
+.c-poutre{fill:var(--grid);stroke:var(--ink2);stroke-width:2.5}
+.c-trampo{fill:#FFFFFF;stroke:var(--ink2);stroke-width:2;stroke-dasharray:6 4}
+.c-marting{fill:var(--ink2);fill-opacity:.35;stroke:none}
+.c-mot{fill:var(--ink);fill-opacity:.82;stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.c-helice{fill:var(--ink2);fill-opacity:.7;stroke:var(--ink);stroke-width:1.5}
+.c-fant{fill:none;stroke:var(--ink2);stroke-width:2;stroke-dasharray:8 7;opacity:.75}
+.c-traj{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:4 9;stroke-linecap:round}
+.c-chem{fill:var(--wood);fill-opacity:.12;stroke:var(--wood);stroke-width:1.5;stroke-dasharray:6 6}
+.c-bac{fill:var(--ink2);fill-opacity:.18;stroke:var(--ink2);stroke-width:2}
+.c-cell{fill:var(--accent);fill-opacity:.35;stroke:none}
+.c-tube{fill:var(--grid);stroke:var(--ink2);stroke-width:2.5}
+.c-bras{fill:var(--grid);stroke:var(--ink2);stroke-width:2}
+.c-ancre{fill:var(--ink2);fill-opacity:.55;stroke:var(--ink2);stroke-width:2}
+.c-cote{stroke:var(--accent);stroke-width:2;marker-start:url(#fl);marker-end:url(#fl)}
+.c-pivot{fill:var(--sheet);stroke:var(--wood);stroke-width:5}
+.c-hauban{fill:var(--sheet);stroke:var(--ink);stroke-width:4}
+.c-rep{stroke:var(--ink2);stroke-width:1.5}
+@media (max-width:760px){.relev{grid-template-columns:1fr}}
+.aide{font-size:12.5px;color:var(--ink2);max-width:none;margin-top:-8px}
+section.grand{position:fixed;inset:0;z-index:40;background:var(--paper);display:flex;flex-direction:column;gap:10px;padding:12px 16px;overflow:auto}
+section:fullscreen{background:var(--paper)}
+section.grand > h2,section.grand > .lead,section.grand > .legend{display:none}
+section.grand > .relev{display:block;border:0;padding:0}
+section.grand > .relev .cmd{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+section.grand > .relev .hd{flex:0 0 auto}
+section.grand > .relev .barre{flex:1 1 320px}
+section.grand > .relev :is(.ticks,dl,ol,.note,figure){display:none}
+section.grand .viewer{flex:1 1 0;aspect-ratio:auto;max-height:none;min-height:240px}
+.attaches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px}
+.attaches figure{background:var(--sheet);border:1px solid var(--rule);padding:10px 12px;min-width:0}
+.attaches svg{display:block;width:100%;height:auto}
+.at text{font-family:var(--f-mono);fill:var(--ink2)}
+.at .at-t-lace{fill:var(--accent)}
+.at-alu{fill:var(--grid);stroke:var(--ink2);stroke-width:.8}
+.at-cp{fill:var(--woodbg);stroke:var(--wood);stroke-width:.8}
+.at-assise{fill:var(--wood);fill-opacity:.35;stroke:var(--wood);stroke-width:.8}
+.at-joue{fill:var(--wood);fill-opacity:.28;stroke:var(--wood);stroke-width:.8}
+.at-trampo{stroke:var(--ink);stroke-width:1.6}
+.at-tige{fill:var(--ink2)}
+.at-boulon{fill:var(--sheet);stroke:var(--ink);stroke-width:.7}
+.at-lace{fill:none;stroke:var(--accent);stroke-width:1.3;stroke-dasharray:3 2}
+.at-fil{fill:none;stroke:var(--ink2);stroke-width:.45}
+.at-ouvert{fill:none;stroke:var(--ink2);stroke-width:.5;stroke-dasharray:1.5 1.5}
+.at-ech{stroke:var(--ink2);stroke-width:.7}
+.at-fond{fill:none;stroke:var(--ink2);stroke-width:.6;stroke-dasharray:3 2}
+.at-fond-l{stroke:var(--ink2);stroke-width:.6;stroke-dasharray:3 2}
+.at-oeil{fill:var(--sheet);stroke:var(--ink);stroke-width:.7}
+.at-c4{fill:var(--wood);fill-opacity:.18;stroke:var(--wood);stroke-width:.8}
+.at-fleche{stroke:var(--accent);stroke-width:1.2}
+.at-fleche-p{fill:var(--accent)}
+@media (max-width:760px){.attaches{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--rule);padding-top:18px;color:var(--ink2);font-size:13px;display:grid;gap:6px}
+@media (max-width:560px){
+  .hyp li{grid-template-columns:1fr}
+  .viewer{aspect-ratio:1/1;max-height:78vh}
+}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Hobie Cat 16 d'origine · recalé sur tes relevés</div>
+  <h1>Plateforme HC16</h1>
+  <p class="lead">Coques, pylônes, poutres, longerons, pièces d'angle, trampoline et martingale à tiges inox, recalés sur les cotes P, D, V et A et sur les profils DWG des poutres. Le coffre est recalé dessus ; le modèle précédent de la plateforme reste affichable en rouge.</p>
+  <div class="figs">
+    <div><span>Entraxe des coques</span><b>2 000</b></div>
+    <div><span>Poutres AV · AR</span><b>x 2 070 · 4 145</b></div>
+    <div><span>Axe des longerons</span><b>y ±1 093</b></div>
+    <div><span>Axes des poutres</span><b>z 539,5 · 524</b></div>
+    <div><span>Trampoline entre fentes</span><b>1 979 × 2 084</b></div>
+    <div><span>Largeur hors-tout</span><b>2 396</b></div>
+  </div>
+</header>
+
+<section aria-labelledby="t3d">
+  <h2 id="t3d">Maquette 3D</h2>
+  <p class="lead">Plateforme recalée avec le coffre recalé dessus, fond descendu en pente sous le puits moteur, bancs ouverts dessous, moteur dans l'axe à relevage vertical (bouton sous la maquette) : le coffre ne touche le pont que par quatre tubes carbone posés sur les semelles ; sa face arrière s'appuie sur le nez de la poutre AV, sans jour. Coffre et bancs se posent d'une pièce, sans pièce en plus : les couples du coffre traversent C4 et font eux-mêmes les accroches ; le coffre descend, puis finit en diagonale vers l'arrière pour engager leur lèvre sous le nez de la poutre ; les couples des bancs se posent sur les longerons. On brêle ensuite le coffre sous la poutre, en diagonale jusqu'au pied du pilier de martingale, et on lace les bancs sous la toile. Joues arrondies, tangentes à l'horizontale au collier. Voiles réglables sous la maquette : enroulement de chaque voile, choqué, amures, point d'écoute sur la poutre AR ou sur le flotteur ; livardes en tube carbone droit, rangées debout contre la joue, devant le mât, dès que la voile est roulée. Haubans du coffre sur les pièces d'origine, au niveau des colliers et des semelles ; tube alu entre les colliers ; bancs lacés d'un longeron à l'autre sous la toile.</p>
+  <div class="viewer" id="viewer"></div>
+  <p class="aide">Glisser : tourner · clic droit, Maj + glisser ou deux doigts : déplacer · molette ou pincer : zoomer · double-clic ou double tape : centrer et s'approcher du point visé · un bouton de vue remet la maquette au centre.</p>
+  <div class="ctrl">
+    <div class="grp" role="group" aria-label="Point de vue">
+      <button class="v" data-v="av" aria-pressed="true">3/4 avant</button>
+      <button class="v" data-v="ar" aria-pressed="false">3/4 arrière</button>
+      <button class="v" data-v="pr" aria-pressed="false">Profil</button>
+      <button class="v" data-v="de" aria-pressed="false">Dessus</button>
+      <button class="v" data-v="fa" aria-pressed="false">Face</button>
+      <button class="v" id="b-grand" aria-pressed="false">Agrandir</button>
+    </div>
+    <label><input type="checkbox" id="c-cof" checked> Coffre et bancs</label>
+    <label><input type="checkbox" id="c-trp"> Coffre transparent</label>
+    <label><input type="checkbox" id="c-rig" checked> Mâts et voiles</label>
+    <label><input type="checkbox" id="c-hau" checked> Haubans et tube</label>
+    <label><input type="checkbox" id="c-tra" checked> Trampoline</label>
+    <label><input type="checkbox" id="c-eau" checked> Flottaison</label>
+    <label>coffre <select id="s-charge"><option value="0">vide (plan Chevalier)</option><option value="100">chargé 100 kg</option><option value="150">chargé 150 kg</option></select></label>
+    <label><input type="checkbox" id="c-old"> Modèle précédent</label>
+    <label><input type="checkbox" id="c-lbl"> Étiquettes</label>
+  </div>
+  <div class="legend">
+    <span><i class="sw" style="background:#B3BCC1"></i>Modèle recalé</span>
+    <span><i class="sw" style="background:#6E7A80"></i>Pièces d'angle, d'après photos</span>
+    <span><i class="sw" style="background:color-mix(in srgb,var(--old) 35%,transparent);border-color:var(--old)"></i>Modèle précédent</span>
+    <span><i class="sw" style="background:#9CC3D6"></i>Flottaison du plan Chevalier</span>
+    <span><i class="sw" style="background:#F3F2ED;border-color:#7E888E"></i>Coffre et bancs, peints en blanc</span>
+    <span><i class="sw" style="background:#26282B"></i>Couples, accroches, colliers, semelles, supports de livarde : noir</span>
+    <span><i class="sw" style="background:#26292C"></i>Tubes carbone : pylônes, livardes</span>
+    <span><i class="sw" style="background:#8C979C"></i>Haubans du coffre</span>
+    <span><i class="sw" style="background:#B3BCC1"></i>Tube alu entre colliers</span>
+    <span><i class="sw" style="background:#2F6FB0"></i>Laçage des bancs et brêlage du coffre</span>
+    <span><i class="sw mesh"></i>Trampoline en mesh blanc</span>
+    <span><i class="sw" style="background:#2B2F33"></i>Moteur Protruar 2.0</span>
+  </div>
+  <div class="relev" role="group" aria-labelledby="relev-t">
+    <div class="cmd">
+      <div class="hd"><label for="c-bascule" id="relev-t">Relevage du moteur</label><output id="o-bascule" for="c-bascule">0</output></div>
+      <div class="barre">
+        <input type="range" id="c-bascule" min="0" max="498" step="1" value="0" aria-describedby="relev-n">
+        <button class="v" id="b-anim" type="button">Relever</button>
+      </div>
+      <div class="ticks" aria-hidden="true"><span>0 en marche</span><span id="t-mi">249</span><span id="t-max">498 relevé</span></div>
+      <dl>
+        <div><dt>Point bas</dt><dd id="v-bas">z −400</dd></div>
+        <div><dt>Bas de l'hélice</dt><dd id="v-hel">z −378</dd></div>
+        <div><dt>Jeu au tube des colliers</dt><dd id="v-tube">21</dd></div>
+        <div><dt>Jeu mini ailleurs</dt><dd id="v-cof">10</dd></div>
+      </dl>
+      <ol>
+        <li>Poignée sur « 0 », coupe-circuit ouvert, barre franche repliée vers le haut.</li>
+        <li>On ne tourne rien : l'hélice reste dans l'axe, derrière l'arbre.</li>
+        <li>Par la découpe de la table, desserrer la vis de serrage de la direction, sur la bride. Le collier de hauteur reste sur l'arbre : il retrouvera la position de marche.</li>
+        <li>Monter le moteur par la tête. L'arbre coulisse dans la bride, la tête sort du puits et passe derrière le tube des colliers ; la nacelle et l'hélice remontent dans le puits par le fond ouvert.</li>
+        <li>En haut, nacelle à 10 sous la bride : resserrer la vis, rabattre le bras du tube sur l'arbre et goupiller. Pour redescendre : ôter le bras, desserrer, laisser descendre jusqu'au collier.</li>
+      </ol>
+      <p class="note" id="relev-n">Coupe dans l'axe du bateau (y 0), vue de bâbord. Course : 900 d'arbre − 164 de fourreau − 52 de collier ≈ 684 (schéma du manuel), 674 retenus. Jeux calculés en 3D tous les 25 mm contre toutes les pièces du bateau : aucun contact de 0 à la levée maxi.</p>
+    </div>
+    <figure class="coupe">
+      <svg id="coupe" viewBox="1170 -1880 1100 2350" role="img" aria-label="Coupe dans l'axe du bateau : le moteur monte à la verticale dans sa bride, la tête sort de la cheminée derrière le tube des colliers, la nacelle reste sous le coffre"></svg>
+    </figure>
+  </div>
+  <div class="relev voiles" role="group" aria-labelledby="voiles-t">
+    <div class="cmd">
+      <div class="hd"><span id="voiles-t" class="ttl">Voiles et écoute</span><button class="v" id="b-roule" type="button">Rouler / dérouler tout</button></div>
+      <label class="lig"><span>Enroulement bâbord</span><input type="range" id="r-enr-b" min="0" max="100" step="1" value="0"><output id="o-enr-b">0 %</output></label>
+      <label class="lig"><span>Enroulement tribord</span><input type="range" id="r-enr-t" min="0" max="100" step="1" value="0"><output id="o-enr-t">0 %</output></label>
+      <label class="lig"><span>Choqué</span><input type="range" id="r-choc" min="0" max="85" step="1" value="15"><output id="o-choc">15°</output></label>
+      <div class="lig"><span>Amures</span><span class="radios"><label><input type="radio" name="amures" value="1" checked> tribord : voiles à bâbord</label><label><input type="radio" name="amures" value="-1"> bâbord : voiles à tribord</label></span></div>
+      <div class="lig"><span>Point d'écoute</span><select id="s-ecoute"><option value="poutre">poutre AR (rail)</option><option value="flotteur">flotteur AR (pontet sur l'axe)</option></select><button class="v" id="b-tire" type="button">Sur la tire</button></div>
+      <label class="lig"><span id="l-pos">Point sur la poutre AR, depuis l'axe</span><input type="range" id="r-pos" min="150" max="1000" step="10" value="900"><output id="o-pos">y 900</output></label>
+    </div>
+    <div class="res">
+      <dl>
+        <div><dt>Voilure</dt><dd id="v-surf">—</dd></div>
+        <div><dt>Couple de chavirage</dt><dd id="v-chav">—</dd></div>
+      </dl>
+      <table class="tv"><thead><tr><th></th><th>Surface</th><th>Écoute</th><th>Tire idéale</th><th>Écart</th></tr></thead><tbody id="t-voiles"></tbody></table>
+      <p class="note">La voile se roule autour du guindant : la chute et le point d'écoute avancent de la largeur roulée, le yin-yang suit la toile. Dès qu'elle est roulée, même en partie, la livarde est démontée et rangée debout contre la face extérieure de la joue, devant le mât. Tire idéale (pointillé rouge) : du milieu du guindant par le point d'écoute, prolongée jusqu'à la hauteur du point choisi ; l'écart est l'angle entre l'écoute (bleu) et cette tire, dans le plan de la voile ; la part hors du plan borde la voile, ou ne la retient plus si le point est à l'extérieur. « Sur la tire » cherche la position qui la suit au mieux.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="tvues">
+  <h2 id="tvues">Vues cotées</h2>
+  <div class="legend">
+    <span><i class="sw" style="background:#F4F6F6;border-color:#15232A"></i>Modèle recalé</span>
+    <span><i class="sw line"></i>Modèle précédent</span>
+    <span><i class="sw dim"></i>Cotes relevées, avec leur repère</span>
+  </div>
+  <div class="planches">
+    <figure>
+      <figcaption><span class="t">Profil</span><span class="m">vu de bâbord · x depuis l'étrave · z depuis la flottaison · mm</span></figcaption>
+      <div class="svgbox"><!--SVG:profil--></div>
+    </figure>
+    <figure>
+      <figcaption><span class="t">Dessus</span><span class="m">mm</span></figcaption>
+      <div class="svgbox"><!--SVG:dessus--></div>
+    </figure>
+    <figure>
+      <figcaption><span class="t">Face</span><span class="m">coupe au droit de la poutre AV, vue de l'avant · mm</span></figcaption>
+      <div class="svgbox"><!--SVG:face--></div>
+    </figure>
+  </div>
+</section>
+
+<section aria-labelledby="ttab">
+  <h2 id="ttab">Relevés et modèle</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Repère</th><th>Cote</th><th>Relevé</th><th>Recalé</th><th>Précédent</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="6">Coques</td></tr>
+        <tr><td class="id">P1</td><td>Longueur de coque</td><td class="n rel">5 050</td><td class="n">5 050</td><td class="n old">5 050</td><td class="note"></td></tr>
+        <tr><td class="id">V1 · A1</td><td>Entraxe des coques, AV · AR</td><td class="n rel">2 000 · 2 000</td><td class="n">2 000</td><td class="n old">2 100</td><td class="note">Largeur hors-tout 2 396 (fiche HC16 : 2 413).</td></tr>
+        <tr><td class="id">D3</td><td>Demi-largeur du pont au pied de mât</td><td class="n rel">190</td><td class="n">190</td><td class="n old">161</td><td class="note">Demi-largeurs × 1,17 sur toute la longueur.</td></tr>
+        <tr><td class="id">P6</td><td>Creux au droit de la poutre AV</td><td class="n rel">500</td><td class="n">500</td><td class="n old">544</td><td class="note">Quilles × 0,90.</td></tr>
+        <tr><td class="id">P7</td><td>Tonture : flèche maxi cordeau → pont</td><td class="n rel">110 à 2 m</td><td class="n">110 à 2 m</td><td class="n old">95 à 1,5 m</td><td class="note">Les 10 points relevés sont repris tels quels.</td></tr>
+        <tr><td class="id">P4 · Q</td><td>Pente du pont au pied de mât, longerons de niveau</td><td class="n rel">+1,7° · 0°</td><td class="n">+0,9°</td><td class="n old">−0,7°</td><td class="note">Écart de 0,8° : voir plus bas.</td></tr>
+        <tr><td class="id">V6 · V7</td><td>Pente transversale et bombé du pont au pied de mât</td><td class="n na">non relevés</td><td class="n">≈ 10° · 35</td><td class="n old">≈ 10° · 35</td><td class="note">Bouge du plan Chevalier conservé.</td></tr>
+
+        <tr class="grp"><td colspan="6">Poutres</td></tr>
+        <tr><td class="id">P2</td><td>Étrave → axe de la poutre AV</td><td class="n rel">2 070</td><td class="n">2 070</td><td class="n old">2 010</td><td class="note">+60.</td></tr>
+        <tr><td class="id">P3</td><td>Étrave → axe de la poutre AR</td><td class="n rel">4 140</td><td class="n">4 145</td><td class="n old">4 120</td><td class="note">P3 − P2 = 2 070 contre D1 = 2 080 : écart partagé.</td></tr>
+        <tr><td class="id">D1</td><td>Entraxe des poutres</td><td class="n rel">2 080</td><td class="n">2 075</td><td class="n old">2 110</td><td class="note"></td></tr>
+        <tr><td class="id">D5</td><td>Face avant de la poutre AV → face arrière de la poutre AR, le long d'un longeron</td><td class="n rel">2 170</td><td class="n">2 170</td><td class="n old">2 172</td><td class="note">L'axe des pièces d'angle passe au milieu de la section, 16,5 derrière le centre du nez des profils DWG.</td></tr>
+        <tr><td class="id">P5</td><td>Pont → dessus du longeron, au pylône AV</td><td class="n rel">250</td><td class="n">250</td><td class="n old">278</td><td class="note"></td></tr>
+        <tr><td class="id">A3</td><td>Pont → dessus de la poutre AR</td><td class="n rel">210</td><td class="n">210</td><td class="n old">253</td><td class="note"></td></tr>
+        <tr><td class="id">—</td><td>Axes des poutres au-dessus de la flottaison, AV · AR</td><td class="n na">déduit</td><td class="n">539,5 · 524</td><td class="n old">590 · 590</td><td class="note">De P5, A3 et de la tonture : 50 et 66 plus bas qu'avant.</td></tr>
+        <tr><td class="id">V2</td><td>Flèche de la poutre AV au milieu, par rapport au ras des pièces d'angle</td><td class="n rel">100</td><td class="n">100</td><td class="n old">71</td><td class="note">Parabole entre les pièces d'angle, ajustée sur ta photo de face (écart moyen &lt; 1 pixel).</td></tr>
+        <tr><td class="id">V9</td><td>Dessus de la poutre AV au-dessus du pont, au ras de la pièce d'angle</td><td class="n na">à relever</td><td class="n">261</td><td class="n old">—</td><td class="note">Hauteur de la poutre par rapport aux longerons (supposées alignées).</td></tr>
+        <tr><td class="id">DWG</td><td>Sections des poutres et des longerons</td><td class="n rel">pince 1 et 2</td><td class="n">95,5 × 62 · 73 × 44,5</td><td class="n old">idem</td><td class="note">Gouttes, queues vers le trampoline, qui est lacé dedans.</td></tr>
+
+        <tr class="grp"><td colspan="6">Longerons, pièces d'angle, trampoline</td></tr>
+        <tr><td class="id">D2</td><td>Faces extérieures des longerons, en travers · axe de coque → axe du longeron</td><td class="n rel">2 230</td><td class="n">2 230 · 93</td><td class="n old">2 144 · 0</td><td class="note">93 = 2 230 / 2 − 22 (rayon du nez) − 1 000.</td></tr>
+        <tr><td class="id">A2</td><td>Poutre AR visible, entre pièces d'angle</td><td class="n rel">1 850</td><td class="n">1 850</td><td class="n old">—</td><td class="note">Faces intérieures des pièces d'angle à y ±925.</td></tr>
+        <tr><td class="id">D6</td><td>Nez de la pièce d'angle AV → nez de la pièce d'angle AR, le long d'un longeron</td><td class="n na">à relever</td><td class="n">≈ 2 269</td><td class="n old">—</td><td class="note">D'après tes photos, chaque nez dépasse d'environ 50 de la face de sa poutre.</td></tr>
+        <tr><td class="id">D4</td><td>Trampoline tendu, longueur × largeur</td><td class="n rel">2 000 × 2 100</td><td class="n">1 979 × 2 084</td><td class="n old">1 981 × 1 998</td><td class="note">Modèle entre fentes. D4 est plus grand de 21 et 16 : la toile entre d'une dizaine de mm dans chaque fente.</td></tr>
+        <tr><td class="id">—</td><td>Pente des longerons dans le repère flottaison</td><td class="n na">déduit</td><td class="n">0,43°</td><td class="n old">0°</td><td class="note">AV plus haut : axe de la poutre AR 15,5 plus bas.</td></tr>
+
+        <tr class="grp"><td colspan="6">Martingale</td></tr>
+        <tr><td class="id">—</td><td>Tiges inox entre le pied du pilier et les attaches</td><td class="n rel">tiges rigides</td><td class="n">Ø 6</td><td class="n old">câbles Ø 6</td><td class="note">Ø 6 mesuré sur ta photo, la poutre servant d'échelle.</td></tr>
+        <tr><td class="id">V4</td><td>Pied du pilier sous l'axe de poutre aux bouts</td><td class="n rel">170</td><td class="n">170</td><td class="n old">144</td><td class="note">Pied à z 369,5, soit 77 plus bas qu'avant.</td></tr>
+        <tr><td class="id">V5</td><td>Attaches des tiges, distance à l'axe du bateau</td><td class="n rel">1 000</td><td class="n">1 000</td><td class="n old">1 050</td><td class="note">Dans l'axe des coques.</td></tr>
+        <tr><td class="id">V5</td><td>Jour entre le dessous de la poutre et la tige, au ras de la pièce d'angle</td><td class="n rel">15</td><td class="n">15</td><td class="n old">≈ 16</td><td class="note">Tige à 49 sous l'axe de poutre à cet endroit, à z 450,6 au droit du moteur (y 620).</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="thyp">
+  <h2 id="thyp">Hypothèses et cotes à confirmer</h2>
+  <ul class="hyp">
+    <li><span class="chip ok">Relevé</span><div><h3>Longerons à ±1 093</h3>
+      <p>2 230 entre les faces extérieures des longerons : l'axe du nez est à 93 à l'extérieur de l'axe de coque, pas dans l'axe comme je te l'avais annoncé. Le trampoline fait 2 084 de large entre fentes. D4 donne 16 de plus en largeur et 21 en longueur : la toile entre d'une dizaine de millimètres dans chaque fente, ce qui rend les deux mesures cohérentes.</p></div></li>
+    <li><span class="chip ok">Recalé</span><div><h3>Cintrage de la poutre AV</h3>
+      <p>Ta photo de face du 25/09 s'ajuste sur une parabole entre les pièces d'angle (écart moyen inférieur à 1 pixel), bien mieux que sur une poutre encastrée. La poutre est horizontale dans les pièces d'angle. Sur les côtés, elle est plus basse qu'avant : 13 de moins à y 620, 22 de moins à y 800.</p></div></li>
+    <li><span class="chip ok">Recalé</span><div><h3>Position des poutres dans les pièces d'angle</h3>
+      <p>D5 = 2 170 entre les faces extérieures des poutres, pour 2 075 entre axes (P2, P3, D1) : chaque nez est 16,5 à l'extérieur de l'axe relevé, qui passe donc au milieu de la section. Les poutres ont reculé (AV) et avancé (AR) de 16,5 dans le modèle. Le trampoline passe à 1 979 entre fentes, contre 2 000 relevés.</p></div></li>
+    <li><span class="chip ecart">Écart</span><div><h3>Pente du pont au pied de mât</h3>
+      <p>P4 = +1,7° avec les longerons de niveau (Q = 0°). Le modèle donne +0,9° par rapport aux longerons au même endroit (+1,4° dans le repère flottaison), à partir de la tonture P7 et de P5, A3. Relevée au pas de 5 mm tous les 50 cm, la tonture laisse environ ±0,6° sur une pente locale : pour la cale de pied de mât, je retiens P4.</p></div></li>
+    <li><span class="chip hyp">Hypothèse</span><div><h3>Hauteurs absolues et flottaison</h3>
+      <p>Reprises du plan Chevalier : pont à 450 à l'étrave et à 380 au tableau au-dessus de la flottaison. Les relevés fixent tout le reste par rapport au pont. La plateforme en sort cabrée de 0,43°.</p></div></li>
+    <li><span class="chip hyp">Hypothèse</span><div><h3>Tonture relevée au bord du pont</h3>
+      <p>P7 est pris au bord extérieur du pont. Je l'applique à l'axe de la coque avec un bouge constant de 35 (plan Chevalier), V6 et V7 n'étant pas disponibles. La cale de pied de mât s'ajustera au gabarit sur le bateau.</p></div></li>
+    <li><span class="chip ok">Relevé</span><div><h3>Tiges inox de la martingale</h3>
+      <p>Tiges rigides de Ø 6, pas des câbles. Ton « 15 » est le jour entre le dessous de la poutre et la tige, au ras de la pièce d'angle ; ta photo le confirme (15,5 avec la poutre comme échelle). La tige passe donc à 49 sous l'axe de poutre, et à z 450,6 à y 620 : 7 plus haut que l'hypothèse de départ, et non 22 comme je te l'avais écrit.</p></div></li>
+    <li><span class="chip rel">À relever</span><div><h3>Pièces d'angle, d'après tes photos</h3>
+      <p>Chaque pièce combine trois éléments. Un manchon de 108 × 80 autour de la poutre, de y 925 à 1 050. Un nez arrondi autour du bout du longeron : y 1 040 → 1 122, 70 de haut, jusqu'à 97 devant l'axe de la poutre AV (derrière pour l'AR), soit environ 50 devant la face de la poutre. Une emboîture Ø 84 sur le pylône. Deux cotes caleraient le tout : D6, de nez à nez le long d'un longeron (modèle 2 269), et V9, le dessus de la poutre AV au-dessus du pont au ras de la pièce d'angle (modèle 261).</p></div></li>
+  </ul>
+</section>
+
+<section aria-labelledby="tsem">
+  <h2 id="tsem">Pied de mât : renfort de pont et semelle</h2>
+  <p class="lead">Le mât est posé tout près du bord du pont, à y ±1 151 : son bord extérieur passe à 9 du bord du pont et la paroi de coque reprend l'effort vertical. Dessous : un renfort de pont en CP cintré sur toute la largeur, puis une semelle CP plate sur bourrage époxy, perpendiculaire au mât et parallèle au collier. Quête 3°, mât vertical en travers. Calcul sur le pont recalé, avec la pente locale prise sur P4.</p>
+  <figure>
+    <figcaption><span class="t">Renfort, bourrage et semelle bâbord</span><span class="m">tribord en miroir · mm</span></figcaption>
+    <div class="svgbox"><!--SVG:semelle--></div>
+  </figure>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Élément</th><th>Valeur</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Renfort de pont</td><td class="n">300 × 372, 8</td><td class="note">2 plis croisés de CP 4 collés en place, toute la largeur du pont (y 814 → 1 186, x 1 616 → 1 916).</td></tr>
+        <tr><td>Semelle</td><td class="n">220 × 166, CP 18</td><td class="note">2 × CP 9 collés ; x 1 656 → 1 876, y 1 020 → 1 186. Elle reçoit aussi les deux tubes carbone du coffre (y 1 066).</td></tr>
+        <tr><td>Bourrage</td><td class="n">3 → 35</td><td class="note">Aux coins : 6 AV intérieur, 35 AV extérieur, 3 AR intérieur, 29 AR extérieur ; environ 470 cm³ par semelle.</td></tr>
+        <tr><td>Dessus de la semelle au pied de mât</td><td class="n">z 348</td><td class="note">44 au-dessus du pont à cet endroit, 23 plus haut que le pied du modèle précédent (325) : raccourcir le mât de 23 au pied garde la hauteur de bordure.</td></tr>
+        <tr><td>Centre du collier</td><td class="n">x 1 805 · z 1 097</td><td class="note">750 le long du mât depuis le dessus de la semelle.</td></tr>
+        <tr><td>Quête à la remorque, longerons de niveau</td><td class="n">2,6°</td><td class="note">Correspond à 3° par rapport à la flottaison du plan Chevalier (plateforme cabrée de 0,43°).</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="impact">
+    <li><b>Épaisseur</b> : le côté extérieur dépasse 10 mm de bourrage ; une cale CP biseautée collée sous la moitié extérieure évite l'époxy en masse (échauffement à la prise, poids).</li>
+    <li><b>Pose</b> : collier en place sur le coffre, mât ou tube droit Ø 60 passé dedans jusqu'à son talon sur la semelle, semelle posée sur trois plots de mastic, puis bourrage. La semelle prend d'elle-même l'angle du collier.</li>
+    <li><b>Tube carbone intérieur</b> : inutile avec le mât sur la paroi de coque.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="timp">
+  <h2 id="timp">Coffre recalé</h2>
+  <p class="lead">Le coffre ne touche le pont que par ses tubes carbone ; ailleurs, il s'accroche à la poutre AV et aux longerons par des pièces découpées au profil DWG des poutres. Sur la poutre AV, ce sont les couples du coffre qui traversent C4 et l'embrassent : dessus, nez contre C4 et <b>lèvre sous le nez</b> ; seul le dessous de la queue reste ouvert, pour le trampoline. On pose coffre et bancs d'une pièce par-dessus en finissant en diagonale vers l'arrière : tout se met en place seul, sans pièce en plus, comme un clip. On lace ensuite le dessous : <b>brêlage en diagonale</b> sous la poutre AV, laçage d'un longeron à l'autre sous la toile pour les bancs.</p>
+  <div class="attaches">
+    <figure><figcaption><span class="t">Poutre AV</span><span class="m">couple ±850, au travers de C4</span></figcaption><!--SVG:attache_poutre--></figure>
+    <figure><figcaption><span class="t">Longeron bâbord</span><span class="m">couple à x 2 160</span></figcaption><!--SVG:attache_longeron--></figure>
+  </div>
+  <ul class="impact">
+    <li><b>Largeur</b> <span class="num">2 240</span>, joues à ±1 120 ; mâts à ±1 151 contre les joues. Agrandi pour la batterie devant le puits moteur, au milieu seulement. <b>Partie centrale plate</b> à z <span class="num">810</span> sur ±360, au niveau du haut de la caisse batterie + ancre, fermée par la table ; de là, le dessus remonte jusqu'aux colliers au droit des joues ; pointe du fond avancée à x <span class="num">1 250</span> sur ±360, raccord droit jusqu'aux joues (pointe à 1 390). Volume du coffre <span class="num">755 L</span>.</li>
+    <li><b>Joues arrondies</b> (superellipses, JD 30/09) : l'avant de la joue part de la pointe (x 1 390, tangente verticale) et arrive au collier <b>tangent à l'horizontale</b>, sans cassure de courbure (exposant 2,3 ; 2 serait l'ellipse) ; le dessus reste plat du collier (x 1 805) à C4, à z <span class="num">1 122</span>, le haut du collier ; de C4, le dossier redescend en quart de superellipse (2,2) jusqu'au bout du banc (x 3 212). À la station des joues, le bordé du coffre suit le même arrondi ; les panneaux restent développables (plan de découpe). Le hauban croisé AV passe 15 au-dessus de la joue : son œil est monté sur un plot 45 au-dessus du collier.</li>
+    <li><b>Table</b> : planche légère de 10 (CP 6 raidi dessous, ou sandwich) posée à z 810 sur la caisse et le dessus plat, de x <span class="num">1 384</span> (avant de la caisse) à x <span class="num">2 118</span>, au-dessus de la poutre AV (96 en porte-à-faux derrière C4), sur ±360. Découpe de 284 × 140 pour la tête et la barre du moteur, à 10 de jeu : en marche, la tête dépasse de 10 ; au relevage, elle monte au travers. Elle ferme la caisse (batterie + ancre) et le haut du puits ; on l'ôte pour sortir la batterie. Sa face avant est la cloison avant de la caisse, qui dépasse de l'arrondi de 150.</li>
+    <li><b>Appuis sur le pont</b> : 4 tubes carbone Ø 40 × 2, deux par bord (x <span class="num">1 716</span> et <span class="num">1 816</span>, y ±1 066), posés sur les semelles ; leur haut, coupé à la pente du fond (z 490 devant, 469 derrière), porte sous une semelle CP 18 collée sur le fond contre la joue.</li>
+    <li><b>Face C4 contre la poutre AV</b>, sans jour : C4 à x <span class="num">2 022,5</span>, en appui sur le nez de la poutre sur toute la largeur. Les coins arrière du coffre sont évidés autour du nez et du manchon des pièces d'angle (poches à 4 de jeu, parois CP 6), <b>ouvertes dessous</b> : fermées par le fond, elles empêchaient de poser le coffre par-dessus (vu en simulant la pose).</li>
+    <li><b>Poutre AV</b> : plus d'accroche rapportée. Les couples du coffre qui sont dans le plan des accroches, à y <span class="num">±131, ±331, ±850</span> (parois du puits et côtés de caisse prolongés en CP 6, couples ±850 en CP 9), traversent C4 par une fente et se prolongent jusqu'à 6 de la fente du trampoline : chacun <b>est</b> l'accroche, d'une seule pièce, et l'effort de la poutre va droit dans le fond et le dessus. Découpe au profil de la poutre + 2 : dessus de la poutre, nez contre C4 et <b>lèvre sous le nez</b>, jusqu'à 45° sous l'avant du nez et 64 sous son axe ; seul le dessous de la queue reste ouvert, pour le trampoline. Ceux à ±850 montent jusqu'à l'assise et portent son avant. <b>Pose</b> : le coffre descend jusqu'à 23 au-dessus de sa place et 23 devant, puis finit en diagonale vers l'arrière (33 à 45°) : la lèvre passe sous le nez. En place, il ne ressort qu'en avançant et en montant, ce que les haubans directs AR et le brêlage empêchent. Trajectoire vérifiée pas à pas contre la poutre, les longerons, les pièces d'angle, le trampoline, la martingale et les semelles : aucun contact, jeu mini 1,2 à la fin de la course, 2 le reste du temps (le jeu de découpe). <b>Brêlage en diagonale</b> : d'un trou Ø 8 dans la lèvre de chaque couple jusqu'au pied du pilier de martingale, sous son bord avant, d'où il ne peut pas remonter ; six brins en éventail (<span class="num">255, 390 et 855</span> de long à ±131, ±331 et ±850), 10 devant les tiges de martingale. Le trampoline reste libre.</li>
+    <li><b>Couples intérieurs</b>, qui font les accroches : ils traversent C4 et prennent la poutre eux-mêmes ; ses efforts passent directement dans le fond et le dessus. À ±131, ce sont les parois du puits moteur ; à ±331, les côtés de la caisse batterie, prolongés jusqu'à C4 (CP 6, évidés derrière la caisse) ; à ±850, deux couples CP 9 sur toute la section du coffre, évidés (cadre de 60, angles R 30). <b>Pas de couple en travers</b> : seuls les couples dans le sens de la longueur, C4 et la caisse. Le coffre est fermé par C4 derrière et se referme en pointe devant ; les colliers sont à 217 de C4 et reliés par le tube ; les tubes carbone portent à 45 des joues, qui reprennent leur effort. Au droit des tubes, une <b>semelle CP 18</b> (220 × 100) est collée sur le fond contre la joue, et le haut des tubes est coupé à la pente du fond. Fond des baies latérales : panneaux de 510 × 700 en V à 14°, à stratifier (ou CP 9). Les trappes de visite de C4 sont entre les couples, sous le haut de C4 : y ±500 → ±800, z 700 → 850.</li>
+    <li><b>Fond en pente</b>, descendu pour que le puits moteur passe sous l'hélice relevée : z <span class="num">250</span> sur ±250 de x 1 860 à C4, sous l'aileron (274) et l'hélice (296) relevés ; de là, il remonte à <span class="num">12°</span> jusqu'à la pointe (z ≈ 380 au milieu, comme avant). De chaque côté, un pan remonte jusqu'à 465 au droit des joues. Le plat est réduit à ±250 pour que ce V reste au-dessus des haubans croisés AR du plan des semelles, qui passent sous les coins arrière (z 342 au droit de C4, 17 sous le fond). Même pente partout : les panneaux de fond restent plans. Au droit des joues, le bas de la pointe remonte de 100. Une seule ouverture : le bas du puits moteur, 256 × 300.</li>
+    <li><b>Bancs</b> : couples CP 9 à x <span class="num">2 160, 2 410, 2 680, 2 950, 3 212</span>, accrochés au longeron (profil + 2 mm) ; le premier est reculé de 24 pour que, pendant la fin de pose en diagonale, il passe au-dessus de la queue de la pièce d'angle. Leur joue extérieure va jusqu'à y 1 140, de 25 au-dessus du fond du banc à 44 sous l'axe (22 sous le nez). Plus de mâchoire : le couple se pose sur le longeron et le dessous reste ouvert ; c'est le laçage qui passe dessous. Un couple ne peut pas passer sous le longeron : il descend d'en haut, et la toile quitte le longeron par sa queue. Pose : coffre et bancs descendent d'une pièce et se mettent en place seuls, puis on brêle et on lace. Bancs liés au coffre : l'assise CP 9 (z 676 → 685, y 800 → 1 111) part de C4, où elle est collée, passe 79 au-dessus de la poutre et 96 au-dessus des pièces d'angle, et va jusqu'à x 3 218 (1 195 de long). Banc ouvert dessous : plus de caisson ; l'assise porte sur C4, les accroches à ±850 et les couples, dont le bas passe à z 585, au-dessus de la toile. <b>Rangement sous l'assise</b> : le long du banc, la joue (dossier) descend jusqu'au longeron, à 3 du dessus du longeron ; c'est la <b>joue qui est entaillée</b> par le bas au droit de chaque couple (9 × ≈ 55), le couple reste entier : son cou fait ≈ 50 au lieu de 3 quand le couple était entaillé (assemblage collé). Entre la toile et l'assise, il reste 110 à 145 de haut, fermé côté extérieur et ouvert côté trampoline. Les couples sont évidés en dessous, jusqu'à 35 du longeron, avec une âme de 55 sous l'assise et des angles arrondis (R 25) : le passage sous chaque couple perd 10 de haut, le rangement court toujours sur toute la longueur du banc. Au-dessus des pièces d'angle AV, la joue reste dégagée.</li>
+    <li><b>Laçage des bancs</b>, dans le plan de chaque couple : c'est lui qui tient les bancs sur les longerons et ferme le dessous. D'un longeron à l'autre sous la toile, aux <span class="num">cinq</span> couples : la ligne descend le long de la joue extérieure du couple, passe sous son bas et file tout droit sous les longerons et la toile jusqu'à l'autre bord, sans jamais traverser la toile (Ø 5 dans le modèle), à z ≈ 484–491. Le moteur ne va plus sous le trampoline : le couple 2 680 est lacé comme les autres.</li>
+    <li><b>Batterie devant le moteur</b>, bac 650 × 315 × 320 en travers (650 en travers, 315 dans le sens de la marche), posé de niveau sur deux cales transversales CP de 40, taillées au fond en pente et en V (14 à 91 de haut) : x <span class="num">1 393–1 708</span>, y ±325, z 384–704, comme avant. Il tient dans une <b>caisse</b> ajustée à 3 : cloisons CP 6 avant (x 1 384–1 390), côtés (y ±328 → ±334) et arrière (paroi avant du puits moteur, x 1 711–1 717). La caisse traverse le dessus et monte jusqu'à z <span class="num">810</span>, le niveau de la partie centrale : devant, elle dépasse de l'arrondi (150 à l'avant). Elle est ouverte, fermée par la table : <b>l'ancre</b> y est couchée en travers sur le couvercle du bac (grappin pliant de 3 à 4 kg dans le modèle, 370 × 100, z 704 → 804). Pour sortir la batterie : table et ancre ôtées, le bac monte à la verticale en passant 8 devant le tube des colliers. Nable au fond de la caisse. Fond sous le bac : CP 9, ou CP 6 stratifié des deux côtés (à 4 g : 3 MPa et 1 mm de flèche en CP 9, contre 7 MPa et 3,5 mm en CP 6) ; bac sanglé sur ses cales.</li>
+    <li><b>Moteur</b> dans l'axe, montage normal : <b>planche CP de 40 × 110</b> (x 1 814–1 854, z 480–590, largeur du puits 256) devant l'arbre, collée entre les parois du puits ; la pince de la bride se serre sur son bord haut, vis devant elle (97 de place jusqu'à la cloison) ; nez de nacelle devant, hélice derrière, poussée dans l'axe. Arbre à x <span class="num">1 910</span>. Cotes prises sur le schéma du manuel (p. 13), à l'échelle de l'arbre (900 entre tête et nacelle, Ø 30) : tête de 264 de long (135 derrière l'arbre, 129 devant avec l'articulation de la barre) et 140 de haut, barre repliée vers le haut ; nacelle Ø 100 × 220, nez à 159 devant l'arbre ; aileron de 90 ; hélice Ø 236 ; fourreau de bride de 164 ; collier de hauteur de 52. En marche : axe d'hélice à −260, bas de pale à <span class="num">−378</span>, aileron à −400. <b>Relevage vertical de 674</b> (course ≈ 684) : l'arbre coulisse dans la bride, rien ne tourne ; la nacelle s'arrête à 10 sous la bride. <b>L'hélice rentre dans le coffre</b> : en haut, elle occupe z 296 → 532 (bas à <span class="num">+296</span> au-dessus de l'eau), la nacelle z 364 → 464, l'aileron descend à +274 : tout le bas du moteur est dans le puits, 24 au-dessus de son bord bas (z 250). <b>Puits</b> CP 6 de 256 × 300 (y ±128, de x 1 717 à C4), ouvert dessous et dessus : c'est l'hélice (Ø 236) qui en fixe la largeur. La tête passe 15 derrière le tube des colliers, avancé pour cela ; elle dépasse de C4 de 22 au-dessus du nez de la poutre : C4 échancrée à y ±70 au-dessus de z 680. En position haute, un bras alu rabattu depuis le tube vient prendre l'arbre sous la tête.</li>
+    <li><b>Assiette</b> : le plan Chevalier flotte à 266 kg (centre de carène x 2 311, flottaison 2,46 m², centre x 2 506 ; 2,5 kg par mm, 50 kg·m par degré). Coffre chargé à 100 kg, CdG à x ≈ 1 700 (0,8 m devant le centre de flottaison) : le bateau pique de <span class="num">1,4°</span>, l'eau monte de 100 à l'étrave et descend de 26 au tableau ; sous le coffre elle monte de 49 à 68 : le bas du puits passe à ≈ 200 au-dessus de l'eau calme, la pointe à ≈ 310. À 150 kg : 2,1°, ≈ 175 et ≈ 280. Deux équipiers au bout des bancs (x ≈ 3,1 m) remettent le bateau à plat ; mieux vaut ranger le lourd sous les bancs et le léger dans le coffre. Menu « coffre » sous la maquette ; pointillé dans la coupe du relevage.</li>
+    <li><b>Haubans du coffre</b> (Ø 4). Au collier, 60 devant et derrière le mât : directs vers la patte d'étrave et la cadène du même bord, croisés vers la patte d'étrave opposée (œil sur un plot 45 au-dessus du collier pour passer 15 au-dessus de la joue arrondie). Le direct AV est attaché sur l'oreille du collier, 40 plus à l'extérieur : il passe dehors de la livarde rangée contre la joue, à 23. Dans le plan des semelles, sur des pontets 60 devant et derrière le pied : directs AV et AR, <b>croisés AV et AR</b> (5 à 13 au-dessus du pont). Les croisés AR s'arrêtent sur un pontet neuf au bord intérieur du pont d'en face, au droit de la cadène (x 2 690) : jusqu'à la cadène, ils traverseraient le pont bombé sur 30 cm. Ils se croisent sous le trampoline, derrière la poutre AV, et passent 17 sous les coins arrière du fond.</li>
+    <li><b>Tube alu Ø 50 × 2 entre les joues</b>, juste devant les colliers : axe à x 1 741, z 1 075 (avancé de 64 et descendu de 22 pour que la tête du moteur passe derrière lui et qu'il reste sous le haut des joues). Il traverse les joues et le dessus du coffre près des joues (manchons à prévoir), démontable. Il tient le moteur relevé par le bras rabattu sur l'arbre. Le bac de batterie passe devant lui.</li>
+    <li><b>Finition</b> : coffre, joues, assises et caisse de la batterie peints en blanc ; couples, accroches, colliers, supports de livarde, semelles et parois du puits en noir ; brêlage et laçage en bout bleu. <b>Yin-yang</b>, le dessin du bateau : Ø 360 sur la face extérieure de chaque joue, sur le dossier derrière le mât ; Ø 360 aussi sur chaque face des deux voiles, dans le coin du point d'écoute, au-dessus de la livarde : centre x 4 324, z 2 139, à 100 de la chute et 60 de la livarde. Il suit la toile quand on roule la voile. <b>Trampoline en mesh blanc</b>.</li>
+    <li><b>Livardes</b> : un tube carbone droit par voile, d'un seul côté de la toile, du mât (5,10 m sous la têtière, mâchoire contre le mât) au point d'écoute voile pleine : <span class="num">2 841</span> de long. Ø 30 × 1,5 dans le modèle, à confirmer : sur cette longueur il flambe vers 1,2 kN (carbone à 70 GPa), contre 1,9 kN en Ø 35 × 1,5.</li>
+    <li><b>Livardes rangées</b> dès que la voile est roulée, même en partie : debout, <b>verticales</b>, <b>à l'extérieur, contre la face extérieure de la joue</b>, à <span class="num">180</span> devant l'axe du mât au collier (x 1 625), loin de la voile qui se roule. Deux blocs CP de 60 × 45 collés sur la joue : en bas, un <b>godet</b> (2 × CP 10 : pli percé Ø 34 sur un pli plein, 15 au-dessus du bas de la joue) où repose le pied ; en haut, un <b>collier ouvert</b> vers l'extérieur (2 × CP 10, 60 sous le haut de la joue), où la livarde se clipse et se tient par une sangle. Livarde Ø 30 à 2 de la joue, de z 540 à 3 380 ; une garcette au mât si elle bat. Jeux : 23 au hauban direct AV (attaché 40 plus à l'extérieur pour cela), 11 au bordé du coffre ; plus de trou dans le dessus ni de fourreau.</li>
+    <li><b>Plan de découpe</b> refait sur ce coffre : panneaux du bordé dépliés, pièces plates imbriquées sur des plaques de 2 500 × 1 220, DXF à l'échelle 1 (page séparée). Reste à refaire : la tente.</li>
+  </ul>
+</section>
+
+<footer>
+  <span>STEP de la plateforme seule (hc16_plateforme.step) et du bateau complet avec coffre, gréement et haubans (hc16_rando_complet.step) : envoyés dans la conversation.</span>
+  <span>Repère : x depuis l'étrave vers l'arrière, y vers bâbord, z depuis la flottaison du plan Chevalier. Cotes en mm.</span>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const P3D = /*P3D*/null;
+const CHARGE = window.CHARGE = {xF: 2505.5, 100: [37.1, 0.02495], 150: [54.4, 0.03579]};   // coffre chargé au CdG x 1 700 : enfoncement au droit du centre de flottaison (mm), pente sur le nez
+const $ = s => document.querySelector(s);
+(() => {
+  const W = $('#viewer');
+  let R;
+  try { R = new THREE.WebGLRenderer({antialias: true, alpha: true}); }
+  catch (e) { W.insertAdjacentHTML('beforeend', '<p class="nogl">La 3D ne peut pas s\'afficher sur cet appareil. Les vues cotées ci-dessous restent lisibles.</p>'); return; }
+  R.setPixelRatio(Math.min(devicePixelRatio, 2)); W.appendChild(R.domElement);
+  R.domElement.setAttribute('role', 'img');
+  R.domElement.setAttribute('aria-label', 'Maquette 3D du HC16 : plateforme recalée, coffre, bancs, mâts, voiles et haubans');
+  const S = new THREE.Scene(), C = new THREE.PerspectiveCamera(30, 1, 50, 120000);
+  S.add(new THREE.HemisphereLight(0xffffff, 0x8a939a, .85));
+  const dl = new THREE.DirectionalLight(0xffffff, .55); dl.position.set(-3, 6, 4); S.add(dl);
+  const OX = 2600;
+  const w2t = (x, y, z) => new THREE.Vector3(x - OX, z, y);
+  const geom = o => {
+    const g = new THREE.BufferGeometry(), p = new Float32Array(o.v.length);
+    for (let i = 0; i < o.v.length; i += 3) { p[i] = o.v[i] - OX; p[i + 1] = o.v[i + 2]; p[i + 2] = o.v[i + 1]; }
+    g.setAttribute('position', new THREE.BufferAttribute(p, 3)); g.setIndex(o.t); g.computeVertexNormals(); return g;
+  };
+  const style = n => {
+    if (/^coque_/.test(n)) return {c: '#ECEBE6'};
+    if (/^trampoline/.test(n)) return {c: '#FFFFFF', g: 'tra', mesh: 30};   // mesh blanc (JD) : trame de 15 mm, tuile de 30
+    if (/^piece_angle/.test(n)) return {c: '#6E7A80', e: '#3A4449'};
+    if (/^(safran|martingale)/.test(n)) return {c: '#3A4449'};
+    return {c: '#B3BCC1', e: '#6E7A80'};
+  };
+  const G = {neu: new THREE.Group(), tra: new THREE.Group(), old: new THREE.Group(), cof: new THREE.Group(), rig: new THREE.Group(), hau: new THREE.Group(), vpl: new THREE.Group(), rou: new THREE.Group()};
+  Object.values(G).forEach(g => S.add(g));
+  const trame = () => {                              // mesh du trampoline : fils blancs, jours ajourés (tuile de 2 × 2 mailles)
+    const cv = document.createElement('canvas'); cv.width = cv.height = 64;
+    const x = cv.getContext('2d');
+    x.fillStyle = 'rgba(255,255,255,0.16)'; x.fillRect(0, 0, 64, 64);
+    x.fillStyle = '#FAFAF7';
+    for (const k of [0, 32]) { x.fillRect(0, k, 64, 11); x.fillRect(k, 0, 11, 64); }
+    const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = R.capabilities.getMaxAnisotropy();
+    return t;
+  };
+  for (const o of P3D.new) {
+    if (!o.t.length) continue;
+    const st = style(o.n), g = geom(o), grp = G[st.g || 'neu'];
+    if (st.mesh) {                                   // UV à plat (x, y du bateau) : la trame suit le trampoline
+      const P = g.attributes.position.array, uv = new Float32Array(P.length / 3 * 2);
+      for (let i = 0, j = 0; i < P.length; i += 3, j += 2) { uv[j] = P[i] / st.mesh; uv[j + 1] = P[i + 2] / st.mesh; }
+      g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+      grp.add(new THREE.Mesh(g, new THREE.MeshLambertMaterial({color: st.c, map: trame(), side: THREE.DoubleSide, transparent: true, depthWrite: false})));
+      continue;
+    }
+    grp.add(new THREE.Mesh(g, new THREE.MeshLambertMaterial({color: st.c, side: THREE.DoubleSide, transparent: !!st.o, opacity: st.o || 1, depthWrite: !st.o})));
+    if (st.e) grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g, 30), new THREE.LineBasicMaterial({color: st.e})));
+  }
+  const red = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--old').trim() || '#C23B4E');
+  const ghost = new THREE.MeshBasicMaterial({color: red, transparent: true, opacity: .16, side: THREE.DoubleSide, depthWrite: false});
+  const ghostC = new THREE.MeshBasicMaterial({color: red, transparent: true, opacity: .05, side: THREE.DoubleSide, depthWrite: false});
+  const ghostL = new THREE.LineBasicMaterial({color: red, transparent: true, opacity: .75});
+  for (const o of P3D.old) {
+    if (!o.t.length) continue;
+    const g = geom(o);
+    if (!/^trampoline/.test(o.n)) G.old.add(new THREE.Mesh(g, /^coque_/.test(o.n) ? ghostC : ghost));
+    G.old.add(new THREE.LineSegments(new THREE.EdgesGeometry(g, 25), ghostL));
+  }
+  const style2 = n => {
+    if (/^hauban/.test(n)) return {c: '#8C979C', g: 'hau', ligne: 1};
+    if (/^tube_colliers/.test(n)) return {c: '#B3BCC1', e: '#6E7A80', g: 'hau'};
+    if (/^voile_roulee/.test(n)) return {c: '#EFEAD9', g: 'rou', po: 1};
+    if (/^livarde_(fourreau|collier|godet)/.test(n)) return {c: '#26292C', e: '#000000', g: 'cof'};           // fourreau de livarde : pièce du coffre
+    if (/^livarde_.*_rangee/.test(n)) return {c: '#26292C', g: 'rou'};
+    if (/^voile_/.test(n)) return {c: '#F7F3E7', o: .9, g: 'vpl', e: '#B9B2A0'};
+    if (/^livarde_/.test(n)) return {c: '#26292C', g: 'vpl'};
+    if (/^(lacage|brelage)/.test(n)) return {c: '#2F6FB0', g: 'cof'};
+    if (/^mat_/.test(n)) return {c: '#1D2124', g: 'rig'};
+    if (/^collier_/.test(n)) return {c: '#26282B', e: '#000000', g: 'rig'};
+    if (/^pylone_coffre/.test(n)) return {c: '#26292C', g: 'cof'};
+    if (/^decor_yinyang_voile.*_blanc/.test(n)) return {c: '#FBFBF8', g: 'vpl', po: 1};            // dessin du bateau
+    if (/^decor_yinyang_voile.*_noir/.test(n)) return {c: '#141517', g: 'vpl', po: 1};
+    if (/^decor_yinyang_.*_blanc/.test(n)) return {c: '#FBFBF8', g: 'cof', po: 1};
+    if (/^decor_yinyang_.*_noir/.test(n)) return {c: '#141517', g: 'cof', po: 1};
+    if (/^ancre_/.test(n)) return {c: '#8C9296', e: '#4A5358', g: 'cof'};
+    if (/(machoire|^accroche_|^banc_.*_couple|^couple_coffre|^pylone_renfort|^batterie_cale|^semelle|^renfort_pont|^bourrage|^moteur_puits|^moteur_tableau)/.test(n))
+      return {c: '#26282B', e: '#000000', g: 'cof'};                                   // couples et pièces de maintien : noir
+    if (/^batterie$/.test(n)) return {c: '#1F5A85', g: 'cof'};
+    if (/^batterie_bac/.test(n)) return {c: '#2A3238', o: .6, g: 'cof'};
+    if (/^moteur_helice/.test(n)) return {c: '#4A5358', e: '#15181A', g: 'cof'};
+    if (/^(moteur_(arbre|tete|nacelle|bride|barre|aileron))/.test(n)) return {c: '#2B2F33', e: '#15181A', g: 'cof'};
+    if (/^bras_tube/.test(n)) return {c: '#B3BCC1', e: '#56636A', g: 'cof'};
+    if (/^(chaise|carter|moteur_)/.test(n)) return {c: '#6E4A2E', e: '#3E2A18', g: 'cof', peau: /^moteur_niche/.test(n)};
+    if (/^(joue_|banc_.*_(assise|caisson)|coffre_(coque|capot|trappe|caisse|batterie_|cloison_moteur|table))/.test(n)) return {c: '#F3F2ED', e: '#7E888E', g: 'cof', peau: 1};   // peint en blanc
+    return {c: '#D69B64', e: '#8F5A2C', g: 'cof'};
+  };
+  const peaux = [];
+  for (const o of [...(P3D.full || []), ...(P3D.roule || [])]) {
+    if (!o.t.length) continue;
+    if (P3D.rig && /^(voile|livarde(?!_(fourreau|collier|godet))|decor_yinyang_voile)/.test(o.n)) continue;   // voiles et livardes générées plus bas (réglables)
+    const st = style2(o.n), g = geom(o), grp = G[st.g];
+    const mat = new THREE.MeshLambertMaterial({color: st.c, side: THREE.DoubleSide, transparent: !!(st.o || st.peau), opacity: st.o || 1, depthWrite: !st.o,
+      polygonOffset: !!st.po, polygonOffsetFactor: st.po ? -4 : 0, polygonOffsetUnits: st.po ? -4 : 0});   // rouleau de voile : devant le mât, 5 mm plus gros
+    if (st.peau) peaux.push(mat);
+    grp.add(new THREE.Mesh(g, mat));
+    if (st.e) grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g, 30), new THREE.LineBasicMaterial({color: st.e})));
+    if (st.ligne) {                                   // hauban : trait fin toujours visible, entre les deux points les plus éloignés du tube
+      const P = g.attributes.position.array; let best = 0, ia = 0, ib = 0;
+      for (let i = 0; i < P.length; i += 3) for (let j = i + 3; j < P.length; j += 3) {
+        const d2 = (P[i] - P[j]) ** 2 + (P[i + 1] - P[j + 1]) ** 2 + (P[i + 2] - P[j + 2]) ** 2;
+        if (d2 > best) { best = d2; ia = i; ib = j; }
+      }
+      const lg = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(P[ia], P[ia + 1], P[ia + 2]), new THREE.Vector3(P[ib], P[ib + 1], P[ib + 2])]);
+      grp.add(new THREE.Line(lg, new THREE.LineBasicMaterial({color: 0x4A555B})));
+    }
+  }
+  // ---------- gréement réglable : voiles, livardes et écoutes générées ici (JD 30/09) ----------
+  const RG = P3D.rig;
+  if (RG) {
+    const qa = RG.mat.quete * Math.PI / 180, ca = Math.cos(qa), sa = Math.sin(qa);
+    const UM = [sa, 0, ca], AX = [ca, 0, -sa];                                   // axe du mât ; perpendiculaire vers l'arrière (repère bateau)
+    const C0 = RG.voile.contour, UMAX = Math.max(...C0.map(p => p[0])), WMIN = Math.min(...C0.map(p => p[1])), WMAX = Math.max(...C0.map(p => p[1]));
+    const aire = P => { let s = 0; for (let i = 0; i < P.length; i++) { const [x1, y1] = P[i], [x2, y2] = P[(i + 1) % P.length]; s += x1 * y2 - x2 * y1; } return Math.abs(s) / 2; };
+    const cdg = P => { let A = 0, cx = 0, cy = 0; for (let i = 0; i < P.length; i++) { const [x1, y1] = P[i], [x2, y2] = P[(i + 1) % P.length], c = x1 * y2 - x2 * y1; A += c; cx += (x1 + x2) * c; cy += (y1 + y2) * c; } return [cx / (3 * A), cy / (3 * A)]; };
+    const coupe = d => { const out = []; for (let i = 0; i < C0.length; i++) { const A_ = C0[i], B_ = C0[(i + 1) % C0.length], ia = A_[0] >= d, ib = B_[0] >= d; if (ia) out.push(A_); if (ia !== ib) { const t = (d - A_[0]) / (B_[0] - A_[0]); out.push([d, A_[1] + t * (B_[1] - A_[1])]); } } return out.map(([u, w]) => [u - d, w]); };
+    const A0 = aire(C0);
+    const roule = f => { if (f <= 0) return 0; if (f >= 1) return null; let lo = 0, hi = UMAX; for (let k = 0; k < 50; k++) { const d = (lo + hi) / 2; if (aire(coupe(d)) > (1 - f) * A0) lo = d; else hi = d; } return (lo + hi) / 2; };
+    const interp = (L, x) => { if (x <= L[0][0]) return L[0][1]; for (let i = 0; i < L.length - 1; i++) if (x <= L[i + 1][0]) { const [x0, z0] = L[i], [x1, z1] = L[i + 1]; return z0 + (z1 - z0) * (x - x0) / (x1 - x0); } return L[L.length - 1][1]; };
+    const toile = (() => {                                                        // toile + yin-yang à sa place sur la toile (il suit la toile quand elle se roule)
+      const Wc = 1024, Hc = 2048, cv = document.createElement('canvas'); cv.width = Wc; cv.height = Hc;
+      const x = cv.getContext('2d'); x.fillStyle = '#F7F3E7'; x.fillRect(0, 0, Wc, Hc);
+      const dec = RG.voile.decor;
+      if (dec) {
+        const kx = Wc / UMAX, ky = Hc / (WMAX - WMIN), Nn = '#141517', Bb = '#FBFBF8', Rd = dec.r, rd = Rd * 0.93;
+        x.save(); x.translate(dec.u * kx, (WMAX - dec.w) * ky); x.scale(kx, ky);
+        const disque = (cx, cy, rr, col, a0 = 0, a1 = 2 * Math.PI) => { x.fillStyle = col; x.beginPath(); x.moveTo(cx, cy); x.arc(cx, cy, rr, a0, a1); x.closePath(); x.fill(); };
+        disque(0, 0, Rd, Nn); disque(0, 0, rd, Bb, Math.PI / 2, 3 * Math.PI / 2); disque(0, 0, rd, Nn, -Math.PI / 2, Math.PI / 2);
+        disque(0, -rd / 2, rd / 2, Bb); disque(0, rd / 2, rd / 2, Nn); disque(0, -rd / 2, rd / 6, Nn); disque(0, rd / 2, rd / 6, Bb);
+        x.restore();
+      }
+      const t = new THREE.CanvasTexture(cv); t.anisotropy = R.capabilities.getMaxAnisotropy(); return t;
+    })();
+    const matS = new THREE.MeshLambertMaterial({map: toile, side: THREE.DoubleSide, transparent: true, opacity: .95});
+    const matR = new THREE.MeshLambertMaterial({color: '#EFEAD9'}), matL = new THREE.MeshLambertMaterial({color: '#26292C'});
+    const matE = new THREE.LineBasicMaterial({color: 0x2F6FB0}), matI = new THREE.LineDashedMaterial({color: 0xC0512F, dashSize: 70, gapSize: 45});
+    const matP = new THREE.MeshLambertMaterial({color: '#2F6FB0'}), matPI = new THREE.MeshLambertMaterial({color: '#C0512F'});
+    const Y3 = new THREE.Vector3(0, 1, 0);
+    const tige = (p0, p1, r0, r1, mat) => { const a3 = w2t(...p0), b3 = w2t(...p1), d3 = b3.clone().sub(a3), L = d3.length();
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(r1, r0, L, 14, 1, false), mat); m.position.copy(a3).addScaledVector(d3, .5); m.quaternion.setFromUnitVectors(Y3, d3.normalize()); return m; };
+    const bille = (p, r, mat) => { const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat); m.position.copy(w2t(...p)); return m; };
+    const ligne = (pts, mat) => { const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(p => w2t(...p))), mat); if (mat.isLineDashedMaterial) l.computeLineDistances(); return l; };
+    const gre = new THREE.Group(); G.vpl.add(gre);
+    const st = {enr: {babord: 0, tribord: 0}, choc: 15, am: 1, pt: 'poutre', pos: {poutre: 900, flotteur: 4800}};
+    const ptEcoute = (sg, typ = st.pt, pos = st.pos[st.pt]) => typ === 'poutre' ? [RG.poutre_ar.x, sg * pos, interp(RG.poutre_ar.top, pos) + 10]
+                                                                               : [pos, sg * RG.flotteur.y, interp(RG.flotteur.pont, pos) + 20];
+    const angle = (a, b) => { const d = a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; return Math.acos(Math.max(-1, Math.min(1, d / Math.hypot(...a) / Math.hypot(...b)))) * 180 / Math.PI; };
+    const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const mesure = (o, E) => {                                                   // écoute C -> E comparée à la tire idéale, dans le plan de la voile
+      const C = o.clew, v = sub(E, C), n = o.nr, vn = dot(v, n), vp = [v[0] - vn * n[0], v[1] - vn * n[1], v[2] - vn * n[2]];
+      return {v, ecart: angle(vp, sub(C, o.M)), hors: Math.atan2(Math.abs(vn), Math.hypot(...vp)) * 180 / Math.PI, borde: st.am * vn < 0};
+    };
+    function calcul(nom, sg) {                                                   // géométrie d'une voile pour l'état courant
+      const th = st.choc * Math.PI / 180 * st.am, ct = Math.cos(th), sn = Math.sin(th);
+      const axr = [AX[0] * ct, sn, AX[2] * ct], nr = [-ca * sn, ct, sa * sn];
+      const f = [RG.mat.x, sg * RG.mat.y, RG.mat.z];
+      const P = (u, w) => [f[0] + UM[0] * w + axr[0] * u, f[1] + UM[1] * w + axr[1] * u, f[2] + UM[2] * w + axr[2] * u];
+      const fr = st.enr[nom] / 100, d = roule(fr), o = {nom, sg, P, nr, fr, d, S: 0};
+      if (d !== null) {
+        o.rem = d > 0 ? coupe(d) : C0.map(p => p.slice());
+        o.S = aire(o.rem); const [cu, cw] = cdg(o.rem); o.zce = P(cu, cw)[2];
+        o.clew = P(C0[1][0] - d, C0[1][1]);
+        const lu = o.rem.filter(([u]) => Math.abs(u) < 1e-6).map(([, w]) => w);
+        o.M = P(0, lu.length >= 2 ? (Math.min(...lu) + Math.max(...lu)) / 2 : (C0[0][1] + C0[C0.length - 1][1]) / 2);
+      }
+      return o;
+    }
+    const tire = (o, E) => {                                                     // tire idéale : du milieu du guindant par le point d'écoute, jusqu'à la hauteur du point E
+      const C = o.clew, M = o.M, dz = C[2] - M[2];
+      if (!C || dz >= 0 || C[2] <= E[2]) return null;
+      const t = (E[2] - C[2]) / dz; return [C[0] + (C[0] - M[0]) * t, C[1] + (C[1] - M[1]) * t, E[2]];
+    };
+    const fr_ = n => Math.round(n).toLocaleString('fr-FR');
+    function majVoiles() {
+      gre.traverse(o => { if (o.geometry) o.geometry.dispose(); }); gre.clear();
+      const r_m = RG.mat.diam / 2, rl = RG.livarde.diam / 2, w_t = C0[0][1], w_h = C0[C0.length - 1][1];
+      let mom = 0, S = 0, momPlein = 0; const lignes = [];
+      for (const [nom, sg] of [['babord', 1], ['tribord', -1]]) {
+        const o = calcul(nom, sg), P = o.P;
+        const [cu0, cw0] = cdg(C0); momPlein += A0 * (RG.mat.z + UM[2] * cw0 + AX[2] * cu0);
+        if (o.rem) {
+          const g = new THREE.ShapeGeometry(new THREE.Shape(o.rem.map(([u, w]) => new THREE.Vector2(u, w))));
+          const pos = g.attributes.position, uv = g.attributes.uv;
+          for (let i = 0; i < pos.count; i++) { const u = pos.getX(i), w = pos.getY(i), p = w2t(...P(u, w)); pos.setXYZ(i, p.x, p.y, p.z); uv.setXY(i, (u + o.d) / UMAX, (w - WMIN) / (WMAX - WMIN)); }
+          pos.needsUpdate = true; uv.needsUpdate = true; g.computeVertexNormals();
+          gre.add(new THREE.Mesh(g, matS));
+          mom += o.S * o.zce; S += o.S;
+        }
+        if (o.fr > 0) {                                                          // rouleau autour du mât
+          const l_r = o.d === null ? UMAX : o.d, rb = Math.sqrt(r_m * r_m + l_r * RG.voile.toile / Math.PI) + 4, rh = o.d === null ? r_m + 3 : rb;
+          gre.add(tige(P(0, w_t), P(0, w_h), rb, rh, matR));
+        }
+        if (o.fr === 0) {                                                        // livarde posée, contre la voile côté extérieur
+          const q0 = P(0, RG.livarde.w), s1 = o.clew, dv = sub(s1, q0), Ld = Math.hypot(...dv), e = (r_m + RG.livarde.jeu) / Ld, off = o.nr.map(v => v * sg * (rl + 1));
+          gre.add(tige([q0[0] + dv[0] * e + off[0], q0[1] + dv[1] * e + off[1], q0[2] + dv[2] * e + off[2]], [s1[0] + off[0], s1[1] + off[1], s1[2] + off[2]], rl, rl, matL));
+        } else {                                                                 // rangée debout contre la joue, devant le mât (pied dans le godet)
+          const fo = RG.livarde.fourreau[nom];
+          if (fo) gre.add(tige([fo.x, fo.y, fo.z_bas], [fo.x, fo.y, fo.z_bas + RG.livarde.L], rl, rl, matL));
+        }
+        if (o.clew) {                                                            // écoute et tire idéale
+          const E = ptEcoute(sg), I = tire(o, E), C = o.clew, ve = sub(E, C);
+          gre.add(ligne([C, E], matE)); gre.add(bille(E, 24, matP));
+          if (I) { gre.add(ligne([o.M, C, I], matI)); gre.add(bille(I, 20, matPI)); }
+          const ms = mesure(o, E);
+          lignes.push({nom, S: o.S, d: o.d, L: Math.hypot(...ve), I, ecart: ms.ecart, hors: ms.hors, borde: ms.borde,
+                       pente: Math.atan2(-ve[2], Math.hypot(ve[0], ve[1])) * 180 / Math.PI, liv: o.fr === 0 ? 'posée' : 'rangée'});
+        } else lignes.push({nom, S: 0, d: null, liv: 'rangée'});
+      }
+      // affichage
+      const q = s => document.getElementById(s);
+      q('o-enr-b').value = st.enr.babord + ' %'; q('o-enr-t').value = st.enr.tribord + ' %'; q('o-choc').value = st.choc + '°';
+      q('o-pos').value = st.pt === 'poutre' ? 'y ' + fr_(st.pos.poutre) : 'x ' + fr_(st.pos.flotteur);
+      const cell = l => l.S ? `<td>${(l.S / 1e6).toFixed(2).replace('.', ',')} m²<small>roulé ${fr_(l.d)}</small></td><td>${(l.L / 1000).toFixed(2).replace('.', ',')} m<small>${Math.round(l.pente)}° sous l'horizontale</small></td>`
+        + `<td>${l.I ? 'x ' + fr_(l.I[0]) : '—'}<small>${l.I ? 'à la hauteur du point, dans le plan de la voile' : 'ne descend pas jusqu\'au point'}</small></td>`
+        + `<td>${Math.round(l.ecart)}°<small>${l.borde ? 'borde' : 'ne retient plus'} la voile, ${Math.round(l.hors)}° hors de son plan ; livarde ${l.liv}</small></td>`
+        : `<td>roulée</td><td>—</td><td>—</td><td>—<small>livarde rangée</small></td>`;
+      q('t-voiles').innerHTML = lignes.map(l => `<tr><th>${l.nom}</th>${cell(l)}</tr>`).join('');
+      q('v-surf').innerHTML = (S / 1e6).toFixed(1).replace('.', ',') + ' m²<small>' + Math.round(100 * S / (2 * A0)) + ' % des deux voiles pleines</small>';
+      q('v-chav').innerHTML = Math.round(100 * RG.hc16_ratio * mom / momPlein) + ' %<small>du HC16 d\'origine (surface × hauteur du CV)</small>';
+    }
+    const q = s => document.getElementById(s);
+    const lie = (id, fn) => q(id).addEventListener('input', e => { fn(e.target.value); majVoiles(); });
+    lie('r-enr-b', v => st.enr.babord = +v); lie('r-enr-t', v => st.enr.tribord = +v); lie('r-choc', v => st.choc = +v);
+    lie('r-pos', v => st.pos[st.pt] = +v);
+    document.querySelectorAll('input[name=amures]').forEach(r => r.addEventListener('change', e => { st.am = +e.target.value; majVoiles(); }));
+    const bornes = () => { const r = q('r-pos'); if (st.pt === 'poutre') { r.min = 150; r.max = 1000; r.step = 10; q('l-pos').textContent = 'Point sur la poutre AR, depuis l\'axe'; }
+                           else { r.min = RG.flotteur.x[0]; r.max = RG.flotteur.x[1]; r.step = 10; q('l-pos').textContent = 'Pontet sur le flotteur, x depuis l\'étrave'; } r.value = st.pos[st.pt]; };
+    q('s-ecoute').addEventListener('change', e => { st.pt = e.target.value; bornes(); majVoiles(); });
+    q('b-tire').addEventListener('click', () => {                               // met le point là où l'écoute suit au mieux la tire idéale (voile bâbord)
+      const o = calcul('babord', 1); if (!o.clew) return;
+      const r = q('r-pos'); let best = null;
+      for (let v = +r.min; v <= +r.max; v += 5) { const E = ptEcoute(1, st.pt, v); if (E[2] >= o.clew[2]) continue; const a = mesure(o, E).ecart; if (!best || a < best[0]) best = [a, v]; }
+      if (best) { st.pos[st.pt] = best[1]; r.value = best[1]; majVoiles(); }
+    });
+    q('b-roule').addEventListener('click', () => { const tout = st.enr.babord < 100 || st.enr.tribord < 100; st.enr.babord = st.enr.tribord = tout ? 100 : 0; q('r-enr-b').value = q('r-enr-t').value = st.enr.babord; majVoiles(); });
+    bornes(); majVoiles();
+  }
+  const RL = P3D.relevage, motG = new THREE.Group(), brasG = new THREE.Group();   // relevage vertical : pièces mobiles montées de la levée
+  const ajoute = (o, grp) => {
+    if (!o.t.length) return;
+    const st = style2(o.n), g = geom(o);
+    grp.add(new THREE.Mesh(g, new THREE.MeshLambertMaterial({color: st.c, side: THREE.DoubleSide})));
+    if (st.e) grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g, 30), new THREE.LineBasicMaterial({color: st.e})));
+  };
+  if (RL) {
+    G.cof.add(motG); G.cof.add(brasG);
+    for (const o of P3D.moteur || []) ajoute(o, motG);
+    for (const o of P3D.bras || []) ajoute(o, brasG);
+  }
+  window.poseMoteur = l => { motG.position.y = l; brasG.visible = !!RL && l >= RL.levee_max - 0.5; };   // z bateau = y three.js
+  const eau = new THREE.Mesh(new THREE.PlaneGeometry(6600, 3500), new THREE.MeshBasicMaterial({color: 0x3B7EA1, transparent: true, opacity: .14, side: THREE.DoubleSide, depthWrite: false}));
+  eau.rotation.x = -Math.PI / 2;
+  const eauG = new THREE.Group(); eauG.add(eau); S.add(eauG);
+  const CHG = CHARGE;
+  const poseEau = w => {                             // w : charge du coffre (kg)
+    const q = CHG[w] || [0, 0];
+    eau.position.set(2600 - CHG.xF, 0, 0); eauG.position.copy(w2t(CHG.xF, 0, q[0])); eauG.rotation.z = -Math.atan(q[1]);
+  };
+  poseEau(0);
+
+  const LB = [[2070, 0, 730, 'Poutre AV · x 2 070'], [4145, 0, 640, 'Poutre AR · x 4 145'], [3110, 1093, 640, 'Longeron · y 1 093'],
+    [2070, 0, 230, 'Pilier de martingale · 170 sous l’axe'], [2070, 850, 560, 'Tige inox · jour de 15 sous la poutre']]
+    .map(([x, y, z, t]) => { const d = document.createElement('div'); d.className = 'lbl'; d.textContent = t; d.hidden = true; W.appendChild(d); return {p: w2t(x, y, z), d}; });
+
+  const T0 = w2t(2600, 0, 250), T1 = w2t(2700, 0, 3500);
+  const V = {av: [2.35, 1.2, 7400], ar: [-0.75, 1.15, 7400], pr: [Math.PI / 2, Math.PI / 2, 7000], de: [Math.PI / 2, 0.02, 6800], fa: [Math.PI, Math.PI / 2, 6000]};
+  let [th, ph, rd] = V.av, goal = null;
+  const RMIN = 120, RMAX = 30000, clampR = x => Math.min(RMAX, Math.max(RMIN, x));
+  // cible de la caméra : suit la maquette (avec ou sans gréement) jusqu'à ce qu'on la déplace ou qu'on centre sur un point
+  const tgt = T1.clone(); let tgtGoal = null, libre = false, mult = 2.9;
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vues = document.querySelectorAll('button.v[data-v]');
+  vues.forEach(b => b.addEventListener('click', () => {
+    vues.forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    libre = false; goal = V[b.dataset.v].slice();
+    if (calme) { [th, ph, rd] = goal; goal = null; }
+  }));
+  const liberer = () => { if (!libre) { rd *= mult; mult = 1; libre = true; } vues.forEach(x => x.setAttribute('aria-pressed', 'false')); };
+  let rCur = 1;
+  const panBy = (dx, dy) => {
+    liberer(); tgtGoal = null;
+    const k = 2 * rCur * Math.tan(C.fov * Math.PI / 360) / h;
+    const ri = new THREE.Vector3().setFromMatrixColumn(C.matrix, 0), hu = new THREE.Vector3().setFromMatrixColumn(C.matrix, 1);
+    tgt.addScaledVector(ri, -dx * k).addScaledVector(hu, dy * k);
+  };
+  const ray = new THREE.Raycaster();
+  const vu = o => { for (; o; o = o.parent) if (!o.visible) return false; return true; };
+  const centrer = (cx, cy) => {                       // double-clic : centre la vue sur le point visé et s'en approche
+    const b = W.getBoundingClientRect();
+    ray.setFromCamera({x: (cx - b.left) / b.width * 2 - 1, y: -(cy - b.top) / b.height * 2 + 1}, C);
+    const hit = ray.intersectObjects(S.children, true).find(o => o.object.isMesh && o.object !== eau && vu(o.object));
+    if (!hit) return;
+    liberer(); tgtGoal = hit.point.clone();
+    goal = [th, ph, Math.min(rd, 1400)];
+    if (calme) { tgt.copy(tgtGoal); tgtGoal = null; rd = goal[2]; goal = null; }
+  };
+  const pp = new Map(); let pd = 0, pm = null, dep = null, tap = 0, tapXY = [0, 0], tapTouch = 0;
+  W.addEventListener('contextmenu', e => e.preventDefault());
+  W.addEventListener('pointerdown', e => {
+    W.setPointerCapture(e.pointerId); pp.set(e.pointerId, [e.clientX, e.clientY]); goal = null;
+    if (pp.size === 1) { pm = e.button === 2 || e.button === 1 || e.shiftKey ? 'pan' : 'rot'; dep = [e.clientX, e.clientY, performance.now()]; }
+  });
+  W.addEventListener('pointermove', e => {
+    if (!pp.has(e.pointerId)) return; const o = pp.get(e.pointerId);
+    if (pp.size === 1) {
+      if (pm === 'pan') panBy(e.clientX - o[0], e.clientY - o[1]);
+      else { th += (e.clientX - o[0]) * .008; ph = Math.min(3.12, Math.max(.02, ph - (e.clientY - o[1]) * .008)); }
+      pp.set(e.pointerId, [e.clientX, e.clientY]); return;
+    }
+    const [a0, b0] = [...pp.values()]; const m0 = [(a0[0] + b0[0]) / 2, (a0[1] + b0[1]) / 2];
+    pp.set(e.pointerId, [e.clientX, e.clientY]);
+    const [a, b] = [...pp.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    if (pd) rd = clampR(rd * pd / d); pd = d;
+    panBy(((a[0] + b[0]) / 2 - m0[0]), ((a[1] + b[1]) / 2 - m0[1]));      // deux doigts : pincer pour zoomer, glisser pour déplacer
+  });
+  const up = e => {
+    if (pp.size === 1 && dep && e.pointerType !== 'mouse') {                // double tape au doigt : centrer
+      const t = performance.now(), fixe = Math.hypot(e.clientX - dep[0], e.clientY - dep[1]) < 8 && t - dep[2] < 300;
+      if (fixe && t - tap < 350 && Math.hypot(e.clientX - tapXY[0], e.clientY - tapXY[1]) < 30) { centrer(e.clientX, e.clientY); tap = 0; tapTouch = t; }
+      else if (fixe) { tap = t; tapXY = [e.clientX, e.clientY]; }
+    }
+    pp.delete(e.pointerId); pd = 0;
+  };
+  W.addEventListener('pointerup', up); W.addEventListener('pointercancel', e => { pp.delete(e.pointerId); pd = 0; });
+  W.addEventListener('dblclick', e => { if (performance.now() - tapTouch > 600) centrer(e.clientX, e.clientY); });
+  W.addEventListener('wheel', e => { e.preventDefault(); goal = null; rd = clampR(rd * Math.exp(e.deltaY * .001)); }, {passive: false});
+  // agrandir : plein écran si le navigateur l'accepte, sinon la maquette occupe toute la fenêtre
+  const SEC = W.closest('section'), bG = $('#b-grand');
+  const grand = on => { SEC.classList.toggle('grand', on); bG.setAttribute('aria-pressed', on ? 'true' : 'false'); bG.textContent = on ? 'Réduire' : 'Agrandir'; };
+  bG.addEventListener('click', async () => {
+    const on = !SEC.classList.contains('grand');
+    if (on) { grand(true); try { if (SEC.requestFullscreen) await SEC.requestFullscreen(); } catch (err) {} }
+    else { grand(false); try { if (document.fullscreenElement) await document.exitFullscreen(); } catch (err) {} }
+  });
+  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && SEC.classList.contains('grand')) grand(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && SEC.classList.contains('grand') && !document.fullscreenElement) grand(false); });
+  let w = 1, h = 1;
+  const size = () => { w = W.clientWidth; h = W.clientHeight; R.setSize(w, h); C.aspect = w / h; C.updateProjectionMatrix(); };
+  new ResizeObserver(size).observe(W); size();
+  const v = new THREE.Vector3();
+  function loop() {
+    if (goal) {
+      th += (goal[0] - th) * .14; ph += (goal[1] - ph) * .14; rd += (goal[2] - rd) * .14;
+      if (Math.abs(goal[0] - th) + Math.abs(goal[1] - ph) < 1e-3 && Math.abs(goal[2] - rd) < 1) goal = null;
+    }
+    G.old.visible = $('#c-old').checked; G.tra.visible = $('#c-tra').checked; eau.visible = $('#c-eau').checked; poseEau(+$('#s-charge').value);
+    G.cof.visible = $('#c-cof').checked; G.rig.visible = $('#c-rig').checked; G.hau.visible = $('#c-hau').checked;
+    G.vpl.visible = G.rig.visible; G.rou.visible = false;
+    const tp = $('#c-trp').checked;
+    for (const m of peaux) { m.opacity = tp ? .25 : 1; m.depthWrite = !tp; }
+    const rig = G.rig.visible;
+    if (!libre) { tgtGoal = rig ? T1 : T0; mult += ((rig ? 2.9 : 1) - mult) * .14; }
+    if (tgtGoal) { tgt.lerp(tgtGoal, calme ? 1 : .14); if (tgt.distanceTo(tgtGoal) < .5) { tgt.copy(tgtGoal); if (libre) tgtGoal = null; } }
+    const T = tgt, r = rCur = rd * mult * Math.pow(Math.max(1, 1.6 / C.aspect), .8);
+    C.near = Math.max(4, r * .02); C.far = r * 30 + 30000; C.updateProjectionMatrix();
+    C.position.set(T.x + r * Math.sin(ph) * Math.cos(th), T.y + r * Math.cos(ph), T.z + r * Math.sin(ph) * Math.sin(th)); C.lookAt(T);
+    R.render(S, C);
+    const on = $('#c-lbl').checked;
+    for (const l of LB) {
+      v.copy(l.p).project(C);
+      const vis = on && v.z < 1 && Math.abs(v.x) < .96 && Math.abs(v.y) < .96;
+      l.d.hidden = !vis;
+      if (vis) { l.d.style.left = ((v.x + 1) / 2 * w) + 'px'; l.d.style.top = ((1 - v.y) / 2 * h) + 'px'; }
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+<script>
+(() => {                                             // relevage vertical du moteur : coupe dans l'axe, valeurs, maquette 3D
+  const RL = P3D && P3D.relevage, sl = $('#c-bascule'), svg = $('#coupe'), bA = $('#b-anim');
+  if (!RL) return;
+  const NS = 'http://www.w3.org/2000/svg', G = RL.geom, LM = RL.levee_max;
+  sl.max = LM; $('#t-mi').textContent = Math.round(LM / 2); $('#t-max').textContent = LM + ' relevé';
+  const fr = n => Math.round(n).toLocaleString('fr-FR'), sz = n => (n < 0 ? '−' : '+') + fr(Math.abs(n));
+  const el = (tag, at, txt, par) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; (par || svg).appendChild(e); return e; };
+  const txt = (x, z, s, at = {}, par) => el('text', Object.assign({x, y: -z, 'font-size': 28}, at), s, par);
+  const pts = (dz, P) => P.map(([x, z]) => x.toFixed(1) + ',' + (-(z + dz)).toFixed(1)).join(' ');
+  const C = RL.coupe;
+  el('line', {class: 'c-eau', x1: 1170, y1: 0, x2: 2270, y2: 0});
+  txt(1185, 16, 'flottaison', {class: 't-eau'});
+  const CH = window.CHARGE && window.CHARGE[100];
+  if (CH) {                                              // coffre chargé à 100 kg : l'eau monte et le bateau pique du nez
+    const hz = x => CH[0] + CH[1] * (window.CHARGE.xF - x);
+    el('line', {class: 'c-eau c-eau2', x1: 1170, y1: (-hz(1170)).toFixed(1), x2: 2270, y2: (-hz(2270)).toFixed(1)});
+    txt(1185, hz(1185) + 16, 'coffre chargé 100 kg', {class: 't-eau', 'font-size': 22});
+  }
+  const dm = G.dm || 0, af = G.xcol - G.xf, ell = Array.from({length: 41}, (_, i) => { const u = Math.PI / 2 * i / 40; return [G.xcol - af * Math.cos(u), G.zb + dm + (G.zt - G.zb - dm) * Math.sin(u)]; });
+  el('polygon', {class: 'c-profil', points: [[G.xa, G.zb], ...(dm > 0 ? [[G.x0p, G.zb]] : []), ...ell, [G.xa, G.zt]].map(([x, z]) => x.toFixed(1) + ',' + (-z).toFixed(1)).join(' ')});
+  el('path', {class: 'c-chem', d: C.cheminee});
+  el('path', {class: 'c-marting', d: C.martingale});
+  el('path', {class: 'c-coffre', d: C.coffre, 'fill-rule': 'evenodd'});
+  el('path', {class: 'c-coffre', d: C.cloisons});
+  el('path', {class: 'c-ancre', d: C.ancre});
+  el('path', {class: 'c-bac', d: C.bac, 'fill-rule': 'evenodd'});
+  el('path', {class: 'c-cell', d: C.cellule});
+  el('path', {class: 'c-tableau', d: C.tableau});
+  if (C.bride) el('path', {class: 'c-mot', d: C.bride});
+  el('path', {class: 'c-poutre', d: C.poutre, 'fill-rule': 'evenodd'});
+  el('path', {class: 'c-trampo', d: C.trampoline});
+  el('path', {class: 'c-tube', d: C.tube});
+  const bras = el('path', {class: 'c-bras', d: C.bras});
+  // position de marche en pointillé, pièces mobiles pleines
+  const S = RL.sil, N = Object.keys(S);
+  for (const n of N) for (const P of S[n]) el('polygon', {class: 'c-fant', points: pts(0, P)});
+  const poly = [];
+  for (const n of N) for (const P of S[n]) poly.push([el('polygon', {class: n === 'moteur_helice' ? 'c-helice' : 'c-mot'}), P]);
+  // repères
+  txt(G.bac[0] + (G.bac[1] - G.bac[0]) / 2, G.bac[3] - 60, 'bac', {'text-anchor': 'middle'});
+  if (G.caisse) txt(G.caisse[0] - 14, G.caisse[2] - 40, 'caisse', {'text-anchor': 'end', class: 't-bois'});
+  if (G.ancre) txt(G.ancre[0], G.ancre[1] + 22, 'ancre', {'text-anchor': 'middle'});
+  txt(G.bac[0] + (G.bac[1] - G.bac[0]) / 2, G.bac[3] - 96, '650 × 315 × 320', {'text-anchor': 'middle', 'font-size': 22});
+  txt(G.xa - 12, G.zt + 22, 'C4', {'text-anchor': 'end', class: 't-bois'});
+  txt(G.puits[0] + 10, G.zt + 22, 'puits', {class: 't-bois'});
+  txt(G.tube[0] - 30, G.tube[1] + 58, 'tube des colliers', {'text-anchor': 'end'});
+  txt(2190, 700, 'poutre AV', {'text-anchor': 'middle'});
+  txt(2262, 575, 'trampoline', {'text-anchor': 'end', 'font-size': 24});
+  txt(2095, 250, 'martingale', {'text-anchor': 'start', 'font-size': 24});
+  txt(G.xf - 12, G.zb - 34, 'pointe x ' + fr(G.xf), {'text-anchor': 'start', 'font-size': 22, class: 't-bois'});
+  txt(1880, G.bride[0] - 40, 'bride', {'text-anchor': 'end', 'font-size': 24, class: 't-mot'});
+  if (G.planche) txt(G.planche[0] - 8, (G.planche[2] + G.planche[3]) / 2 - 8, 'planche', {'text-anchor': 'end', 'font-size': 22, class: 't-bois'});
+  if (G.table) txt(G.table[0] + 20, G.table[2] + 16, 'table', {'font-size': 24, class: 't-bois'});
+  const court = n => ({moteur_arbre: 'arbre', moteur_tete: 'tête', moteur_barre: 'barre', moteur_nacelle: 'nacelle', moteur_helice: 'hélice', moteur_aileron: 'aileron',
+    coffre_coque: 'coffre', moteur_puits: 'puits', moteur_tableau: 'planche', moteur_etrier: 'étrier', moteur_bride: 'bride', poutre_av: 'poutre AV',
+    trampoline: 'trampoline', batterie_bac: 'bac', tube_colliers: 'tube', coffre_cloison_moteur: 'cloison', martingale_pilier: 'pilier de martingale'}[n]
+    || (/^hauban/.test(n) ? 'hauban' : /^couple_coffre/.test(n) ? 'couple' : /^brelage/.test(n) ? 'brêlage' : /^livarde_(fourreau|collier|godet)/.test(n) ? 'support de livarde' : /^accroche/.test(n) ? 'accroche' : /^lacage/.test(n) ? 'laçage' : /^martingale/.test(n) ? 'tige de martingale' : n));
+  const B = RL.balayage;
+  function maj(l) {
+    $('#o-bascule').value = Math.round(l) + ' mm';
+    for (const [e, P] of poly) e.setAttribute('points', pts(l, P));
+    bras.style.display = l >= LM - 0.5 ? '' : 'none';
+    if (window.poseMoteur) window.poseMoteur(l);
+    let r = B[0]; for (const b of B) if (Math.abs(b.l - l) < Math.abs(r.l - l)) r = b;
+    $('#v-bas').innerHTML = 'z ' + sz(G.bas_aileron + l) + '<small>bas de l’aileron</small>';
+    $('#v-hel').innerHTML = 'z ' + sz(G.bas_pale + l) + '<small>' + (G.bas_pale + l > 0 ? 'hors de l’eau' : 'dans l’eau') + '</small>';
+    const j = r.jeux, q = r.qui;
+    $('#v-tube').innerHTML = fr(j.tube) + '<small>' + court(q.tube[0]) + ' · tube</small>';
+    let k = null;
+    for (const c of ['coffre', 'poutre', 'bride', 'batterie', 'trampoline', 'haubans', 'autre']) if (c in j && (k === null || j[c] < j[k])) k = c;
+    $('#v-cof').innerHTML = fr(j[k]) + '<small>' + court(q[k][0]) + ' · ' + court(q[k][1]) + '</small>';
+    bA.textContent = l < LM / 2 ? 'Relever' : 'Baisser';
+  }
+  let anim = null;
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  sl.addEventListener('input', () => { anim = null; maj(+sl.value); });
+  bA.addEventListener('click', () => {
+    const but = +sl.value < LM / 2 ? LM : 0;
+    if (calme) { sl.value = but; maj(but); return; }
+    let t0 = null; const a0 = +sl.value;
+    const pas = t => {
+      if (anim !== pas) return;
+      if (t0 === null) t0 = t;
+      const a = a0 + Math.sign(but - a0) * Math.min(Math.abs(but - a0), (t - t0) * .2);
+      sl.value = Math.round(a); maj(a);
+      if (a !== but) requestAnimationFrame(pas); else anim = null;
+    };
+    anim = pas; requestAnimationFrame(pas);
+  });
+  maj(+sl.value);
+})();
+</script>
