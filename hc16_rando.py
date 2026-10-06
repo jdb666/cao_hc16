@@ -1375,7 +1375,7 @@ def hauteur_emplanture(emp):
 def pivot_emplanture(emp):
     """Axe du boulon au-dessus de la semelle : pivot de la cale pointe en bas (JD 06/10)."""
     r, ca = emp["rail"], emp["cale"]
-    return r.get("axe_z", r["ep"] + ca.get("trou_z", 12))
+    return r["axe_z"] if "axe_z" in r else r["ep"] + ca.get("trou_z", 12)
 
 
 def quetes_crans(cfg):
@@ -1404,6 +1404,8 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
     oe, to = co["oeil"], co["tourillon"]
     noir = cq.Color(0.12, 0.12, 0.12); alu = cq.Color(0.72, 0.74, 0.77); inox = cq.Color(0.80, 0.82, 0.84)
     ra = co["alesage"] / 2
+    cp_ = co.get("materiau") == "cp"                   # (JD 06/10 soir) CP collé stratifié : plis de CP 10, chemise PEHD dans l'alésage
+    rc_ = ra + (co.get("chemise", 0) if cp_ else 0)    # alésage et ouverture du bois
     s_t = CG["s_t"]
     ax_c = co.get("axe") if co.get("ouverture_ar") else None
     if co.get("ouverture_ar"):                         # (JD 06/10) ouvert vers l'arrière : le mât y entre par l'arrière en se relevant
@@ -1412,11 +1414,12 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
         corps = (cq.Workplane("XY").box(nez + sa_, dy + dyi, ep, centered=(False, False, True)).translate((-nez, -dyi, 0))
                  .edges("|Z and <X").fillet(20).edges("|Z and >X").fillet(12))
         if si_ > sa_ + 1:                              # branche intérieure prolongée jusqu'au tourillon (tube derrière le mât)
-            ext = (cq.Workplane("XY").box(si_ - sa_ + 20, dyi - ra, ep, centered=(False, False, True)).translate((sa_ - 20, -dyi, 0))
-                   .edges("|Z and >X").fillet(min(15, (dyi - ra) / 2 - 1)))
+            ext = (cq.Workplane("XY").box(si_ - sa_ + 20, dyi - rc_, ep, centered=(False, False, True)).translate((sa_ - 20, -dyi, 0))
+                   .edges("|Z and >X").fillet(min(15, (dyi - rc_) / 2 - 1)))
             corps = corps.union(ext)
-        corps = corps.cut(cq.Workplane("XY").circle(ra).extrude(ep, both=True))
-        corps = corps.cut(cq.Workplane("XY").box(max(sa_, si_) + 30, 2 * ra, ep + 2, centered=(False, True, True)))
+        corps = corps.cut(cq.Workplane("XY").circle(rc_).extrude(ep, both=True))
+        corps = corps.cut(cq.Workplane("XY").box(max(sa_, si_) + 30, 2 * rc_, ep + 2, centered=(False, True, True)))
+        corps_plis = corps.val()                       # plis découpés au plan : l'axe de fermeture se perce après collage
         if ax_c:                                       # axe de fermeture derrière le mât, à travers les deux branches
             corps = corps.cut(cq.Solid.makeCylinder(ax_c["d"] / 2, dy + dyi + 2, V(ax_c["s"], -dyi - 1, 0), V(0, 1, 0)))
         corps = corps.val()
@@ -1427,10 +1430,31 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
         if tal:
             corps = corps.union(cq.Workplane("XY").box(R + tal, 30, ep, centered=(False, True, True)))
         corps = corps.cut(cq.Workplane("XY").circle(ra).extrude(ep, both=True)).val()
-    A.add(placer(corps), name=f"collier_{nom}", color=noir)
+    if cp_ and co.get("ouverture_ar"):
+        # plis de CP collés le long du mât ; les plis que traverse le tourillon ont une encoche (prise) ouverte sur la face intérieure
+        npl = co.get("plis", 7); tp = ep / npl; rt_ = to["d"] / 2; pr_ = to.get("prise", 0)
+        for kp in range(npl):
+            n0p, n1p = -ep / 2 + kp * tp, -ep / 2 + (kp + 1) * tp
+            pli = corps_plis.intersect(cq.Solid.makeBox(1000, 1000, tp, V(-500, -500, n0p)))
+            nmin = 0.0 if n0p <= 0 <= n1p else min(abs(n0p), abs(n1p))
+            if pr_ and nmin < rt_ - 0.5:
+                w_ = rt_ * 2 if nmin < rt_ / 2 else math.ceil(2 * math.sqrt(rt_ ** 2 - nmin ** 2))
+                pli = pli.cut(cq.Solid.makeBox(w_, pr_ + 1, tp + 2, V(s_t - w_ / 2, -dyi - 1, n0p - 1)))
+            A.add(placer(pli), name=f"collier_pli{kp + 1}_{nom}", color=noir)
+        if rc_ > ra:                                   # chemise PEHD : alésage et bords de l'ouverture
+            ch_ = cq.Solid.makeCylinder(rc_, ep, V(0, 0, -ep / 2)).cut(cq.Solid.makeCylinder(ra, ep, V(0, 0, -ep / 2)))
+            ch_ = ch_.cut(cq.Solid.makeBox(rc_ + 1, 2 * ra, ep + 2, V(0, -ra, -ep / 2 - 1)))
+            for sg_ in (1, -1):
+                ch_ = ch_.fuse(cq.Solid.makeBox(co.get("arriere", R), rc_ - ra, ep, V(0, ra if sg_ > 0 else -rc_, -ep / 2)))
+            if ax_c:
+                ch_ = ch_.cut(cq.Solid.makeCylinder(ax_c["d"] / 2, dy + dyi + 2, V(ax_c["s"], -dyi - 1, 0), V(0, 1, 0)))
+            A.add(placer(ch_.clean()), name=f"collier_chemise_{nom}", color=cq.Color(0.93, 0.93, 0.90))
+    else:
+        A.add(placer(corps), name=f"collier_{nom}", color=noir)
     if ax_c:
         A.add(placer(cq.Solid.makeCylinder(ax_c["d"] / 2, dy + dyi + 16, V(ax_c["s"], -dyi - 8, 0), V(0, 1, 0))), name=f"collier_axe_{nom}", color=inox)
-    A.add(placer(cq.Solid.makeCylinder(to["d"] / 2, to["l"], V(s_t, -dyi, 0), V(0, -1, 0))), name=f"collier_tourillon_{nom}", color=alu)
+    pr_ = to.get("prise", 0) if cp_ else 0             # tourillon collé dans l'encoche des plis
+    A.add(placer(cq.Solid.makeCylinder(to["d"] / 2, to["l"] + pr_, V(s_t, -dyi + pr_, 0), V(0, -1, 0))), name=f"collier_tourillon_{nom}", color=alu)
     sa, ee, hh = oe["saillie"], oe["ep"], oe["h"]
     sp = oe.get("s_poutre", -ee)                       # ferrure de la diagonale : en haut de la face intérieure
     oeils = {                                          # (pièce, point d'attache du hauban) en local
@@ -1451,20 +1475,29 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
 
 
 def emplanture(A, emp, nom, placer):
-    """(JD 06/10) Emplanture mobile pour régler la quête : rail U alu sur la semelle, percé dans les ailes tous les `pas`
+    """(JD 06/10) Emplanture mobile pour régler la quête : rail (U alu, ou deux joues CP collées stratifiées, JD 06/10 soir) sur la semelle, percé tous les `pas`
     pour un boulon transversal ; cale pleine de profil triangulaire emmanchée dans le rail et boulonnée ; ergot sur lequel
     le mât tourne. Repère local : s vers l'arrière le long de la semelle, t vers l'extérieur, n le long du mât (origine :
     dessus de semelle à l'axe du mât). Modèle au cran 0."""
     r, ca, eg = emp["rail"], emp["cale"], emp["ergot"]
-    L, W, Hh, e = r["l"], r["larg"], r["h"], r["ep"]
-    alu = cq.Color(0.72, 0.74, 0.77); anod = cq.Color(0.25, 0.25, 0.27); inox = cq.Color(0.80, 0.82, 0.84)
+    alu = cq.Color(0.72, 0.74, 0.77); anod = cq.Color(0.25, 0.25, 0.27); inox = cq.Color(0.80, 0.82, 0.84); noir = cq.Color(0.12, 0.12, 0.12)
     zb = pivot_emplanture(emp)                             # axe du boulon
-    rail = (cq.Workplane("XY").box(L, W, e, centered=(True, True, False))
-            .union(cq.Workplane("XY").box(L, e, Hh - e, centered=(True, False, False)).translate((0, W / 2 - e, e)))
-            .union(cq.Workplane("XY").box(L, e, Hh - e, centered=(True, False, False)).translate((0, -W / 2, e)))).val()
-    for kk in r["crans"]:
-        rail = rail.cut(cq.Solid.makeCylinder(r["trou"] / 2, W + 2, V(kk * r["pas"], -W / 2 - 1, zb), V(0, 1, 0)))
-    A.add(placer(rail), name=f"emplanture_rail_{nom}", color=alu)
+    if r.get("type") == "joues_cp":                        # (JD 06/10 soir) CP collé stratifié : deux joues collées sur la semelle
+        L, Hh, je = r["l"], r["h"], r["joue_ep"]
+        gap = ca["larg"] + 2 * r.get("jeu", 0.5); W = gap + 2 * je; e = 0.0
+        for sg_, cote_ in ((1, "ext"), (-1, "int")):
+            j_ = cq.Solid.makeBox(L, je, Hh, V(-L / 2, gap / 2 if sg_ > 0 else -gap / 2 - je, 0))
+            for kk in r["crans"]:
+                j_ = j_.cut(cq.Solid.makeCylinder(r["trou"] / 2, W + 2, V(kk * r["pas"], -W / 2 - 1, zb), V(0, 1, 0)))
+            A.add(placer(j_), name=f"emplanture_joue_{cote_}_{nom}", color=noir)
+    else:
+        L, W, Hh, e = r["l"], r["larg"], r["h"], r["ep"]
+        rail = (cq.Workplane("XY").box(L, W, e, centered=(True, True, False))
+                .union(cq.Workplane("XY").box(L, e, Hh - e, centered=(True, False, False)).translate((0, W / 2 - e, e)))
+                .union(cq.Workplane("XY").box(L, e, Hh - e, centered=(True, False, False)).translate((0, -W / 2, e)))).val()
+        for kk in r["crans"]:
+            rail = rail.cut(cq.Solid.makeCylinder(r["trou"] / 2, W + 2, V(kk * r["pas"], -W / 2 - 1, zb), V(0, 1, 0)))
+        A.add(placer(rail), name=f"emplanture_rail_{nom}", color=alu)
     if "pointe_z" in ca:                                   # (JD 06/10) triangle pointe en bas : la cale pivote sur le boulon, qui la tient
         z0_, z1_ = ca["pointe_z"], ca["pointe_z"] + ca["h"]
         prof = [(-ca["pointe"] / 2, z0_), (ca["pointe"] / 2, z0_), (ca["haut"] / 2, z1_), (-ca["haut"] / 2, z1_)]
@@ -1473,7 +1506,7 @@ def emplanture(A, emp, nom, placer):
         prof = [(-b2, e), (b2, e), (t2, e + ca["h"]), (-t2, e + ca["h"])]
     cale = cq.Workplane("XZ").polyline(prof).close().extrude(ca["larg"] / 2, both=True).val()
     cale = cale.cut(cq.Solid.makeCylinder(r["trou"] / 2, W + 2, V(0, -W / 2 - 1, zb), V(0, 1, 0)))
-    A.add(placer(cale), name=f"emplanture_cale_{nom}", color=anod)
+    A.add(placer(cale), name=f"emplanture_cale_{nom}", color=noir if r.get("type") == "joues_cp" else anod)
     A.add(placer(cq.Solid.makeCylinder(eg["d"] / 2, eg["h"], V(0, 0, hauteur_emplanture(emp)))), name=f"emplanture_ergot_{nom}", color=inox)
     A.add(placer(cq.Solid.makeCylinder(r["trou"] / 2, W + 16, V(0, -W / 2 - 8, zb), V(0, 1, 0))), name=f"emplanture_boulon_{nom}", color=inox)
 

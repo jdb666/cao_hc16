@@ -207,7 +207,12 @@ def semelle():
     EMP = MATS.get('emplanture')                       # (JD 06/10) rail U, cale triangulaire boulonnée, ergot
     ALU_, ALUL_, ANO_, INX_ = '#C9CED2', '#6E7A80', '#3A3F44', '#E3E7EA'
     if EMP:
-        r_, ca_, eg_ = EMP['rail'], EMP['cale'], EMP['ergot']; W_, H_, e_ = r_['larg'], r_['h'], r_['ep']
+        r_, ca_, eg_ = EMP['rail'], EMP['cale'], EMP['ergot']
+        CPJ = r_.get('type') == 'joues_cp'                                          # (JD 06/10 soir) joues CP collées stratifiées
+        if CPJ:
+            je_, gap_ = r_['joue_ep'], ca_['larg'] + 2 * r_.get('jeu', 0.5); W_, H_, e_ = gap_ + 2 * r_['joue_ep'], r_['h'], 0.0
+        else:
+            W_, H_, e_ = r_['larg'], r_['h'], r_['ep']
         import hc16_rando as HR_
         nb_, nh_ = HR_.pivot_emplanture(EMP), HR_.hauteur_emplanture(EMP)        # axe du boulon, dessus de la cale
         n0c = ca_.get('pointe_z', e_)                                             # bas de la cale (pointe en bas, JD 06/10)
@@ -216,24 +221,32 @@ def semelle():
         zm0 = ztop
     a1.add_patch(Rectangle((YM - 30, zm0), 60, 520 - zm0, fc='#2B2F33', ec=INK, lw=.6))
     if EMP:
-        a1.add_patch(MPoly([(YM - W_ / 2, ztop), (YM + W_ / 2, ztop), (YM + W_ / 2, ztop + H_), (YM + W_ / 2 - e_, ztop + H_), (YM + W_ / 2 - e_, ztop + e_),
-                            (YM - W_ / 2 + e_, ztop + e_), (YM - W_ / 2 + e_, ztop + H_), (YM - W_ / 2, ztop + H_)], closed=True, fc=ALU_, ec=ALUL_, lw=.6))
-        a1.add_patch(Rectangle((YM - ca_['larg'] / 2, zc0), ca_['larg'], zc1 - zc0, fc=ANO_, ec=INK, lw=.6))
+        if CPJ:
+            for y0_ in (YM - W_ / 2, YM + gap_ / 2):
+                a1.add_patch(Rectangle((y0_, ztop), je_, H_, fc=CP, ec=CPL, lw=.7))
+            a1.add_patch(Rectangle((YM - ca_['larg'] / 2, zc0), ca_['larg'], zc1 - zc0, fc=CP, ec=CPL, lw=.7))
+            for k_ in range(1, ca_.get('plis', 1)):
+                yk_ = YM - ca_['larg'] / 2 + k_ * ca_['larg'] / ca_['plis']
+                a1.plot([yk_, yk_], [zc0, zc1], color=CPL, lw=.4)
+        else:
+            a1.add_patch(MPoly([(YM - W_ / 2, ztop), (YM + W_ / 2, ztop), (YM + W_ / 2, ztop + H_), (YM + W_ / 2 - e_, ztop + H_), (YM + W_ / 2 - e_, ztop + e_),
+                                (YM - W_ / 2 + e_, ztop + e_), (YM - W_ / 2 + e_, ztop + H_), (YM - W_ / 2, ztop + H_)], closed=True, fc=ALU_, ec=ALUL_, lw=.6))
+            a1.add_patch(Rectangle((YM - ca_['larg'] / 2, zc0), ca_['larg'], zc1 - zc0, fc=ANO_, ec=INK, lw=.6))
         a1.add_patch(Rectangle((YM - W_ / 2 - 8, zbo - r_['trou'] / 2), W_ + 16, r_['trou'], fc=INX_, ec=INK, lw=.5))
         a1.add_patch(Rectangle((YM - eg_['d'] / 2, zc1), eg_['d'], eg_['h'], fc=INX_, ec=INK, lw=.5, ls=(0, (2, 1.5))))
-        a1.annotate(f"rail U {W_:.0f} × {H_:.0f} × {e_:.0f}", xy=(YM + W_ / 2, ztop + H_ - 4), xytext=(YM + 44, ztop + 36), fontsize=7, color=INK, va='center',
+        a1.annotate((f"joues CP {je_:.0f} × {H_:.0f}, stratifiées" if CPJ else f"rail U {W_:.0f} × {H_:.0f} × {e_:.0f}"), xy=(YM + W_ / 2, ztop + H_ - 4), xytext=(YM + 44, ztop + 36), fontsize=7, color=INK, va='center',
                     arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
-        a1.annotate(f"cale alu, boulon Ø {r_['trou']:.0f}", xy=(YM + ca_['larg'] / 2, zc1 - 6), xytext=(YM + 44, ztop + 58), fontsize=7, color=INK, va='center',
+        a1.annotate((f"cale {ca_['plis']} × CP 10, boulon Ø {r_['trou']:.0f}" if CPJ else f"cale alu, boulon Ø {r_['trou']:.0f}"), xy=(YM + ca_['larg'] / 2, zc1 - 6), xytext=(YM + 44, ztop + 58), fontsize=7, color=INK, va='center',
                     arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
         a1.annotate(f"ergot Ø {eg_['d']:.0f}", xy=(YM + eg_['d'] / 2, zc1 + eg_['h'] / 2), xytext=(YM + 44, ztop + 80), fontsize=7, color=INK, va='center',
                     arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
     PY = NEW['coffre']['pylones']; yp = NEW['coffre']['largeur'] / 2 - NEW['coffre']['ep_flasque'] - PY['y_int']
     a1.add_patch(Rectangle((yp - PY['diam'] / 2, ztop), PY['diam'], 520 - ztop, fc='#26292C', ec=INK, lw=.6))
-    a1.text(yp - PY['diam'] / 2 - 8, 470, 'tubes carbone\ndu coffre', ha='right', va='center', fontsize=7, color=INK)
+    a1.text(yp - PY['diam'] / 2 - 8, 470, 'tubes carbone\ndu coffre', ha='right', va='center', fontsize=7, color=INK, bbox=dict(fc='white', ec='none', pad=1))
     a1.text(YM, 505, 'mât Ø 60', ha='center', va='center', fontsize=7, color='white')
     a1.plot([N['hy'], N['hy']], [150, 520], color='#6E7A80', lw=.6, ls=(0, (6, 2, 1, 2)))
     a1.text(N['hy'] - 6, 205, 'axe de coque', ha='right', va='bottom', fontsize=7, color='#6E7A80', rotation=90)
-    cote_h(a1, N['hy'], YM, 395, f'{YM - N["hy"]:.0f}', dy=6)
+    cote_h(a1, N['hy'], YM, 395, f'{YM - N["hy"]:.0f}', dy=6); a1.texts[-1].set_bbox(dict(fc='white', ec='none', pad=1.2))
     cote_h(a1, Y0, Y1, 258, f'semelle {Y1 - Y0:.0f}', dy=6)
     for y, ha in ((Y0, 'right'), (Y1, 'left')):
         j = zu(XM, y) - sup(XM, y)
@@ -262,10 +275,10 @@ def semelle():
             prof_ = [(-ca_['pointe'] / 2, ca_['pointe_z']), (ca_['pointe'] / 2, ca_['pointe_z']), (ca_['haut'] / 2, n0), (-ca_['haut'] / 2, n0)]
         else:
             prof_ = [(-ca_['base'] / 2, e_), (ca_['base'] / 2, e_), (ca_['haut'] / 2, n0), (-ca_['haut'] / 2, n0)]
-        a2.add_patch(MPoly([P_(*q_) for q_ in prof_], closed=True, fc=ANO_, ec=INK, lw=.6))
-        a2.add_patch(MPoly([P_(-r_['l'] / 2, 0), P_(r_['l'] / 2, 0), P_(r_['l'] / 2, H_), P_(-r_['l'] / 2, H_)], closed=True, fc=ALU_, ec=ALUL_, lw=.6, alpha=.92))
+        a2.add_patch(MPoly([P_(*q_) for q_ in prof_], closed=True, fc=CP if CPJ else ANO_, ec=CPL if CPJ else INK, lw=.6))
+        a2.add_patch(MPoly([P_(-r_['l'] / 2, 0), P_(r_['l'] / 2, 0), P_(r_['l'] / 2, H_), P_(-r_['l'] / 2, H_)], closed=True, fc=CP if CPJ else ALU_, ec=CPL if CPJ else ALUL_, lw=.6, alpha=.92))
         for kk in r_['crans']:
-            a2.add_patch(Circle(P_(kk * r_['pas'], nb_), r_['trou'] / 2, fc=INX_ if kk == 0 else 'white', ec=INK if kk == 0 else ALUL_, lw=.5))
+            a2.add_patch(Circle(P_(kk * r_['pas'], nb_), r_['trou'] / 2, fc=INX_ if kk == 0 else 'white', ec=INK if kk == 0 else (CPL if CPJ else ALUL_), lw=.5))
         a2.add_patch(MPoly([P_(-eg_['d'] / 2, n0), P_(eg_['d'] / 2, n0), P_(eg_['d'] / 2, n0 + eg_['h']), P_(-eg_['d'] / 2, n0 + eg_['h'])], closed=True, fc=INX_, ec=INK, lw=.5, ls=(0, (2, 1.5))))
         qc_ = HR_.quetes_crans(NEW)
         qq = (' · '.join(f'{v:.1f}' for _, v in qc_).replace('.', ',') + '°') if qc_ else None

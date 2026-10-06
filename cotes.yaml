@@ -55,8 +55,11 @@ mats:
   collier_hauteur: 750     # référence du coffre : les joues montent à 25 au-dessus (z 1 122) ; le collier lui-même est au-dessus des joues (mats.collier)
   collier:                 # (JD 06/10) collier indépendant du coffre : bague où le mât tourne, tourillon emmanché dans le tube (il tourne quand on change de cran), attaches des haubans
     jeu_joue: 10           # dessous du collier à 10 au-dessus du haut des joues (hauteur calculée ; ou `hauteur` le long du mât depuis le dessus de semelle)
-    ep: 70                 # bloc d'Ertalyte (PET-P) ou de POM, usiné, sans colle (tout est boulonné) ; en CP : 7 × CP 10 + bague PEHD
-    alesage: 62            # le mât Ø 60 tourne directement dedans
+    ep: 70                 # (JD 06/10 soir) CP collé stratifié : 7 plis de CP 10 collés à l'époxy, verre-époxy dessus (arêtes arrondies) ; ferrures inox boulonnées à travers, contre-plaques
+    materiau: cp
+    plis: 7
+    alesage: 62            # le mât Ø 60 tourne dans une chemise PEHD de 2 (fendue, emboîtée, vissée : le PEHD ne se colle pas) dans l'alésage du CP (Ø 66) et le long de l'ouverture
+    chemise: 2
     r_bague: 55
     nez: 60                # avant du collier, devant l'axe du mât (105 quand le tube était devant)
     demi_y_int: 80         # face intérieure (côté tube) à 80 de l'axe du mât : la branche intérieure va jusqu'au tourillon, derrière le mât
@@ -65,11 +68,11 @@ mats:
     arriere: 55            # bout des branches derrière l'axe du mât
     axe: {d: 10, s: 38}    # axe inox de fermeture derrière le mât, à travers les deux branches, goupillé
     demi_y: 55
-    tourillon: {d: 45, l: 80, jeu_tube: 3}   # rond alu Ø 45 dans le tube Ø 50 × 2, gorge + goupille : le tube tourne autour sans pouvoir sortir
+    tourillon: {d: 45, l: 80, jeu_tube: 3, prise: 35}   # tube alu Ø 45 collé à l'époxy dans une encoche des plis 2 à 6 (35 de prise), goupillé à travers les plis ; dépasse de 80 dans le tube Ø 50 × 2
     oeil: {saillie: 22, ep: 6, h: 24, dy_av: 40, dy_croise: -30, ar: [20, 70]}   # ferrures inox boulonnées : devant (direct AV à 40 vers l'extérieur ; croisé AV à 30 vers l'intérieur, loin de la livarde rangée) ; AR sur la face extérieure, de 20 à 70 derrière l'axe du mât (JD 06/10 : le hauban AR reste à l'extérieur du mât) ; diagonale en haut de la face intérieure
   emplanture:               # (JD 06/10) cale triangulaire dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au trou du boulon
-    rail: {l: 180, larg: 40, h: 30, ep: 4, trou: 8, pas: 20, crans: [-2, -1, 0, 1, 2], axe_z: 18}   # U alu 40 × 30 × 4, trous Ø 8 tous les 20 dans les ailes, axe du boulon à 18 au-dessus de la semelle
-    cale: {haut: 70, pointe: 6, pointe_z: 7, h: 38, larg: 31.5}   # (JD 06/10) pièce pleine (alu), triangle pointe en bas : elle pivote sur le boulon (quête, pose du mât), le boulon la tient ; dessus 70 de long à 45 au-dessus de la semelle
+    rail: {type: joues_cp, l: 180, joue_ep: 10, h: 40, jeu: 0.5, trou: 8, pas: 20, crans: [-2, -1, 0, 1, 2], axe_z: 18}   # (JD 06/10 soir) deux joues CP 10 collées sur la semelle et stratifiées, trous Ø 8 tous les 20 (surpercés, remplis d'époxy, repercés), axe du boulon à 18 au-dessus de la semelle
+    cale: {haut: 70, pointe: 6, pointe_z: 7, h: 38, larg: 30, plis: 3}   # (JD 06/10 soir) 3 plis de CP 10 collés, stratifiés ; triangle pointe en bas : elle pivote sur le boulon (quête, pose du mât), le boulon la tient ; dessus 70 de long à 45 au-dessus de la semelle
     ergot: {d: 20, h: 20}   # sur le dessus de la cale ; le pied du mât (embout percé) tourne dessus ; mât raccourci de 45 pour garder la bordure
   longueur: 7300
   diam: 60
@@ -78,7 +81,7 @@ mats:
   semelle:                 # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
     y_mat: 1161            # axe du mât : 161 à l'extérieur de l'axe de coque (1 151 avant le 06/10)
     dx: [-100, 150]        # autour du pied de mât (x_pied) : x 1 860 → 2 110, 14 derrière la semelle des tubes du coffre ; à 10 du pylône de la poutre AV
-    dy: [-116, 25]         # côté bâbord (miroir à tribord) : y 1 045 → 1 186, 10 de jeu au pylône de la poutre AV ; reçoit le rail de l'emplanture et les pontets (les tubes du coffre ont leurs semelles : coffre.pylones.semelle)
+    dy: [-116, 26]         # côté bâbord (miroir à tribord) : y 1 045 → 1 187 (joue extérieure de l'emplanture CP), 10 de jeu au pylône de la poutre AV ; reçoit le rail de l'emplanture et les pontets (les tubes du coffre ont leurs semelles : coffre.pylones.semelle)
     ep: 18                 # 2 × CP 9 collés
     bourrage_min: 3
     inclinaison_laterale: 0   # mât vertical en travers ; la quête (quete_deg) et l'inclinaison sont fixées par la semelle et le collier

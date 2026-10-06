@@ -107,7 +107,10 @@ mats:
   collier:
     jeu_joue: 10
     ep: 70
+    materiau: cp
+    plis: 7
     alesage: 62
+    chemise: 2
     r_bague: 55
     nez: 60
     demi_y_int: 80
@@ -122,6 +125,7 @@ mats:
       d: 45
       l: 80
       jeu_tube: 3
+      prise: 35
     oeil:
       saillie: 22
       ep: 6
@@ -133,10 +137,11 @@ mats:
       - 70
   emplanture:
     rail:
+      type: joues_cp
       l: 180
-      larg: 40
-      h: 30
-      ep: 4
+      joue_ep: 10
+      h: 40
+      jeu: 0.5
       trou: 8
       pas: 20
       crans:
@@ -151,7 +156,8 @@ mats:
       pointe: 6
       pointe_z: 7
       h: 38
-      larg: 31.5
+      larg: 30
+      plis: 3
     ergot:
       d: 20
       h: 20
@@ -166,7 +172,7 @@ mats:
     - 150
     dy:
     - -116
-    - 25
+    - 26
     ep: 18
     bourrage_min: 3
     inclinaison_laterale: 0

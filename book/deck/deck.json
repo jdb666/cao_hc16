@@ -56,6 +56,8 @@
   "d-accroches",
   "d-bancs",
   "d-haubans",
+  "d-hpieds",
+  "d-hpied",
   "d-ecoute",
   "d-assiette",
   "d-releves",
@@ -70,7 +72,11 @@
   "p-nom1",
   "p-nom2",
   "p-nom3",
+  "p-nom4",
   "p-fab",
+  "s8",
+  "f-comparaison",
+  "f-poids",
   "fin"
  ],
  "cover": "cover",
@@ -106,6 +112,10 @@
   "decoupe": {
    "description": "Plans de découpe et nomenclature",
    "start": "s7"
+  },
+  "fiche": {
+   "description": "Fiche technique : poids, volumes, charge utile, comparaison avec le HC16",
+   "start": "s8"
   },
   "fin": {
    "description": "Points ouverts",

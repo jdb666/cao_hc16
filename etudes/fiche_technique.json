@@ -1,0 +1,146 @@
+{
+ "hc16": {
+  "poids": 145.0,
+  "gréement": 34.0,
+  "gréement_detail": {
+   "mât alu 8,07 m": 18.0,
+   "bôme": 3.0,
+   "grand-voile 13,77 m² et foc 5,12 m²": 9.0,
+   "étai, haubans, pattes d'oie": 2.0,
+   "écoutes, poulies, chariot": 2.0
+  },
+  "plateforme": 111.0,
+  "capacite_ce": 240,
+  "capacite_us": 362,
+  "voilure": 18.9
+ },
+ "rando": {
+  "plateforme": 111.0,
+  "gréement": 33.7,
+  "gréement_detail": {
+   "mâts carbone Ø 60 × 7,30 (2), renforts compris (estimé)": 13.0,
+   "voiles 11,1 m² sur enrouleur (2, estimé)": 7.0,
+   "livardes carbone Ø 30 × 2,84 (2)": 1.18,
+   "colliers CP collés stratifiés (2)": 1.83,
+   "emplantures CP (2) : joues, cales, ergots, boulons": 0.43,
+   "semelles, renforts de pont et bourrage (2)": 3.64,
+   "tube alu Ø 50 × 2 des colliers": 1.76,
+   "haubans inox Ø 4 (29 m) et pontets": 2.83,
+   "écoutes, poulies, taquets (estimé)": 2.0
+  },
+  "coffre_bancs": 40.2,
+  "coffre_detail": {
+   "cp": 33.0,
+   "cp_par_ep": {
+    "4": 3.4,
+    "6": 12.8,
+    "9": 13.1,
+    "10": 3.7
+   },
+   "aire_m2": 9.2,
+   "stratification": 5.5,
+   "tubes": 0.2,
+   "cordages": 0.5,
+   "quincaillerie": 1.0
+  },
+  "moteur": 30.5,
+  "moteur_detail": {
+   "Haswing Protruar 2.0 (manuel)": 6.7,
+   "batterie Dyness 24 V 100 Ah": 19.3,
+   "bac de la batterie (estimé)": 3.0,
+   "câbles 25 mm², coupe-circuit (estimé)": 1.5
+  },
+  "ancre": 3.5,
+  "vide": 215.4,
+  "vide_ancre": 218.9,
+  "cp_greement": 3.13,
+  "xg_coffre": 1969,
+  "xg_vide": 1653,
+  "voilure": 22.2
+ },
+ "charge": {
+  "depl_ce": 385.0,
+  "depl_us": 507.0,
+  "utile_ce": 170,
+  "utile_us": 292,
+  "utile_ce_ancre": 166
+ },
+ "hydro": {
+  "D0": 265.7,
+  "xB0": 2311,
+  "xF0": 2506,
+  "kg_mm": 2.52,
+  "x_plateforme": 1377,
+  "xg_hc16": 1610
+ },
+ "cas": {
+  "HC16, 2 équipiers (160 kg)": {
+   "M": 305.0,
+   "xG": 2339,
+   "assiette": -0.0,
+   "etrave": 15,
+   "tableau": 15,
+   "x1250": 15
+  },
+  "HC16 à sa charge maxi CE (240 kg)": {
+   "M": 385.0,
+   "xG": 2476,
+   "assiette": -0.46,
+   "etrave": 23,
+   "tableau": 63,
+   "x1250": 33
+  },
+  "Rando à vide": {
+   "M": 215.4,
+   "xG": 1653,
+   "assiette": 4.45,
+   "etrave": 144,
+   "tableau": -248,
+   "x1250": 47
+  },
+  "Rando, 2 équipiers (160 kg), coffre vide": {
+   "M": 375.4,
+   "xG": 2227,
+   "assiette": 0.93,
+   "etrave": 82,
+   "tableau": 0,
+   "x1250": 62
+  },
+  "Rando au déplacement maxi CE du HC16 : 2 équipiers + 10 kg dans le coffre": {
+   "M": 385.0,
+   "xG": 2216,
+   "assiette": 1.04,
+   "etrave": 90,
+   "tableau": -2,
+   "x1250": 68
+  },
+  "Rando, 2 équipiers + 60 kg dans le coffre": {
+   "M": 435.4,
+   "xG": 2166,
+   "assiette": 1.6,
+   "etrave": 132,
+   "tableau": -9,
+   "x1250": 97
+  },
+  "Rando, 2 équipiers reculés à x 3 500 + 60 kg dans le coffre": {
+   "M": 435.4,
+   "xG": 2349,
+   "assiette": 0.41,
+   "etrave": 80,
+   "tableau": 44,
+   "x1250": 71
+  }
+ },
+ "x_equipage_a_plat": {
+  "0": 3369,
+  "60": 3694
+ },
+ "volumes": {
+  "coffre_ext": 676,
+  "coffre_int": 649,
+  "hors_centre": 432,
+  "par_cote": 216,
+  "centre": 216,
+  "bancs_par_cote": 47
+ }
+}

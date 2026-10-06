@@ -1,20 +1,21 @@
 {
  "notes": [
   "<b>Bordé</b> : panneaux dépliés depuis la face extérieure du modèle. Un panneau réunit les facettes voisines à moins de 8° l'une de l'autre : elles se cintrent en place. Au-delà, c'est un bouchain : couture, congé et bande de verre.",
-  "<b>Épaisseurs</b> : bordé cintré CP 4 ; fond et C4 CP 6 ; joues CP 9 ; cloisons, parois du puits et couples ±331 CP 6 ; couples ±850, accroches, assises et couples de banc CP 9 ; table CP 10 (ou CP 6 raidi dessous). Les pièces de 18 à 40 sont faites de plis collés : semelles du mât (SM) et des tubes du coffre (ST), semelles sur les tubes (SR), cales, planche.",
+  "<b>Épaisseurs</b> : bordé cintré CP 4 ; fond et C4 CP 6 ; joues CP 9 ; cloisons, parois du puits et couples ±331 CP 6 ; couples ±850, accroches, assises et couples de banc CP 9 ; table CP 10 (ou CP 6 raidi dessous). Les pièces de 18 à 70 sont faites de plis collés : semelles du mât (SM) et des tubes du coffre (ST), semelles sur les tubes (SR), cales, planche, cales d'emplanture (CE, 3 × CP 10) et colliers des mâts (CO, 7 × CP 10).",
   "<b>Cintrage</b> : rayon mini ≈ 330, à l'épaule de l'arrondi avant (au droit des joues) et à la pointe du milieu. Faire d'abord un essai à froid du CP 4 sur une chute.",
   "<b>Demi-plaques</b> : celle de CP 4 ne porte que deux plis du renfort de pont (RP, 515 × 368), celle de CP 6 qu'un couple ±331 avec son accroche (K331) : à prendre dans des chutes si elles suffisent.",
   "<b>Découpes tracées</b> : bas du puits moteur dans le fond, fentes de C4 où passent les couples-accroches, trous Ø 8 du brêlage dans leurs lèvres, trappes de C4 (la chute fait la trappe), échancrure de C4 et passage de la tête du moteur dans la table, poches des pièces d'angle (ouvertes dessous), entailles des joues au droit des couples de banc, trou Ø 34 du godet et ouverture du collier des supports de livarde (LG, LC).",
   "<b>À percer au montage</b> (non tracés) : tubes carbone Ø 40 dans le fond, passages du laçage. Le tube des colliers ne traverse plus le coffre.",
   "<b>Couples-accroches</b> (K850, K331, PM) : d'une pièce avec leur accroche, ils traversent C4 ; profil de la poutre + 2 avec la lèvre sous le nez. Présenter un gabarit sur la poutre réelle, qui est cintrée, avant de découper. <b>Couples de banc</b> (BC) : profil du longeron + 2, entiers ; c'est la joue qui est entaillée.",
+  "<b>Collier et emplanture en CP collé stratifié</b> (JD 06/10 soir) : les 7 plis d'un collier (CO1 dessus et dessous, CO2 et CO3 encochés pour le tourillon) se collent à l'époxy sur un mandrin Ø 66 et l'axe Ø 10 pour l'alignement, puis verre-époxy sur toutes les faces, arêtes arrondies ; chemise PEHD de 2 dans l'alésage et le long de l'ouverture : le PEHD ne se colle pas, elle est fendue, emboîtée par l'ouverture et tenue par deux vis inox noyées à ses bouts (ou 2 d'époxy graphite coulée sur le mât ciré). Tourillon alu collé dans l'encoche et goupillé à travers les plis. Joues de l'emplanture (JE) collées sur la semelle avec congés, cale (CE) en 3 plis ; trous Ø 8 surpercés, remplis d'époxy chargée et repercés. Perçages des ferrures au montage, sur contre-plaques.",
   "<b>DXF</b> : bord de plaque sur le calque PANNEAU, contours sur DECOUPE, repères sur REPERES ; un fichier par plaque et un fichier par pièce, à l'échelle 1, en millimètres."
  ],
  "hors": [
   "Tubes carbone Ø 40 × 2 : quatre appuis du coffre sur le pont, sur leurs semelles (2 × 147 et 2 × 131, haut coupé à la pente du fond).",
   "Tube alu Ø 50 × 2 de 2 156 d'un collier à l'autre, au-dessus du coffre et de la poutre AV, démontable.",
-  "Colliers de mât (06/10) : 2 blocs d'Ertalyte (PET-P) ou de POM noir de 70, 180 × 135, alésage Ø 62 ouvert vers l'arrière ; tourillons alu Ø 45 × 80 ; axes de fermeture inox Ø 10 goupillés ; ferrures inox des haubans, boulonnées.",
-  "Emplantures (06/10) : 2 rails U alu 40 × 30 × 4 de 180, percés Ø 8 tous les 20 ; 2 cales alu pleines en triangle pointe en bas (70 × 38, épaisseur 31,5) ; 2 ergots inox Ø 20 × 20 ; 2 boulons inox Ø 8.",
+  "Colliers de mât (CP, voir CO) : 2 tourillons, tube alu Ø 45 de 115 (35 collés, 80 dans le tube) ; 2 chemises PEHD de 2 et 4 vis inox à tête fraisée ; 2 axes de fermeture inox Ø 10 goupillés ; ferrures inox des haubans et contre-plaques ; verre-époxy.",
+  "Emplantures (CP, voir JE et CE) : 2 ergots inox Ø 20 × 20 ; 2 boulons inox Ø 8 × 70 ; époxy chargée pour les trous ; verre-époxy.",
   "Bout Ø 5 : laçage des bancs, 5 × ≈ 2,5 m ; brêlage, 6 brins de 255, 390 et 855 par bord, ≈ 3 m sans les tours.",
-  "Bourrage époxy sous les semelles du mât (≈ 525 cm³ par bord) et sous celles des tubes, haubans Ø 4, trampoline mesh, livardes Ø 30, moteur, batterie, ancre."
+  "Bourrage époxy sous les semelles du mât (≈ 535 cm³ par bord) et sous celles des tubes, haubans Ø 4, trampoline mesh, livardes Ø 30, moteur, batterie, ancre."
  ]
 }

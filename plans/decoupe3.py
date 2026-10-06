@@ -1,4 +1,4 @@
-"""Plan de découpe du coffre HC16 Rando (état du 06/10/2026 : mâts reculés, côtés du coffre raccourcis).
+"""Plan de découpe du coffre HC16 Rando (état du 06/10/2026 au soir : mâts reculés, côtés du coffre raccourcis, collier et emplanture en CP).
 Tout vient du modèle CAO (v_pleine_0.yaml) :
 - bordé : les faces extérieures de coffre_coque (toutes planes : loft réglé entre stations) sont regroupées en panneaux
   (angle entre facettes voisines < SEUIL : la planche se cintre ; au-delà : bouchain, joint collé-stratifié),
@@ -233,7 +233,10 @@ REGLES = [   # (motif, ref, nom, épaisseur de CP, plis)
     (r'^batterie_cale_(av|ar)$', 'CL', 'Cale du bac de batterie (40 = 4 × CP 10)', 10, 4),
     (r'^moteur_tableau$', 'PL', 'Planche de la pince moteur (40 = 4 × CP 10)', 10, 4),
     (r'^pylone_renfort_(babord|tribord)$', 'SR', 'Semelle sur les tubes carbone (18 = 2 × CP 9)', 9, 2),
-    (r'^semelle_(babord|tribord)$', 'SM', 'Semelle de pied de mât, sous le rail de l\'emplanture (18 = 2 × CP 9)', 9, 2),
+    (r'^semelle_(babord|tribord)$', 'SM', 'Semelle de pied de mât, sous l\'emplanture (18 = 2 × CP 9)', 9, 2),
+    (r'^emplanture_joue_(int|ext)_(babord|tribord)$', 'JE', 'Joue de l\'emplanture, percée Ø 8 tous les 20, collée sur la semelle et stratifiée', 10, 1),
+    (r'^emplanture_cale_(babord|tribord)$', 'CE', 'Cale de l\'emplanture, triangle pointe en bas (30 = 3 × CP 10), percée Ø 8', 10, 3),
+    (r'^collier_pli\d_(babord|tribord)$', 'CO', 'Collier du mât, pli de CP 10 (7 plis collés et stratifiés par collier)', 10, 1),
     (r'^semelle_tubes_(babord|tribord)$', 'ST', 'Semelle des tubes carbone du coffre, sur le pont (18 = 2 × CP 9)', 9, 2),
     (r'^renfort_pont_(babord|tribord)$', 'RP', 'Renfort de pont (8 = 2 × CP 4, cintré en place)', 4, 2),
     (r'^livarde_collier_(babord|tribord)$', 'LC', 'Collier ouvert de la livarde, collé sur la joue (20 = 2 × CP 10)', 10, 2),

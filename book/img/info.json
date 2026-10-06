@@ -258,5 +258,25 @@
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
   "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
   "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "h_pieds_av": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "h_pieds_ar": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "h_pieds_de": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "h_pied_detail": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
  }
 }

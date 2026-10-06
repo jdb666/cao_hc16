@@ -22,7 +22,10 @@ NOMS = {
     'BC1': "Couple de banc, x 2 160", 'BC2': "Couple de banc, x 2 410", 'BC3': "Couple de banc, x 2 680",
     'BC4': "Couple de banc, x 2 950", 'BC5': "Couple de banc, x 3 212",
     'SR': "Semelle sur les tubes carbone, 18 = 2 × CP 9",
-    'SM': "Semelle de pied de mât, sous le rail, 18 = 2 × CP 9",
+    'SM': "Semelle de pied de mât, sous l'emplanture, 18 = 2 × CP 9",
+    'JE': "Joue de l'emplanture, percée Ø 8 tous les 20", 'CE': "Cale de l'emplanture, 30 = 3 × CP 10, percée Ø 8",
+    'CO1': "Collier du mât : plis 1 et 7, dessous et dessus", 'CO2': "Collier : plis 2 et 6, encoche du tourillon de 34",
+    'CO3': "Collier : plis 3, 4 et 5, encoche du tourillon de 45",
     'ST': "Semelle des tubes du coffre, sur le pont, 18 = 2 × CP 9",
     'RP': "Renfort de pont, 8 = 2 × CP 4, cintré en place",
     'LC': "Collier ouvert de la livarde, 20 = 2 × CP 10", 'LG': "Godet de la livarde, pli percé Ø 34", 'LF': "Godet de la livarde, pli du fond",
@@ -37,7 +40,8 @@ def nom(ref):
 GROUPES = {
     'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'F1', 'F2', 'F3', 'F4', 'F5', 'P1', 'P2', 'P3', 'TR'],
     'p-nom2': ['CA', 'CB', 'CM', 'PM', 'K331', 'K850', 'CL1', 'CL2', 'PL', 'TA', 'CR', 'CJ'],
-    'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'SR', 'SM', 'ST', 'RP', 'LC', 'LG', 'LF'],
+    'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'SR', 'ST'],
+    'p-nom4': ['RP', 'SM', 'JE', 'CE', 'CO1', 'CO2', 'CO3', 'LC', 'LG', 'LF'],
 }
 TD = '<td style="text-align:right">'
 for sid, refs in GROUPES.items():
@@ -74,7 +78,7 @@ for i, sid in enumerate(o):
         open(p, 'w', encoding='utf-8').write(t2)
 debut = {k: o.index(v['start']) + 1 for k, v in d['sections'].items()}
 t = open(S + 'slides/sommaire.html', encoding='utf-8').read()
-for k, num in (('hc16', '01'), ('actuel', '02'), ('transp', '03'), ('reduction', '04'), ('moteur', '05'), ('details', '06'), ('decoupe', '07'), ('fin', '—')):
+for k, num in (('hc16', '01'), ('actuel', '02'), ('transp', '03'), ('reduction', '04'), ('moteur', '05'), ('details', '06'), ('decoupe', '07'), ('fiche', '08'), ('fin', '—')):
     if k not in debut:
         continue
     t = re.sub(r'(>' + num + r'</p>.*?<p style="width:100px;[^"]*">)\d+(</p>)', f'\\g<1>{debut[k]}\\2', t, count=1, flags=re.S)
@@ -94,7 +98,7 @@ IMAGES = {
     'd-vprofil': ['vue_profil'], 'd-vdessus': ['vue_dessus'], 'd-vface': ['vue_face'], 'd-semelle': ['semelle'], 'd-pied': ['d_pied_mat'],
     'd-collier': ['d_collier', 'd_collier_av'], 'd-emplanture': ['d_emplanture'],
     'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['d_bancs'],
-    'd-haubans': ['d_haubans'], 'd-ecoute': ['d_ecoute'], 'd-assiette': ['d_assiette_0', 'd_assiette_150'],
+    'd-haubans': ['d_haubans'], 'd-hpieds': ['h_pieds_av', 'h_pieds_de'], 'd-hpied': ['h_pied_detail'], 'd-ecoute': ['d_ecoute'], 'd-assiette': ['d_assiette_0', 'd_assiette_150'],
     'p-4a': ['planche_4-A'], 'p-6a': ['planche_6-A'], 'p-6b': ['planche_6-B'], 'p-9a': ['planche_9-A'], 'p-9b': ['planche_9-B'], 'p-10a': ['planche_10-A'],
     'p-demi': ['planche_4-B', 'planche_6-C'],
 }

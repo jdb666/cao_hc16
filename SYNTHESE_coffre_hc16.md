@@ -328,8 +328,33 @@
 - 3 · Haubans : H1–H3 patte d'étrave (50 de la pointe, 12 de haut, Ø), H4–H7 cadène (620 de l'axe du pylône, 12 du bord, 8 de haut, Ø). 4 · Moteur Protruar : seulement E1, largeur de la tête (estimée 120 ; elle passe dans l'échancrure de C4, 140), et E2, ouverture maxi de la bride (planche PL 40) ; les cotes de profil viennent du schéma du manuel p. 13 (remarque JD : déjà connues), affichées en gris sur le croquis. 5 · Barre et safrans : S1–S7.
 - Saisie enregistrée dans le db de la page : collection `releves` (un document par repère, `-bd` / `-td` pour bâbord / tribord, `{v, at}`), `remarques` (une par section), `photos` (ids d'assets) ; « Copier le texte » en secours. Lecture : ArtifactData `list` sur `releves`.
 
+## Collier et emplanture en CP collé stratifié, haubanage à nu, fiche technique (JD 06/10/2026 soir)
+- Demande JD : « dessiner le système d'emplanture et de collier en CP collé stratifié et le mettre dans les panneaux à découper ; ajouter au book le projet sans le coffre et le trampoline pour voir le haubanage des pieds de mât ; donner les specs (volume, poids du coffre…), le poids maxi en charge, équipage et bagages ; estimer la différence entre le HC16 et cette version deux mâts, coffre et moteur ».
+- Collier : 7 plis de CP 10 collés à l'époxy (70), contour inchangé 180 × 135, verre-époxy sur toutes les faces, arêtes arrondies. Alésage Ø 66 dans le bois, chemise PEHD de 2 (Ø 62, le mât tourne dedans) qui borde aussi l'ouverture ; le PEHD ne se colle pas : chemise fendue, emboîtée par l'ouverture, tenue par deux vis inox noyées à ses bouts (variante : 2 d'époxy graphite coulée sur le mât ciré). Tourillon : tube alu Ø 45 de 115, 35 collés dans une encoche des plis 2 à 6 (34 de large aux plis 2 et 6, 45 aux plis 3 à 5) et goupillé, 80 dans le tube. Axe de fermeture Ø 10 percé après collage à travers les 7 plis. Ferrures inox boulonnées à travers les plis, sur contre-plaques. ≈ 0,6 kg par collier (CP 0,41, stratification 0,15, chemise 0,03), ≈ 0,9 kg avec tourillon, axe et ferrures (bloc d'Ertalyte : 1,2 kg).
+- Emplanture : le rail U alu devient deux joues de CP 10 × 40 × 180 collées sur la semelle avec congés et stratifiées, 31 entre elles (cale 30 + 2 × 0,5), percées Ø 8 tous les 20 (5 crans, axe à 18 au-dessus de la semelle : quêtes inchangées 5,8 · 4,4 · 3,0 · 1,6 · 0,2°). Cale en 3 plis de CP 10 (30), même triangle pointe en bas (70 en haut, 38 de haut, pointe à 7 au-dessus de la semelle), ergot inox Ø 20 dessus. ≈ 0,2 kg par emplanture.
+- Boulon de l'emplanture : au plus fort (voile pleine, 20 nœuds apparents) le collier reprend ≈ 4 kN et le pied ≈ 3 kN, tout entier par le boulon Ø 8 (la pointe de la cale ne porte pas) : ≈ 20 MPa de matage sur 2 × 10 de CP nu, trop pour le bois. Trous surpercés Ø 16, remplis d'époxy chargée et repercés Ø 8 (≈ 10 MPa sur le bois), dans les joues et dans la cale.
+- Plan de découpe : CO1 (plis 1 et 7, ×4), CO2 (plis 2 et 6, encoche 34, ×4), CO3 (plis 3 à 5, encoche 45, ×6), 176 × 135 ; JE joues 180 × 40 (×4) ; CE plis de cale 70 × 30 (×6) ; tous en CP 10, sur la plaque 10-A (45 pièces, 31 % utilisés). SM semelle 250 × 142 (2 × CP 9). Total : 45 repères, 112 pièces, 7 plaques (CP 4 : 1,5 ; CP 6 : 2,5 ; CP 9 : 2 ; CP 10 : 1). Notes et fournitures mises à jour (tourillons, chemises et vis, axes, ferrures, ergots, boulons Ø 8 × 70).
+- Modèle : `mats.collier.{materiau: cp, plis: 7, chemise: 2}`, `tourillon.prise: 35` ; `mats.emplanture.rail.type: joues_cp` (`joue_ep`, `h`, `jeu`), `cale.plis: 3` ; pièces `collier_pli1…7_*`, `collier_chemise_*`, `emplanture_joue_int/ext_*`. Semelle 250 × 142 (y 1 045 → 1 187), bourrage 3 → 35 (≈ 535 cm³). Contrôles : recouvrements 89 = les 87 de base + l'axe de fermeture dans le pli 4 de chaque collier (voulu, percé après collage) ; jeux (`collier_tube.py`) : plis du collier 11 à la joue du coffre, chemise 16, tourillon 25, tube 40, mât 18 à la pièce d'angle. Sauvegardes : `cotes_avant_collier_cp.yaml`, `hc16_rando_avant_collier_cp.py`.
+- Book (71 pages, v11) : « Haubans des mâts, pieds de mât à nu » (sans coffre ni trampoline : 3/4 avant et dessus) et le détail d'un pied ; collier, emplanture, semelle, nomenclature (4 pages) et fabrication refaits en CP ; section 08 « Fiche technique » (intercalaire, comparaison avec le HC16, poids et assiette). Page 3D v31, plan de découpe v7, STEP complet refait.
+- Fiche technique (`etudes/fiche_technique.py` → `etudes/fiche_technique.json`), poids estimés : HC16 145 kg prêt à naviguer (Hobie), dont un gréement d'origine estimé à 34 kg (mât 18, bôme 3, voiles 9, câbles 2, écoutes 2) : plateforme nue ≈ 111 kg.
+
+| | HC16 d'origine | HC16 Rando |
+|---|---|---|
+| Gréement | ≈ 34 kg | ≈ 34 kg : mâts carbone 2 × 6,5 (estimé), voiles 2 × 3,5, livardes 1,2, colliers 1,8, emplantures 0,4, semelles, renforts et bourrage 3,6, tube 1,8, haubans 2,8, écoutes 2 |
+| Coffre et bancs | — | ≈ 40 kg : CP 33 kg sur 9,2 m² ; époxy, verre et peinture 5,5 (0,6 kg/m²) ; tubes, cordages, quincaillerie 1,7 |
+| Moteur et batterie | — | 30,5 kg : Protruar 6,7 ; Dyness 19,3 ; bac 3 ; câbles 1,5 |
+| À vide, prêt à naviguer | 145 kg | ≈ 215 kg (+ 70), ancre 3,5 en plus |
+| Rangement | — | coffre 649 L intérieur (676 extérieur) : 432 L hors zone centrale (216 par côté), 216 L au centre ; 47 L sous chaque banc |
+| Voilure, CV, couple de chavirage | 18,9 m², x 3 206 z 3 735, 100 % | 22,2 m², x 3 206 z 3 993, 125 % |
+| Charge utile au déplacement maxi CE (385 kg) | 240 kg | ≈ 170 kg : 2 équipiers de 80 + 10 kg de bagages |
+| Charge utile au déplacement maxi US (507 kg) | 362 kg | ≈ 292 kg : 2 × 80 + 130 kg |
+
+- Charge maxi : la plaque du HC16 (240 kg en CE catégorie C, 362 kg aux États-Unis) vaut pour son déplacement ; en gardant ce déplacement maxi, la Rando perd ce que pèsent coffre, moteur et batterie. Ce n'est pas une limite de flottabilité : 2,52 kg par mm d'enfoncement, 100 kg de plus enfoncent de 4 cm.
+- Assiette (référence : HC16 avec 2 équipiers à x 3 000, supposé à plat ; bagages au milieu des coffres latéraux, x 1 780) : Rando + 2 équipiers 0,9° sur le nez, étrave + 67, tableau − 15 ; au maxi CE (+ 10 kg) 1,0° ; + 60 kg 1,6° (étrave + 117) ; équipage reculé à x 3 500 avec 60 kg : 0,4°. À plat avec l'équipage à x 3 370 coffre vide, x 3 690 avec 60 kg. L'assiette à vide n'est pas donnée : elle dépend du CdG réel du HC16 nu, inconnu (il est déduit ici de l'hypothèse ci-dessus).
+
 ## Points ouverts / mesures à prendre
-- Collier et emplanture (06/10) : dimensions et matériaux proposés, à valider (JD) ; fermeture du collier : axe goupillé ou sangle.
+- Collier et emplanture en CP collé stratifié (06/10 soir) : à valider (JD) ; chemise PEHD vissée ou époxy graphite ; trous du boulon d'emplanture bouchés à l'époxy.
+- Poids : mâts carbone, voiles et gréement du HC16 estimés ; peser le HC16 nu et les mâts pour recaler la fiche technique.
 - Cotes à relever : formulaire « Cotes manquantes HC16 » (45 cotes ; sections 1 et 2 avant de découper la semelle et le renfort de pont : nez de la pièce d'angle, pylône, bombé du pont, D6, V9).
 - Système de barre : section 5 du formulaire (recul et hauteur de la barre d'accouplement, bras, débattement, axe des safrans).
 - Choix restant : hauteur de coupe du coffre, longueur du plateau devant les mâts, hauteur exacte du collier (700–800 mm).
@@ -337,7 +362,7 @@
 
 ## Fichiers
 - `hc16_plateforme.step` : plateforme HC16 seule, recalée sur les relevés du 28/09/2026 (D5 et V5 inclus ; sauvegardes `cotes_avant_D5.yaml`, `hc16_rando_avant_D5.py`) ; `plateforme/plateforme_hc16.html` : page correspondante.
-- `hc16_rando_complet.step` : bateau complet au 06/10 (mâts reculés, coffre raccourci, collier sur le tube, emplanture sur rail ; moteur en marche ; voiles pleines ; peint), exporté par `export_step.py`. `etudes/balayage_levee.py` : balayage de la levée et sortie du bac → `plateforme/balayage_levee.json` ; `etudes/recouvrements.py` : contrôle statique de toutes les paires de pièces ; `etudes/balayage_moteur.py` : ancien balayage de la bascule vers l'avant.
+- `hc16_rando_complet.step` : bateau complet au 06/10 soir (mâts reculés, coffre raccourci, collier sur le tube et emplanture en CP collé stratifié ; moteur en marche ; voiles pleines ; peint), exporté par `export_step.py`. `etudes/balayage_levee.py` : balayage de la levée et sortie du bac → `plateforme/balayage_levee.json` ; `etudes/recouvrements.py` : contrôle statique de toutes les paires de pièces ; `etudes/balayage_moteur.py` : ancien balayage de la bascule vers l'avant.
 - `hc16_rando_moteur_en_marche.step`, `hc16_rando_moteur_releve.step` : anciens assemblages complets (moteur arrière, en marche / basculé à 90°).
 - `cotes_bac_590.yaml` : variante bac 590 × 260 × 330 (plats ±200, moteur à +500).
 - `hc16_rando_hayon_batterie_tribord.py`, `cotes_hayon_batterie_tribord.yaml` : variante batterie à tribord avec hayon d'angle.
@@ -351,4 +376,5 @@
 - `etudes/greement_hc16.py` : gréement HC16 d'origine approché et ses CV ; `book/` : scripts de capture et images du book.
 - `etudes/collier_tube.py` : jeux du gréement indépendant (collier, tube, emplanture, haubans) contre le reste, moteur en marche, relevé, voiles roulées. `etudes/vol_zones.py` : volume intérieur du coffre par zones.
 - `releves/page_cotes.py` → `releves/cotes_manquantes_hc16.html` : formulaire des cotes manquantes (06/10).
+- `etudes/fiche_technique.py` → `etudes/fiche_technique.json` : poids estimés, charge utile, assiette, comparaison avec le HC16 (06/10 soir). `book/fiche_slides.py` : pages de la fiche technique ; `book/maj_book.py` : numéros, sommaire, nomenclature et images du book ; `book/deck/` : sources du deck.
 - `dessins/` : superpositions profil Chevalier, plans de pont, vues 3D de la conversation « Centre vélique sur la voile du HC 16 ».

@@ -1,7 +1,7 @@
 # HC16 « Nacra 5.80 Rando »
 
 Conversion d'un Hobie Cat 16 :
-- gréement Nacra 5.80 Rando dessiné par JD (deux mâts carbone de 7,30 m posés sur le pont des coques, voiles sur enrouleur, livardes) ; collier, haubans, tube et mâts forment un ensemble indépendant du coffre, emplanture sur rail pour la quête ;
+- gréement Nacra 5.80 Rando dessiné par JD (deux mâts carbone de 7,30 m posés sur le pont des coques, voiles sur enrouleur, livardes) ; collier, haubans, tube et mâts forment un ensemble indépendant du coffre ; collier et emplanture en CP collé stratifié, quête réglée au trou ;
 - coffre en CP cousu-collé avec joues, bancs, accroches de poutre intégrées aux couples ;
 - moteur Haswing Protruar relevable à la verticale dans un puits central, batterie 24 V.
 
@@ -17,8 +17,8 @@ Repère : origine à l'étrave, à la flottaison, dans l'axe du bateau. X vers l
 | `SYNTHESE_coffre_hc16.md` | Synthèse des choix, cotes et vérifications (tenue à jour à chaque modification). |
 | `plateforme/` | Page 3D interactive : `export3d.py` → `p3d.json`, `page.py` + `gabarit.html` → `plateforme_hc16.html`. Vues cotées (`dessins.py`), attaches (`attaches.py`). |
 | `plans/` | Plan de découpe : `decoupe3.py` (dépliage du bordé, contours des pièces planes), `imbrique3.py` + `imbrication.py` (imbrication, DXF), `page_decoupe.py` → `decoupe_coffre_hc16.html`. DXF par planche et par pièce dans `plans/dxf3/`. Patron de la tente dans `plans/dxf_tente/`. |
-| `etudes/` | Balayage du relevage moteur, pose du coffre, recouvrements, jeux du collier et du tube (`collier_tube.py`), volumes du coffre par zones (`vol_zones.py`), gréement HC16 d'origine, hydrostatique et assiette. |
-| `book/` | Captures du book (`captures_3d.py`, `captures_page.py` → `book/img/`) et sources du deck Slides (`book/deck/`). |
+| `etudes/` | Balayage du relevage moteur, pose du coffre, recouvrements, jeux du collier et du tube (`collier_tube.py`), volumes du coffre par zones (`vol_zones.py`), gréement HC16 d'origine, hydrostatique et assiette, fiche technique : poids, charge utile, assiette, comparaison avec le HC16 (`fiche_technique.py`). |
+| `book/` | Captures du book (`captures_3d.py`, `captures_page.py` → `book/img/`), sources du deck Slides (`book/deck/`), pages de la fiche technique (`fiche_slides.py`), numéros, sommaire, nomenclature et images (`maj_book.py`). |
 | `releves/` | Photos annotées et formulaire des relevés du 28/09 ; formulaire des cotes manquantes (`page_cotes.py` → `cotes_manquantes_hc16.html`). |
 | `*.step` | Exports STEP (le complet : `hc16_rando_complet.step`). |
 | `cotes_avant_*.yaml`, `hc16_rando_avant_*.py` | États successifs : sauvegarde avant chaque modification, le suffixe dit laquelle. |

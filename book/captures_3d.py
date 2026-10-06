@@ -51,6 +51,11 @@ SCENES = (VUES('s1_hc16', **H16) + VUES('s2_rando') + VUES('s3_transp', trp=True
     ('d_assiette_0', W16, dict(rig=False, charge=0), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_assiette_150', W16, dict(rig=False, charge=150), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_ecoute', W16, dict(tire=True, choc=25, cv=False), ([-0.5, 1.15, 9500], [3500, 500, 1700], 28)),
+    # (JD 06/10 soir) sans coffre ni trampoline : haubans des pieds de mât, voiles roulées
+    ('h_pieds_av', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([2.55, 1.0, 6400], [1600, 0, 450], 32)),
+    ('h_pieds_ar', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([-0.8, 1.0, 7800], [2000, 0, 520], 32)),
+    ('h_pieds_de', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([PI / 2, 0.02, 41000], [2600, 0, 450], 6.2)),
+    ('h_pied_detail', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([2.0, 1.02, 1700], [1990, 1150, 430], 32)),
 ])
 
 async def etat(n, s):
