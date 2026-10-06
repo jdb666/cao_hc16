@@ -50,17 +50,31 @@ plateforme:
 
 mats:
   x_pied: 1766             # CV voiles pleines = CV HC16 d'origine (3010 mm) avec 3° de quête
-  y_axe: 1151              # contre le flasque : largeur/2 + diam/2 + 1 (coffre 2 240) ; tout près du bord du pont (1 190), la paroi de coque reprend l'effort vertical (JD 29/09)
+  y_axe: 1161              # (JD 06/10 : gréement indépendant du coffre) largeur/2 + diam/2 + 11 : 11 de jeu à la joue pour le mât qui tourne ; bord du mât au bord du pont (1 190), la paroi de coque reprend l'effort vertical (JD 29/09) ; avant : 1 151, à 1 de la joue
   z_pied: 348.1            # dessus de la semelle CP au pied de mât : renfort de pont 8 + bourrage 3 mini (pente P4) + CP 18
-  collier_hauteur: 750     # collier à 0,75 m du pied, le long du mât, porté par la joue
+  collier_hauteur: 750     # référence du coffre : les joues montent à 25 au-dessus (z 1 122) ; le collier lui-même est au-dessus des joues (mats.collier)
+  collier:                 # (JD 06/10) collier indépendant du coffre : bague où le mât tourne, tourillon emmanché dans le tube (il tourne quand on change de cran), attaches des haubans
+    jeu_joue: 10           # dessous du collier à 10 au-dessus du haut des joues (hauteur calculée ; ou `hauteur` le long du mât depuis le dessus de semelle)
+    ep: 70                 # 7 × CP 10, plis perpendiculaires au mât
+    alesage: 64            # bague PEHD de 2 : le mât Ø 60 y tourne
+    r_bague: 55
+    nez: 105               # avant du collier, devant l'axe du mât (l'axe du tube est à ≈ 68)
+    talon: 5               # méplat derrière la bague pour la ferrure AR
+    demi_y: 55
+    tourillon: {d: 45, l: 80, jeu_tube: 3}   # rond alu Ø 45 dans le tube Ø 50 × 2, gorge + goupille : le tube tourne autour sans pouvoir sortir
+    oeil: {saillie: 22, ep: 6, h: 24, dy_av: 40, dy_croise: -30}   # ferrures inox : devant (direct AV à 40 vers l'extérieur ; croisé AV à 30 vers l'intérieur, loin de la livarde rangée), derrière (AR), face intérieure en haut (diagonale vers la poutre)
+  emplanture:               # (JD 06/10) cale triangulaire boulonnée dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au cran
+    rail: {l: 180, larg: 40, h: 25, ep: 4, trou: 8, pas: 20, crans: [-2, -1, 0, 1, 2]}   # U alu 40 × 25 × 4, trous Ø 8 tous les 20 dans les ailes
+    cale: {base: 80, h: 40, haut: 24, larg: 31.5, trou_z: 12}   # pièce pleine (alu), profil triangulaire, boulon transversal à 12 au-dessus de l'âme
+    ergot: {d: 20, h: 20}   # le pied du mât (embout percé) tourne dessus ; mât raccourci de rail.ep + cale.h pour garder la bordure
   longueur: 7300
   diam: 60
   quete_deg: 3
   haubanage: 700           # le long du mât, depuis le pied
   semelle:                 # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
-    y_mat: 1151            # axe du mât : 151 à l'extérieur de l'axe de coque, bord du mât à 9 du bord du pont
+    y_mat: 1161            # axe du mât : 161 à l'extérieur de l'axe de coque (1 151 avant le 06/10)
     dx: [-110, 110]        # autour du pied de mât (x_pied)
-    dy: [-131, 35]         # côté bâbord (miroir à tribord) : y 1 020 → 1 186, reçoit aussi les tubes du coffre (y 1 066)
+    dy: [-141, 25]         # côté bâbord (miroir à tribord) : y 1 020 → 1 186 (inchangée), reçoit aussi les tubes du coffre (y 1 066) et le rail de l'emplanture
     ep: 18                 # 2 × CP 9 collés
     bourrage_min: 3
     inclinaison_laterale: 0   # mât vertical en travers ; la quête (quete_deg) et l'inclinaison sont fixées par la semelle et le collier
@@ -337,13 +351,13 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     etrave: {x: 50, dz: 12}  # pattes d'étrave (pointes des coques), sur l'axe de coque, au-dessus du pont
     cadene: {x: 2690, dy: 186, dz: 8}   # cadènes d'origine, bord extérieur du pont, ≈ 620 derrière la poutre AV (photo de dessus)
     croises_avant: true      # croisés vers la patte d'étrave opposée
-    croise_dz: 45            # œil des croisés sur un plot au-dessus du collier (35 -> 45 avec les joues arrondies, JD 30/09)
+    croise_dz: 45            # ancien collier : œil des croisés sur un plot au-dessus du collier (35 -> 45 avec les joues arrondies, JD 30/09) ; collier du 06/10 : ferrure avant
     croises_arriere: false   # retirés (JD 29/09) : remplacés par le tube entre les colliers
     x_croise_ar: 1995
-    collier_poutre: {dz: 100, poutre_dz: 10, x_poutre: 2085}   # (JD 05/10) hauban du collier au milieu de la poutre AV, en diagonale au-dessus du coffre : œil sur un plot 80 au-dessus de l'attache AR du collier, ferrure sur le dessus de la poutre (y 0)
-    tube_colliers: {diam: 50, ep: 2, x: 1741, z: 1075}   # tube alu entre les joues, juste devant les colliers (avancé de 64 et descendu de 22, JD 29/09 soir) : la tête du moteur passe derrière ; démontable
+    collier_poutre: {dz: 100, poutre_dz: 10, x_poutre: 2085}   # (JD 05/10) hauban du collier au milieu de la poutre AV, en diagonale au-dessus du coffre, ferrure sur le dessus de la poutre (y 0) ; ancien collier : œil sur un plot de 100 (dz) ; collier du 06/10 : ferrure en haut de sa face intérieure
+    tube_colliers: {diam: 50, ep: 2, x: 1741}   # tube alu d'un collier à l'autre, au-dessus du coffre (JD 06/10 : z calculé, sur l'axe des tourillons) ; x 1 741 : la tête du moteur passe 15 derrière (JD 29/09 soir) ; avant le 06/10 : z 1 075, à travers les joues
     semelle:                 # plan horizontal des semelles (JD 29/09) : directs AV et AR ; croisés passés à l'arrière (libèrent le moteur relevé)
-      attache_dx: 60         # pontets sur la semelle, 60 devant et derrière le pied de mât
+      attache_dx: 100        # pontets sur la semelle, 100 devant et derrière le pied de mât, au bout du rail (60 avant le 06/10)
       dz: 10                 # hauteur de l'œil au-dessus de la semelle
       croises_avant: true    # rétablis : le moteur ne bascule plus (croisement x 820, z 412, loin devant le coffre)
       croises_arriere: true  # rétablis (JD 29/09 soir) : vers un pontet au bord intérieur du pont opposé (jusqu'à la cadène, ils traverseraient le pont bombé)

@@ -101,21 +101,62 @@ plateforme:
     tige_diam: 6
 mats:
   x_pied: 1766
-  y_axe: 1151
+  y_axe: 1161
   z_pied: 348.1
   collier_hauteur: 750
+  collier:
+    jeu_joue: 10
+    ep: 70
+    alesage: 64
+    r_bague: 55
+    nez: 105
+    talon: 5
+    demi_y: 55
+    tourillon:
+      d: 45
+      l: 80
+      jeu_tube: 3
+    oeil:
+      saillie: 22
+      ep: 6
+      h: 24
+      dy_av: 40
+      dy_croise: -30
+  emplanture:
+    rail:
+      l: 180
+      larg: 40
+      h: 25
+      ep: 4
+      trou: 8
+      pas: 20
+      crans:
+      - -2
+      - -1
+      - 0
+      - 1
+      - 2
+    cale:
+      base: 80
+      h: 40
+      haut: 24
+      larg: 31.5
+      trou_z: 12
+    ergot:
+      d: 20
+      h: 20
   longueur: 7300
   diam: 60
   quete_deg: 3
   haubanage: 700
   semelle:
-    y_mat: 1151
+    y_mat: 1161
     dx:
     - -110
     - 110
     dy:
-    - -131
-    - 35
+    - -141
+    - 25
     ep: 18
     bourrage_min: 3
     inclinaison_laterale: 0
@@ -188,7 +229,7 @@ coffre:
       demi_y: 70
   capot_arriere:
     x0: 1760
-    z_c4: 750
+    z_c4: 740
     demi_y: 360
     ep: 6
     decoupe_moteur:
@@ -564,15 +605,15 @@ coffre:
     croises_arriere: false
     x_croise_ar: 1995
     collier_poutre:
-      dz: 80
+      dz: 100
       poutre_dz: 10
+      x_poutre: 2085
     tube_colliers:
       diam: 50
       ep: 2
       x: 1741
-      z: 1075
     semelle:
-      attache_dx: 60
+      attache_dx: 100
       dz: 10
       croises_avant: true
       croises_arriere: true

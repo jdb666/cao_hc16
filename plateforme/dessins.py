@@ -204,7 +204,26 @@ def semelle():
     if EPR: a1.add_patch(MPoly([(y, pont_p4(XM, y)) for y in yr] + [(y, sup(XM, y)) for y in yr[::-1]], closed=True, fc='#E8C79A', ec=CPL, lw=.6))
     a1.add_patch(MPoly([(y, sup(XM, y)) for y in ysd] + [(Y1, zu(XM, Y1)), (Y0, zu(XM, Y0))], closed=True, fc=AMB, ec=AMBL, lw=.7))
     a1.add_patch(MPoly([(Y0, zu(XM, Y0)), (Y1, zu(XM, Y1)), (Y1, zu(XM, Y1) + ep), (Y0, zu(XM, Y0) + ep)], closed=True, fc=CP, ec=CPL, lw=.8))
-    a1.add_patch(Rectangle((YM - 30, ztop), 60, 520 - ztop, fc='#2B2F33', ec=INK, lw=.6))
+    EMP = MATS.get('emplanture')                       # (JD 06/10) rail U, cale triangulaire boulonnée, ergot
+    ALU_, ALUL_, ANO_, INX_ = '#C9CED2', '#6E7A80', '#3A3F44', '#E3E7EA'
+    if EMP:
+        r_, ca_, eg_ = EMP['rail'], EMP['cale'], EMP['ergot']; W_, H_, e_ = r_['larg'], r_['h'], r_['ep']
+        zc0, zc1 = ztop + e_, ztop + e_ + ca_['h']; zbo = zc0 + ca_['trou_z']; zm0 = zc1
+    else:
+        zm0 = ztop
+    a1.add_patch(Rectangle((YM - 30, zm0), 60, 520 - zm0, fc='#2B2F33', ec=INK, lw=.6))
+    if EMP:
+        a1.add_patch(MPoly([(YM - W_ / 2, ztop), (YM + W_ / 2, ztop), (YM + W_ / 2, ztop + H_), (YM + W_ / 2 - e_, ztop + H_), (YM + W_ / 2 - e_, ztop + e_),
+                            (YM - W_ / 2 + e_, ztop + e_), (YM - W_ / 2 + e_, ztop + H_), (YM - W_ / 2, ztop + H_)], closed=True, fc=ALU_, ec=ALUL_, lw=.6))
+        a1.add_patch(Rectangle((YM - ca_['larg'] / 2, zc0), ca_['larg'], ca_['h'], fc=ANO_, ec=INK, lw=.6))
+        a1.add_patch(Rectangle((YM - W_ / 2 - 8, zbo - r_['trou'] / 2), W_ + 16, r_['trou'], fc=INX_, ec=INK, lw=.5))
+        a1.add_patch(Rectangle((YM - eg_['d'] / 2, zc1), eg_['d'], eg_['h'], fc=INX_, ec=INK, lw=.5, ls=(0, (2, 1.5))))
+        a1.annotate(f"rail U {W_:.0f} × {H_:.0f} × {e_:.0f}", xy=(YM + W_ / 2, ztop + H_ - 4), xytext=(YM + 44, ztop + 36), fontsize=7, color=INK, va='center',
+                    arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
+        a1.annotate(f"cale alu, boulon Ø {r_['trou']:.0f}", xy=(YM + ca_['larg'] / 2, zc1 - 8), xytext=(YM + 44, ztop + 58), fontsize=7, color=INK, va='center',
+                    arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
+        a1.annotate(f"ergot Ø {eg_['d']:.0f}", xy=(YM + eg_['d'] / 2, zc1 + eg_['h'] / 2), xytext=(YM + 44, ztop + 80), fontsize=7, color=INK, va='center',
+                    arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
     PY = NEW['coffre']['pylones']; yp = NEW['coffre']['largeur'] / 2 - NEW['coffre']['ep_flasque'] - PY['y_int']
     a1.add_patch(Rectangle((yp - PY['diam'] / 2, ztop), PY['diam'], 520 - ztop, fc='#26292C', ec=INK, lw=.6))
     a1.text(yp - PY['diam'] / 2 - 8, 470, 'tubes carbone\ndu coffre', ha='right', va='center', fontsize=7, color=INK)
@@ -229,11 +248,28 @@ def semelle():
     if EPR: a2.add_patch(MPoly([(x, pont_p4(x, YM)) for x in xr_] + [(x, sup(x, YM)) for x in xr_[::-1]], closed=True, fc='#E8C79A', ec=CPL, lw=.6))
     a2.add_patch(MPoly([(x, sup(x, YM)) for x in xss] + [(X1, zu(X1, YM)), (X0, zu(X0, YM))], closed=True, fc=AMB, ec=AMBL, lw=.7))
     a2.add_patch(MPoly([(X0, zu(X0, YM)), (X1, zu(X1, YM)), (X1, zu(X1, YM) + ep), (X0, zu(X0, YM) + ep)], closed=True, fc=CP, ec=CPL, lw=.8))
-    L = 520 - ztop; ux, uz = NX, NZ
-    a2.add_patch(MPoly([(XM - 30 * uz, ztop + 30 * ux), (XM + 30 * uz, ztop - 30 * ux), (XM + 30 * uz + L * ux, ztop - 30 * ux + L * uz), (XM - 30 * uz + L * ux, ztop + 30 * ux + L * uz)], closed=True, fc='#2B2F33', ec=INK, lw=.6))
+    ux, uz = NX, NZ
+    P_ = lambda s_, n_: (XM + s_ * uz + n_ * ux, ztop - s_ * ux + n_ * uz)      # s le long de la semelle (vers l'arrière), n le long du mât
+    n0 = (e_ + ca_['h']) if EMP else 0.0
+    L = (520 - ztop) / uz
+    a2.add_patch(MPoly([P_(-30, n0), P_(30, n0), P_(30, L), P_(-30, L)], closed=True, fc='#2B2F33', ec=INK, lw=.6))
+    if EMP:
+        b2_, t2_ = ca_['base'] / 2, ca_['haut'] / 2
+        a2.add_patch(MPoly([P_(-b2_, e_), P_(b2_, e_), P_(t2_, n0), P_(-t2_, n0)], closed=True, fc=ANO_, ec=INK, lw=.6))
+        a2.add_patch(MPoly([P_(-r_['l'] / 2, 0), P_(r_['l'] / 2, 0), P_(r_['l'] / 2, H_), P_(-r_['l'] / 2, H_)], closed=True, fc=ALU_, ec=ALUL_, lw=.6, alpha=.92))
+        for kk in r_['crans']:
+            a2.add_patch(Circle(P_(kk * r_['pas'], e_ + ca_['trou_z']), r_['trou'] / 2, fc=INX_ if kk == 0 else 'white', ec=INK if kk == 0 else ALUL_, lw=.5))
+        a2.add_patch(MPoly([P_(-eg_['d'] / 2, n0), P_(eg_['d'] / 2, n0), P_(eg_['d'] / 2, n0 + eg_['h']), P_(-eg_['d'] / 2, n0 + eg_['h'])], closed=True, fc=INX_, ec=INK, lw=.5, ls=(0, (2, 1.5))))
+        import hc16_rando as HR_
+        qc_ = HR_.quetes_crans(NEW)
+        qq = (' · '.join(f'{v:.1f}' for _, v in qc_).replace('.', ',') + '°') if qc_ else None
+        a2.annotate(f"trous Ø {r_['trou']:.0f} tous les {r_['pas']:.0f}" + (f"\nquête {qq}" if qq else ''), xy=P_(r_['l'] / 2 - 10, e_ + ca_['trou_z']),
+                    xytext=(1872, 440), fontsize=7, color=INK, ha='left', va='center', arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
+        a2.annotate('cale de profil triangulaire,\nboulonnée dans le rail', xy=P_(-17, H_ + 6), xytext=(1585, 440), fontsize=7, color=INK, ha='left', va='center',
+                    arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
     a2.plot([XM, XM], [ztop, 515], color=DIM, lw=.6, ls=(0, (3, 2)))
     a2.text(XM + 10, 492, f'quête {MATS["quete_deg"]:.0f}°', fontsize=8, color=DIM, fontweight='bold')
-    a2.text(1575, 360, f'pont +{SM["pente_pont_p4"]:.1f}° vers l’étrave (P4)'.replace('.', ','), fontsize=7.5, color=INK)
+    a2.text(1575, 212, f'pont +{SM["pente_pont_p4"]:.1f}° vers l’étrave (P4)'.replace('.', ','), fontsize=7.5, color=INK)
     for x, ha in ((X0, 'right'), (X1, 'left')):
         j = zu(x, YM) - sup(x, YM)
         a2.annotate(f'{j:.0f}', xy=(x, sup(x, YM) + j / 2), xytext=(x + (-24 if ha == 'right' else 24), pont_p4(x, YM) - 30),

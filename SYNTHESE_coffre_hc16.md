@@ -291,8 +291,21 @@
 - Paramètres : `coffre.haubans.collier_poutre: {dz: 100, poutre_dz: 10, x_poutre: 2085}`, `coffre.capot_arriere: {x0: 1760, z_c4: 740, demi_y: 360, ep: 6, decoupe_moteur}`, `coffre.table.x1: 1760`. Étude : `etudes/hauban_collier_poutre.py`. Sauvegardes : `cotes_avant_hauban_poutre.yaml`, `hc16_rando_avant_hauban_poutre.py`.
 - À refaire une fois les modifications des emplantures et du collier arrêtées : plan de découpe (nouvelles pièces CR et CJ ; C4, table, K331 et PM modifiés), STEP, balayage du relevage, book.
 
+## Collier indépendant du coffre, emplanture sur rail (JD 06/10/2026)
+- Demandes JD : « la pièce de collier de mât doit accueillir le mât bien sûr mais aussi s'emmancher dans le tube pour pouvoir tourner, elle est aussi le point d'accroche des haubans, collier haubans tube mât forme un ensemble indépendant du coffre » ; « l'emplanture est mobile le long d'un petit rail pour régler la quête (un simple U avec des perçages pour un boulon transverse). Le mât tourne sur un ergot reposant sur une pièce solide de profil triangulaire percée qui s'emmanche dans le rail et est boulonnée ».
+- Lecture retenue : le collier tourne autour de l'axe du tube quand on change de trou à l'emplanture (il suit la quête) ; le mât tourne dans la bague du collier et sur l'ergot.
+- Emplanture : rail U alu 40 × 25 × 4, 180 de long, sur la semelle (perpendiculaire au mât), 5 trous Ø 8 tous les 20 dans les ailes ; cale alu pleine de profil triangulaire (base 80, haut 24, hauteur 40, largeur 31,5) emmanchée dans le rail, boulon Ø 8 transversal à 12 au-dessus de l'âme ; ergot inox Ø 20 × 20 sur la cale, embout du mât percé. Pied du mât à z 392 (rail 4 + cale 40) : mât raccourci de 44 au pied pour garder la bordure (67 avec la semelle).
+- Quête (le collier reste en place et tourne sur le tube) : 5,9 · 4,5 · 3,0 · 1,5 · 0,1° du trou avant au trou arrière, 1,5° par trou, 3° au milieu. Le direct AR bouge d'environ 3 par trou : retendre après un changement.
+- Collier : bloc CP stratifié 7 × CP 10 (70, plis perpendiculaires au mât), 168 × 110 (avant 105 devant l'axe du mât, bague R 55, talon 5) ; bague PEHD Ø 64/60 où le mât tourne ; tourillon alu Ø 45 × 80 vers l'intérieur, sur l'axe du tube (68 devant l'axe du mât, x 1 741), gorge + goupille : le tube ne sort pas et tourne ; ferrures inox : devant, direct AV (40 vers l'extérieur) et croisé AV (30 vers l'intérieur) ; derrière, direct AR ; en haut de la face intérieure, la diagonale vers la poutre. Centre x 1 809, z 1 170 (823 le long du mât depuis le dessus de semelle, 779 depuis le pied du mât) ; dessous 10 au-dessus du haut des joues (hauteur calculée par `jeu_joue`).
+- Mâts à y ±1 161 (1 151 avant) : 11 de jeu à la joue, le mât tourne et ne tient plus au coffre ; bord du mât au bord du pont (1 190). Semelle inchangée (dy −141 → 25). Coffre inchangé (2 240, joues à ±1 120) ; plus de demi-collier boulonné sur la joue.
+- Tube alu Ø 50 × 2 d'un collier à l'autre, au-dessus du coffre : axe x 1 741 (la tête du moteur passe toujours 15 derrière), z 1 174, 2 206 de long ; 31 au-dessus du haut des joues : plus de trous ni de manchons dans le coffre. Le bras du moteur relevé reste sur le tube.
+- Haubans : sur les ferrures du collier, plus de plot (croisé AV à plus de 60 de la joue) ; direct AV à 40 et croisé AV à 30 des livardes rangées ; pontets du pied à ±100, au bout du rail (60 avant). Diagonale vers la poutre AV : 1 231 de long, 25° sous l'horizontale ; jeux 23 au coin de C4, 28 au capot, 30 aux joues du capot, 22 à la tête du moteur en marche, 20 aux parois du puits.
+- Jeux du gréement au coffre : collier 11 (joue), mât 11 (joue) et 20 (bordé, renfort des tubes), tourillon 33, tube 31 (joues) et 33 (barre du moteur). Contrôle de toutes les paires : aucun recouvrement nouveau. Relevage du moteur (pas de 25) : aucun contact, tête à 15 derrière le tube.
+- Paramètres : `mats.collier`, `mats.emplanture`, `mats.y_axe: 1161`, `mats.semelle.{y_mat, dy}`, `coffre.haubans.tube_colliers: {diam, ep, x}` (z calculé), `coffre.haubans.semelle.attache_dx: 100`. Fonctions `collier_geom`, `collier_tourillon`, `emplanture`, `quetes_crans` (`hc16_rando.py`). Étude : `etudes/collier_tube.py` → `etudes/collier_tube.json`. Sauvegardes : `cotes_avant_collier_tube.yaml`, `hc16_rando_avant_collier_tube.py`.
+- Reste à refaire avec ces pièces : plan de découpe (collier en 7 × CP 10 ; capot arrière du 05/10), STEP, book.
+
 ## Points ouverts / mesures à prendre
-- Emplantures et collier : modifications annoncées par JD le 05/10, à recevoir. Ensuite : plan de découpe, STEP, balayage du relevage et book à refaire.
+- Collier et emplanture (06/10) : dimensions et matériaux proposés, à valider (JD). Ensuite : plan de découpe, STEP et book à refaire.
 - Centre vélique : reculer ou non le pied de mât de 0,13 à 0,2 m (JD).
 - D6 (dépassement du nez des pièces d'angle) et V9 (hauteur de la poutre AV au ras de la pièce d'angle). V6 et V7 non disponibles : cale de pied de mât à ajuster au gabarit sur le bateau.
 - Système de barre : recul et hauteur de la barre d'accouplement, longueur et décalage des bras, débattement, axe des safrans.
@@ -313,4 +326,5 @@
 - `hc16_rando_coffre_joues_voiles_pleines.step`, `hc16_rando_coffre_joues_voiles_50.step` : assemblage complet.
 - `hc16_rando.py` + `cotes.yaml` : modèle paramétrique (CadQuery 2.8).
 - `etudes/greement_hc16.py` : gréement HC16 d'origine approché et ses CV ; `book/` : scripts de capture et images du book.
+- `etudes/collier_tube.py` : jeux du gréement indépendant (collier, tube, emplanture, haubans) contre le reste, moteur en marche, relevé, voiles roulées.
 - `dessins/` : superpositions profil Chevalier, plans de pont, vues 3D de la conversation « Centre vélique sur la voile du HC 16 ».
