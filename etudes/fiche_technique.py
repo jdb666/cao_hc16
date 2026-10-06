@@ -112,14 +112,21 @@ def equilibre(M, xG):
         if abs(ddz) < 0.01 and abs(dtau) < 1e-7:
             break
     return dz, tau
+# point le plus bas du coffre (fond, puits) : garde au-dessus de l'eau calme
+_pts = []
+for n_ in [n for n in D if n.startswith(('coffre_', 'moteur_puits'))]:
+    vs_, _ = D[n_].tessellate(1.0, 0.3); _pts += [(v.z, v.x) for v in vs_]
+Z_COF, X_COF = min(_pts)
 def etat(M, xG):
     dz, tau = equilibre(M, xG)
     hh = lambda x: dz + tau * (xF0 - x)
-    return dict(M=round(M, 1), xG=round(xG), assiette=round(math.degrees(math.atan(tau)), 2), etrave=round(hh(0)), tableau=round(hh(5050)), x1250=round(hh(1250)))
+    return dict(M=round(M, 1), xG=round(xG), assiette=round(math.degrees(math.atan(tau)), 2), etrave=round(hh(0)), tableau=round(hh(5050)), x1250=round(hh(1250)),
+                garde_coffre=round(Z_COF - hh(X_COF)))
 
-# Référence : le HC16 d'origine avec 2 équipiers (160 kg, x 3 000) flotte à plat ; on en déduit le CdG de la plateforme nue
+# Référence : le HC16 d'origine avec 2 équipiers (160 kg) assis près de la poutre AV flotte à plat ; on en déduit le CdG de la plateforme nue
+# (JD 06/10 soir : « on navigue assis près de la poutre avant » ; avant : équipage supposé à x 3 000, CdG du HC16 nu trop en avant)
 X_MAT_HC16, X_MAT = 2070.0, c['mats']['x_pied']
-EQ_X = 3000.0                                                   # équipage : assis sur le trampoline et l'arrière des bancs
+EQ_X = 2300.0                                                   # équipage assis juste derrière la poutre AV (axe x 2 070)
 x_moteur = c['coffre']['moteur']['vertical2']['x_arbre']
 x_batt = D['batterie'].Center().x if 'batterie' in D else 1550.0
 M_h = plateforme + hc16_gr
@@ -134,26 +141,56 @@ xg_h = sum(m * x for m, x in masses_h) / M_h
 masses_r = [(plateforme, x_plat), (gr_total, X_MAT + 250), (coffre_total, xg_coffre), (6.7, x_moteur), (moteur_total - 6.7, x_batt)]
 M_r = sum(m for m, _ in masses_r); xg_r = sum(m * x for m, x in masses_r) / M_r
 DEPL_EU, DEPL_US = HC16 + 240, HC16 + 362
+bb_ = [D[n].BoundingBox() for n in D if n.startswith('banc_') and ('assise' in n or 'caisson' in n)] or [D[n].BoundingBox() for n in D if n.startswith('banc_')]
+xb0_, xb1_ = min(b.xmin for b in bb_), max(b.xmax for b in bb_)
+X_BAG, X_BANC_AR = 1780.0, xb1_ - (xb1_ - xb0_) / 4           # milieu des coffres latéraux ; milieu de la moitié AR des bancs
+X_BATT_AR = 3900.0                                             # batterie sur le trampoline devant la poutre AR (axe x 4 145)
+CABLE_AR = 2 * (X_BATT_AR - x_batt) / 1000 * 0.224            # 2 conducteurs 25 mm² en plus (cuivre 0,224 kg/m)
+masses_r_ar = [(plateforme, x_plat), (gr_total, X_MAT + 250), (coffre_total, xg_coffre), (6.7, x_moteur),
+               (moteur_total - 6.7, X_BATT_AR), (CABLE_AR, (x_batt + X_BATT_AR) / 2)]
+M_r_ar = sum(m for m, _ in masses_r_ar); xg_r_ar = sum(m * x for m, x in masses_r_ar) / M_r_ar
+def charge(base, xbase, eq=160.0, x_eq=EQ_X, bags=()):
+    M = base + eq + sum(m for m, _ in bags)
+    return M, (base * xbase + eq * x_eq + sum(m * x for m, x in bags)) / M
 cas = {}
-cas['HC16, 2 équipiers (160 kg)'] = etat(M_h + 160, (M_h * xg_h + 160 * EQ_X) / (M_h + 160))
-cas['HC16 à sa charge maxi CE (240 kg)'] = etat(M_h + 240, (M_h * xg_h + 240 * EQ_X) / (M_h + 240))
-print('M_h', round(M_h, 1), 'xg_h', round(xg_h), 'x_plat', round(x_plat), 'M_r', round(M_r, 1), 'xg_r', round(xg_r), 'xg_coffre', round(xg_coffre), flush=True)
+cas['HC16, 2 équipiers près de la poutre AV (référence)'] = etat(*charge(M_h, xg_h))
+cas['HC16 au maxi CE : 3 équipiers (240 kg)'] = etat(*charge(M_h, xg_h, 240.0))
+print('M_h', round(M_h, 1), 'xg_h', round(xg_h), 'x_plat', round(x_plat), 'M_r', round(M_r, 1), 'xg_r', round(xg_r), 'xg_coffre', round(xg_coffre),
+      'x_moteur', round(x_moteur), 'x_batt', round(x_batt), 'bancs', round(xb0_), round(xb1_), 'coffre bas', round(Z_COF), round(X_COF), flush=True)
 cas['Rando à vide'] = etat(M_r, xg_r)
-cas['Rando, 2 équipiers (160 kg), coffre vide'] = etat(M_r + 160, (M_r * xg_r + 160 * EQ_X) / (M_r + 160))
+cas['Rando, 2 équipiers, coffre vide'] = etat(*charge(M_r, xg_r))
+cas['Rando, 2 équipiers + 30 kg au coffre'] = etat(*charge(M_r, xg_r, bags=[(30, X_BAG)]))
+cas['Rando, 2 équipiers + 60 kg au coffre'] = etat(*charge(M_r, xg_r, bags=[(60, X_BAG)]))
 bag_eu = DEPL_EU - M_r - 160
-cas[f'Rando au déplacement maxi CE du HC16 : 2 équipiers + {bag_eu:.0f} kg dans le coffre'] = etat(DEPL_EU, (M_r * xg_r + 160 * EQ_X + bag_eu * 1780) / DEPL_EU)
-cas['Rando, 2 équipiers + 60 kg dans le coffre'] = etat(M_r + 220, (M_r * xg_r + 160 * EQ_X + 60 * 1780) / (M_r + 220))
-def x_equipage_a_plat(bag):
-    """Où asseoir les 2 équipiers (160 kg) pour flotter à plat avec bag kg dans le coffre (x 1 780)."""
-    M = M_r + 160 + bag; dz = (M - D0) / (RHO * 2 * aw / 1e6 / 1000)
+cas[f'Rando au déplacement maxi CE du HC16 : 2 équipiers + {bag_eu:.0f} kg dans le coffre'] = etat(*charge(M_r, xg_r, bags=[(bag_eu, X_BAG)]))
+cas["Rando, 2 équipiers + 60 kg sous l'arrière des bancs"] = etat(*charge(M_r, xg_r, bags=[(60, X_BANC_AR)]))
+cas['Rando, batterie devant la poutre AR, 2 équipiers, coffre vide'] = etat(*charge(M_r_ar, xg_r_ar))
+cas['Rando, batterie devant la poutre AR, 2 équipiers + 60 kg au coffre'] = etat(*charge(M_r_ar, xg_r_ar, bags=[(60, X_BAG)]))
+def x_equipage_a_plat(base, xbase, bags=()):
+    """Où asseoir les 2 équipiers (160 kg) pour flotter à plat."""
+    M = base + 160 + sum(m for m, _ in bags); dz = (M - D0) / (RHO * 2 * aw / 1e6 / 1000)
     for _ in range(30):
         v, xb = carene(dz, 0.0, xF0); r = RHO * v - M
         if abs(r) < 0.01: break
         v2, _ = carene(dz + 0.5, 0.0, xF0); dz -= r / ((RHO * v2 - RHO * v) / 0.5)
-    return (M * xb - M_r * xg_r - bag * 1780) / 160
-X_PLAT = {str(b_): round(x_equipage_a_plat(b_)) for b_ in (0, 60)}
-cas['Rando, 2 équipiers reculés à x 3 500 + 60 kg dans le coffre'] = etat(M_r + 220, (M_r * xg_r + 160 * 3500 + 60 * 1780) / (M_r + 220))
+    return (M * xb - base * xbase - sum(m * x for m, x in bags)) / 160
+X_PLAT = {'coffre vide': round(x_equipage_a_plat(M_r, xg_r)),
+          '30 kg au coffre': round(x_equipage_a_plat(M_r, xg_r, [(30, X_BAG)])),
+          '60 kg au coffre': round(x_equipage_a_plat(M_r, xg_r, [(60, X_BAG)])),
+          "60 kg sous l'arrière des bancs": round(x_equipage_a_plat(M_r, xg_r, [(60, X_BANC_AR)])),
+          'batterie AR, coffre vide': round(x_equipage_a_plat(M_r_ar, xg_r_ar)),
+          'batterie AR, 60 kg au coffre': round(x_equipage_a_plat(M_r_ar, xg_r_ar, [(60, X_BAG)]))}
 print('équipage à plat', X_PLAT, flush=True)
+# bilan des moments (kg·m) par rapport au HC16 de référence, équipage au même endroit ; + = sur le nez
+_ref = cas['HC16, 2 équipiers près de la poutre AV (référence)']
+xF_ = xF0
+BILAN = {'gréement HC16 enlevé': -hc16_gr * (xF_ - (X_MAT_HC16 + 300)) / 1000, 'gréement Rando': gr_total * (xF_ - (X_MAT + 250)) / 1000,
+         'coffre et bancs': coffre_total * (xF_ - xg_coffre) / 1000, 'moteur': 6.7 * (xF_ - x_moteur) / 1000,
+         'batterie, bac, câbles': (moteur_total - 6.7) * (xF_ - x_batt) / 1000}
+BILAN = {k: round(v, 1) for k, v in BILAN.items()}
+_M2, _x2 = charge(M_r, xg_r); _a = etat(_M2, _x2)['assiette']; _b = etat(_M2, _x2 + 1000 * 10 / _M2)['assiette']
+MCT = round(10 / abs(_a - _b), 1)                              # kg·m par degré vers 375 kg
+print('bilan', BILAN, 'total', round(sum(BILAN.values()), 1), 'MCT', MCT, flush=True)
 out = dict(
     hc16=dict(poids=HC16, gréement=round(hc16_gr, 1), gréement_detail=hc16_greement, plateforme=round(plateforme, 1), capacite_ce=240, capacite_us=362, voilure=18.9),
     rando=dict(plateforme=round(plateforme, 1), gréement=round(gr_total, 1), gréement_detail={k: round(v, 2) for k, v in gr.items()},
@@ -163,7 +200,10 @@ out = dict(
                cp_greement=round(gr_cp, 2), xg_coffre=round(xg_coffre), xg_vide=round(xg_r), voilure=22.2),
     charge=dict(depl_ce=DEPL_EU, depl_us=DEPL_US, utile_ce=round(DEPL_EU - vide), utile_us=round(DEPL_US - vide), utile_ce_ancre=round(DEPL_EU - vide_ancre)),
     hydro=dict(D0=round(D0, 1), xB0=round(xB0), xF0=round(xF0), kg_mm=round(RHO * 2 * aw / 1e6 / 1000, 2), x_plateforme=round(x_plat), xg_hc16=round(xg_h)),
-    cas=cas, x_equipage_a_plat=X_PLAT, volumes=dict(coffre_ext=676, coffre_int=649, hors_centre=432, par_cote=216, centre=216, bancs_par_cote=round(1195.5 * 311 * 127 / 1e6)),
+    cas=cas, x_equipage_a_plat=X_PLAT, bilan_moments=BILAN, mct=MCT,
+    positions=dict(equipage=EQ_X, bagages_coffre=X_BAG, bagages_bancs=round(X_BANC_AR), bancs=[round(xb0_), round(xb1_)], batterie=round(x_batt), batterie_ar=X_BATT_AR,
+                   moteur=round(x_moteur), coffre_bas=[round(X_COF), round(Z_COF)], cable_ar=round(CABLE_AR, 2)),
+    volumes=dict(coffre_ext=676, coffre_int=649, hors_centre=432, par_cote=216, centre=216, bancs_par_cote=round(1195.5 * 311 * 127 / 1e6)),
 )
 json.dump(out, open('/home/claude/cao/etudes/fiche_technique.json', 'w'), ensure_ascii=False, indent=1)
 print(json.dumps(out, ensure_ascii=False, indent=1))

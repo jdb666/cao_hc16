@@ -11,7 +11,7 @@ DISP = "font-family:'Barlow Semi Condensed', Arial, sans-serif"
 PAGE = lambda col: f'<p style="position:absolute;right:128px;bottom:56px;width:120px;text-align:right;{MONO};font-size:24px;color:{col}">0</p>'
 arr = lambda v: int(5 * round(v / 5))           # poids estimés : à 5 kg près
 vide = arr(R['vide']); utile_ce = int(C['depl_ce'] - vide); utile_us = int(C['depl_us'] - vide)
-XP = F['x_equipage_a_plat']; REF = F['cas']['HC16, 2 équipiers (160 kg)']
+XP = F['x_equipage_a_plat']; REF = F['cas']['HC16, 2 équipiers près de la poutre AV (référence)']; PO = F['positions']
 bag = utile_ce - 160
 
 # ---------------------------------------------------------------- s8 : intercalaire
@@ -72,20 +72,21 @@ poids = [
 rp = ''.join(f'<tr><td>{"<b>" if i == len(poids) - 1 else ""}{esc(a)}{"</b>" if i == len(poids) - 1 else ""}</td><td style="text-align:right">{"<b>" if i == len(poids) - 1 else ""}{esc(b)}{"</b>" if i == len(poids) - 1 else ""}</td><td style="color:#4A5A63;font-size:20px">{esc(c)}</td></tr>\n'
              for i, (a, b, c) in enumerate(poids))
 cas = F['cas']
-def ligne_cas(lib, k):
+def ligne_cas(lib, k, garde=True):
     e = cas[k]
     a = e['assiette']
-    sens = 'à plat' if abs(a) < 0.05 else (f"{num(abs(a), 1)}° sur le nez" if a > 0 else f"{num(abs(a), 1)}° sur l'arrière")
+    sens = 'à plat' if abs(a) < 0.1 else (f"{num(abs(a), 1)}° sur le nez" if a > 0 else f"{num(abs(a), 1)}° sur l'arrière")
     sg = lambda v: ('+ ' if v > 0 else '− ' if v < 0 else '') + str(abs(v))
     de, dt = sg(e["etrave"] - REF["etrave"]), sg(e["tableau"] - REF["tableau"])
-    return f'<tr><td>{esc(lib)}</td><td style="text-align:right">{num(e["M"])} kg</td><td style="text-align:right">{esc(sens)}</td><td style="text-align:right">{de}</td><td style="text-align:right">{dt}</td></tr>\n'
-kmax = [k for k in cas if k.startswith('Rando au déplacement maxi')][0]
-rc = (ligne_cas("HC16, 2 équipiers (référence)", 'HC16, 2 équipiers (160 kg)')
-      + ligne_cas("HC16 au maxi CE : 3 équipiers (240 kg)", 'HC16 à sa charge maxi CE (240 kg)')
-      + ligne_cas('Rando, 2 équipiers', 'Rando, 2 équipiers (160 kg), coffre vide')
-      + ligne_cas(f'Rando au maxi CE : 2 équipiers + {bag} kg au coffre', kmax)
-      + ligne_cas('Rando, 2 équipiers + 60 kg au coffre', 'Rando, 2 équipiers + 60 kg dans le coffre')
-      + ligne_cas('Rando, 2 équipiers reculés à x 3 500 + 60 kg au coffre', 'Rando, 2 équipiers reculés à x 3 500 + 60 kg dans le coffre'))
+    g = str(e["garde_coffre"]) if garde else '—'
+    return (f'<tr><td>{esc(lib)}</td><td style="text-align:right">{num(e["M"])} kg</td><td style="text-align:right">{esc(sens)}</td>'
+            f'<td style="text-align:right">{de}</td><td style="text-align:right">{dt}</td><td style="text-align:right">{g}</td></tr>\n')
+rc = (ligne_cas("HC16, 2 équipiers près de la poutre AV (référence)", 'HC16, 2 équipiers près de la poutre AV (référence)', garde=False)
+      + ligne_cas('Rando, 2 équipiers au même endroit, coffre vide', 'Rando, 2 équipiers, coffre vide')
+      + ligne_cas('Rando, 2 équipiers + 60 kg au coffre', 'Rando, 2 équipiers + 60 kg au coffre')
+      + ligne_cas("Rando, 2 équipiers + 60 kg sous l'arrière des bancs", "Rando, 2 équipiers + 60 kg sous l'arrière des bancs")
+      + ligne_cas('Batterie devant la poutre AR, 2 équipiers, coffre vide', 'Rando, batterie devant la poutre AR, 2 équipiers, coffre vide')
+      + ligne_cas('Batterie devant la poutre AR, 2 équipiers + 60 kg au coffre', 'Rando, batterie devant la poutre AR, 2 équipiers + 60 kg au coffre'))
 fp = f'''<section id="f-poids" style="background:#EDF0F0;color:#18262E;font-family:'IBM Plex Sans', Arial, sans-serif">
 <p style="position:absolute;left:128px;top:64px;width:1200px;{MONO};font-size:24px;letter-spacing:2px;text-transform:uppercase;color:#1F6F8B">08 · Fiche technique</p>
 <h2 style="position:absolute;left:128px;top:100px;width:1600px;{DISP};font-size:44px;font-weight:600;line-height:1.15;color:#18262E">Poids, charge et assiette</h2>
@@ -93,9 +94,9 @@ fp = f'''<section id="f-poids" style="background:#EDF0F0;color:#18262E;font-fami
 <tr><th style="width:26%">Poste</th><th style="width:12%;text-align:right">Poids</th><th style="width:62%">Détail</th></tr>
 {rp}</table>
 <table style="position:absolute;left:128px;top:540px;width:1664px;font-size:22px;color:#18262E">
-<tr><th style="width:46%">Chargement</th><th style="width:13%;text-align:right">Déplacement</th><th style="width:17%;text-align:right">Assiette</th><th style="width:12%;text-align:right">Eau à l'étrave</th><th style="width:12%;text-align:right">Au tableau</th></tr>
+<tr><th style="width:40%">Chargement</th><th style="width:11%;text-align:right">Déplacement</th><th style="width:14%;text-align:right">Assiette</th><th style="width:12%;text-align:right">Eau à l'étrave</th><th style="width:11%;text-align:right">Au tableau</th><th style="width:12%;text-align:right">Garde du coffre</th></tr>
 {rc}</table>
-<p style="position:absolute;left:128px;top:900px;width:1664px;font-size:20px;line-height:1.4;color:#4A5A63">Équipage à x 3 000 sauf mention, bagages au milieu des coffres latéraux (x 1 780). Assiette et hauteurs d'eau (mm) par rapport au HC16 avec 2 équipiers, supposé à plat ; {num(Hy['kg_mm'], 2)} kg par mm d'enfoncement. Pour flotter à plat comme lui, l'équipage s'assoit à x {num(round(XP['0'], -1))} coffre vide, x {num(round(XP['60'], -1))} avec 60 kg au coffre. CP okoumé 500 kg/m³ ; époxy, verre et peinture 0,6 kg par m² de pièce.</p>
+<p style="position:absolute;left:128px;top:900px;width:1664px;font-size:20px;line-height:1.4;color:#4A5A63">Équipage près de la poutre AV (x {num(PO['equipage'])}), comme on navigue le HC16, qui flotte alors à plat (référence). Bagages au coffre x {num(PO['bagages_coffre'])}, sous l'arrière des bancs x {num(round(PO['bagages_bancs'], -1))} ; batterie déplacée à x {num(PO['batterie_ar'])}. Hauteurs d'eau en mm par rapport à la référence ; garde : point bas du coffre (puits) au-dessus de l'eau calme. 1° d'assiette ≈ {num(F['mct'])} kg·m. À plat : équipage à x {num(round(XP['coffre vide'], -1))} coffre vide, x {num(round(XP['60 kg au coffre'], -1))} avec 60 kg au coffre ; batterie à l'arrière : x {num(round(XP['batterie AR, coffre vide'], -1))}.</p>
 {PAGE('#4A5A63')}
 </section>
 '''
