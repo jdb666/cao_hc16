@@ -13,8 +13,8 @@ def chip(x, y, t):
             f'<text x="{x:.1f}" y="{y + 4.6:.1f}" text-anchor="middle">{esc(t)}</text></g>')
 
 
-def dim(x1, y1, x2, y2, m='a'):
-    return f'<line class="dm" x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" marker-start="url(#{m}s)" marker-end="url(#{m}e)"/>'
+def dim(x1, y1, x2, y2, m='a', cls='dm'):
+    return f'<line class="{cls}" x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" marker-start="url(#{m}s)" marker-end="url(#{m}e)"/>'
 
 
 def ext(x1, y1, x2, y2):
@@ -231,17 +231,19 @@ def croquis_haubans():
 
 # ---------- croquis 4 : moteur Protruar 2.0 de profil (0,36 px/mm) ----------
 def croquis_moteur():
+    """Profil schématique ; cotes du schéma du manuel en gris, cotes à mesurer en jaune."""
     s = 0.36
     X = lambda x: 300 + x * s
     Y = lambda z: 40 + (455 - z) * s
-    b = []
-    # barre repliée
+    g = lambda x1, y1, x2, y2: dim(x1, y1, x2, y2, 'g', 'dmg')
+    v = lambda x, y, t_, a='start': txt(x, y, t_, 'lv', a)
+    b = ['<defs><marker id="gs" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ahg" d="M10,1 L1,5 L10,9 z"/></marker>'
+         '<marker id="ge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ahg" d="M0,1 L9,5 L0,9 z"/></marker></defs>']
+    # barre repliée, tête, arbre
     b.append(f'<rect class="mo" x="{X(-119):.1f}" y="{Y(455):.1f}" width="{40 * s:.1f}" height="{315 * s:.1f}" rx="5"/>')
     b.append(txt(X(-79) + 6, Y(420), 'barre repliée', 'lb sm'))
-    # tête
     b.append(f'<rect class="mo" x="{X(-129):.1f}" y="{Y(140):.1f}" width="{264 * s:.1f}" height="{140 * s:.1f}" rx="10"/>')
     b.append(txt(X(3), Y(70) + 4, 'tête', 'lw sm', 'middle'))
-    # arbre
     b.append(f'<rect class="mo" x="{X(-15):.1f}" y="{Y(0):.1f}" width="{30 * s:.1f}" height="{900 * s:.1f}"/>')
     # bride et planche
     b.append(f'<rect class="dk" x="{X(-56):.1f}" y="{Y(-52):.1f}" width="{96 * s:.1f}" height="{164 * s:.1f}" rx="3"/>')
@@ -257,51 +259,31 @@ def croquis_moteur():
     b.append(txt(X(10) + 8, Y(-1080), 'aileron', 'lb sm'))
     b.append(txt(X(15) + 6, Y(-500), 'arbre', 'lb sm'))
     b.append(f'<line class="ax" x1="{X(0):.1f}" y1="{Y(140) - 6:.1f}" x2="{X(0):.1f}" y2="{Y(-1090) + 4:.1f}"/>')
-    # cotes
-    b.append(dim(X(-129), Y(140) - 12, X(135), Y(140) - 12, 'e'))
-    b.append(chip(X(135) + 24, Y(140) - 12, 'E1'))
-    b.append(dim(X(-129) - 18, Y(140), X(-129) - 18, Y(0), 'e'))
-    b.append(chip(X(-129) - 44, Y(70), 'E3'))
-    b.append(dim(X(-129), Y(0) + 10, X(0), Y(0) + 10, 'e'))
-    b.append(chip(X(-129) - 30, Y(0) + 14, 'E4'))
+    # cotes connues (schéma du manuel, p. 13)
+    b.append(g(X(-129), Y(140) - 12, X(135), Y(140) - 12)); b.append(v(X(135) + 6, Y(140) - 8, '264'))
+    b.append(g(X(-129) - 18, Y(140), X(-129) - 18, Y(0))); b.append(v(X(-129) - 24, Y(70) + 4, '140', 'end'))
     b.append(ext(X(-99) + 8, Y(455), X(330), Y(455)))
     b.append(ext(X(135), Y(0), X(330), Y(0)))
-    b.append(dim(X(320), Y(455), X(320), Y(0), 'e'))
-    b.append(chip(X(320) + 26, Y(230), 'E5'))
-    b.append(ext(X(40), Y(-52), X(200), Y(-52)))
-    b.append(dim(X(186), Y(0), X(186), Y(-52), 'e'))
-    b.append(chip(X(186) + 26, Y(-26), 'E6'))
-    b.append(ext(X(40), Y(-216), X(140), Y(-216)))
-    b.append(dim(X(126), Y(-52), X(126), Y(-216), 'e'))
-    b.append(chip(X(126) + 26, Y(-162), 'E7'))
-    b.append(ext(X(-56), Y(-216), X(-56), Y(-216) + 18))
-    b.append(dim(X(-56), Y(-216) + 12, X(0), Y(-216) + 12, 'e'))
-    b.append(chip(X(-56) - 28, Y(-216) + 16, 'E8'))
-    b.append(chip(X(-96) - 34, Y(-130), 'E9'))
-    b.append(ext(X(140), Y(-216), X(330), Y(-216)))
+    b.append(g(X(320), Y(455), X(320), Y(0))); b.append(v(X(320) + 6, Y(230), '455'))
+    b.append(ext(X(40), Y(-216), X(330), Y(-216)))
+    b.append(g(X(186), Y(-52), X(186), Y(-216))); b.append(v(X(186) + 6, Y(-130), '164'))
     b.append(ext(X(61), Y(-950), X(330), Y(-950)))
-    b.append(dim(X(320), Y(-216), X(320), Y(-950), 'e'))
-    b.append(chip(X(320) + 30, Y(-583), 'E10'))
-    b.append(chip(X(15) + 30, Y(-380), 'E11 Ø'))
-    b.append(dim(X(-159) - 16, Y(-900), X(-159) - 16, Y(-1000), 'e'))
-    b.append(chip(X(-159) - 52, Y(-950), 'E12'))
-    b.append(ext(X(-159), Y(-950), X(-159), 640))
-    b.append(ext(X(61), Y(-950), X(61), 640))
-    b.append(dim(X(-159), 634, X(61), 634, 'e'))
-    b.append(chip(X(-50), 650, 'E13'))
-    b.append(ext(X(91), Y(-832), X(160), Y(-832)))
-    b.append(ext(X(91), Y(-1068), X(160), Y(-1068)))
-    b.append(dim(X(150), Y(-832), X(150), Y(-1068), 'e'))
-    b.append(chip(X(150) + 30, Y(-1010), 'E14'))
-    b.append(ext(X(-50), Y(-1000), X(-90), Y(-1000)))
-    b.append(ext(X(-40), Y(-1090), X(-90), Y(-1090)))
-    b.append(dim(X(-80), Y(-1000), X(-80), Y(-1090), 'e'))
-    b.append(chip(X(-80) - 32, Y(-1045) + 4, 'E15'))
-    # vue de dessus de la tête
+    b.append(g(X(320), Y(-216), X(320), Y(-950))); b.append(v(X(320) + 6, Y(-583), '734'))
+    b.append(v(X(15) + 6, Y(-460), 'Ø 30'))
+    b.append(ext(X(-159), Y(-950), X(-159), 640)); b.append(ext(X(61), Y(-950), X(61), 640))
+    b.append(g(X(-159), 634, X(61), 634)); b.append(v(X(-50), 652, 'nacelle Ø 100 × 220', 'middle'))
+    b.append(ext(X(91), Y(-832), X(160), Y(-832))); b.append(ext(X(91), Y(-1068), X(160), Y(-1068)))
+    b.append(g(X(150), Y(-832), X(150), Y(-1068))); b.append(v(X(150) + 6, Y(-1000), 'Ø 236'))
+    # cotes à mesurer : largeur de la tête (vue de dessus), ouverture de la bride
     b.append('<g transform="translate(24,26)">' + txt(0, 0, 'tête vue de dessus', 'lb sm') +
              f'<rect class="mo" x="0" y="10" width="{264 * s:.1f}" height="{120 * s:.1f}" rx="10"/>' +
-             dim(264 * s + 12, 10, 264 * s + 12, 10 + 120 * s, 'e') + chip(264 * s + 40, 10 + 60 * s, 'E2') + '</g>')
-    return svg('e', '0 0 560 668', 'Moteur Haswing Protruar 2.0 de profil, schématique : tête, barre repliée, bride, planche, arbre, nacelle, hélice et aileron, cotes E1 à E15',
+             dim(264 * s + 12, 10, 264 * s + 12, 10 + 120 * s, 'e') + chip(264 * s + 40, 10 + 60 * s, 'E1') + '</g>')
+    b.append(dim(X(-96), Y(-100) - 10, X(-56), Y(-100) - 10, 'e'))
+    b.append(chip(X(-96) - 34, Y(-100) - 10, 'E2'))
+    # légende
+    b.append(f'<line class="dmg" x1="24" y1="606" x2="54" y2="606"/>' + txt(60, 610, 'schéma du manuel', 'lb sm'))
+    b.append(chip(36, 584, 'E') + txt(60, 588, 'à mesurer', 'lb sm'))
+    return svg('e', '0 0 560 668', 'Moteur Haswing Protruar 2.0 de profil, schématique : cotes connues du schéma du manuel en gris, largeur de la tête E1 et ouverture de la bride E2 à mesurer',
                ''.join(b), 'm')
 
 
@@ -403,26 +385,13 @@ SECTIONS = [
              ('H6', 'Cadène : centre du trou au-dessus du pont', '', '8', 'mm', None),
              ('H7', 'Cadène : Ø du trou', '', '–', 'mm', None),
          ]),
-    dict(id='D', n='4', lat=True, prio='Sur le moteur, quand tu l\'as sous la main', titre='Moteur Haswing Protruar 2.0',
-         intro="Le puits, la levée de 674 et les jeux viennent du schéma du manuel ; les largeurs et la bride sont estimées. "
-               "Arbre descendu à fond, barre repliée à la verticale.",
+    dict(id='D', n='4', lat=True, prio='Sur le moteur, deux cotes seulement', titre='Moteur Haswing Protruar 2.0',
+         intro="Les cotes de profil sont connues : elles viennent du schéma du manuel (p. 13), à l'échelle de l'arbre de 900 "
+               "(en gris sur le croquis). Il ne reste que les deux cotes que ce schéma ne donne pas.",
          figs=[croquis_moteur()],
          rows=[
-             ('E1', 'Tête : longueur hors tout', 'De l\'avant à l\'arrière, dans l\'axe du bateau.', '264', 'mm', None),
-             ('E2', 'Tête : largeur', '', '120', 'mm', None),
-             ('E3', 'Tête : hauteur, barre non comprise', '', '140', 'mm', None),
-             ('E4', "Avant de la tête → axe de l'arbre", '', '129', 'mm', None),
-             ('E5', 'Barre repliée : sommet au-dessus du bas de la tête', '', '455', 'mm', None),
-             ('E6', 'Bas de la tête → haut de la bride', '', '52', 'mm', None),
-             ('E7', 'Bride : hauteur', '', '164', 'mm', None),
-             ('E8', "Bride : face d'appui sur la planche → axe de l'arbre", '', '56', 'mm', None),
-             ('E9', 'Bride : ouverture maxi', 'Épaisseur de planche acceptée ; la planche PL fait 40.', '40', 'mm', None),
-             ('E10', 'Bas de la bride → axe de la nacelle', '', '734', 'mm', None),
-             ('E11', "Arbre : Ø", '', '30', 'mm', None),
-             ('E12', 'Nacelle : Ø', '', '100', 'mm', None),
-             ('E13', 'Nacelle : longueur', '', '220', 'mm', None),
-             ('E14', 'Hélice : Ø', '', '236', 'mm', None),
-             ('E15', 'Aileron : profondeur sous la nacelle', '', '90', 'mm', None),
+             ('E1', 'Tête : largeur', "Vue de dessus, au plus large. Estimée à 120 : la tête passe dans l'échancrure de C4, large de 140.", '120', 'mm', None),
+             ('E2', 'Bride : ouverture maxi', 'Épaisseur de planche que la bride accepte ; la planche PL fait 40.', '40', 'mm', None),
          ]),
     dict(id='E', n='5', prio="Plus tard, pour l'écoute et la tente", titre='Barre et safrans',
          intro="La barre d'accouplement est à 20–30 cm derrière la poutre AR ; le reste du système de barre n'est pas encore dessiné. "
@@ -539,6 +508,9 @@ svg .ar{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
 svg .dm{stroke:var(--dim);stroke-width:1.6;fill:none}
 svg .ex{stroke:var(--dim);stroke-width:.9;stroke-dasharray:3 3}
 svg .ah{fill:var(--dim)}
+svg .dmg{stroke:var(--ink2);stroke-width:1.1;fill:none}
+svg .ahg{fill:var(--ink2)}
+svg .lv{fill:var(--ink2);font:500 12px var(--f-mono)}
 svg .lb{fill:var(--ink2);font-size:13px}
 svg .lb.sm{font-size:12px}
 svg .lb.b{font-weight:600;fill:var(--ink)}

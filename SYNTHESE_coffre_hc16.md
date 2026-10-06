@@ -322,15 +322,15 @@
 - Contrôles finaux : recouvrements 87, la base (fonderies, pylônes, bouts de haubans, yin-yang), plus de renfort ↔ semelle ; balayage du relevage refait, identique à 0,1 près ; STEP complet exporté. Book mis à jour (65 pages, deux nouvelles : collier sur le tube, emplanture sur rail ; retouches de JD des pages 9 et 28 gardées), page 3D v29, plan de découpe v5.
 
 ## Formulaire des cotes manquantes (06/10/2026)
-- Demande JD : « prépare un formulaire clair pour les cotes manquantes ». Page « Cotes manquantes HC16 » (https://claude.ai/artifact/5wKurd3juf33NEJfvPDqQu), générée par `releves/page_cotes.py` : 58 cotes en 5 sections, chacune avec son croquis coté (repères jaunes) et la valeur du modèle.
+- Demande JD : « prépare un formulaire clair pour les cotes manquantes ». Page « Cotes manquantes HC16 » (https://claude.ai/artifact/5wKurd3juf33NEJfvPDqQu), générée par `releves/page_cotes.py` : 45 cotes en 5 sections, chacune avec son croquis coté (repères jaunes) et la valeur du modèle.
 - 1 · Pied de mât et pièce d'angle AV (avant de découper) : M4 bord de la coque → flanc du nez de la pièce d'angle (modèle 71 ; le mât Ø 60 loge là), M5 dépassement du nez devant la poutre (50), M6 bord → pylône (159), M7 Ø du pylône (70), D6 (2 269) ; bâbord et tribord.
 - 2 · Pont au pied de mât et poutre AV (avant de découper) : M1 largeur bord à bord (385), T1–T5 jours sous une règle de niveau à 10, 30, 60, 100, 150 du bord (24, 16, 10, 4, 1), M2–M3 liston, V9 (261), L1 pente en long (+0,6° / longerons), Q, R (gîte de la plateforme).
-- 3 · Haubans : H1–H3 patte d'étrave (50 de la pointe, 12 de haut, Ø), H4–H7 cadène (620 de l'axe du pylône, 12 du bord, 8 de haut, Ø). 4 · Moteur Protruar : E1–E15 (tête 264 × 120 × 140, barre repliée 455, bride 164 à 52 sous la tête, 56 devant l'arbre, ouverture ≥ 40, bride → axe de nacelle 734, arbre Ø 30, nacelle Ø 100 × 220, hélice Ø 236, aileron 90). 5 · Barre et safrans : S1–S7.
+- 3 · Haubans : H1–H3 patte d'étrave (50 de la pointe, 12 de haut, Ø), H4–H7 cadène (620 de l'axe du pylône, 12 du bord, 8 de haut, Ø). 4 · Moteur Protruar : seulement E1, largeur de la tête (estimée 120 ; elle passe dans l'échancrure de C4, 140), et E2, ouverture maxi de la bride (planche PL 40) ; les cotes de profil viennent du schéma du manuel p. 13 (remarque JD : déjà connues), affichées en gris sur le croquis. 5 · Barre et safrans : S1–S7.
 - Saisie enregistrée dans le db de la page : collection `releves` (un document par repère, `-bd` / `-td` pour bâbord / tribord, `{v, at}`), `remarques` (une par section), `photos` (ids d'assets) ; « Copier le texte » en secours. Lecture : ArtifactData `list` sur `releves`.
 
 ## Points ouverts / mesures à prendre
 - Collier et emplanture (06/10) : dimensions et matériaux proposés, à valider (JD) ; fermeture du collier : axe goupillé ou sangle.
-- Cotes à relever : formulaire « Cotes manquantes HC16 » (58 cotes ; sections 1 et 2 avant de découper la semelle et le renfort de pont : nez de la pièce d'angle, pylône, bombé du pont, D6, V9).
+- Cotes à relever : formulaire « Cotes manquantes HC16 » (45 cotes ; sections 1 et 2 avant de découper la semelle et le renfort de pont : nez de la pièce d'angle, pylône, bombé du pont, D6, V9).
 - Système de barre : section 5 du formulaire (recul et hauteur de la barre d'accouplement, bras, débattement, axe des safrans).
 - Choix restant : hauteur de coupe du coffre, longueur du plateau devant les mâts, hauteur exacte du collier (700–800 mm).
 - Développés des panneaux en DXF, imbriqués sur 2 500 × 1 220 : faits le 30/09 (`plans/decoupe3.py`).
