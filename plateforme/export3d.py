@@ -101,7 +101,7 @@ for n in MOB:
 kc = full['coffre']; g_ = kc['_geom']; bt_ = kc['_batterie']; pu_ = kc['_puits']
 BAL = json.load(open('/home/claude/cao/plateforme/balayage_levee.json'))
 REL = dict(mode='vertical', levee_max=v2['levee_max'], x_arbre=xs, coupe=coupe, sil=sil,
-           geom=dict(xf=g_['avant_milieu'], xf_joue=g_['avant'], xa=kc['face_ar_x'], zb=kc['fond_z'], zt=g_['zt'], xcol=round(g_['xcol'], 1),
+           geom=dict(xf=g_['avant_milieu'], xf_joue=g_['avant'], xa=kc['face_ar_x'], zb=kc['fond_z'], zt=g_['zt'], xcol=round(g_.get('xcol_milieu', g_['xcol']), 1),
                      x0p=g_['fond_pente']['x0'], dm=round(g_['fond_pente'].get('montee_milieu', 0), 1),
                      planche=[round(v, 1) for v in (lambda b: (b.xmin, b.xmax, b.zmin, b.zmax))(D['moteur_tableau'].BoundingBox())] if 'moteur_tableau' in D else None,
                      table=[kc['_table']['x'][0], kc['_table']['x'][1], kc['_table']['z'][1]] if kc.get('_table') else None,

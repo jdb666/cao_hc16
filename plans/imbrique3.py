@@ -69,7 +69,7 @@ def chemin(g):
             out.append('M' + ' '.join(f"{x:.1f},{-y:.1f}" for x, y in c) + 'Z')
     return ''.join(out)
 data = dict(
-    date='30/09/2026', seuil=SEUIL, panneau=[I.SW, I.SH],
+    date='06/10/2026', seuil=SEUIL, panneau=[I.SW, I.SH],
     pieces=[dict(ref=p['ref'], nom=p['nom'], ep=p['ep'], qte=p['qte'], plis=p['plis'], note=p['note'],
                  dim=[round(p['poly'].bounds[2]), round(p['poly'].bounds[3])], aire=round(p['poly'].area / 1e6, 3),
                  d=chemin(p['poly'].simplify(0.3))) for p in parts],

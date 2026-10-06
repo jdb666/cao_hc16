@@ -1,4 +1,4 @@
-"""Plan de découpe du coffre HC16 Rando (état du 30/09/2026).
+"""Plan de découpe du coffre HC16 Rando (état du 06/10/2026 : mâts reculés, côtés du coffre raccourcis).
 Tout vient du modèle CAO (v_pleine_0.yaml) :
 - bordé : les faces extérieures de coffre_coque (toutes planes : loft réglé entre stations) sont regroupées en panneaux
   (angle entre facettes voisines < SEUIL : la planche se cintre ; au-delà : bouchain, joint collé-stratifié),
@@ -233,7 +233,8 @@ REGLES = [   # (motif, ref, nom, épaisseur de CP, plis)
     (r'^batterie_cale_(av|ar)$', 'CL', 'Cale du bac de batterie (40 = 4 × CP 10)', 10, 4),
     (r'^moteur_tableau$', 'PL', 'Planche de la pince moteur (40 = 4 × CP 10)', 10, 4),
     (r'^pylone_renfort_(babord|tribord)$', 'SR', 'Semelle sur les tubes carbone (18 = 2 × CP 9)', 9, 2),
-    (r'^semelle_(babord|tribord)$', 'SM', 'Semelle de pied de mât (18 = 2 × CP 9)', 9, 2),
+    (r'^semelle_(babord|tribord)$', 'SM', 'Semelle de pied de mât, sous le rail de l\'emplanture (18 = 2 × CP 9)', 9, 2),
+    (r'^semelle_tubes_(babord|tribord)$', 'ST', 'Semelle des tubes carbone du coffre, sur le pont (18 = 2 × CP 9)', 9, 2),
     (r'^renfort_pont_(babord|tribord)$', 'RP', 'Renfort de pont (8 = 2 × CP 4, cintré en place)', 4, 2),
     (r'^livarde_collier_(babord|tribord)$', 'LC', 'Collier ouvert de la livarde, collé sur la joue (20 = 2 × CP 10)', 10, 2),
     (r'^livarde_godet_(babord|tribord)$', 'LG', 'Godet de la livarde, pli percé Ø 34, collé sur la joue', 10, 1),

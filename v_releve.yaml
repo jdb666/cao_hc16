@@ -100,16 +100,18 @@ plateforme:
     y_jour: 925
     tige_diam: 6
 mats:
-  x_pied: 1766
+  x_pied: 1960
   y_axe: 1161
-  z_pied: 348.1
+  z_pied: 345.4
   collier_hauteur: 750
   collier:
     jeu_joue: 10
     ep: 70
     alesage: 62
     r_bague: 55
-    nez: 105
+    nez: 60
+    demi_y_int: 80
+    tourillon_bord: 12
     ouverture_ar: true
     arriere: 55
     axe:
@@ -160,10 +162,10 @@ mats:
   semelle:
     y_mat: 1161
     dx:
-    - -110
-    - 110
+    - -100
+    - 150
     dy:
-    - -141
+    - -116
     - 25
     ep: 18
     bourrage_min: 3
@@ -172,9 +174,10 @@ mats:
     renfort:
       ep: 8
       dx:
-      - -150
-      - 150
+      - -344
+      - 170
       demi_y: 186
+      evite: pylone_av
 voile:
   contour:
   - - 0
@@ -252,7 +255,7 @@ coffre:
     recouvrement: 120
     au_dessus_axe_collier: 40
   dessus_au_dessus_collier: 25
-  avant_x: 1390
+  avant_x: 1584
   joues_forme:
     n_avant: 2.3
     n_arriere: 2.2
@@ -527,6 +530,18 @@ coffre:
       dx: 120
       dy: 100
     dy: 90
+    x_ref: 1766
+    semelle:
+      dx:
+      - -110
+      - 80
+      y:
+      - 1020
+      - 1111
+      ep: 18
+  ref_mat:
+    z_pied: 348.1
+  milieu_x_pied: 1766
   accroches_poutre:
     y:
     - -850
@@ -619,9 +634,12 @@ coffre:
     tube_colliers:
       diam: 50
       ep: 2
-      x: 1741
+      x: 2085
     semelle:
       attache_dx: 100
+      attache_dx_av: 100
+      attache_dy_av: 14
+      attache_dx_ar: 140
       dz: 10
       croises_avant: true
       croises_arriere: true

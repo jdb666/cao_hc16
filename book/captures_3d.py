@@ -38,13 +38,16 @@ SCENES = (VUES('s1_hc16', **H16) + VUES('s2_rando') + VUES('s3_transp', trp=True
                       ('pr_transp', True, ([PI / 2, PI / 2, 12500], [1900, 0, 550], 12)))
 ] + [
     # détails
-    ('d_livarde', W16, dict(enr_b=100, enr_t=100, cv=False), ([2.75, 1.3, 2700], [1650, 1150, 1000], 30)),
-    ('d_joue', W16, dict(rig=True, cv=False), ([PI / 2, PI / 2, 4200], [2150, 1120, 820], 30)),
-    ('d_pied_mat', W16, dict(cv=False), ([2.15, 1.25, 2600], [1790, 1150, 520], 30)),
+    ('d_livarde', W16, dict(enr_b=100, enr_t=100, cv=False), ([2.75, 1.3, 2700], [1845, 1150, 1000], 30)),
+    ('d_joue', W16, dict(rig=True, cv=False), ([PI / 2, PI / 2, 4200], [2300, 1120, 820], 30)),
+    ('d_pied_mat', W16, dict(cv=False), ([2.15, 1.25, 2600], [1985, 1150, 520], 30)),
+    ('d_collier', W16, dict(enr_b=100, enr_t=100, cv=False), ([0.62, 0.78, 1350], [2005, 1150, 1160], 30)),
+    ('d_collier_av', W16, dict(enr_b=100, enr_t=100, cv=False), ([2.25, 1.02, 1500], [1990, 1150, 1150], 30)),
+    ('d_emplanture', W16, dict(trp=True, cv=False), ([2.05, 1.18, 760], [1965, 1161, 400], 30)),
     ('d_brelage', W16, dict(tra=False, rig=False), ([-0.35, 1.95, 2300], [2040, 0, 480], 30)),
     ('d_accroches', W16, dict(tra=False, rig=False, trp=True), ([-0.1, 1.75, 2400], [2030, 560, 520], 30)),
     ('d_bancs', W16, dict(rig=False), ([-0.55, 0.92, 4600], [2650, 950, 560], 30)),
-    ('d_haubans', W16, dict(rig=True, trp=True, cv=False), ([2.55, 1.18, 6000], [1850, 0, 900], 28)),
+    ('d_haubans', W16, dict(rig=True, trp=True, cv=False), ([2.55, 1.18, 6000], [2000, 0, 900], 28)),
     ('d_assiette_0', W16, dict(rig=False, charge=0), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_assiette_150', W16, dict(rig=False, charge=150), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_ecoute', W16, dict(tire=True, choc=25, cv=False), ([-0.5, 1.15, 9500], [3500, 500, 1700], 28)),

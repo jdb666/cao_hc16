@@ -93,8 +93,8 @@ def profil():
     for xb, zb in ((O['fb'], O['zav']), (O['rb'], O['zar'])):
         ax.add_patch(MPoly(goutte('poutre', xb, zb, 1 if xb < 3000 else -1), closed=True, fill=False, ec=OLDC, lw=.9, ls=(0, (3, 2))))
     # pied de mât prévu et pente du pont
-    xm = 1766; zm = it(g['c']['pont'], xm); ax.plot([xm], [zm], 'o', color=DIM, ms=4)
-    ax.annotate('pied de mât prévu (x 1 766) :\npente du pont / longerons\nP4 relevé +1,7°, modèle +0,9°', xy=(xm, zm), xytext=(130, 500), fontsize=7.5, color=DIM, va='bottom', ha='left', arrowprops=dict(arrowstyle='-', color=DIM, lw=.6))
+    xm = NEW['mats']['x_pied']; zm = it(g['c']['pont'], xm); ax.plot([xm], [zm], 'o', color=DIM, ms=4)
+    ax.annotate(f'pied de mât (x {xm:,.0f}) :\npente du pont / longerons\nP4 relevé +1,7°, modèle +0,9°'.replace(',', ' '), xy=(xm, zm), xytext=(130, 500), fontsize=7.5, color=DIM, va='bottom', ha='left', arrowprops=dict(arrowstyle='-', color=DIM, lw=.6))
     cote_h(ax, 0, g['fb'], 790, 'P2  2 070', y_ext=(450, g['zav'] + 40))
     cote_h(ax, 0, g['rb'], 900, 'P3  4 145 (relevé 4 140)', y_ext=(450, g['zar'] + 40))
     cote_h(ax, g['fb'], g['rb'], 700, 'D1  2 075 (relevé 2 080)', y_ext=(g['zav'] + 110, g['zar'] + 40))
@@ -240,11 +240,12 @@ def semelle():
         a1.annotate(f'{j:.0f}'.replace('.', ','), xy=(y, sup(XM, y) + j / 2), xytext=(y + (-28 if ha == 'right' else 28), sup(XM, y) + j / 2 - 30),
                     ha=ha, va='center', fontsize=8, color=AMBL, fontweight='bold', arrowprops=dict(arrowstyle='-', color=AMBL, lw=.6))
     a1.text(Y1 + 12, ztop + 4, f'CP {ep:.0f}', fontsize=7.5, color=CPL, va='bottom')
-    a1.set_title('En travers au pied de mât (x 1 766), vue de l’avant', fontsize=9, color=INK, loc='left')
+    a1.set_title(f'En travers au pied de mât (x {XM:,.0f}), vue de l’avant'.replace(',', ' '), fontsize=9, color=INK, loc='left')
     a1.set_aspect('equal'); a1.set_xlim(790, 1250); a1.set_ylim(190, 520); a1.axis('off')
     # coupe en long dans l'axe du mât (y = YM), vue de bâbord (étrave à gauche)
-    xsd = np.linspace(1560, 1980, 120)
-    a2.add_patch(MPoly([(x, pont_p4(x, YM)) for x in xsd] + [(1980, 190), (1560, 190)], closed=True, fc='#F4F6F6', ec='none'))
+    XL0, XL1 = XM - 206, XM + 214
+    xsd = np.linspace(XL0, XL1, 120)
+    a2.add_patch(MPoly([(x, pont_p4(x, YM)) for x in xsd] + [(XL1, 190), (XL0, 190)], closed=True, fc='#F4F6F6', ec='none'))
     a2.plot(xsd, [pont_p4(x, YM) for x in xsd], color=INK, lw=1.1)
     xss = np.linspace(X0, X1, 60)
     xr_ = np.linspace(XM + RP.get('dx', [0, 0])[0], XM + RP.get('dx', [0, 0])[1], 60)
@@ -269,19 +270,19 @@ def semelle():
         qc_ = HR_.quetes_crans(NEW)
         qq = (' · '.join(f'{v:.1f}' for _, v in qc_).replace('.', ',') + '°') if qc_ else None
         a2.annotate(f"trous Ø {r_['trou']:.0f} tous les {r_['pas']:.0f}" + (f"\nquête {qq}" if qq else ''), xy=P_(r_['l'] / 2 - 10, nb_),
-                    xytext=(1872, 440), fontsize=7, color=INK, ha='left', va='center', arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
-        a2.annotate('cale triangulaire pointe en bas :\nelle pivote sur le boulon', xy=P_(-24, n0 - 4), xytext=(1585, 440), fontsize=7, color=INK, ha='left', va='center',
+                    xytext=(XM + 106, 440), fontsize=7, color=INK, ha='left', va='center', arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
+        a2.annotate('cale triangulaire pointe en bas :\nelle pivote sur le boulon', xy=P_(-24, n0 - 4), xytext=(XM - 181, 440), fontsize=7, color=INK, ha='left', va='center',
                     arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
     a2.plot([XM, XM], [ztop, 515], color=DIM, lw=.6, ls=(0, (3, 2)))
     a2.text(XM + 10, 492, f'quête {MATS["quete_deg"]:.0f}°', fontsize=8, color=DIM, fontweight='bold')
-    a2.text(1575, 212, f'pont +{SM["pente_pont_p4"]:.1f}° vers l’étrave (P4)'.replace('.', ','), fontsize=7.5, color=INK)
+    a2.text(XM - 191, 212, f'pont +{SM["pente_pont_p4"]:.1f}° vers l’étrave (P4)'.replace('.', ','), fontsize=7.5, color=INK)
     for x, ha in ((X0, 'right'), (X1, 'left')):
         j = zu(x, YM) - sup(x, YM)
         a2.annotate(f'{j:.0f}', xy=(x, sup(x, YM) + j / 2), xytext=(x + (-24 if ha == 'right' else 24), pont_p4(x, YM) - 30),
                     ha=ha, va='center', fontsize=8, color=AMBL, fontweight='bold', arrowprops=dict(arrowstyle='-', color=AMBL, lw=.6))
     cote_h(a2, X0, X1, 258, f'semelle {X1 - X0:.0f}', dy=6)
     a2.set_title(f'En long dans l’axe du mât (y {YM:,.0f}), vue de bâbord'.replace(',', ' '), fontsize=9, color=INK, loc='left')
-    a2.set_aspect('equal'); a2.set_xlim(1560, 1980); a2.set_ylim(190, 520); a2.axis('off')
+    a2.set_aspect('equal'); a2.set_xlim(XL0, XL1); a2.set_ylim(190, 520); a2.axis('off')
     fig.tight_layout(w_pad=2)
     return svg(fig), G
 if __name__ == '__main__':

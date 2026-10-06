@@ -49,16 +49,18 @@ plateforme:
     tige_diam: 6                    # Ø des tiges inox : non relevé
 
 mats:
-  x_pied: 1766             # CV voiles pleines = CV HC16 d'origine (3010 mm) avec 3° de quête
+  x_pied: 1960             # (JD 06/10 : réaligner les CV) CV voiles pleines = CV du HC16 d'origine par la même méthode (contours, rond compris : x 3 206) ; 1 766 avant (aligné sur 3 010, un CV de triangles)
   y_axe: 1161              # (JD 06/10 : gréement indépendant du coffre) largeur/2 + diam/2 + 11 : 11 de jeu à la joue pour le mât qui tourne ; bord du mât au bord du pont (1 190), la paroi de coque reprend l'effort vertical (JD 29/09) ; avant : 1 151, à 1 de la joue
-  z_pied: 348.1            # dessus de la semelle CP au pied de mât : renfort de pont 8 + bourrage 3 mini (pente P4) + CP 18
+  z_pied: 345.4            # dessus de la semelle CP au pied de mât : renfort de pont 8 + bourrage 3 mini (pente P4) + CP 18 (348,1 à x 1 766, avant le recul)
   collier_hauteur: 750     # référence du coffre : les joues montent à 25 au-dessus (z 1 122) ; le collier lui-même est au-dessus des joues (mats.collier)
   collier:                 # (JD 06/10) collier indépendant du coffre : bague où le mât tourne, tourillon emmanché dans le tube (il tourne quand on change de cran), attaches des haubans
     jeu_joue: 10           # dessous du collier à 10 au-dessus du haut des joues (hauteur calculée ; ou `hauteur` le long du mât depuis le dessus de semelle)
     ep: 70                 # bloc d'Ertalyte (PET-P) ou de POM, usiné, sans colle (tout est boulonné) ; en CP : 7 × CP 10 + bague PEHD
     alesage: 62            # le mât Ø 60 tourne directement dedans
     r_bague: 55
-    nez: 105               # avant du collier, devant l'axe du mât (l'axe du tube est à ≈ 68)
+    nez: 60                # avant du collier, devant l'axe du mât (105 quand le tube était devant)
+    demi_y_int: 80         # face intérieure (côté tube) à 80 de l'axe du mât : la branche intérieure va jusqu'au tourillon, derrière le mât
+    tourillon_bord: 12     # matière derrière le tourillon
     ouverture_ar: true     # (JD 06/10) ouvert vers l'arrière pour poser le mât (il arrive par l'arrière en se relevant sur l'emplanture), largeur = alésage
     arriere: 55            # bout des branches derrière l'axe du mât
     axe: {d: 10, s: 38}    # axe inox de fermeture derrière le mât, à travers les deux branches, goupillé
@@ -75,16 +77,17 @@ mats:
   haubanage: 700           # le long du mât, depuis le pied
   semelle:                 # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
     y_mat: 1161            # axe du mât : 161 à l'extérieur de l'axe de coque (1 151 avant le 06/10)
-    dx: [-110, 110]        # autour du pied de mât (x_pied)
-    dy: [-141, 25]         # côté bâbord (miroir à tribord) : y 1 020 → 1 186 (inchangée), reçoit aussi les tubes du coffre (y 1 066) et le rail de l'emplanture
+    dx: [-100, 150]        # autour du pied de mât (x_pied) : x 1 860 → 2 110, 14 derrière la semelle des tubes du coffre ; à 10 du pylône de la poutre AV
+    dy: [-116, 25]         # côté bâbord (miroir à tribord) : y 1 045 → 1 186, 10 de jeu au pylône de la poutre AV ; reçoit le rail de l'emplanture et les pontets (les tubes du coffre ont leurs semelles : coffre.pylones.semelle)
     ep: 18                 # 2 × CP 9 collés
     bourrage_min: 3
     inclinaison_laterale: 0   # mât vertical en travers ; la quête (quete_deg) et l'inclinaison sont fixées par la semelle et le collier
     pente_pont_p4: 2.13    # pente locale du pont retenue au pied de mât (P4 + assiette 0,43°), au lieu de 1,32° pour la tonture du modèle
     renfort:               # renfort de pont cintré sur toute la largeur (JD 29/09) : 2 plis croisés de CP 4 collés en place
       ep: 8
-      dx: [-150, 150]
+      dx: [-344, 170]      # de 150 devant les tubes du coffre (x 1 616) à 20 derrière la semelle du mât (x 2 130)
       demi_y: 186          # toute la largeur du pont (demi-largeur 190)
+      evite: pylone_av     # découpé autour du pylône de la poutre AV (10 de jeu)
 
 voile:                     # repère du mât : u perpendiculaire vers l'arrière, w le long du mât depuis le pied
   contour: [[0,1123],[2839,1603],[2295,3587],[1575,5363],[823,6803],[0,7163]]   # plan Rando 1/25 : amure, écoute, rond de chute, têtière
@@ -127,7 +130,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     recouvrement: 120      # longueur boulonnée sur la joue
     au_dessus_axe_collier: 40
   dessus_au_dessus_collier: 25   # haut du coffre et des joues = haut du collier
-  avant_x: 1390            # pointe avant au droit des joues (joues inchangées)
+  avant_x: 1584            # pointe avant au droit des joues : 1 390 avant le 06/10 ; reculée de 194 avec les mâts (JD : côtés raccourcis, joue toujours tangente au collier)
   joues_forme: {n_avant: 2.3, n_arriere: 2.2, plat_jusqu_a_c4: true}   # joues arrondies (JD 30/09) : superellipses (2 = ellipse) ; avant tangent horizontal au collier sans saut de courbure,
                                                                        # dessus plat du collier à C4 (comme le coffre), dossier depuis C4 ; le bordé du coffre suit l'avant à la station des joues
   avant_x_milieu: 1250     # pointe du fond avancée au milieu seulement (plat C1, ±360), raccord linéaire jusqu'aux joues (JD 29/09 soir)
@@ -305,6 +308,10 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     y_int: 45              # axe à 45 à l'intérieur de la joue
     renfort: {ep: 18, dx: 120, dy: 100}   # semelle CP 18 collée sur le fond contre la joue, sur les deux tubes (220 × 100) (JD 30/09 : pas de couple en travers) ; haut du tube coupé à la pente du fond
     dy: 90                 # (ancien pylône CP)
+    x_ref: 1766            # (JD 06/10) les tubes restent à l'ancienne place du pied de mât
+    semelle: {dx: [-110, 80], y: [1020, 1111], ep: 18}   # (JD 06/10, mâts reculés) semelles CP 18 des tubes, sur bourrage, à l'ancienne place de la semelle du mât (même plan), x 1 656 → 1 846
+  ref_mat: {z_pied: 348.1}   # (JD 06/10) hauteurs du coffre : ancien dessus de semelle (haut des joues z 1 122) ; le sommet des joues suit le mât (x)
+  milieu_x_pied: 1766        # (JD 06/10) milieu inchangé (batterie, caisse, puits, table) : courbe avant au milieu sur l'ancien pied de mât ; raccord linéaire de ±360 aux joues
   accroches_poutre:        # accroches sur la poutre AV : demi-profil DWG + jeu, ouvertes vers le bas, collées derrière C4 (JD 29/09)
     y: [-850, -331, -131, 131, 331, 850]   # dans le plan des couples intérieurs : parois du puits (±131), côtés de la caisse batterie prolongés (±331), couples ±850
     ep: 9
@@ -357,9 +364,12 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     croises_arriere: false   # retirés (JD 29/09) : remplacés par le tube entre les colliers
     x_croise_ar: 1995
     collier_poutre: {dz: 100, poutre_dz: 10, x_poutre: 2085}   # (JD 05/10) hauban du collier au milieu de la poutre AV, en diagonale au-dessus du coffre, ferrure sur le dessus de la poutre (y 0) ; ancien collier : œil sur un plot de 100 (dz) ; collier du 06/10 : ferrure en haut de sa face intérieure
-    tube_colliers: {diam: 50, ep: 2, x: 1741}   # tube alu d'un collier à l'autre, au-dessus du coffre (JD 06/10 : z calculé, sur l'axe des tourillons) ; x 1 741 : la tête du moteur passe 15 derrière (JD 29/09 soir) ; avant le 06/10 : z 1 075, à travers les joues
+    tube_colliers: {diam: 50, ep: 2, x: 2085}   # tube alu d'un collier à l'autre, au-dessus du coffre (JD 06/10 : z calculé, sur l'axe des tourillons) ; x 2 085 avec les mâts reculés : derrière la tête du moteur (15), au-dessus de la poutre AV ; avant : x 1 741, devant la tête
     semelle:                 # plan horizontal des semelles (JD 29/09) : directs AV et AR ; croisés passés à l'arrière (libèrent le moteur relevé)
-      attache_dx: 100        # pontets sur la semelle, 100 devant et derrière le pied de mât, au bout du rail (60 avant le 06/10)
+      attache_dx: 100        # pontets sur la semelle, au bout du rail (60 avant le 06/10)
+      attache_dx_av: 100     # pontet AV 100 devant le pied de mât, 14 vers l'extérieur (attache_dy_av) : le croisé AV passe à 14 des tubes du coffre
+      attache_dy_av: 14
+      attache_dx_ar: 140     # pontet AR 140 derrière le pied de mât : le croisé AR passe derrière le pylône de la poutre AV
       dz: 10                 # hauteur de l'œil au-dessus de la semelle
       croises_avant: true    # rétablis : le moteur ne bascule plus (croisement x 820, z 412, loin devant le coffre)
       croises_arriere: true  # rétablis (JD 29/09 soir) : vers un pontet au bord intérieur du pont opposé (jusqu'à la cadène, ils traverseraient le pont bombé)

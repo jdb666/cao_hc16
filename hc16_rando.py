@@ -126,12 +126,14 @@ def coffre(A, k):
     jusqu'à la poutre ; plateau intérieur. Moteur : chaise centrée sous le coffre, bascule vers l'arrière
     dans l'axe du bateau, sous la martingale (arbre enfoncé à fond avant de basculer)."""
     from shapely.geometry import Polygon
-    m = CFG_MAT
+    m = dict(CFG_MAT); m.update(k.get("ref_mat") or {})   # (JD 06/10) hauteurs du coffre gardées (ancien dessus de semelle) ; le gréement, indépendant, a reculé
     qa = math.radians(m["quete_deg"])
     zc = m["z_pied"] + m["collier_hauteur"] * math.cos(qa)
     W, xa, zb = k["largeur"], k["face_ar_x"], k["fond_z"]
     ztop = k.get("dessus_z") or (zc + k["dessus_au_dessus_collier"])
-    xcol = m["x_pied"] + m["collier_hauteur"] * math.sin(qa)
+    xcol = m["x_pied"] + m["collier_hauteur"] * math.sin(qa)            # sommet des joues : suit le mât et son collier
+    xmr_ = k.get("milieu_x_pied")                                       # (JD 06/10) milieu (batterie, puits) inchangé : repère de l'ancien pied de mât
+    xcol_mid = (xmr_ + m["collier_hauteur"] * math.sin(qa)) if xmr_ is not None else xcol
     xf = k["avant_x"]                        # pointe avant au droit des joues
     xf_mid = k.get("avant_x_milieu", xf)     # pointe du fond au milieu (plat C1) : peut avancer seule (JD 29/09)
     b = k["bancs"]
@@ -150,6 +152,7 @@ def coffre(A, k):
     zt_at = lambda y: ztop + (zt_s - ztop) * max(0.0, min(1.0, (abs(y) - cpt) / (wi - cpt)))
     cpa = k.get("avant_plat_demi", cpl)     # pointe du fond : x avant_x_milieu sur ±cpa, raccord linéaire jusqu'aux joues
     xf_at = lambda y: xf_mid + (xf - xf_mid) * max(0.0, min(1.0, (abs(y) - cpa) / (wi - cpa)))
+    xc_at = lambda y: xcol_mid + (xcol - xcol_mid) * max(0.0, min(1.0, (abs(y) - cpa) / (wi - cpa)))   # sommet de la courbe avant, station par station
     # fond en pente vers l'avant (JD 29/09) : plat sous la batterie et le moteur jusqu'à x0, puis remonte jusqu'à la pointe
     # avant pour repousser les vagues vers le bas ; chaque panneau de fond reste plan (développable)
     fp = k.get("fond_pente")
@@ -160,11 +163,12 @@ def coffre(A, k):
     zfond = lambda x_, y_: zb_at(y_) + tp * max(0.0, x0p - x_)
     jf_ = k.get("joues_forme") or {}
     nj_av, nj_ar = jf_.get("n_avant", 2.0), jf_.get("n_arriere", 2.0)     # exposants des superellipses des joues (2 = ellipse)
-    def profil(zb_, zt_=None, off=0.0, n=48, xf_=None, nexp=2.0):
+    def profil(zb_, zt_=None, off=0.0, n=48, xf_=None, nexp=2.0, xc_=None):
         zt_ = ztop if zt_ is None else zt_
         xf_ = xf if xf_ is None else xf_
+        xc_ = xcol if xc_ is None else xc_
         Dl = Dq(xf_)
-        a_, h_ = xcol - xf_ - off, zt_ - zb_ - Dl - 2 * off
+        a_, h_ = xc_ - xf_ - off, zt_ - zb_ - Dl - 2 * off
         pts_ = [(xa - off, zb_ + off)] + ([(x0p, zb_ + off)] if Dl > 0 else [])
         # paramétrage à pente égale (réf. HREF) : entre deux stations, les génératrices relient des points de même
         # tangente -> bordés latéraux développables (pas de torsion) malgré des hauteurs, des pointes et des formes
@@ -179,12 +183,12 @@ def coffre(A, k):
             else:
                 r_ = (sref / math.tan(u) * a_ / h_) ** (1.0 / (nexp - 1.0))
                 q_ = (1.0 + r_ ** nexp) ** (-1.0 / nexp); p_ = r_ * q_
-            pts_.append((xcol - a_ * p_, zb_ + Dl + off + h_ * q_))
+            pts_.append((xc_ - a_ * p_, zb_ + Dl + off + h_ * q_))
         return pts_ + [(xa - off, zt_ - off)]
     n_at = lambda y: nj_av if abs(y) >= wi - 1e-6 else 2.0             # superellipse seulement à la station des joues
     def profil_st(yy, off):
         yq = min(abs(yy), wi)
-        return profil(zb_at(yq), zt_at(yq), off, xf_=xf_at(yq), nexp=n_at(yq))
+        return profil(zb_at(yq), zt_at(yq), off, xf_=xf_at(yq), nexp=n_at(yq), xc_=xc_at(yq))
     ST_ = sorted({0.0, cpl, cpt, cpa, wi})
     def profil_y(y, off=0.0):                                          # section du loft réglé à un y quelconque (interpolation des stations)
         ya_ = min(abs(y), wi)
@@ -202,9 +206,9 @@ def coffre(A, k):
             wires = [cq.Wire.makePolygon([V(x, sg * yy, z) for x, z in profil_st(yy, off)], close=True) for yy in ys_]
             solids.append(cq.Solid.makeLoft(wires, True))
         return solids[0].fuse(solids[1]).clean()
-    af_mid = xcol - xf_mid
+    af_mid = xcol_mid - xf_mid
     Dm_ = Dq(xf_mid)
-    avant = [(xcol - af_mid * math.cos(t), zb + Dm_ + (bj - Dm_) * math.sin(t)) for t in [math.pi / 2 * i / 48 for i in range(49)]]
+    avant = [(xcol_mid - af_mid * math.cos(t), zb + Dm_ + (bj - Dm_) * math.sin(t)) for t in [math.pi / 2 * i / 48 for i in range(49)]]
     pts = [(xa, zb)] + ([(x0p, zb)] if Dm_ > 0 else []) + avant + [(xa, ztop)]
     inner = Polygon(pts).buffer(-e, join_style=2)
     ipts = list(inner.exterior.coords)[:-1]
@@ -563,7 +567,7 @@ def coffre(A, k):
             tab = tab.cut(cq.Solid.makeBox(dmo["x1"] - dmo["x0"], 2 * dmo["demi_y"], tb_["ep"] + 2, V(dmo["x0"], -dmo["demi_y"], zt0 - 1)))
         A.add(tab, name="coffre_table", color=bois)
         k["_table"] = dict(x=(tb_["x0"], tb_["x1"]), demi_y=tb_["demi_y"], z=(zt0, zt0 + tb_["ep"]))
-    k["_geom"] = dict(zt=ztop, zt_s=zt_s, xcol=xcol, avant=xf, avant_milieu=xf_mid, af_milieu=af_mid, arriere=xr, af=af, ar=ar_, b=bj, volume_L=ext_s.Volume() / 1e6, fond_cotes=zb_s,
+    k["_geom"] = dict(zt=ztop, zt_s=zt_s, xcol=xcol, xcol_milieu=xcol_mid, avant=xf, avant_milieu=xf_mid, af_milieu=af_mid, arriere=xr, af=af, ar=ar_, b=bj, volume_L=ext_s.Volume() / 1e6, fond_cotes=zb_s,
                       fond_pente=dict(x0=x0p, montee=D_, montee_milieu=Dm_, deg=fp["deg"] if fp else 0))
     # pattes verticales de collier : sur la face extérieure des joues, devant et derrière le mât, jusqu'au collier
     pc = k.get("pattes_collier")
@@ -803,7 +807,11 @@ def coffre(A, k):
             rt = tc2["diam"] / 2; xtu, ztu = tc2.get("x", xcol), tc2.get("z", zc)
             man = cq.Solid.makeCylinder(rt + bt_["ep"], bt_["larg"] + 10, V(xtu, ym - (bt_["larg"] + 10) / 2, ztu), V(0, 1, 0)).cut(
                 cq.Solid.makeCylinder(rt, bt_["larg"] + 10, V(xtu, ym - (bt_["larg"] + 10) / 2, ztu), V(0, 1, 0)))
-            pla = cq.Solid.makeBox(xs_ + mo["arbre_d"] / 2 + 20 - xtu - rt, bt_["larg"], bt_["ep"], V(xtu + rt, ym - bt_["larg"] / 2, ztu - bt_["ep"] / 2))
+            if xtu < xs_:                                      # tube devant l'arbre
+                x0p, x1p = xtu + rt, xs_ + mo["arbre_d"] / 2 + 20
+            else:                                              # (JD 06/10, mâts reculés) tube derrière la tête du moteur
+                x0p, x1p = xs_ - mo["arbre_d"] / 2 - 20, xtu - rt
+            pla = cq.Solid.makeBox(x1p - x0p, bt_["larg"], bt_["ep"], V(x0p, ym - bt_["larg"] / 2, ztu - bt_["ep"] / 2))
             pla = pla.cut(cq.Solid.makeCylinder(mo["arbre_d"] / 2 + 1, 100, V(xs_, ym, ztu - 50)))
             A.add(man.fuse(pla), name="bras_tube_moteur", color=alu)
         k["_moteur"] = dict(helice_z=zn, bas_pale=zn - he2["d"] / 2, bas_aileron=zn - na2["d"] / 2 - (ai2["h"] if ai2 else 0),
@@ -893,7 +901,7 @@ def coffre(A, k):
         for nom, sg in (("babord", 1), ("tribord", -1)):
             yp = sg * (wi - py["y_int"])
             for j, dxp in enumerate(py["dx"]):
-                xp = m["x_pied"] + dxp
+                xp = py.get("x_ref", m["x_pied"]) + dxp                # (JD 06/10) les tubes restent à l'ancienne place du pied de mât
                 z0 = m["z_pied"] - math.tan(qa) * dxp if m.get("semelle") else interp_pont(xp, yp) + 1
                 z1 = zfond(xp, abs(yp)) + e + 40
                 tb = cq.Solid.makeCylinder(py["diam"] / 2, z1 - z0, V(xp, yp, z0)).cut(cq.Solid.makeCylinder(py["diam"] / 2 - py["ep"], z1 - z0, V(xp, yp, z0)))
@@ -902,7 +910,8 @@ def coffre(A, k):
             rf = py.get("renfort")
             if rf:                                               # semelle CP collée sur le fond contre la joue, sur les deux tubes : ils portent dessous (JD 30/09 : pas de couple en travers)
                 ya_r, yb_r = sorted((sg * wi, sg * (wi - rf["dy"])))
-                xr0, xr1 = m["x_pied"] + min(py["dx"]) - rf["dx"] / 2, m["x_pied"] + max(py["dx"]) + rf["dx"] / 2
+                xpr_ = py.get("x_ref", m["x_pied"])
+                xr0, xr1 = xpr_ + min(py["dx"]) - rf["dx"] / 2, xpr_ + max(py["dx"]) + rf["dx"] / 2
                 pad = sous_fond().translate(V(0, 0, rf["ep"])).cut(sous_fond()).intersect(
                     cq.Solid.makeBox(xr1 - xr0, yb_r - ya_r, 2000, V(xr0, ya_r, zb - 500)))
                 A.add(pad, name=f"pylone_renfort_{nom}", color=cq.Color(0.13, 0.13, 0.14))
@@ -1334,15 +1343,18 @@ def collier_geom(cfg):
     a = math.radians(m["quete_deg"])
     u = V(math.sin(a), 0, math.cos(a)); ax_ = V(math.cos(a), 0, -math.sin(a))
     k = cfg.get("coffre") or {}
-    h = co.get("hauteur")
-    if h is None:                       # point le plus bas : face inférieure au bout du talon (le plan du collier penche de la quête)
-        zj = m["z_pied"] + m["collier_hauteur"] * math.cos(a) + k.get("dessus_cotes_au_dessus_collier", 0)
-        s_bas = co.get("arriere", co["r_bague"] + co.get("talon", 0))
-        zc_ = zj + co.get("jeu_joue", 10) + co["ep"] / 2 * math.cos(a) + s_bas * math.sin(a)
-        h = (zc_ - m["z_pied"]) / math.cos(a)
-    c = V(m["x_pied"], m["y_axe"], m["z_pied"]) + u * h
+    mref = dict(m); mref.update(k.get("ref_mat") or {})                # haut des joues : repère du coffre
     tc = (k.get("haubans") or {}).get("tube_colliers") or {}
-    s_t = (tc["x"] - c.x) / math.cos(a) if "x" in tc else -co["tourillon"].get("dx", 64)
+    h = co.get("hauteur")
+    s_t = -co["tourillon"].get("dx", 64)
+    for _ in range(3):                  # le bout du collier dépend du tourillon, qui dépend de la hauteur (quête)
+        if co.get("hauteur") is None:   # point le plus bas : face inférieure au bout arrière (le plan du collier penche de la quête)
+            zj = mref["z_pied"] + mref["collier_hauteur"] * math.cos(a) + k.get("dessus_cotes_au_dessus_collier", 0)
+            s_bas = max(co.get("arriere", co["r_bague"] + co.get("talon", 0)), s_t + co["tourillon"]["d"] / 2 + co.get("tourillon_bord", 12))
+            zc_ = zj + co.get("jeu_joue", 10) + co["ep"] / 2 * math.cos(a) + s_bas * math.sin(a)
+            h = (zc_ - m["z_pied"]) / math.cos(a)
+        c = V(m["x_pied"], m["y_axe"], m["z_pied"]) + u * h
+        s_t = (tc["x"] - c.x) / math.cos(a) if "x" in tc else -co["tourillon"].get("dx", 64)
     pt = c + ax_ * s_t
     return dict(h=h, c=(c.x, c.z), s_t=s_t, tube_x=pt.x, tube_z=pt.z, u=u, ax=ax_, a=a)
 
@@ -1382,24 +1394,31 @@ def quetes_crans(cfg):
 
 
 def collier_tourillon(A, co, CG, nom, sgm, c, placer):
-    """(JD 06/10) Collier du mât : bague où le mât tourne (bague PEHD), tourillon emmanché dans le tube des colliers
-    (le collier tourne autour quand on change la quête au cran de l'emplanture), ferrures des haubans. Collier, tube,
-    haubans et mât forment un ensemble indépendant du coffre. Repère local : s vers l'arrière dans le plan du collier,
-    t vers l'extérieur, n le long du mât ; origine au centre de la bague. Retourne les points d'attache (global)."""
+    """(JD 06/10) Collier du mât : alésage où le mât tourne, ouvert vers l'arrière pour poser le mât (axe de fermeture),
+    tourillon emmanché dans le tube des colliers (le collier tourne autour quand on change la quête), ferrures des haubans.
+    Collier, tube, haubans et mât forment un ensemble indépendant du coffre. Repère local : s vers l'arrière dans le plan
+    du collier, t vers l'extérieur, n le long du mât ; origine au centre de l'alésage. Retourne les points d'attache (global).
+    Face intérieure à `demi_y_int` (côté tube) ; si le tourillon est derrière le mât, la branche intérieure va jusqu'à lui."""
     R, nez, tal, dy, ep = co["r_bague"], co["nez"], co.get("talon", 0), co["demi_y"], co["ep"]
+    dyi = co.get("demi_y_int", dy)
     oe, to = co["oeil"], co["tourillon"]
     noir = cq.Color(0.12, 0.12, 0.12); alu = cq.Color(0.72, 0.74, 0.77); inox = cq.Color(0.80, 0.82, 0.84)
     ra = co["alesage"] / 2
+    s_t = CG["s_t"]
+    ax_c = co.get("axe") if co.get("ouverture_ar") else None
     if co.get("ouverture_ar"):                         # (JD 06/10) ouvert vers l'arrière : le mât y entre par l'arrière en se relevant
         sa_ = co.get("arriere", R)
-        corps = (cq.Workplane("XY").box(nez + sa_, 2 * dy, ep, centered=(False, True, True)).translate((-nez, 0, 0))
+        si_ = max(sa_, s_t + to["d"] / 2 + co.get("tourillon_bord", 12))
+        corps = (cq.Workplane("XY").box(nez + sa_, dy + dyi, ep, centered=(False, False, True)).translate((-nez, -dyi, 0))
                  .edges("|Z and <X").fillet(20).edges("|Z and >X").fillet(12))
+        if si_ > sa_ + 1:                              # branche intérieure prolongée jusqu'au tourillon (tube derrière le mât)
+            ext = (cq.Workplane("XY").box(si_ - sa_ + 20, dyi - ra, ep, centered=(False, False, True)).translate((sa_ - 20, -dyi, 0))
+                   .edges("|Z and >X").fillet(min(15, (dyi - ra) / 2 - 1)))
+            corps = corps.union(ext)
         corps = corps.cut(cq.Workplane("XY").circle(ra).extrude(ep, both=True))
-        corps = corps.cut(cq.Workplane("XY").box(sa_ + 2, 2 * ra, ep + 2, centered=(False, True, True)))
-        ax_c = co.get("axe")
+        corps = corps.cut(cq.Workplane("XY").box(max(sa_, si_) + 30, 2 * ra, ep + 2, centered=(False, True, True)))
         if ax_c:                                       # axe de fermeture derrière le mât, à travers les deux branches
-            trou_ = cq.Solid.makeCylinder(ax_c["d"] / 2, 2 * dy + 2, V(ax_c["s"], -dy - 1, 0), V(0, 1, 0))
-            corps = corps.cut(trou_)
+            corps = corps.cut(cq.Solid.makeCylinder(ax_c["d"] / 2, dy + dyi + 2, V(ax_c["s"], -dyi - 1, 0), V(0, 1, 0)))
         corps = corps.val()
     else:
         corps = (cq.Workplane("XY").box(nez, 2 * dy, ep, centered=(False, True, True)).translate((-nez, 0, 0))
@@ -1409,24 +1428,23 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
             corps = corps.union(cq.Workplane("XY").box(R + tal, 30, ep, centered=(False, True, True)))
         corps = corps.cut(cq.Workplane("XY").circle(ra).extrude(ep, both=True)).val()
     A.add(placer(corps), name=f"collier_{nom}", color=noir)
-    if co.get("ouverture_ar") and co.get("axe"):
-        ax_c = co["axe"]
-        A.add(placer(cq.Solid.makeCylinder(ax_c["d"] / 2, 2 * dy + 16, V(ax_c["s"], -dy - 8, 0), V(0, 1, 0))), name=f"collier_axe_{nom}", color=inox)
-    s_t = CG["s_t"]
-    A.add(placer(cq.Solid.makeCylinder(to["d"] / 2, to["l"], V(s_t, -dy, 0), V(0, -1, 0))), name=f"collier_tourillon_{nom}", color=alu)
+    if ax_c:
+        A.add(placer(cq.Solid.makeCylinder(ax_c["d"] / 2, dy + dyi + 16, V(ax_c["s"], -dyi - 8, 0), V(0, 1, 0))), name=f"collier_axe_{nom}", color=inox)
+    A.add(placer(cq.Solid.makeCylinder(to["d"] / 2, to["l"], V(s_t, -dyi, 0), V(0, -1, 0))), name=f"collier_tourillon_{nom}", color=alu)
     sa, ee, hh = oe["saillie"], oe["ep"], oe["h"]
+    sp = oe.get("s_poutre", -ee)                       # ferrure de la diagonale : en haut de la face intérieure
     oeils = {                                          # (pièce, point d'attache du hauban) en local
         "av": (cq.Solid.makeBox(sa, ee, hh, V(-nez - sa, oe["dy_av"] - ee / 2, -hh / 2)), (-nez - sa - 2, oe["dy_av"], 0)),
         "av_croise": (cq.Solid.makeBox(sa, ee, hh, V(-nez - sa, oe.get("dy_croise", 0) - ee / 2, -hh / 2)), (-nez - sa - 2, oe.get("dy_croise", 0), 0)),
         "ar": ((cq.Solid.makeBox(oe["ar"][1] - oe["ar"][0], ee, hh, V(oe["ar"][0], dy, -hh / 2)), (oe["ar"][1] + 2, dy + ee / 2, 0)) if oe.get("ar")
                else (cq.Solid.makeBox(sa, ee, hh, V(R + tal, -ee / 2, -hh / 2)), (R + tal + sa + 2, 0, 0))),
-        "poutre": (cq.Solid.makeBox(ee, sa, hh, V(-ee, -dy - sa, ep / 2 - hh)), (-ee / 2, -dy - sa - 2, ep / 2 - hh / 2)),
+        "poutre": (cq.Solid.makeBox(ee, sa, hh, V(sp, -dyi - sa, ep / 2 - hh)), (sp + ee / 2, -dyi - sa - 2, ep / 2 - hh / 2)),
     }                                                  # le hauban part à 2 du bout de la ferrure (œil et cosse non dessinés)
     ax_, u = CG["ax"], CG["u"]
     pts = {}
     for k_, (sol, (s_, t_, n_)) in oeils.items():
-        if co.get("ouverture_ar") and co.get("axe"):                   # l'axe de fermeture traverse aussi la ferrure AR
-            sol = sol.cut(cq.Solid.makeCylinder(co["axe"]["d"] / 2, 2 * dy + 20, V(co["axe"]["s"], -dy - 10, 0), V(0, 1, 0)))
+        if ax_c:                                       # l'axe de fermeture traverse aussi la ferrure AR
+            sol = sol.cut(cq.Solid.makeCylinder(ax_c["d"] / 2, dy + dyi + 20, V(ax_c["s"], -dyi - 10, 0), V(0, 1, 0)))
         A.add(placer(sol), name=f"collier_ferrure_{k_}_{nom}", color=inox)
         pts[k_] = c + ax_ * s_ + V(0, sgm * t_, 0) + u * n_
     return pts
@@ -1574,10 +1592,25 @@ def build(cfg, plateforme_seule=False):
             if rp:
                 ep_r = rp["ep"]; yc_ = sgm * hy
                 zone = cq.Solid.makeBox(rp["dx"][1] - rp["dx"][0], 2 * rp["demi_y"], 160, V(f.x + rp["dx"][0], yc_ - rp["demi_y"], f.z - 120))
+                if rp.get("evite") and f"{rp['evite']}_{nom}" in A.objects:   # (JD 06/10) découpé autour du pylône de la poutre AV
+                    bp = A.objects[f"{rp['evite']}_{nom}"].obj.BoundingBox()
+                    zone = zone.cut(cq.Solid.makeBox(bp.xlen + 20, bp.ylen + 20, 400, V(bp.xmin - 10, bp.ymin - 10, f.z - 300)))
                 ren = hull.translate(V(0, 0, ep_r)).cut(hull).intersect(zone)
                 A.add(ren, name=f"renfort_pont_{nom}", color=cq.Color(0.86, 0.66, 0.44))
             else:
                 ep_r = 0.0
+            py_ = (cfg.get("coffre") or {}).get("pylones") or {}; ps_ = py_.get("semelle")
+            rm_ = (cfg.get("coffre") or {}).get("ref_mat")
+            if ps_ and rm_ and "x_ref" in py_:               # (JD 06/10) semelles des tubes du coffre, à l'ancienne place de la semelle du mât (même plan)
+                fr_ = V(py_["x_ref"], y, rm_["z_pied"])
+                ya0, ya1 = (ps_["y"][0], ps_["y"][1]) if sgm > 0 else (-ps_["y"][1], -ps_["y"][0])
+                plp = cq.Solid.makeBox(ps_["dx"][1] - ps_["dx"][0], ya1 - ya0, ps_["ep"], V(fr_.x + ps_["dx"][0], ya0, fr_.z - ps_["ep"])).rotate(fr_, fr_ + V(0, 1, 0), m["quete_deg"])
+                A.add(plp, name=f"semelle_tubes_{nom}", color=cq.Color(0.91, 0.72, 0.51))
+                prp = cq.Solid.makeBox(ps_["dx"][1] - ps_["dx"][0] + 20, ya1 - ya0, 140, V(fr_.x + ps_["dx"][0] - 10, ya0, fr_.z - ps_["ep"] - 120))
+                cutq = cq.Solid.makeBox(ps_["dx"][1] - ps_["dx"][0] + 60, ya1 - ya0 + 20, 200, V(fr_.x + ps_["dx"][0] - 30, ya0 - 10, fr_.z - ps_["ep"])).rotate(fr_, fr_ + V(0, 1, 0), m["quete_deg"])
+                bop = prp.cut(cutq).cut(hull.translate(V(0, 0, ep_r))).intersect(
+                    cq.Solid.makeBox(ps_["dx"][1] - ps_["dx"][0], ya1 - ya0, 200, V(fr_.x + ps_["dx"][0], ya0, fr_.z - 200)).rotate(fr_, fr_ + V(0, 1, 0), m["quete_deg"]))
+                A.add(bop, name=f"bourrage_tubes_{nom}", color=cq.Color(0.78, 0.55, 0.30))
             dy0, dy1 = (sm["dy"][0], sm["dy"][1]) if sgm > 0 else (-sm["dy"][1], -sm["dy"][0])
             pl = cq.Solid.makeBox(sm["dx"][1] - sm["dx"][0], dy1 - dy0, sm["ep"], V(f.x + sm["dx"][0], f.y + dy0, f.z - sm["ep"]))
             pl = pl.rotate(f, f + V(0, 1, 0), m["quete_deg"])
@@ -1619,8 +1652,9 @@ def build(cfg, plateforme_seule=False):
             hs_ = hb_.get("semelle")
             if hs_ and m.get("semelle"):                  # même configuration dans le plan horizontal des semelles
                 zs_ = lambda dx_: f.z - math.tan(a) * dx_ + hs_["dz"]
-                s_av = V(f.x - hs_["attache_dx"], f.y, zs_(-hs_["attache_dx"]))
-                s_ar = V(f.x + hs_["attache_dx"], f.y, zs_(hs_["attache_dx"]))
+                dxa_, dxr_ = hs_.get("attache_dx_av", hs_["attache_dx"]), hs_.get("attache_dx_ar", hs_["attache_dx"])
+                s_av = V(f.x - dxa_, f.y + sgm * hs_.get("attache_dy_av", 0), zs_(-dxa_))   # (JD 06/10, mâts reculés) pontet AV un peu à l'extérieur : le croisé passe loin des tubes du coffre
+                s_ar = V(f.x + dxr_, f.y, zs_(dxr_))                                       # pontet AR plus en arrière : le croisé passe derrière le pylône de la poutre AV
                 liens += [("semelle_av", s_av, pts_etrave(sgm)), ("semelle_ar", s_ar, pts_cadene(sgm))]
                 if hs_.get("croises_avant", hb_.get("croises_avant")):
                     liens.append(("semelle_av_croise", s_av, pts_etrave(-sgm)))
@@ -1651,7 +1685,7 @@ def build(cfg, plateforme_seule=False):
             tc_ = hb_.get("tube_colliers")
             if tc_ and sgm > 0:                              # tube alu entre les colliers, à hauteur de leur centre, d'une joue à l'autre
                 if CG:                                       # (JD 06/10) d'un collier à l'autre, au-dessus du coffre, sur l'axe des tourillons
-                    co_ = m["collier"]; yj_ = m["y_axe"] - co_["demi_y"] - co_["tourillon"].get("jeu_tube", 3)
+                    co_ = m["collier"]; yj_ = m["y_axe"] - co_.get("demi_y_int", co_["demi_y"]) - co_["tourillon"].get("jeu_tube", 3)
                     c0_ = V(CG["tube_x"], -yj_, CG["tube_z"])
                 else:
                     yj_ = cfg["coffre"]["largeur"] / 2; c0_ = V(tc_.get("x", cc.x), -yj_, tc_.get("z", cc.z))
