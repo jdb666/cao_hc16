@@ -1337,7 +1337,7 @@ def collier_geom(cfg):
     h = co.get("hauteur")
     if h is None:                       # point le plus bas : face inférieure au bout du talon (le plan du collier penche de la quête)
         zj = m["z_pied"] + m["collier_hauteur"] * math.cos(a) + k.get("dessus_cotes_au_dessus_collier", 0)
-        s_bas = co["r_bague"] + co.get("talon", 0)
+        s_bas = co.get("arriere", co["r_bague"] + co.get("talon", 0))
         zc_ = zj + co.get("jeu_joue", 10) + co["ep"] / 2 * math.cos(a) + s_bas * math.sin(a)
         h = (zc_ - m["z_pied"]) / math.cos(a)
     c = V(m["x_pied"], m["y_axe"], m["z_pied"]) + u * h
@@ -1347,13 +1347,32 @@ def collier_geom(cfg):
     return dict(h=h, c=(c.x, c.z), s_t=s_t, tube_x=pt.x, tube_z=pt.z, u=u, ax=ax_, a=a)
 
 
+def pied_mat(cfg):
+    """Pied du mât (bas du tube, sur la cale de l'emplanture) : repère de la voile. Le mât garde sa longueur (JD 06/10)."""
+    m = cfg["mats"]; a = math.radians(m["quete_deg"]); emp = m.get("emplanture")
+    h = hauteur_emplanture(emp) if emp else 0.0
+    return m["x_pied"] + h * math.sin(a), m["z_pied"] + h * math.cos(a)
+
+
+def hauteur_emplanture(emp):
+    """Dessus de la cale (pied du mât) au-dessus de la semelle, le long du mât."""
+    ca = emp["cale"]
+    return ca["pointe_z"] + ca["h"] if "pointe_z" in ca else emp["rail"]["ep"] + ca["h"]
+
+
+def pivot_emplanture(emp):
+    """Axe du boulon au-dessus de la semelle : pivot de la cale pointe en bas (JD 06/10)."""
+    r, ca = emp["rail"], emp["cale"]
+    return r.get("axe_z", r["ep"] + ca.get("trou_z", 12))
+
+
 def quetes_crans(cfg):
     """(JD 06/10) Quête du mât à chaque cran de l'emplanture : le collier reste en place (centre de la bague), le pied
     (ergot) avance ou recule de `pas` par cran le long du rail. Retourne [(cran, quête en degrés)], de l'avant vers l'arrière."""
     m = cfg["mats"]; emp = m.get("emplanture"); cg = collier_geom(cfg)
     if not (emp and cg):
         return None
-    f = V(m["x_pied"], 0, m["z_pied"]); h = emp["rail"]["ep"] + emp["cale"]["h"]
+    f = V(m["x_pied"], 0, m["z_pied"]); h = pivot_emplanture(emp)
     cx, cz = cg["c"]
     out = []
     for k in emp["rail"]["crans"]:
@@ -1370,25 +1389,44 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
     R, nez, tal, dy, ep = co["r_bague"], co["nez"], co.get("talon", 0), co["demi_y"], co["ep"]
     oe, to = co["oeil"], co["tourillon"]
     noir = cq.Color(0.12, 0.12, 0.12); alu = cq.Color(0.72, 0.74, 0.77); inox = cq.Color(0.80, 0.82, 0.84)
-    corps = (cq.Workplane("XY").box(nez, 2 * dy, ep, centered=(False, True, True)).translate((-nez, 0, 0))
-             .edges("|Z and <X").fillet(20))
-    corps = corps.union(cq.Workplane("XY").circle(R).extrude(ep / 2, both=True))
-    if tal:
-        corps = corps.union(cq.Workplane("XY").box(R + tal, 30, ep, centered=(False, True, True)))
-    corps = corps.cut(cq.Workplane("XY").circle(co["alesage"] / 2).extrude(ep, both=True)).val()
+    ra = co["alesage"] / 2
+    if co.get("ouverture_ar"):                         # (JD 06/10) ouvert vers l'arrière : le mât y entre par l'arrière en se relevant
+        sa_ = co.get("arriere", R)
+        corps = (cq.Workplane("XY").box(nez + sa_, 2 * dy, ep, centered=(False, True, True)).translate((-nez, 0, 0))
+                 .edges("|Z and <X").fillet(20).edges("|Z and >X").fillet(12))
+        corps = corps.cut(cq.Workplane("XY").circle(ra).extrude(ep, both=True))
+        corps = corps.cut(cq.Workplane("XY").box(sa_ + 2, 2 * ra, ep + 2, centered=(False, True, True)))
+        ax_c = co.get("axe")
+        if ax_c:                                       # axe de fermeture derrière le mât, à travers les deux branches
+            trou_ = cq.Solid.makeCylinder(ax_c["d"] / 2, 2 * dy + 2, V(ax_c["s"], -dy - 1, 0), V(0, 1, 0))
+            corps = corps.cut(trou_)
+        corps = corps.val()
+    else:
+        corps = (cq.Workplane("XY").box(nez, 2 * dy, ep, centered=(False, True, True)).translate((-nez, 0, 0))
+                 .edges("|Z and <X").fillet(20))
+        corps = corps.union(cq.Workplane("XY").circle(R).extrude(ep / 2, both=True))
+        if tal:
+            corps = corps.union(cq.Workplane("XY").box(R + tal, 30, ep, centered=(False, True, True)))
+        corps = corps.cut(cq.Workplane("XY").circle(ra).extrude(ep, both=True)).val()
     A.add(placer(corps), name=f"collier_{nom}", color=noir)
+    if co.get("ouverture_ar") and co.get("axe"):
+        ax_c = co["axe"]
+        A.add(placer(cq.Solid.makeCylinder(ax_c["d"] / 2, 2 * dy + 16, V(ax_c["s"], -dy - 8, 0), V(0, 1, 0))), name=f"collier_axe_{nom}", color=inox)
     s_t = CG["s_t"]
     A.add(placer(cq.Solid.makeCylinder(to["d"] / 2, to["l"], V(s_t, -dy, 0), V(0, -1, 0))), name=f"collier_tourillon_{nom}", color=alu)
     sa, ee, hh = oe["saillie"], oe["ep"], oe["h"]
     oeils = {                                          # (pièce, point d'attache du hauban) en local
         "av": (cq.Solid.makeBox(sa, ee, hh, V(-nez - sa, oe["dy_av"] - ee / 2, -hh / 2)), (-nez - sa - 2, oe["dy_av"], 0)),
         "av_croise": (cq.Solid.makeBox(sa, ee, hh, V(-nez - sa, oe.get("dy_croise", 0) - ee / 2, -hh / 2)), (-nez - sa - 2, oe.get("dy_croise", 0), 0)),
-        "ar": (cq.Solid.makeBox(sa, ee, hh, V(R + tal, -ee / 2, -hh / 2)), (R + tal + sa + 2, 0, 0)),
+        "ar": ((cq.Solid.makeBox(oe["ar"][1] - oe["ar"][0], ee, hh, V(oe["ar"][0], dy, -hh / 2)), (oe["ar"][1] + 2, dy + ee / 2, 0)) if oe.get("ar")
+               else (cq.Solid.makeBox(sa, ee, hh, V(R + tal, -ee / 2, -hh / 2)), (R + tal + sa + 2, 0, 0))),
         "poutre": (cq.Solid.makeBox(ee, sa, hh, V(-ee, -dy - sa, ep / 2 - hh)), (-ee / 2, -dy - sa - 2, ep / 2 - hh / 2)),
     }                                                  # le hauban part à 2 du bout de la ferrure (œil et cosse non dessinés)
     ax_, u = CG["ax"], CG["u"]
     pts = {}
     for k_, (sol, (s_, t_, n_)) in oeils.items():
+        if co.get("ouverture_ar") and co.get("axe"):                   # l'axe de fermeture traverse aussi la ferrure AR
+            sol = sol.cut(cq.Solid.makeCylinder(co["axe"]["d"] / 2, 2 * dy + 20, V(co["axe"]["s"], -dy - 10, 0), V(0, 1, 0)))
         A.add(placer(sol), name=f"collier_ferrure_{k_}_{nom}", color=inox)
         pts[k_] = c + ax_ * s_ + V(0, sgm * t_, 0) + u * n_
     return pts
@@ -1402,18 +1440,23 @@ def emplanture(A, emp, nom, placer):
     r, ca, eg = emp["rail"], emp["cale"], emp["ergot"]
     L, W, Hh, e = r["l"], r["larg"], r["h"], r["ep"]
     alu = cq.Color(0.72, 0.74, 0.77); anod = cq.Color(0.25, 0.25, 0.27); inox = cq.Color(0.80, 0.82, 0.84)
-    zb = e + ca["trou_z"]                                  # axe du boulon
+    zb = pivot_emplanture(emp)                             # axe du boulon
     rail = (cq.Workplane("XY").box(L, W, e, centered=(True, True, False))
             .union(cq.Workplane("XY").box(L, e, Hh - e, centered=(True, False, False)).translate((0, W / 2 - e, e)))
             .union(cq.Workplane("XY").box(L, e, Hh - e, centered=(True, False, False)).translate((0, -W / 2, e)))).val()
     for kk in r["crans"]:
         rail = rail.cut(cq.Solid.makeCylinder(r["trou"] / 2, W + 2, V(kk * r["pas"], -W / 2 - 1, zb), V(0, 1, 0)))
     A.add(placer(rail), name=f"emplanture_rail_{nom}", color=alu)
-    b2, t2 = ca["base"] / 2, ca["haut"] / 2
-    cale = cq.Workplane("XZ").polyline([(-b2, e), (b2, e), (t2, e + ca["h"]), (-t2, e + ca["h"])]).close().extrude(ca["larg"] / 2, both=True).val()
+    if "pointe_z" in ca:                                   # (JD 06/10) triangle pointe en bas : la cale pivote sur le boulon, qui la tient
+        z0_, z1_ = ca["pointe_z"], ca["pointe_z"] + ca["h"]
+        prof = [(-ca["pointe"] / 2, z0_), (ca["pointe"] / 2, z0_), (ca["haut"] / 2, z1_), (-ca["haut"] / 2, z1_)]
+    else:
+        b2, t2 = ca["base"] / 2, ca["haut"] / 2
+        prof = [(-b2, e), (b2, e), (t2, e + ca["h"]), (-t2, e + ca["h"])]
+    cale = cq.Workplane("XZ").polyline(prof).close().extrude(ca["larg"] / 2, both=True).val()
     cale = cale.cut(cq.Solid.makeCylinder(r["trou"] / 2, W + 2, V(0, -W / 2 - 1, zb), V(0, 1, 0)))
     A.add(placer(cale), name=f"emplanture_cale_{nom}", color=anod)
-    A.add(placer(cq.Solid.makeCylinder(eg["d"] / 2, eg["h"], V(0, 0, e + ca["h"]))), name=f"emplanture_ergot_{nom}", color=inox)
+    A.add(placer(cq.Solid.makeCylinder(eg["d"] / 2, eg["h"], V(0, 0, hauteur_emplanture(emp)))), name=f"emplanture_ergot_{nom}", color=inox)
     A.add(placer(cq.Solid.makeCylinder(r["trou"] / 2, W + 16, V(0, -W / 2 - 8, zb), V(0, 1, 0))), name=f"emplanture_boulon_{nom}", color=inox)
 
 
@@ -1496,17 +1539,18 @@ def build(cfg, plateforme_seule=False):
     u = V(math.sin(a), 0, math.cos(a))
     enr = vo.get("enroulement", {})
     emp = m.get("emplanture")
-    h_emp = (emp["rail"]["ep"] + emp["cale"]["h"]) if emp else 0.0     # (JD 06/10) pied du mât sur la cale : mât raccourci d'autant, bordure inchangée
+    h_emp = hauteur_emplanture(emp) if emp else 0.0                    # (JD 06/10) pied du mât sur la cale : mât raccourci d'autant, bordure inchangée
     def placer(sol, o_, sg_):                                           # repère local (s arrière, t extérieur, n le long du mât) -> global
         sol = sol.mirror("XZ") if sg_ < 0 else sol
         return sol.rotate(V(0, 0, 0), V(0, 1, 0), m["quete_deg"]).translate(o_)
     for nom, y in (("babord", m["y_axe"]), ("tribord", -m["y_axe"])):
         f = V(m["x_pied"], y, m["z_pied"])
         sgm = 1 if y > 0 else -1
-        mat_ = cq.Solid.makeCylinder(m["diam"] / 2, m["longueur"] - h_emp, f + u * h_emp, u)
+        fm = f + u * h_emp                                              # pied du mât (dessus de la cale) : le mât garde sa longueur (JD 06/10), voile et bordure montent de h_emp
+        mat_ = cq.Solid.makeCylinder(m["diam"] / 2, m["longueur"], fm, u)
         if emp:
             eg_ = emp["ergot"]                                          # embout du pied percé pour l'ergot
-            mat_ = mat_.cut(cq.Solid.makeCylinder(eg_["d"] / 2 + 1, eg_["h"] + 2, f + u * h_emp, u))
+            mat_ = mat_.cut(cq.Solid.makeCylinder(eg_["d"] / 2 + 1, eg_["h"] + 2, fm, u))
             emplanture(A, emp, nom, lambda s_, f_=f, sg_=sgm: placer(s_, f_, sg_))
         A.add(mat_, name=f"mat_{nom}", color=noir)
         if CG:
@@ -1615,15 +1659,15 @@ def build(cfg, plateforme_seule=False):
                 A.add(tube, name="tube_colliers", color=cq.Color(0.70, 0.72, 0.75))
         rest, d = voile_restante(vo["contour"], a, enr.get(nom, 0))
         if rest:
-            pts = [(m["x_pied"] + dx, m["z_pied"] + dz) for dx, dz in rest]
+            pts = [(fm.x + dx, fm.z + dz) for dx, dz in rest]
             voile = cq.Workplane("XZ", origin=(0, y, 0)).polyline(pts).close().extrude(0.5, both=True)
             A.add(voile, name=f"voile_{nom}", color=cq.Color(0.95, 0.93, 0.88))
             yyv = (cfg["coffre"].get("yinyang") or {}).get("voiles") if "coffre" in cfg else None
             if yyv:                                               # dessin du bateau (JD 29/09) : yin-yang sur chaque face de la voile
                 from shapely.geometry import Polygon as _Pg
                 rest0, _ = voile_restante(vo["contour"], a, 0)
-                pg0 = _Pg([(m["x_pied"] + dx, m["z_pied"] + dz) for dx, dz in rest0])
-                cxy, czy = m["x_pied"] + yyv["dx"], m["z_pied"] + yyv["dz"]      # position sur la voile pleine (repère du pied de mât)
+                pg0 = _Pg([(fm.x + dx, fm.z + dz) for dx, dz in rest0])
+                cxy, czy = fm.x + yyv["dx"], fm.z + yyv["dz"]      # position sur la voile pleine (repère du pied de mât)
                 if d:                                                 # voile en partie roulée : la toile, et le dessin, avancent de d avec la chute
                     cxy, czy = cxy - d * math.cos(a), czy + d * math.sin(a)
                 clip = _Pg(pts).buffer(-yyv.get("marge", 30))
@@ -1637,14 +1681,14 @@ def build(cfg, plateforme_seule=False):
             l_r = max(u_ for u_, _ in vo["contour"]) if frac_ >= 1 else d
             r_b = math.sqrt(r_m ** 2 + l_r * t_ / math.pi)
             r_h = r_m + 1 if frac_ >= 1 else r_b
-            ext_r = (cq.Solid.makeCone(r_b, r_h, w_h - w_t, f + u * w_t, u) if abs(r_b - r_h) > 1e-6
-                     else cq.Solid.makeCylinder(r_b, w_h - w_t, f + u * w_t, u))      # en partie roulée : rouleau cylindrique
-            rou = ext_r.cut(cq.Solid.makeCylinder(r_m, w_h - w_t, f + u * w_t, u))
+            ext_r = (cq.Solid.makeCone(r_b, r_h, w_h - w_t, fm + u * w_t, u) if abs(r_b - r_h) > 1e-6
+                     else cq.Solid.makeCylinder(r_b, w_h - w_t, fm + u * w_t, u))      # en partie roulée : rouleau cylindrique
+            rou = ext_r.cut(cq.Solid.makeCylinder(r_m, w_h - w_t, fm + u * w_t, u))
             A.add(rou, name=f"voile_roulee_{nom}", color=cq.Color(0.95, 0.93, 0.88))
         lv = vo["livarde"]
-        s0 = f + u * lv["w_mat"]
+        s0 = fm + u * lv["w_mat"]
         cu, cw = vo["contour"][1]                                    # point d'écoute voile pleine
-        s1 = f + V(cu * math.cos(a) + cw * math.sin(a), 0, -cu * math.sin(a) + cw * math.cos(a))
+        s1 = fm + V(cu * math.cos(a) + cw * math.sin(a), 0, -cu * math.sin(a) + cw * math.cos(a))
         sgl = 1 if y > 0 else -1
         if lv.get("type") == "wishbone":                             # ancienne variante : deux bras cintrés de part et d'autre de la voile
             for sg, cote in ((1, "a"), (-1, "b")):
@@ -1687,13 +1731,14 @@ if __name__ == "__main__":
     A = build(cfg)
     m, vo = cfg["mats"], cfg["voile"]
     a = math.radians(m["quete_deg"])
+    xpm, zpm = pied_mat(cfg)
     for nom in ("babord", "tribord"):
         f = vo.get("enroulement", {}).get(nom, 0)
         rest, d = voile_restante(vo["contour"], a, f)
         if rest:
             S, (cx, cz) = aire_cdg(rest)
             print(f"voile {nom} : enroulée {f:.0%} (largeur {d:.0f} mm), {S/1e6:.2f} m², "
-                  f"CV {m['x_pied']+cx:.0f} mm de l'étrave, {m['z_pied']+cz:.0f} mm / flottaison")
+                  f"CV {xpm+cx:.0f} mm de l'étrave, {zpm+cz:.0f} mm / flottaison")
         else:
             print(f"voile {nom} : entièrement roulée")
     A.export(out)

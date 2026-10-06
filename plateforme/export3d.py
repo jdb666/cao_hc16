@@ -129,7 +129,8 @@ for yq in range(0, 1041, 80):
     s_ = D['poutre_ar'].intersect(cq.Solid.makeBox(60, 1, 500, cq.Vector(xpa - 30, yq - 0.5, 200)))
     if s_.Volume() > 0:
         top_pa.append([yq, round(s_.BoundingBox().zmax, 1)])
-RIG = dict(mat=dict(x=m_['x_pied'], z=m_['z_pied'], y=m_['y_axe'], quete=m_['quete_deg'], diam=m_['diam'], L=m_['longueur']),
+xpm_, zpm_ = H.pied_mat(full)                     # pied du mât sur la cale de l'emplanture (JD 06/10) : repère des voiles
+RIG = dict(mat=dict(x=round(xpm_, 2), z=round(zpm_, 2), y=m_['y_axe'], quete=m_['quete_deg'], diam=m_['diam'], L=m_['longueur']),
            voile=dict(contour=vo_['contour'], toile=vo_.get('toile_ep', 0.35), decor=dec),
            livarde=dict(w=lv_['w_mat'], diam=lv_['diam'], jeu=lv_.get('jeu_mat', 5), L=round(vo_['_livarde_longueur'], 1),
                         fourreau={k_: {kk: round(vv, 1) for kk, vv in v_.items()} for k_, v_ in (kc.get('_fourreau') or {}).items()}),

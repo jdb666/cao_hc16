@@ -55,18 +55,20 @@ mats:
   collier_hauteur: 750     # référence du coffre : les joues montent à 25 au-dessus (z 1 122) ; le collier lui-même est au-dessus des joues (mats.collier)
   collier:                 # (JD 06/10) collier indépendant du coffre : bague où le mât tourne, tourillon emmanché dans le tube (il tourne quand on change de cran), attaches des haubans
     jeu_joue: 10           # dessous du collier à 10 au-dessus du haut des joues (hauteur calculée ; ou `hauteur` le long du mât depuis le dessus de semelle)
-    ep: 70                 # 7 × CP 10, plis perpendiculaires au mât
-    alesage: 64            # bague PEHD de 2 : le mât Ø 60 y tourne
+    ep: 70                 # bloc d'Ertalyte (PET-P) ou de POM, usiné, sans colle (tout est boulonné) ; en CP : 7 × CP 10 + bague PEHD
+    alesage: 62            # le mât Ø 60 tourne directement dedans
     r_bague: 55
     nez: 105               # avant du collier, devant l'axe du mât (l'axe du tube est à ≈ 68)
-    talon: 5               # méplat derrière la bague pour la ferrure AR
+    ouverture_ar: true     # (JD 06/10) ouvert vers l'arrière pour poser le mât (il arrive par l'arrière en se relevant sur l'emplanture), largeur = alésage
+    arriere: 55            # bout des branches derrière l'axe du mât
+    axe: {d: 10, s: 38}    # axe inox de fermeture derrière le mât, à travers les deux branches, goupillé
     demi_y: 55
     tourillon: {d: 45, l: 80, jeu_tube: 3}   # rond alu Ø 45 dans le tube Ø 50 × 2, gorge + goupille : le tube tourne autour sans pouvoir sortir
-    oeil: {saillie: 22, ep: 6, h: 24, dy_av: 40, dy_croise: -30}   # ferrures inox : devant (direct AV à 40 vers l'extérieur ; croisé AV à 30 vers l'intérieur, loin de la livarde rangée), derrière (AR), face intérieure en haut (diagonale vers la poutre)
-  emplanture:               # (JD 06/10) cale triangulaire boulonnée dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au cran
-    rail: {l: 180, larg: 40, h: 25, ep: 4, trou: 8, pas: 20, crans: [-2, -1, 0, 1, 2]}   # U alu 40 × 25 × 4, trous Ø 8 tous les 20 dans les ailes
-    cale: {base: 80, h: 40, haut: 24, larg: 31.5, trou_z: 12}   # pièce pleine (alu), profil triangulaire, boulon transversal à 12 au-dessus de l'âme
-    ergot: {d: 20, h: 20}   # le pied du mât (embout percé) tourne dessus ; mât raccourci de rail.ep + cale.h pour garder la bordure
+    oeil: {saillie: 22, ep: 6, h: 24, dy_av: 40, dy_croise: -30, ar: [20, 70]}   # ferrures inox boulonnées : devant (direct AV à 40 vers l'extérieur ; croisé AV à 30 vers l'intérieur, loin de la livarde rangée) ; AR sur la face extérieure, de 20 à 70 derrière l'axe du mât (JD 06/10 : le hauban AR reste à l'extérieur du mât) ; diagonale en haut de la face intérieure
+  emplanture:               # (JD 06/10) cale triangulaire dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au trou du boulon
+    rail: {l: 180, larg: 40, h: 30, ep: 4, trou: 8, pas: 20, crans: [-2, -1, 0, 1, 2], axe_z: 18}   # U alu 40 × 30 × 4, trous Ø 8 tous les 20 dans les ailes, axe du boulon à 18 au-dessus de la semelle
+    cale: {haut: 70, pointe: 6, pointe_z: 7, h: 38, larg: 31.5}   # (JD 06/10) pièce pleine (alu), triangle pointe en bas : elle pivote sur le boulon (quête, pose du mât), le boulon la tient ; dessus 70 de long à 45 au-dessus de la semelle
+    ergot: {d: 20, h: 20}   # sur le dessus de la cale ; le pied du mât (embout percé) tourne dessus ; mât raccourci de 45 pour garder la bordure
   longueur: 7300
   diam: 60
   quete_deg: 3

@@ -1,7 +1,7 @@
 """Gréement HC16 d'origine approché (cotes.yaml : hc16_origine), dans le plan du mât :
 GV en repère du mât (u vers l'arrière, w le long du mât depuis la rotule), foc dans le plan axial (x, z).
 Surfaces officielles atteintes par le rond de chute (parabolique). CV par contours (rond compris) et par triangles."""
-import math, yaml
+import math, sys, yaml
 
 def aire_cdg(C):
     A = cx = cy = 0
@@ -61,7 +61,9 @@ if __name__ == '__main__':
     print('GV rond', r['gv']['rond'], 'écoute', r['gv']['ecoute'], '| foc rond', r['foc']['rond'], 'amure', r['foc']['amure'], 'têtière', r['foc']['tetiere'])
     # Rando, même méthode (contour avec rond de chute) et triangles
     v, mt = c['voile'], c['mats']; q = math.radians(mt['quete_deg'])
-    P = lambda u, w: (mt['x_pied'] + math.sin(q) * w + math.cos(q) * u, mt['z_pied'] + math.cos(q) * w - math.sin(q) * u)
+    sys.path.insert(0, '/home/claude/cao'); import hc16_rando as H_
+    xpm, zpm = H_.pied_mat(c)                    # pied du mât sur la cale de l'emplanture (JD 06/10)
+    P = lambda u, w: (xpm + math.sin(q) * w + math.cos(q) * u, zpm + math.cos(q) * w - math.sin(q) * u)
     A, u, w = aire_cdg(v['contour']); At, ut, wt = aire_cdg([v['contour'][0], v['contour'][1], v['contour'][-1]])
     print('Rando contour : %.2f m² par voile, CV x %.0f z %.0f | triangle : x %.0f z %.0f' % ((A / 1e6,) + P(u, w) + P(ut, wt)))
     zr = P(u, w)[1]; S16 = (r['surfaces']['gv'] + r['surfaces']['foc'])

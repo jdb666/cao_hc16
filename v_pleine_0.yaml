@@ -107,10 +107,14 @@ mats:
   collier:
     jeu_joue: 10
     ep: 70
-    alesage: 64
+    alesage: 62
     r_bague: 55
     nez: 105
-    talon: 5
+    ouverture_ar: true
+    arriere: 55
+    axe:
+      d: 10
+      s: 38
     demi_y: 55
     tourillon:
       d: 45
@@ -122,11 +126,14 @@ mats:
       h: 24
       dy_av: 40
       dy_croise: -30
+      ar:
+      - 20
+      - 70
   emplanture:
     rail:
       l: 180
       larg: 40
-      h: 25
+      h: 30
       ep: 4
       trou: 8
       pas: 20
@@ -136,12 +143,13 @@ mats:
       - 0
       - 1
       - 2
+      axe_z: 18
     cale:
-      base: 80
-      h: 40
-      haut: 24
+      haut: 70
+      pointe: 6
+      pointe_z: 7
+      h: 38
       larg: 31.5
-      trou_z: 12
     ergot:
       d: 20
       h: 20
