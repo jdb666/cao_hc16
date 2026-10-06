@@ -1,0 +1,130 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-05T17:40:00Z"
+ },
+ "lists": "css",
+ "title": "Book HC16 Nacra 5.80 Rando",
+ "order": [
+  "cover",
+  "sommaire",
+  "s1",
+  "s1-av",
+  "s1-ar",
+  "s1-prfa",
+  "s1-de",
+  "s2",
+  "s2-av",
+  "s2-ar",
+  "s2-prfa",
+  "s2-de",
+  "s3",
+  "s3-av",
+  "s3-ar",
+  "s3-prfa",
+  "s3-de",
+  "s3-cav",
+  "s3-car",
+  "s3-cde",
+  "s3-cpr",
+  "s4",
+  "s4-00-av",
+  "s4-00-prfa",
+  "s4-50-av",
+  "s4-50-prfa",
+  "s4-75-av",
+  "s4-75-prfa",
+  "s4-de",
+  "s5",
+  "s5-ar",
+  "s5-art",
+  "s5-avt",
+  "s5-prt",
+  "s5-coupe",
+  "s6",
+  "d-vprofil",
+  "d-vdessus",
+  "d-vface",
+  "d-semelle",
+  "d-pied",
+  "d-collier",
+  "d-emplanture",
+  "d-joue",
+  "d-livarde",
+  "d-attaches",
+  "d-accroches",
+  "d-bancs",
+  "d-haubans",
+  "d-ecoute",
+  "d-assiette",
+  "d-releves",
+  "s7",
+  "p-4a",
+  "p-6a",
+  "p-6b",
+  "p-9a",
+  "p-9b",
+  "p-10a",
+  "p-demi",
+  "p-nom1",
+  "p-nom2",
+  "p-nom3",
+  "p-fab",
+  "fin"
+ ],
+ "cover": "cover",
+ "sections": {
+  "intro": {
+   "description": "Couverture et sommaire",
+   "start": "cover"
+  },
+  "hc16": {
+   "description": "HC16 d'origine avec son gréement Hobie",
+   "start": "s1"
+  },
+  "actuel": {
+   "description": "Modèle actuel : coffre, deux mâts, voiles pleines",
+   "start": "s2"
+  },
+  "transp": {
+   "description": "Les mêmes vues, coffre transparent, puis le coffre de près",
+   "start": "s3"
+  },
+  "reduction": {
+   "description": "Une voile à 0, 50 puis 75 %, l'autre roulée",
+   "start": "s4"
+  },
+  "moteur": {
+   "description": "Moteur en marche et relevé",
+   "start": "s5"
+  },
+  "details": {
+   "description": "Détails du dossier",
+   "start": "s6"
+  },
+  "decoupe": {
+   "description": "Plans de découpe et nomenclature",
+   "start": "s7"
+  },
+  "fin": {
+   "description": "Points ouverts",
+   "start": "fin"
+  }
+ },
+ "faces": {
+  "barlow-semi-condensed": {
+   "family": "Barlow Semi Condensed",
+   "href": "https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&display=swap"
+  },
+  "ibm-plex-sans": {
+   "family": "IBM Plex Sans",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+  },
+  "ibm-plex-mono": {
+   "family": "IBM Plex Mono",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+  }
+ },
+ "designSystems": []
+}
