@@ -156,7 +156,7 @@ def imbriquer_grille_mieux(items, essais=12, graine=1, res=5.0):
         ordre = base if k == 0 else sorted(base, key=lambda t: -t[2].area * rnd.uniform(0.6, 1.4))
         pls = imbriquer_grille(ordre, 2500, res)
         demi = None
-        if len(pls) >= 2:
+        if len(pls) >= 1:                                  # (07/10) aussi quand une épaisseur tient sur une seule plaque (CP 10)
             last = [q for q in ordre if (q[0], q[1]) in [(x[0], x[1]) for x in pls[-1]['placed']]]
             try:
                 h = imbriquer_grille(last, 1250, res)

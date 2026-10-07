@@ -11,10 +11,13 @@ NOMS = {
     'C4': "Face arrière C4, milieu",
     'B': "Bordé (avant cintré + dessus)", 'F': "Fond", 'P': "Paroi de poche (pièce d'angle)",
     'TR': "Trappe de visite de C4, dans la chute de C4",
+    'CV': "Couvercle du coffre à ancre : bordé central cintré, échancré pour le puits",
     'CA': "Caisse de la batterie : cloison avant", 'CB': "Caisse de la batterie : côté",
-    'CM': "Cloison du puits, arrière de la caisse",
+    'CM': "Cloison avant du puits, arrière du coffre à ancre",
+    'AN': "Cloison du coffre à ancre (±250)",
+    'BB': "Caisson du banc : côté intérieur", 'BR': "Caisson du banc : face arrière", 'BV': "Caisson du banc : couvercle",
     'PM': "Paroi du puits moteur et son accroche (±131), au travers de C4",
-    'K331': "Couple ±331 (côté de caisse prolongé) et son accroche", 'K850': "Couple ±850 et son accroche, au travers de C4",
+    'K331': "Couple ±331, de la cloison du puits à C4, et son accroche", 'K850': "Couple ±850 et son accroche, au travers de C4",
     'CL1': "Cale du bac de batterie, 40 = 4 × CP 10", 'CL2': "Cale du bac de batterie, 40 = 4 × CP 10",
     'PL': "Planche de la pince du moteur, 40 = 4 × CP 10", 'TA': "Table, sur la caisse",
     'CR': "Capot arrière en pente, découpé pour la tête du moteur", 'CJ': "Joue triangulaire du capot arrière",
@@ -38,9 +41,9 @@ def nom(ref):
     return f'{base}, {cote}'
 
 GROUPES = {
-    'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'F1', 'F2', 'F3', 'F4', 'F5', 'P1', 'P2', 'P3', 'TR'],
-    'p-nom2': ['CA', 'CB', 'CM', 'PM', 'K331', 'K850', 'CL1', 'CL2', 'PL', 'TA', 'CR', 'CJ'],
-    'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'SR', 'ST'],
+    'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'CV', 'F1', 'F2', 'F3', 'F4', 'F5', 'P1', 'P2', 'P3', 'TR'],
+    'p-nom2': ['AN', 'CM', 'PM', 'K331', 'K850', 'PL', 'CR', 'CJ'],
+    'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'BB', 'BR', 'BV', 'SR', 'ST'],
     'p-nom4': ['RP', 'SM', 'JE', 'CE', 'CO1', 'CO2', 'CO3', 'LC', 'LG', 'LF'],
 }
 TD = '<td style="text-align:right">'
@@ -97,10 +100,10 @@ IMAGES = {
     's5-prt': ['s5_bas_pr_transp', 's5_haut_pr_transp'], 's5-coupe': ['coupe_bas', 'coupe_haut'],
     'd-vprofil': ['vue_profil'], 'd-vdessus': ['vue_dessus'], 'd-vface': ['vue_face'], 'd-semelle': ['semelle'], 'd-pied': ['d_pied_mat'],
     'd-collier': ['d_collier', 'd_collier_av'], 'd-emplanture': ['d_emplanture'],
-    'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['d_bancs'],
+    'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['d_bancs'], 'd-batterie': ['d_caisson', 'd_ancre'],
     'd-haubans': ['d_haubans'], 'd-hpieds': ['h_pieds_av', 'h_pieds_de'], 'd-hpied': ['h_pied_detail'], 'd-ecoute': ['d_ecoute'], 'd-assiette': ['d_assiette_0', 'd_assiette_150'],
-    'p-4a': ['planche_4-A'], 'p-6a': ['planche_6-A'], 'p-6b': ['planche_6-B'], 'p-9a': ['planche_9-A'], 'p-9b': ['planche_9-B'], 'p-10a': ['planche_10-A'],
-    'p-demi': ['planche_4-B', 'planche_6-C'],
+    'p-4a': ['planche_4-A'], 'p-6a': ['planche_6-A'], 'p-6b': ['planche_6-B'], 'p-9a': ['planche_9-A'], 'p-9b': ['planche_9-B'], 
+    'p-demi': ['planche_4-B', 'planche_10-A'],
 }
 if len(sys.argv) > 1:
     carte = json.load(open(sys.argv[1]))

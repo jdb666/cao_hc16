@@ -50,19 +50,21 @@ for lv in levees:
     print(f"{lv:6.1f} z {r['zmin']}–{r['zmax']} | contacts {hits or '-'} | " + ' '.join(f"{k}:{v[0]}({v[1][7:]}/{v[2]})" for k, v in sorted(best.items())), flush=True)
 # sortie du bac : monté à la verticale de 0 à 700
 bac = [n for n in ('batterie_bac', 'batterie') if n in d]
+ref_ = 'batterie_bac' if 'batterie_bac' in d else 'batterie'
+haut_ = 701 if 'batterie_bac' in d else 251          # (JD 07/10) batterie du banc : levée de 250, couvercle du caisson ôté, puis glissée vers l'intérieur sous le tube
 sortie = []
-for dz in range(0, 701, 50):
+for dz in range(0, haut_, 50 if haut_ > 300 else 25):
     bh = {n: d[n].translate(V(0, 0, dz)) for n in bac}
     hits, jmin = [], (1e9, None)
     for a, sa in bh.items():
         ba = sa.BoundingBox()
         for b in oth:
-            if b in bac or b in ('coffre_caisse_couvercle', 'coffre_table') or b.startswith('ancre_') or not proche(ba, BB[b], 60):   # table, couvercle et ancre ôtés pour sortir le bac
+            if b in bac or b in ('coffre_caisse_couvercle', 'coffre_table') or b.startswith('ancre_') or (b.startswith('caisson_') and b.endswith('_couvercle')) or not proche(ba, BB[b], 60):   # table, couvercle et ancre ôtés pour sortir le bac
                 continue
             v = sa.intersect(d[b]).Volume()
             if v > 0.5:
                 hits.append((a, b, round(v)))
-            elif a == 'batterie_bac':
+            elif a == ref_:
                 dd = sa.distance(d[b])
                 if dd < jmin[0]:
                     jmin = (round(dd, 1), b)

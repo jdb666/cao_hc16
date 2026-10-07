@@ -122,7 +122,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     godet: {diam: 34, au_dessus_bas: 15}
     collier: {diam: 32, ouverture: 30, sous_haut: 60}   # 60 sous le haut de la joue : 20 sous le hauban direct AV   # livarde rangée (JD 30/09) : trou dans le dessus, 180 devant l'axe du mât au collier,
                                                                                                      # contre la joue ; fourreau de 300 dans le coffre, collier ouvert sur le dessus pour la tenir
-  table: {x0: 1384, x1: 1760, demi_y: 360, ep: 10, decoupe_moteur: {x0: 1771, x1: 2055, demi_y: 70}}   # planche légère (JD 30/09) ; raccourcie (JD 05/10) : elle ne couvre plus que la caisse, le capot arrière prend la suite (avant : x1 2 118, au-dessus de la poutre AV)
+  table: null              # (JD 07/10) retirée avec la caisse de la batterie qui la portait (avant : x 1 384 → 1 760, demi_y 360, CP 10, découpée pour la tête du moteur)
   capot_arriere: {x0: 1760, z_c4: 740, demi_y: 360, ep: 6, decoupe_moteur: {x0: 1771, demi_y: 70}}   # (JD 05/10) dessus du milieu en pente de x 1 760 (z 810) à C4 (z 750) : les haubans collier -> milieu de la poutre AV passent au-dessus
   dessus_plat_demi: 360      # même cassure que le fond : bordé central C5 cylindrique, trappe de batterie plane dans C5
   dessus_cotes_au_dessus_collier: 25   # dessus au droit des joues = haut du collier
@@ -136,7 +136,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   avant_x: 1584            # pointe avant au droit des joues : 1 390 avant le 06/10 ; reculée de 194 avec les mâts (JD : côtés raccourcis, joue toujours tangente au collier)
   joues_forme: {n_avant: 2.3, n_arriere: 2.2, plat_jusqu_a_c4: true}   # joues arrondies (JD 30/09) : superellipses (2 = ellipse) ; avant tangent horizontal au collier sans saut de courbure,
                                                                        # dessus plat du collier à C4 (comme le coffre), dossier depuis C4 ; le bordé du coffre suit l'avant à la station des joues
-  avant_x_milieu: 1250     # pointe du fond avancée au milieu seulement (plat C1, ±360), raccord linéaire jusqu'aux joues (JD 29/09 soir)
+  avant_x_milieu: 1584     # (JD 07/10) avant droit au ras de la pointe des joues : coffre raccourci de 334 au milieu (avant : 1 250, pointe avancée au milieu seulement, JD 29/09 soir)
   fond_pente: {deg: 12, x0: 1860}   # fond bas (z 250) sous l'aileron et l'hélice relevés, de x 1 860 à C4, puis remonte à 12° jusqu'à la pointe (z ≈ 380 au milieu) ; même pente partout -> panneaux plans
   plateau_z: 900           # plateau intérieur
   ep_bordé: 6
@@ -147,8 +147,9 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   ep_cloison: 6
   pas_cloisons: 560
   cloisons_y: []           # ancienne C9.1 (y -500) remplacée par le compartiment batterie (JD 29/09)
-  compartiment_batterie: {jeu: 3, ep: 6, caisse: {z_haut: 810, couvercle: 0}}   # caisse CP 6 à 3 du bac, montée au-dessus du coffre jusqu'à z 810 (JD 30/09 : hauteur au-dessus du coffre divisée par 2, 181 -> 91 à l'avant), ouverte : pas de couvercle
-  ancre: {faisceau: [200, 100], verge: [120, 20], anneau: 50, x: 1550, sur: bac}   # grappin pliant ≈ 3–4 kg (hypothèse), couché en travers dans la caisse ouverte, sur le couvercle du bac
+  compartiment_batterie: null   # (JD 07/10) plus de caisse de batterie dans le coffre (avant : CP 6 à 3 du bac, montée jusqu'à z 810)
+  ancre: {faisceau: [200, 100], verge: [120, 20], anneau: 50, sur: fond}   # grappin pliant ≈ 3–4 kg (hypothèse), couché en travers sur le fond du coffre à ancre, contre la cloison du puits
+  coffre_ancre: {demi_y: 250, ep: 6}   # (JD 07/10) petit coffre à ancre devant le puits : deux cloisons CP 6 à ±250, de l'avant à la cloison du puits ; couvercle découpé dans le bordé (trappe)
   yinyang:                 # dessin du bateau (JD 29/09) : taijitu sur la face extérieure des joues et sur les deux faces des voiles
     joues: {x: 2250, z: 870, r: 180, ep: 0.5}          # sur le dossier, derrière le mât
     voiles: {dx: 2558, dz: 1791, r: 180, marge: 30}    # même taille que sur les joues, dans le coin du point d'écoute au-dessus de la livarde (JD 29/09) : centre x 4 324, z 2 139, à 100 de la chute et 60 de la livarde ; suit la toile quand elle est roulée
@@ -157,20 +158,21 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     - {y: 850, ep: 9, evidement: {marge: 60, rayon: 30}}              # sous l'avant des bancs ; ±131 : parois du puits moteur
   couples_travers: []      # retirés (JD 30/09 : seulement les couples dans le sens de la longueur) ; x = face avant, y0 = départ (caisse | puits), jusqu'à la joue
                            # essai du 29/09 : {x: 1497, y0: caisse, ep: 6}, {x: 1705, y0: caisse, ep: 9}, {x: 1811.5, y0: puits, ep: 9}, évidés {marge: 60, rayon: 30}
-  batterie:                # Dyness 24 V 100 Ah (531 × 206 × 217, 19,3 kg) dans son bac 650 × 315 × 320 (JD : longueur, largeur, hauteur)
-    bac: [650, 315, 320]   # y (650 en travers), x (315 dans le sens de la marche), z
-    cellule: [531, 206, 217]
-    masse: 19.3
-    x_ar: 1708             # 3 devant la cloison du puits moteur (x 1 711–1 717) ; 8 devant le tube des colliers : le bac sort à la verticale sans démonter le tube
-    y_ext: -325            # centré
-    cales: {ep: 40, jeu: 10}   # fond en pente et en V sous le bac : deux cales transversales taillées au fond, bac de niveau (jeu mini 10 sous le bac)
-  trappe:                  # dessus découpé au droit de la caisse de batterie : ses parois traversent le dessus
-    x0: 1384
-    x1: 1717
-    y0: -334
-    y1: 334
-    z_seuil: 600           # ne coupe que le dessus
-    ouverte: true
+  batterie: null           # (JD 07/10) plus de batterie dans le coffre (avant : Dyness 24 V 100 Ah, 531 × 206 × 217, 19,3 kg, dans un bac 650 × 315 × 320 en travers devant le puits, x 1 393 → 1 708)
+  batterie_banc:           # (JD 07/10) batterie LiFePO4 24 V 50 Ah (type Sterling LH2450 : 260 × 165 × 210, 11 kg, 80 A en continu) dans un caisson sur l'avant du banc, contre C4
+    l: 260                 # dans le sens de la marche
+    larg: 165
+    h: 210
+    masse: 11.0
+    cotes: [babord]        # une seule batterie, à bâbord ; le caisson tribord, identique, sert de rangement
+    caisson: {jeu: 10, h_libre: 15, ep: 6, couvercle: 6}   # CP 6 : côté intérieur et face arrière collés sur l'assise ; C4 fait l'avant, la joue l'extérieur ; couvercle amovible
+  trappe:                  # (JD 07/10) couvercle du coffre à ancre, découpé dans le bordé avant au-dessus de z 450 (avant : dessus ouvert au droit de la caisse de batterie, x 1 384 → 1 717, ±334)
+    x0: 1560
+    x1: 1800               # jusqu'au capot arrière (rogné à son plan) : tout le bordé central devant le capot, entre les stations du loft à ±250 (un seul panneau développable), bords posés sur des tasseaux le long des cloisons
+    y0: -250
+    y1: 250
+    z_seuil: 450
+    ouverte: false
   trappes_c4:              # trappes de visite dans la face arrière, au-dessus de la poutre (seuls autres accès)
     - {y0: -800, y1: -500, z0: 700, z1: 850}   # entre les couples à -331 et -850, sous le haut de C4 (dessus central abaissé à 810)
     - {y0: 500, y1: 800, z0: 700, z1: 850}     # entre les couples à 331 et 850

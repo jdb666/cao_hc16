@@ -86,10 +86,10 @@ BR = [o for o in maillages(H.build(rel), tol=2.0) if o['n'] == 'bras_tube_moteur
 # relevage : coupe dans le plan de l'arbre (y du moteur), silhouettes des pièces mobiles en marche
 D = {ch.name: forme(ch) for ch in walk(AF) if ch.obj is not None}
 km = full['coffre']['_moteur']; xs, ym = km['x_arbre'], km['y']
-fixes = {'coffre': ['coffre_coque'], 'cloisons': ['coffre_cloison_moteur', 'coffre_batterie_avant', 'coffre_caisse_couvercle', 'coffre_table', 'coffre_capot_arriere'], 'bac': ['batterie_bac'], 'cellule': ['batterie'],
+fixes = {'coffre': ['coffre_coque', 'coffre_capot'], 'cloisons': ['coffre_cloison_moteur', 'coffre_batterie_avant', 'coffre_caisse_couvercle', 'coffre_table', 'coffre_capot_arriere'], 'bac': ['batterie_bac'], 'cellule': ['batterie'],
          'ancre': ['ancre_faisceau', 'ancre_verge', 'ancre_anneau'],
          'tableau': ['moteur_tableau'], 'bride': ['moteur_etrier', 'moteur_bride'], 'poutre': ['poutre_av'], 'trampoline': ['trampoline'], 'tube': ['tube_colliers']}
-coupe = {k: chemin(unary_union([g for g in (coupe_y(D[n], ym) for n in ns if n in D) if g is not None])) for k, ns in fixes.items()}
+coupe = {k: chemin(unary_union(gs)) for k, gs in ((k, [g for g in (coupe_y(D[n], ym) for n in ns if n in D) if g is not None]) for k, ns in fixes.items()) if gs}   # (JD 07/10) groupes vides (bac, batterie sortis du coffre) omis
 coupe['martingale'] = chemin(unary_union([projection_xz(D[n]) for n in D if n.startswith('martingale')]))
 coupe['cheminee'] = chemin(projection_xz(D['moteur_puits']))           # parois de la cheminée, derrière le plan de coupe
 coupe['bras'] = chemin(unary_union([projection_xz(forme(ch)) for ch in walk(H.build(rel)) if ch.name == 'bras_tube_moteur']))
@@ -98,7 +98,7 @@ for n in MOB:
     if n in D:
         g = projection_xz(D[n], 0.8).simplify(0.6)
         sil[n] = [[[round(x, 1), round(z, 1)] for x, z in list(p.exterior.coords)[:-1]] for p in polys(g, 0.6)]
-kc = full['coffre']; g_ = kc['_geom']; bt_ = kc['_batterie']; pu_ = kc['_puits']
+kc = full['coffre']; g_ = kc['_geom']; bt_ = kc.get('_batterie') or {}; pu_ = kc['_puits']
 BAL = json.load(open('/home/claude/cao/plateforme/balayage_levee.json'))
 REL = dict(mode='vertical', levee_max=v2['levee_max'], x_arbre=xs, coupe=coupe, sil=sil,
            geom=dict(xf=g_['avant_milieu'], xf_joue=g_['avant'], xa=kc['face_ar_x'], zb=kc['fond_z'], zt=g_['zt'], xcol=round(g_.get('xcol_milieu', g_['xcol']), 1),
@@ -106,9 +106,10 @@ REL = dict(mode='vertical', levee_max=v2['levee_max'], x_arbre=xs, coupe=coupe, 
                      planche=[round(v, 1) for v in (lambda b: (b.xmin, b.xmax, b.zmin, b.zmax))(D['moteur_tableau'].BoundingBox())] if 'moteur_tableau' in D else None,
                      table=[kc['_table']['x'][0], kc['_table']['x'][1], kc['_table']['z'][1]] if kc.get('_table') else None,
                      bas_pale=km['bas_pale'], bas_aileron=km['bas_aileron'], tete_bas=km['tete_bas'], bride=km['bride'],
-                     bac=[bt_['x'][0], bt_['x'][1], round(bt_['z'][0], 1), round(bt_['z'][1], 1)], puits=[pu_['x_int'], kc['face_ar_x'] - kc['ep_bordé']],
+                     bac=[bt_['x'][0], bt_['x'][1], round(bt_['z'][0], 1), round(bt_['z'][1], 1)] if bt_ else None, puits=[pu_['x_int'], kc['face_ar_x'] - kc['ep_bordé']],
                      caisse=[bt_['caisse']['x'][0], bt_['caisse']['x'][1], bt_['caisse']['z_haut']] if bt_.get('caisse') else None,
                      ancre=[kc['_ancre']['x'], kc['_ancre']['z'][1]] if kc.get('_ancre') else None,
+                     coffre_ancre=[kc['_coffre_ancre']['x'][0], kc['_coffre_ancre']['x'][1]] if kc.get('_coffre_ancre') else None,
                      encoche=v2['encoche_c4_z'], tube=[kc['haubans']['tube_colliers'].get('x', round(g_['xcol'], 1)), kc['haubans']['tube_colliers'].get('z', 1097), kc['haubans']['tube_colliers']['diam'] / 2]),
            balayage=[dict(l=r['l'], zmin=r['zmin'], zmax=r['zmax'], contacts=len(r['hits']),
                           jeux={k: v[0] for k, v in r['jeux'].items()}, qui={k: [v[1], v[2]] for k, v in r['jeux'].items()}) for r in BAL['levees']],

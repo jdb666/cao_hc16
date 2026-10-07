@@ -28,42 +28,41 @@
    "haubans inox Ø 4 (29 m) et pontets": 2.83,
    "écoutes, poulies, taquets (estimé)": 2.0
   },
-  "coffre_bancs": 40.2,
+  "coffre_bancs": 33.7,
   "coffre_detail": {
-   "cp": 33.0,
+   "cp": 27.3,
    "cp_par_ep": {
-    "4": 3.4,
-    "6": 12.8,
-    "9": 13.1,
-    "10": 3.7
+    "4": 3.3,
+    "6": 10.3,
+    "9": 13.0,
+    "10": 0.6
    },
-   "aire_m2": 9.2,
-   "stratification": 5.5,
+   "aire_m2": 7.94,
+   "stratification": 4.8,
    "tubes": 0.2,
    "cordages": 0.5,
    "quincaillerie": 1.0
   },
-  "moteur": 30.5,
+  "moteur": 19.2,
   "moteur_detail": {
    "Haswing Protruar 2.0 (manuel)": 6.7,
-   "batterie Dyness 24 V 100 Ah": 19.3,
-   "bac de la batterie (estimé)": 3.0,
+   "batterie LiFePO4 24 V 50 Ah, dans le caisson du banc": 11.0,
    "câbles 25 mm², coupe-circuit (estimé)": 1.5
   },
   "ancre": 3.5,
-  "vide": 215.4,
-  "vide_ancre": 218.9,
+  "vide": 197.6,
+  "vide_ancre": 201.1,
   "cp_greement": 3.13,
-  "xg_coffre": 1969,
-  "xg_vide": 2125,
+  "xg_coffre": 2098,
+  "xg_vide": 2223,
   "voilure": 22.2
  },
  "charge": {
   "depl_ce": 385.0,
   "depl_us": 507.0,
-  "utile_ce": 170,
-  "utile_us": 292,
-  "utile_ce_ancre": 166
+  "utile_ce": 187,
+  "utile_us": 309,
+  "utile_ce_ancre": 184
  },
  "hydro": {
   "D0": 265.7,
@@ -93,92 +92,72 @@
    "garde_coffre": 202
   },
   "Rando à vide": {
-   "M": 215.4,
-   "xG": 2125,
-   "assiette": 0.81,
-   "etrave": 13,
-   "tableau": -59,
-   "x1250": -5,
-   "garde_coffre": 263
+   "M": 197.6,
+   "xG": 2223,
+   "assiette": 0.18,
+   "etrave": -21,
+   "tableau": -37,
+   "x1250": -25,
+   "garde_coffre": 277
   },
   "Rando, 2 équipiers, coffre vide": {
-   "M": 375.4,
-   "xG": 2200,
-   "assiette": 1.11,
-   "etrave": 90,
-   "tableau": -8,
-   "x1250": 65,
-   "garde_coffre": 196
+   "M": 357.6,
+   "xG": 2258,
+   "assiette": 0.67,
+   "etrave": 64,
+   "tableau": 5,
+   "x1250": 50,
+   "garde_coffre": 208
   },
   "Rando, 2 équipiers + 30 kg au coffre": {
-   "M": 405.4,
-   "xG": 2169,
-   "assiette": 1.45,
-   "etrave": 115,
-   "tableau": -13,
-   "x1250": 83,
-   "garde_coffre": 182
+   "M": 387.6,
+   "xG": 2221,
+   "assiette": 1.02,
+   "etrave": 90,
+   "tableau": 0,
+   "x1250": 68,
+   "garde_coffre": 193
   },
   "Rando, 2 équipiers + 60 kg au coffre": {
-   "M": 435.4,
-   "xG": 2142,
-   "assiette": 1.77,
-   "etrave": 140,
-   "tableau": -17,
-   "x1250": 101,
-   "garde_coffre": 168
-  },
-  "Rando au déplacement maxi CE du HC16 : 2 équipiers + 10 kg dans le coffre": {
-   "M": 385.0,
+   "M": 417.6,
    "xG": 2189,
-   "assiette": 1.22,
-   "etrave": 98,
-   "tableau": -10,
-   "x1250": 71,
-   "garde_coffre": 192
+   "assiette": 1.36,
+   "etrave": 116,
+   "tableau": -4,
+   "x1250": 86,
+   "garde_coffre": 179
+  },
+  "Rando au déplacement maxi CE du HC16 : 2 équipiers + 27 kg dans le coffre": {
+   "M": 385.0,
+   "xG": 2224,
+   "assiette": 0.99,
+   "etrave": 88,
+   "tableau": 1,
+   "x1250": 66,
+   "garde_coffre": 194
   },
   "Rando, 2 équipiers + 60 kg sous l'arrière des bancs": {
-   "M": 435.4,
-   "xG": 2299,
-   "assiette": 0.72,
-   "etrave": 94,
-   "tableau": 30,
-   "x1250": 78,
-   "garde_coffre": 180
-  },
-  "Rando, batterie devant la poutre AR, 2 équipiers, coffre vide": {
-   "M": 376.4,
-   "xG": 2350,
-   "assiette": 0.2,
-   "etrave": 50,
-   "tableau": 32,
-   "x1250": 46,
-   "garde_coffre": 206
-  },
-  "Rando, batterie devant la poutre AR, 2 équipiers + 60 kg au coffre": {
-   "M": 436.4,
-   "xG": 2271,
-   "assiette": 0.9,
-   "etrave": 102,
-   "tableau": 23,
-   "x1250": 82,
-   "garde_coffre": 177
+   "M": 417.6,
+   "xG": 2353,
+   "assiette": 0.33,
+   "etrave": 70,
+   "tableau": 41,
+   "x1250": 63,
+   "garde_coffre": 191
   }
  },
  "x_equipage_a_plat": {
-  "coffre vide": 2735,
-  "30 kg au coffre": 2895,
-  "60 kg au coffre": 3060,
-  "60 kg sous l'arrière des bancs": 2632,
-  "batterie AR, coffre vide": 2384,
-  "batterie AR, 60 kg au coffre": 2710
+  "coffre vide": 2559,
+  "30 kg au coffre": 2716,
+  "60 kg au coffre": 2878,
+  "60 kg sous l'arrière des bancs": 2451
  },
  "bilan_moments": {
   "gréement HC16 enlevé": 12.4,
   "gréement Rando": 3.4,
-  "coffre et bancs": 21.6,
+  "coffre et bancs": 13.8,
   "moteur": 4.0,
-  "batterie, bac, câbles": 22.7
+  "batterie et câbles": 4.3
  },
  "mct": 58.8,
  "positions": {
@@ -191,21 +170,21 @@
    2022,
    3218
   ],
-  "batterie": 1550,
-  "batterie_ar": 3900.0,
+  "batterie": 2162,
   "moteur": 1910,
   "coffre_bas": [
    1860,
    250
-  ],
-  "cable_ar": 1.05
+  ]
  },
  "volumes": {
-  "coffre_ext": 676,
-  "coffre_int": 649,
-  "hors_centre": 432,
-  "par_cote": 216,
-  "centre": 216,
+  "coffre_ext": 481,
+  "coffre_int": 457,
+  "hors_centre": 324,
+  "par_cote": 162,
+  "centre": 134,
+  "coffre_ancre": 20,
+  "caisson_banc": 11.7,
   "bancs_par_cote": 47
  }
 }

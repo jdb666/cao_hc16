@@ -235,15 +235,7 @@ coffre:
       diam: 32
       ouverture: 30
       sous_haut: 60
-  table:
-    x0: 1384
-    x1: 1760
-    demi_y: 360
-    ep: 10
-    decoupe_moteur:
-      x0: 1771
-      x1: 2055
-      demi_y: 70
+  table: null
   capot_arriere:
     x0: 1760
     z_c4: 740
@@ -266,7 +258,7 @@ coffre:
     n_avant: 2.3
     n_arriere: 2.2
     plat_jusqu_a_c4: true
-  avant_x_milieu: 1250
+  avant_x_milieu: 1584
   fond_pente:
     deg: 12
     x0: 1860
@@ -279,12 +271,7 @@ coffre:
   ep_cloison: 6
   pas_cloisons: 560
   cloisons_y: []
-  compartiment_batterie:
-    jeu: 3
-    ep: 6
-    caisse:
-      z_haut: 810
-      couvercle: 0
+  compartiment_batterie: null
   ancre:
     faisceau:
     - 200
@@ -293,8 +280,10 @@ coffre:
     - 120
     - 20
     anneau: 50
-    x: 1550
-    sur: bac
+    sur: fond
+  coffre_ancre:
+    demi_y: 250
+    ep: 6
   yinyang:
     joues:
       x: 2250
@@ -319,28 +308,26 @@ coffre:
       marge: 60
       rayon: 30
   couples_travers: []
-  batterie:
-    bac:
-    - 650
-    - 315
-    - 320
-    cellule:
-    - 531
-    - 206
-    - 217
-    masse: 19.3
-    x_ar: 1708
-    y_ext: -325
-    cales:
-      ep: 40
+  batterie: null
+  batterie_banc:
+    l: 260
+    larg: 165
+    h: 210
+    masse: 11.0
+    cotes:
+    - babord
+    caisson:
       jeu: 10
+      h_libre: 15
+      ep: 6
+      couvercle: 6
   trappe:
-    x0: 1384
-    x1: 1717
-    y0: -334
-    y1: 334
-    z_seuil: 600
-    ouverte: true
+    x0: 1560
+    x1: 1800
+    y0: -250
+    y1: 250
+    z_seuil: 450
+    ouverte: false
   trappes_c4:
   - y0: -800
     y1: -500

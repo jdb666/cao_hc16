@@ -289,6 +289,8 @@ def coffre(A, k):
         dyc = dy2 + ep2
         if bt_ and cb_:
             dyc = max(dyc, max(abs(bt_["y_ext"]), abs(bt_["y_ext"] + bt_["bac"][0])) + cb_["jeu"] + cb_["ep"])
+        elif k.get("coffre_ancre"):                   # (JD 07/10) la cloison du puits ferme aussi l'arrière du coffre à ancre
+            dyc = max(dyc, k["coffre_ancre"]["demi_y"] + k["coffre_ancre"]["ep"])
         cai_ = (cb_ or {}).get("caisse") if bt_ else None
         if cai_:                                      # caisse de la batterie prolongée au-dessus du coffre (JD 29/09) : sa face arrière
             pl_ = cq.Solid.makeBox(ep2, 2 * dyc, 2000, V(xpi - ep2, ys2 - dyc, zb - 500))       # du fond au dessus du coffre, et jusqu'à z_haut là où il est plus bas
@@ -534,6 +536,32 @@ def coffre(A, k):
                     ra = an["anneau"] / 2
                     A.add(cq.Solid.makeTorus(ra, 5, V(xa_, y1a + an["verge"][0] + ra - 5, zc_a), V(0, 0, 1)), name="ancre_anneau", color=galva)
                     k["_ancre"] = dict(x=xa_, y=(ya0, y1a + an["verge"][0] + 2 * ra), z=(z_an, zc_a + an["faisceau"][1] / 2))
+    ca_k = k.get("coffre_ancre")
+    if ca_k and not k.get("batterie"):                   # (JD 07/10) petit coffre à ancre devant le puits, à la place de la caisse de batterie
+        x_fin = k.get("_puits", {}).get("x_av", xa)      # arrière : cloison du puits ; dessus : couvercle découpé dans le bordé (trappe)
+        ya_k, ep_k = ca_k["demi_y"], ca_k["ep"]
+        for nom_, sg_ in (("babord", 1), ("tribord", -1)):
+            y_w = ya_k if sg_ > 0 else -ya_k - ep_k
+            pb_ = cq.Solid.makeBox(x_fin - (xf_mid - 100), ep_k, 2000, V(xf_mid - 100, y_w, zb - 500)).intersect(int_s)
+            if niche_ext is not None:
+                pb_ = pb_.cut(niche_ext)
+            if pb_.Volume() > 1:
+                A.add(pb_, name=f"coffre_ancre_{nom_}", color=bois)
+        k["_coffre_ancre"] = dict(x=(xf_mid, x_fin), demi_y=ya_k, ep=ep_k)
+        an = k.get("ancre")
+        if an:                                          # grappin plié, couché en travers sur le fond, contre la cloison du puits
+            galva = cq.Color(0.55, 0.57, 0.58)
+            ra_f = an["faisceau"][1] / 2
+            xa_ = x_fin - ra_f - 5
+            zc_a = zfond(xa_, 0.0) + e + ra_f / math.cos(math.atan(tp)) + 2      # le fond monte vers l'avant
+            lt_ = an["faisceau"][0] + an["verge"][0] + an["anneau"]
+            ya0 = an.get("y0", -lt_ / 2)
+            A.add(cq.Solid.makeCylinder(ra_f, an["faisceau"][0], V(xa_, ya0, zc_a), V(0, 1, 0)), name="ancre_faisceau", color=galva)
+            y1a = ya0 + an["faisceau"][0]
+            A.add(cq.Solid.makeCylinder(an["verge"][1] / 2, an["verge"][0], V(xa_, y1a, zc_a), V(0, 1, 0)), name="ancre_verge", color=galva)
+            ra = an["anneau"] / 2
+            A.add(cq.Solid.makeTorus(ra, 5, V(xa_, y1a + an["verge"][0] + ra - 5, zc_a), V(0, 0, 1)), name="ancre_anneau", color=galva)
+            k["_ancre"] = dict(x=xa_, y=(ya0, y1a + an["verge"][0] + 2 * ra), z=(zc_a - ra_f, zc_a + ra_f))
     fl_ = k.get("fourreaux_livarde")
     if fl_:                                              # livarde rangée (JD 30/09) : verticale, trou dans le dessus + fourreau dans le coffre, collier ouvert sur le dessus
         xr_ = xcol - fl_["dx"]; rf_, ef_ = fl_["diam"] / 2, fl_["ep"]
@@ -1086,6 +1114,23 @@ def coffre(A, k):
                     jm = machoire_uv('longeron', 2, mj)
                     solm = cq.Workplane("YZ", origin=(xc_ + cep / 2, 0, 0)).polyline([(sg * (ly_ - u), za_ + v) for u, v in jm]).close().extrude(mj["ep"]).val()
                     A.add(solm, name=f"banc_{nom}_machoire_{j}", color=cq.Color(0.42, 0.26, 0.13))
+        cbk = k.get("batterie_banc")
+        if cbk:                                             # (JD 07/10) caisson de batterie sur l'avant du banc, contre C4 : C4 fait l'avant, la joue l'extérieur, l'assise le fond
+            cs_ = cbk["caisson"]; epc_, ecv_ = cs_["ep"], cs_["couvercle"]
+            li_c, wi_c, hi_c = cbk["l"] + 2 * cs_["jeu"], cbk["larg"] + 2 * cs_["jeu"], cbk["h"] + cs_["h_libre"]
+            x0c_, x1c_ = xa, xa + li_c
+            yo_c, yi_c = sg * wi, sg * (wi - wi_c)                     # faces intérieures : joue, côté du caisson
+            ylo, yhi = sorted((yi_c, yi_c - sg * epc_))
+            A.add(cq.Solid.makeBox(li_c + epc_, yhi - ylo, hi_c, V(x0c_, ylo, zs)), name=f"caisson_{nom}_cote", color=bois)
+            ylo3, yhi3 = sorted((yi_c, yo_c))                             # face arrière entre le côté et la joue
+            A.add(cq.Solid.makeBox(epc_, yhi3 - ylo3, hi_c, V(x1c_, ylo3, zs)), name=f"caisson_{nom}_ar", color=bois)
+            ylo2, yhi2 = sorted((yi_c - sg * epc_, yo_c))                 # couvercle sur le côté et la face arrière
+            A.add(cq.Solid.makeBox(li_c + epc_, yhi2 - ylo2, ecv_, V(x0c_, ylo2, zs + hi_c)), name=f"caisson_{nom}_couvercle", color=cq.Color(0.86, 0.66, 0.44))
+            if nom in (cbk.get("cotes") or []):
+                yc_b = sg * (wi - wi_c / 2)
+                nb_ = "batterie" if len(cbk["cotes"]) == 1 else f"batterie_{nom}"
+                A.add(cq.Solid.makeBox(cbk["l"], cbk["larg"], cbk["h"], V(x0c_ + cs_["jeu"], yc_b - cbk["larg"] / 2, zs)), name=nb_, color=cq.Color(0.12, 0.35, 0.55))
+            k.setdefault("_caissons", {})[nom] = dict(x=(x0c_, x1c_ + epc_), y=(min(ylo, ylo2), max(yhi, yhi2)), z=(zs, zs + hi_c + ecv_), batterie=nom in (cbk.get("cotes") or []))
     lc = b.get("lacage")
     if PLAT and lc and b.get("couples_x"):                  # laçage d'un longeron à l'autre, sous la toile (JD 29/09) : ne traverse jamais le trampoline
         zl = lambda x_: PLAT["zav"] + (PLAT["zar"] - PLAT["zav"]) * (x_ - PLAT["fb"]) / (PLAT["rb"] - PLAT["fb"])
@@ -1127,18 +1172,18 @@ def capot_arriere(A, k):
         return cq.Workplane("XZ", origin=(0, dyc + dy, 0)).polyline(pts).close().extrude(2 * (dyc + dy)).val()
     ext_s = COFFRE_CACHE.get("ext")
     sol_ = lambda o: o.val() if isinstance(o, cq.Workplane) else o
-    arase = re.compile(ca_.get("araser", r"^(coffre_coque|couple_coffre_.*_331|moteur_puits|coffre_cloison_moteur)$"))
+    arase = re.compile(ca_.get("araser", r"^(coffre_coque|coffre_capot|couple_coffre_.*_331|moteur_puits|coffre_cloison_moteur)$"))
     for ch in A.children:                                            # coque : capot ôté au-dessus du plan ; pièces intérieures arasées sous le panneau
         if ch.obj is None or not arase.match(ch.name):
             continue
-        ch.obj = sol_(ch.obj).cut(prisme(0.0 if ch.name == "coffre_coque" else epc))
+        ch.obj = sol_(ch.obj).cut(prisme(0.0 if ch.name in ("coffre_coque", "coffre_capot") else epc))   # (07/10) couvercle du coffre à ancre : rogné comme la peau
     # panneau du capot : plaque sous le plan, de x0c à la face intérieure de C4, découpée au-dessus du puits pour la tête du moteur
     pan = prisme(epc, 0.0, xa - e).cut(prisme(0.0, 1.0, xa + 1))
     dmo = ca_.get("decoupe_moteur")
     if dmo:
         pan = pan.cut(cq.Solid.makeBox(xa + 10 - dmo["x0"], 2 * dmo["demi_y"], 2000, V(dmo["x0"], -dmo["demi_y"], -500)))
     for ch in A.children:                                            # le panneau remplace la peau du dessus : plus de recouvrement
-        if ch.name == "coffre_coque":
+        if ch.name in ("coffre_coque", "coffre_capot"):
             ch.obj = sol_(ch.obj).cut(pan)
     A.add(pan, name="coffre_capot_arriere", color=cq.Color(0.95, 0.95, 0.93))
     # joues du capot : de son bord jusqu'aux pans du dessus, dans les plans y = ±(dyc - e/2)
