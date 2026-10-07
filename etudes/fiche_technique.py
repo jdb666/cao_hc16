@@ -59,8 +59,26 @@ gr = {
     'écoutes, poulies, taquets (estimé)': 2.0,
 }
 gr_total = sum(gr.values())
+# CdG en x de chaque poste du gréement Rando, dans l'ordre de gr (JD 07/10 : vérification de l'assiette)
+_qr = math.radians(c['mats'].get('quete_deg', 3)); _Lm = 7300.0
+GR_X = [c['mats']['x_pied'] + _Lm / 2 * math.sin(_qr),        # mâts : milieu du mât, quête comprise
+        3206.0,                                               # voiles : CV des contours, voiles pleines (aligné sur le HC16)
+        2800.0,                                               # livardes en place, du mât au point d'écoute
+        2003.0, c['mats']['x_pied'], c['mats']['x_pied'],     # colliers, emplantures, semelles et renforts
+        2085.0,                                               # tube des colliers
+        1600.0,                                               # haubans : vers les étraves, la poutre AV et l'arrière
+        3700.0]                                               # écoutes vers la poutre AR
+X_GR_R = sum(m * x for m, x in zip(gr.values(), GR_X)) / gr_total
 hc16_greement = {'mât alu 8,07 m': 18.0, 'bôme': 3.0, 'grand-voile 13,77 m² et foc 5,12 m²': 9.0, 'étai, haubans, pattes d\'oie': 2.0, 'écoutes, poulies, chariot': 2.0}
 hc16_gr = sum(hc16_greement.values())
+_m = c['hc16_origine']['mat']; _qh = math.radians(_m['quete_deg'])
+_xb = _m['x'] + (1295 - _m['z']) * math.tan(_qh)                 # vit-de-mulet de la bôme (z 1 295)
+HC16_X = [_m['x'] + _m['longueur'] / 2 * math.sin(_qh),         # mât : milieu, quête 7,5°
+          _xb + 2740 / 2,                                       # bôme : bordure 2 740
+          3206.0,                                               # voiles : CV des contours (GV + foc)
+          2000.0,                                               # étai, pattes d'oie, haubans
+          3700.0]                                               # écoute de GV sur la poutre AR, écoutes de foc
+X_GR_HC16 = sum(m * x for m, x in zip(hc16_greement.values(), HC16_X)) / hc16_gr
 HC16 = 145.0                                                    # Hobie : bateau prêt à naviguer
 plateforme = HC16 - hc16_gr
 
@@ -135,10 +153,10 @@ for _ in range(30):                                             # enfoncement à
     v_, xbl = carene(dz_, 0.0, xF0); r_ = RHO * v_ - (M_h + 160)
     if abs(r_) < 0.01: break
     v2_, _ = carene(dz_ + 0.5, 0.0, xF0); dz_ -= r_ / ((RHO * v2_ - RHO * v_) / 0.5)
-x_plat = ((M_h + 160) * xbl - 160 * EQ_X - hc16_gr * (X_MAT_HC16 + 300)) / plateforme
-masses_h = [(plateforme, x_plat), (hc16_gr, X_MAT_HC16 + 300)]
+x_plat = ((M_h + 160) * xbl - 160 * EQ_X - hc16_gr * X_GR_HC16) / plateforme
+masses_h = [(plateforme, x_plat), (hc16_gr, X_GR_HC16)]
 xg_h = sum(m * x for m, x in masses_h) / M_h
-masses_r = [(plateforme, x_plat), (gr_total, X_MAT + 250), (coffre_total, xg_coffre), (6.7, x_moteur), (moteur_total - 6.7, x_batt)]
+masses_r = [(plateforme, x_plat), (gr_total, X_GR_R), (coffre_total, xg_coffre), (6.7, x_moteur), (moteur_total - 6.7, x_batt)]
 M_r = sum(m for m, _ in masses_r); xg_r = sum(m * x for m, x in masses_r) / M_r
 DEPL_EU, DEPL_US = HC16 + 240, HC16 + 362
 bb_ = [D[n].BoundingBox() for n in D if n.startswith('banc_') and ('assise' in n or 'caisson' in n)] or [D[n].BoundingBox() for n in D if n.startswith('banc_')]
@@ -146,7 +164,7 @@ xb0_, xb1_ = min(b.xmin for b in bb_), max(b.xmax for b in bb_)
 X_BAG, X_BANC_AR = 1780.0, xb1_ - (xb1_ - xb0_) / 4           # milieu des coffres latéraux ; milieu de la moitié AR des bancs
 X_BATT_AR = 3900.0                                             # batterie sur le trampoline devant la poutre AR (axe x 4 145)
 CABLE_AR = 2 * (X_BATT_AR - x_batt) / 1000 * 0.224            # 2 conducteurs 25 mm² en plus (cuivre 0,224 kg/m)
-masses_r_ar = [(plateforme, x_plat), (gr_total, X_MAT + 250), (coffre_total, xg_coffre), (6.7, x_moteur),
+masses_r_ar = [(plateforme, x_plat), (gr_total, X_GR_R), (coffre_total, xg_coffre), (6.7, x_moteur),
                (moteur_total - 6.7, X_BATT_AR), (CABLE_AR, (x_batt + X_BATT_AR) / 2)]
 M_r_ar = sum(m for m, _ in masses_r_ar); xg_r_ar = sum(m * x for m, x in masses_r_ar) / M_r_ar
 def charge(base, xbase, eq=160.0, x_eq=EQ_X, bags=()):
@@ -155,7 +173,7 @@ def charge(base, xbase, eq=160.0, x_eq=EQ_X, bags=()):
 cas = {}
 cas['HC16, 2 équipiers près de la poutre AV (référence)'] = etat(*charge(M_h, xg_h))
 cas['HC16 au maxi CE : 3 équipiers (240 kg)'] = etat(*charge(M_h, xg_h, 240.0))
-print('M_h', round(M_h, 1), 'xg_h', round(xg_h), 'x_plat', round(x_plat), 'M_r', round(M_r, 1), 'xg_r', round(xg_r), 'xg_coffre', round(xg_coffre),
+print('X_GR_HC16', round(X_GR_HC16), 'X_GR_R', round(X_GR_R), 'M_h', round(M_h, 1), 'xg_h', round(xg_h), 'x_plat', round(x_plat), 'M_r', round(M_r, 1), 'xg_r', round(xg_r), 'xg_coffre', round(xg_coffre),
       'x_moteur', round(x_moteur), 'x_batt', round(x_batt), 'bancs', round(xb0_), round(xb1_), 'coffre bas', round(Z_COF), round(X_COF), flush=True)
 cas['Rando à vide'] = etat(M_r, xg_r)
 cas['Rando, 2 équipiers, coffre vide'] = etat(*charge(M_r, xg_r))
@@ -184,7 +202,7 @@ print('équipage à plat', X_PLAT, flush=True)
 # bilan des moments (kg·m) par rapport au HC16 de référence, équipage au même endroit ; + = sur le nez
 _ref = cas['HC16, 2 équipiers près de la poutre AV (référence)']
 xF_ = xF0
-BILAN = {'gréement HC16 enlevé': -hc16_gr * (xF_ - (X_MAT_HC16 + 300)) / 1000, 'gréement Rando': gr_total * (xF_ - (X_MAT + 250)) / 1000,
+BILAN = {'gréement HC16 enlevé': -hc16_gr * (xF_ - X_GR_HC16) / 1000, 'gréement Rando': gr_total * (xF_ - X_GR_R) / 1000,
          'coffre et bancs': coffre_total * (xF_ - xg_coffre) / 1000, 'moteur': 6.7 * (xF_ - x_moteur) / 1000,
          'batterie, bac, câbles': (moteur_total - 6.7) * (xF_ - x_batt) / 1000}
 BILAN = {k: round(v, 1) for k, v in BILAN.items()}
@@ -201,7 +219,7 @@ out = dict(
     charge=dict(depl_ce=DEPL_EU, depl_us=DEPL_US, utile_ce=round(DEPL_EU - vide), utile_us=round(DEPL_US - vide), utile_ce_ancre=round(DEPL_EU - vide_ancre)),
     hydro=dict(D0=round(D0, 1), xB0=round(xB0), xF0=round(xF0), kg_mm=round(RHO * 2 * aw / 1e6 / 1000, 2), x_plateforme=round(x_plat), xg_hc16=round(xg_h)),
     cas=cas, x_equipage_a_plat=X_PLAT, bilan_moments=BILAN, mct=MCT,
-    positions=dict(equipage=EQ_X, bagages_coffre=X_BAG, bagages_bancs=round(X_BANC_AR), bancs=[round(xb0_), round(xb1_)], batterie=round(x_batt), batterie_ar=X_BATT_AR,
+    positions=dict(greement_hc16=round(X_GR_HC16), greement_rando=round(X_GR_R), equipage=EQ_X, bagages_coffre=X_BAG, bagages_bancs=round(X_BANC_AR), bancs=[round(xb0_), round(xb1_)], batterie=round(x_batt), batterie_ar=X_BATT_AR,
                    moteur=round(x_moteur), coffre_bas=[round(X_COF), round(Z_COF)], cable_ar=round(CABLE_AR, 2)),
     volumes=dict(coffre_ext=676, coffre_int=649, hors_centre=432, par_cote=216, centre=216, bancs_par_cote=round(1195.5 * 311 * 127 / 1e6)),
 )

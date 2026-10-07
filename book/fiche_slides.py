@@ -75,18 +75,18 @@ cas = F['cas']
 def ligne_cas(lib, k, garde=True):
     e = cas[k]
     a = e['assiette']
-    sens = 'à plat' if abs(a) < 0.1 else (f"{num(abs(a), 1)}° sur le nez" if a > 0 else f"{num(abs(a), 1)}° sur l'arrière")
+    sens = '—' if k.startswith('HC16, 2') else 'à plat' if abs(a) < 0.1 else (f"{num(abs(a), 1)}° sur le nez" if a > 0 else f"{num(abs(a), 1)}° sur l'arrière")
     sg = lambda v: ('+ ' if v > 0 else '− ' if v < 0 else '') + str(abs(v))
     de, dt = sg(e["etrave"] - REF["etrave"]), sg(e["tableau"] - REF["tableau"])
     g = str(e["garde_coffre"]) if garde else '—'
     return (f'<tr><td>{esc(lib)}</td><td style="text-align:right">{num(e["M"])} kg</td><td style="text-align:right">{esc(sens)}</td>'
             f'<td style="text-align:right">{de}</td><td style="text-align:right">{dt}</td><td style="text-align:right">{g}</td></tr>\n')
 rc = (ligne_cas("HC16, 2 équipiers près de la poutre AV (référence)", 'HC16, 2 équipiers près de la poutre AV (référence)', garde=False)
-      + ligne_cas('Rando, 2 équipiers au même endroit, coffre vide', 'Rando, 2 équipiers, coffre vide')
-      + ligne_cas('Rando, 2 équipiers + 60 kg au coffre', 'Rando, 2 équipiers + 60 kg au coffre')
-      + ligne_cas("Rando, 2 équipiers + 60 kg sous l'arrière des bancs", "Rando, 2 équipiers + 60 kg sous l'arrière des bancs")
-      + ligne_cas('Batterie devant la poutre AR, 2 équipiers, coffre vide', 'Rando, batterie devant la poutre AR, 2 équipiers, coffre vide')
-      + ligne_cas('Batterie devant la poutre AR, 2 équipiers + 60 kg au coffre', 'Rando, batterie devant la poutre AR, 2 équipiers + 60 kg au coffre'))
+      + ligne_cas('Rando, même équipage, coffre vide', 'Rando, 2 équipiers, coffre vide')
+      + ligne_cas('Rando, même équipage + 30 kg au coffre', 'Rando, 2 équipiers + 30 kg au coffre')
+      + ligne_cas('Rando, même équipage + 60 kg au coffre', 'Rando, 2 équipiers + 60 kg au coffre')
+      + ligne_cas("Rando, même équipage + 60 kg sous l'arrière des bancs", "Rando, 2 équipiers + 60 kg sous l'arrière des bancs"))
+BI = F['bilan_moments']; gre_ = BI['gréement HC16 enlevé'] + BI['gréement Rando']; tot_ = sum(BI.values())
 fp = f'''<section id="f-poids" style="background:#EDF0F0;color:#18262E;font-family:'IBM Plex Sans', Arial, sans-serif">
 <p style="position:absolute;left:128px;top:64px;width:1200px;{MONO};font-size:24px;letter-spacing:2px;text-transform:uppercase;color:#1F6F8B">08 · Fiche technique</p>
 <h2 style="position:absolute;left:128px;top:100px;width:1600px;{DISP};font-size:44px;font-weight:600;line-height:1.15;color:#18262E">Poids, charge et assiette</h2>
@@ -94,9 +94,9 @@ fp = f'''<section id="f-poids" style="background:#EDF0F0;color:#18262E;font-fami
 <tr><th style="width:26%">Poste</th><th style="width:12%;text-align:right">Poids</th><th style="width:62%">Détail</th></tr>
 {rp}</table>
 <table style="position:absolute;left:128px;top:540px;width:1664px;font-size:22px;color:#18262E">
-<tr><th style="width:40%">Chargement</th><th style="width:11%;text-align:right">Déplacement</th><th style="width:14%;text-align:right">Assiette</th><th style="width:12%;text-align:right">Eau à l'étrave</th><th style="width:11%;text-align:right">Au tableau</th><th style="width:12%;text-align:right">Garde du coffre</th></tr>
+<tr><th style="width:40%">Chargement</th><th style="width:11%;text-align:right">Déplacement</th><th style="width:14%;text-align:right">Écart d'assiette</th><th style="width:12%;text-align:right">Eau à l'étrave</th><th style="width:11%;text-align:right">Au tableau</th><th style="width:12%;text-align:right">Garde du coffre</th></tr>
 {rc}</table>
-<p style="position:absolute;left:128px;top:900px;width:1664px;font-size:20px;line-height:1.4;color:#4A5A63">Équipage près de la poutre AV (x {num(PO['equipage'])}), comme on navigue le HC16, qui flotte alors à plat (référence). Bagages au coffre x {num(PO['bagages_coffre'])}, sous l'arrière des bancs x {num(round(PO['bagages_bancs'], -1))} ; batterie déplacée à x {num(PO['batterie_ar'])}. Hauteurs d'eau en mm par rapport à la référence ; garde : point bas du coffre (puits) au-dessus de l'eau calme. 1° d'assiette ≈ {num(F['mct'])} kg·m. À plat : équipage à x {num(round(XP['coffre vide'], -1))} coffre vide, x {num(round(XP['60 kg au coffre'], -1))} avec 60 kg au coffre ; batterie à l'arrière : x {num(round(XP['batterie AR, coffre vide'], -1))}.</p>
+<p style="position:absolute;left:128px;top:900px;width:1664px;font-size:20px;line-height:1.4;color:#4A5A63">Calcul statique (au repos), équipage près de la poutre AV (x {num(PO['equipage'])}) sur les deux bateaux. Écart dû aux poids : batterie {num(BI['batterie, bac, câbles'])} kg·m, coffre {num(BI['coffre et bancs'])}, gréement {num(gre_)}, moteur {num(BI['moteur'])} ; {num(tot_)} kg·m ≈ {num(tot_ / F['mct'], 1)}°. En route, la vitesse enfonce l'arrière et la voile appuie sur le nez, autant pour les deux : là où le HC16 s'assied sur l'arrière, la Rando le fera d'environ 1° de moins. Même assiette que le HC16 : équipage {num((XP['coffre vide'] - PO['equipage']) / 1000, 2)} m plus en arrière coffre vide, {num((XP['60 kg au coffre'] - PO['equipage']) / 1000, 2)} m avec 60 kg au coffre.</p>
 {PAGE('#4A5A63')}
 </section>
 '''
