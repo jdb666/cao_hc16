@@ -24,6 +24,7 @@ def bouts(n):
     a, b = np.array(pts[0]), np.array(pts[-1])
     return (a, b) if a[2] > b[2] else (b, a)                          # (collier, ancrage)
 NOMS = {'av': 'hauban_coffre_av_{}', 'avc': 'hauban_coffre_av_croise_{}', 'ar': 'hauban_coffre_ar_{}', 'pou': 'hauban_coffre_collier_poutre_{}'}
+NOMS = {k_: v_ for k_, v_ in NOMS.items() if v_.format('babord') in D}          # (JD 08/10 soir) collier à 3 haubans : plus de croisés AV
 membres = []
 for cote, nd in (('babord', 0), ('tribord', 1)):
     for k, f in NOMS.items():
@@ -78,8 +79,8 @@ def pretension(T):
     T0 = {}
     for cote in ('babord', 'tribord'):
         m = {k: next(mm for mm in membres if mm[0] == f'{k}_{cote}') for k in NOMS}
-        for k in ('av', 'avc', 'pou'): T0[f'{k}_{cote}'] = T
-        T0[f'ar_{cote}'] = -sum(T * m[k][3][0] for k in ('av', 'avc', 'pou')) / m['ar'][3][0]
+        for k in [k_ for k_ in ('av', 'avc', 'pou') if k_ in NOMS]: T0[f'{k}_{cote}'] = T
+        T0[f'ar_{cote}'] = -sum(T * m[k][3][0] for k in ('av', 'avc', 'pou') if k in NOMS) / m['ar'][3][0]
     m = {k: next(mm for mm in membres if mm[0] == f'{k}_babord') for k in NOMS}
     T0['tube'] = sum(T0[f'{k}_babord'] * m[k][3][1] for k in m)
     return T0
@@ -103,13 +104,27 @@ Vreg = [max(cc['V']) for cc in CAS if cc['cas'].startswith('réglage') and 'pous
 Mreg = [max(abs(m) for m in cc['M']) for cc in CAS if cc['cas'].startswith('réglage') and 'poussée' not in cc['cas']]
 # ---- glissière : contraintes à Vmax15
 gl = c['coffre']['glissiere_collier']; x0g, x1g = gl['x']; yi = gl['y_int']; yb = gl['berceau']['y_fin']
-po = gl['poteau']; xp0, xp1 = po['x']; ep = po.get('ep', 9)
 wi = c['coffre']['largeur'] / 2 - c['coffre']['ep_flasque']
-A_pot = (2 * (wi - yi) + (xp1 - xp0 - 2 * ep)) * ep                  # trois parois CP 9 (la joue en plus, non comptée)
 A_pehd = tc['diam'] * 0.6 * (yb - yi)                                  # contact sur ≈ 60 % du diamètre projeté
 TOUR = co['tourillon']; d_t = TOUR['d']; e_t = 4.0
 W_t = math.pi / 32 * (d_t ** 4 - (d_t - 2 * e_t) ** 4) / d_t
 M_t = Vmax15 * 25.0                                                    # porte-à-faux du tourillon ≈ 25, du bout du tube au milieu de sa prise dans le collier
+if gl.get('type') == 'tube_pehd':                                      # (JD 08/10 soir) poteau tube carbone sous un bloc PEHD
+    po = gl['poteau']; r_p = po['d'] / 2; e_p = po['ep']
+    A_p = math.pi * (r_p ** 2 - (r_p - e_p) ** 2)
+    I_p = math.pi / 4 * (r_p ** 4 - (r_p - e_p) ** 4)
+    g_ = (c['coffre'].get('_glissiere') or {}).get('babord') or {}
+    L_p = (g_.get('poteau') or {}).get('z1', 1077) - (g_.get('poteau') or {}).get('z0', 583.5)
+    E_c = 70e3                                                         # tube carbone roulé, ≈ 70 GPa dans l'axe
+    GLIS = dict(type='tube_pehd', p_pehd=round(Vmax15 / A_pehd, 1), s_poteau=round(Vmax15 / A_p, 1),
+                P_cr_poteau=round(math.pi ** 2 * E_c * I_p / L_p ** 2), L_poteau=round(L_p),
+                p_douille=round(Vmax15 / (math.pi * r_p ** 2), 1), s_tourillon=round(M_t / W_t, 1),
+                p_piece_angle=round(Vmax15 / (60 * 60), 1))
+else:
+    po = gl['poteau']; xp0, xp1 = po['x']; ep = po.get('ep', 9)
+    A_pot = (2 * (wi - yi) + (xp1 - xp0 - 2 * ep)) * ep                  # trois parois CP 9 (la joue en plus, non comptée)
+    GLIS = dict(p_pehd=round(Vmax15 / A_pehd, 1), s_poteau=round(Vmax15 / A_pot, 1), s_assise=round(Vmax15 / A_pot, 1),
+                s_tourillon=round(M_t / W_t, 1), p_piece_angle=round(Vmax15 / ((xp1 - xp0) * (wi + 9 - yi)), 1))
 res = dict(
     hauban=dict(diam=DH, MBL=MBL, EA=round(EA_c)), tube=dict(EA=round(EA_t), L=L_t, P_cr=round(P_cr)),
     voile=dict(S=round(S / 1e6, 2), w_cv=round(wc), h_collier=round(h_c), z_cv=round(z_ce), RM=round(RM), F_par_voile=round(F), R_etambrai=round(R)),
@@ -117,8 +132,7 @@ res = dict(
     synthese=dict(V_reglage=[min(Vreg), max(Vreg)], V_max=round(Vmax1), V_max_15=round(Vmax15), T_max=round(Tmax1), T_max_15=round(Tmax15),
                   SF_hauban=round(MBL / Tmax1, 2), SF_hauban_15=round(MBL / Tmax15, 2), tube_max=max(abs(cc['tube']) for cc in CAS), SF_tube=round(P_cr / max(abs(cc['tube']) for cc in CAS), 1),
                   M_tangage_reglage=[min(Mreg), max(Mreg)], M_tangage_max=round(Mmax1), F_bords_alesage_max=round(Mmax1 * 1000 / co['ep'])),
-    glissiere=dict(p_pehd=round(Vmax15 / A_pehd, 1), s_poteau=round(Vmax15 / A_pot, 1), s_assise=round(Vmax15 / A_pot, 1),
-                   s_tourillon=round(M_t / W_t, 1), p_piece_angle=round(Vmax15 / ((xp1 - xp0) * (wi + 9 - yi)), 1)),
+    glissiere=GLIS,
 )
 json.dump(res, open('/home/claude/cao/etudes/efforts_colliers.json', 'w'), ensure_ascii=False, indent=1)
 print(json.dumps({k: v for k, v in res.items() if k != 'cas'}, ensure_ascii=False, indent=1))

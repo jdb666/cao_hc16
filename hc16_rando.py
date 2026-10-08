@@ -966,6 +966,8 @@ def coffre(A, k):
             for j, dxp in enumerate(py["dx"]):
                 xp = py.get("x_ref", m["x_pied"]) + dxp                # (JD 06/10) les tubes restent à l'ancienne place du pied de mât
                 z0 = m["z_pied"] - math.tan(qa) * dxp if m.get("semelle") else interp_pont(xp, yp) + 1
+                if py.get("sur_semelle_mat") and CFG_MAT.get("semelle"):   # (JD 08/10 soir) une seule semelle par bord : pied dans le plan de la semelle du mât
+                    z0 = CFG_MAT["z_pied"] - math.tan(qa) * (xp - CFG_MAT["x_pied"])
                 z1 = zfond(xp, abs(yp)) + e + 40
                 tb = cq.Solid.makeCylinder(py["diam"] / 2, z1 - z0, V(xp, yp, z0)).cut(cq.Solid.makeCylinder(py["diam"] / 2 - py["ep"], z1 - z0, V(xp, yp, z0)))
                 tb = tb.intersect(sous_fond())                   # haut coupé à la pente du fond (face intérieure), pente et V compris
@@ -1235,6 +1237,8 @@ def glissiere_collier(A, k, JOUES, wi, W, b):
     gl_, cg_ = k.get("glissiere_collier"), k.get("_collier_geom")
     if not (gl_ and cg_ and JOUES):
         return
+    if gl_.get("type") == "tube_pehd":
+        return glissiere_tube_pehd(A, k, JOUES, wi, W, b)
     tc_ = (k.get("haubans") or {}).get("tube_colliers") or {}
     rt = tc_.get("diam", 50) / 2
     xt, zt = cg_["tube_x"], cg_["tube_z"]                                          # axe du tube
@@ -1302,6 +1306,71 @@ def glissiere_collier(A, k, JOUES, wi, W, b):
                 A.add(cale, name=f"glissiere_cale_{nom}", color=cq.Color(0.20, 0.20, 0.22))
         k["_glissiere"][nom] = dict(x=(x0g, x1g), y=(yi_g, wi), berceau=(yi_g, yb_f), z_joue=round(z_top, 1),
                                     fond_tube=round(zt - rt, 1), bas_poteau=round(zb_p, 1))
+
+def glissiere_tube_pehd(A, k, JOUES, wi, W, b):
+    """(JD 08/10 soir) Glissière simplifiée : le tube des colliers repose dans un bloc PEHD (sabot et berceau d'une pièce,
+    creusé en U : le tube y glisse dans son axe et y tourne), vissé à travers la joue ; le bloc porte sur un poteau en tube
+    carbone (bouchon collé en haut, dans une douille du bloc), qui traverse l'assise et descend sur le manchon de la pièce
+    d'angle AV, dans un godet coulé en époxy chargée (coffre en place)."""
+    gl_, cg_ = k["glissiere_collier"], k["_collier_geom"]
+    tc_ = (k.get("haubans") or {}).get("tube_colliers") or {}
+    rt = tc_.get("diam", 50) / 2
+    xt, zt = cg_["tube_x"], cg_["tube_z"]
+    x0g, x1g = gl_["x"]; yi_g = gl_["y_int"]
+    br_ = gl_.get("berceau") or {}; yb_f = br_.get("y_fin", 1078); sax = br_.get("sous_axe", 11); jx = br_.get("jeu_x", 3)
+    bl_ = gl_.get("bloc") or {}; hs_ = bl_.get("h", 60); jt_ = bl_.get("jeu_tube", 0.5); dou_ = bl_.get("douille", 15)
+    po_ = gl_.get("poteau") or {}; rp_ = po_.get("d", 40) / 2; ep_p = po_.get("ep", 2); yp_ = po_.get("y", (yi_g + yb_f) / 2)
+    pehd = cq.Color(0.93, 0.93, 0.90); carb = cq.Color(0.16, 0.16, 0.17)
+    k["_glissiere"] = {}
+    for nom, sg in (("babord", 1), ("tribord", -1)):
+        jo = JOUES.get(nom)
+        if jo is None:
+            continue
+        z_top = jo.intersect(cq.Solid.makeBox(x1g - x0g, 40, 2000, V(x0g, sg * (wi + 4.5) - 20, -500))).BoundingBox().zmax   # haut de la joue
+        ys = lambda y0_, y1_: sorted((sg * y0_, sg * y1_))
+        # bloc PEHD : de y_int à la joue sur h sous le haut de la joue ; U sous le bout du tube (jusqu'à y_fin), joues du U à `sous_axe` sous l'axe
+        ya, yb = ys(yi_g, wi)
+        blk = cq.Solid.makeBox(x1g - x0g, yb - ya, hs_, V(x0g, ya, z_top - hs_))
+        ya2, yb2 = ys(yi_g, yb_f)
+        blk = blk.fuse(cq.Solid.makeBox(x1g - x0g, yb2 - ya2, zt - sax - z_top, V(x0g, ya2, z_top)))
+        rg_ = rt + jt_
+        gorge = cq.Solid.makeCylinder(rg_, yb - ya + 2, V(xt - jx, ya - 1, zt), V(0, 1, 0)).fuse(
+            cq.Solid.makeCylinder(rg_, yb - ya + 2, V(xt + jx, ya - 1, zt), V(0, 1, 0))).fuse(
+            cq.Solid.makeBox(2 * jx, yb - ya + 2, rg_, V(xt - jx, ya - 1, zt - rg_)))
+        z_b0 = z_top - hs_                                                           # dessous du bloc
+        blk = blk.cut(gorge).cut(cq.Solid.makeCylinder(rp_ + 0.25, dou_, V(xt, sg * yp_, z_b0)))   # douille du poteau
+        A.add(blk.clean(), name=f"glissiere_bloc_{nom}", color=pehd)
+        # poteau : du godet sur la pièce d'angle jusqu'au fond de la douille
+        pa_ = A.objects.get(f"piece_angle_av_{nom}") if hasattr(A, "objects") else None
+        pa_s = (pa_.obj.val() if hasattr(pa_.obj, "val") else pa_.obj) if pa_ is not None else None
+        zb_p = None
+        if pa_s is not None:
+            z_pa = pa_s.intersect(cq.Solid.makeCylinder(rp_, 2000, V(xt, sg * yp_, -500))).BoundingBox().zmax
+            zb_p = z_pa + gl_.get("cale_min", 4)
+        if zb_p is None:
+            zb_p = z_b0 - 480
+        z1_p = z_b0 + dou_
+        pot = cq.Solid.makeCylinder(rp_, z1_p - zb_p, V(xt, sg * yp_, zb_p)).cut(cq.Solid.makeCylinder(rp_ - ep_p, z1_p - zb_p, V(xt, sg * yp_, zb_p)))
+        A.add(pot, name=f"glissiere_poteau_{nom}", color=carb)
+        # l'assise est percée pour le poteau (collé au passage)
+        ass_ = A.objects.get(f"banc_{nom}_assise") if hasattr(A, "objects") else None
+        if ass_ is not None:
+            so_ = ass_.obj.val() if hasattr(ass_.obj, "val") else ass_.obj
+            ass_.obj = so_.cut(cq.Solid.makeCylinder(rp_ + 0.5, 2000, V(xt, sg * yp_, -500)))
+        # godet coulé (époxy chargée) sur le manchon de la pièce d'angle, autour du pied du poteau
+        if gl_.get("cale") and pa_s is not None:
+            g_ = 30.0
+            god = cq.Solid.makeBox(2 * g_, 2 * g_, zb_p - z_pa + 32, V(xt - g_, sg * yp_ - g_, z_pa - 20)).cut(pa_s).cut(
+                cq.Solid.makeCylinder(rp_, 200, V(xt, sg * yp_, zb_p)))
+            for o_ in (A.objects.get("poutre_av"), A.objects.get(f"longeron_{nom}")) if hasattr(A, "objects") else ():
+                if o_ is not None:
+                    god = god.cut(o_.obj.val() if hasattr(o_.obj, "val") else o_.obj)
+            god = god.intersect(cq.Solid.makeBox(2 * g_, 2 * g_, 200, V(xt - g_, sg * yp_ - g_, zb_p + 12 - 200)))
+            A.add(god, name=f"glissiere_cale_{nom}", color=cq.Color(0.20, 0.20, 0.22))
+        k["_glissiere"][nom] = dict(type="tube_pehd", x=(x0g, x1g), y=(yi_g, wi), berceau=(yi_g, yb_f), z_joue=round(z_top, 1),
+                                    fond_tube=round(zt - rt, 1), bas_poteau=round(zb_p, 1), bloc_bas=round(z_b0, 1),
+                                    poteau=dict(x=xt, y=yp_, d=2 * rp_, ep=ep_p, z0=round(zb_p, 1), z1=round(z1_p, 1)))
+
 
 def capot_arriere(A, k):
     """(JD 05/10) Capot arrière en pente : au milieu (|y| <= demi_y), le dessus descend de z_dessus en x0 jusqu'à z_c4 contre C4,
@@ -1596,7 +1665,7 @@ def quetes_crans(cfg):
     return out
 
 
-def collier_tourillon(A, co, CG, nom, sgm, c, placer):
+def collier_tourillon(A, co, CG, nom, sgm, c, placer, croise=True):
     """(JD 06/10) Collier du mât : alésage où le mât tourne, ouvert vers l'arrière pour poser le mât (axe de fermeture),
     tourillon emmanché dans le tube des colliers (le collier tourne autour quand on change la quête), ferrures des haubans.
     Collier, tube, haubans et mât forment un ensemble indépendant du coffre. Repère local : s vers l'arrière dans le plan
@@ -1667,6 +1736,8 @@ def collier_tourillon(A, co, CG, nom, sgm, c, placer):
                else (cq.Solid.makeBox(sa, ee, hh, V(R + tal, -ee / 2, -hh / 2)), (R + tal + sa + 2, 0, 0))),
         "poutre": (cq.Solid.makeBox(ee, sa, hh, V(sp, -dyi - sa, ep / 2 - hh)), (sp + ee / 2, -dyi - sa - 2, ep / 2 - hh / 2)),
     }                                                  # le hauban part à 2 du bout de la ferrure (œil et cosse non dessinés)
+    if not croise:                                     # (JD 08/10 soir) collier à 3 haubans : plus de croisé AV
+        oeils.pop("av_croise")
     ax_, u = CG["ax"], CG["u"]
     pts = {}
     for k_, (sol, (s_, t_, n_)) in oeils.items():
@@ -1811,7 +1882,8 @@ def build(cfg, plateforme_seule=False):
         A.add(mat_, name=f"mat_{nom}", color=noir)
         if CG:
             cg_c = f + u * CG["h"]
-            CG.setdefault("pts", {})[nom] = collier_tourillon(A, m["collier"], CG, nom, sgm, cg_c, lambda s_, c_=cg_c, sg_=sgm: placer(s_, c_, sg_))
+            cr_ = bool(((cfg.get("coffre") or {}).get("haubans") or {}).get("croises_avant", True))
+            CG.setdefault("pts", {})[nom] = collier_tourillon(A, m["collier"], CG, nom, sgm, cg_c, lambda s_, c_=cg_c, sg_=sgm: placer(s_, c_, sg_), croise=cr_)
         elif "collier_hauteur" in m:
             tc = m["collier_hauteur"]; c0 = f + u * (tc - 25)
             col = cq.Solid.makeCylinder(46, 50, c0, u).cut(cq.Solid.makeCylinder(31, 50, c0, u))
@@ -1850,14 +1922,21 @@ def build(cfg, plateforme_seule=False):
                     cq.Solid.makeBox(ps_["dx"][1] - ps_["dx"][0], ya1 - ya0, 200, V(fr_.x + ps_["dx"][0], ya0, fr_.z - 200)).rotate(fr_, fr_ + V(0, 1, 0), m["quete_deg"]))
                 A.add(bop, name=f"bourrage_tubes_{nom}", color=cq.Color(0.78, 0.55, 0.30))
             dy0, dy1 = (sm["dy"][0], sm["dy"][1]) if sgm > 0 else (-sm["dy"][1], -sm["dy"][0])
+            enc_ = sm.get("encoche")                        # (JD 08/10 soir) coin arrière intérieur échancré au pylône de la poutre AV
+            def encoche_(sol_, rot_=True):
+                if not enc_:
+                    return sol_
+                ye0, ye1 = (f.y + sm["dy"][0] - 50, f.y + enc_["dy1"]) if sgm > 0 else (f.y - enc_["dy1"], f.y - sm["dy"][0] + 50)
+                bx_ = cq.Solid.makeBox(sm["dx"][1] - enc_["dx0"] + 50, ye1 - ye0, 600, V(f.x + enc_["dx0"], ye0, f.z - 400))
+                return sol_.cut(bx_.rotate(f, f + V(0, 1, 0), m["quete_deg"]) if rot_ else bx_)
             pl = cq.Solid.makeBox(sm["dx"][1] - sm["dx"][0], dy1 - dy0, sm["ep"], V(f.x + sm["dx"][0], f.y + dy0, f.z - sm["ep"]))
-            pl = pl.rotate(f, f + V(0, 1, 0), m["quete_deg"])
+            pl = encoche_(pl.rotate(f, f + V(0, 1, 0), m["quete_deg"]))
             A.add(pl, name=f"semelle_{nom}", color=cq.Color(0.91, 0.72, 0.51))
             pr = cq.Solid.makeBox(sm["dx"][1] - sm["dx"][0] + 20, dy1 - dy0, 140, V(f.x + sm["dx"][0] - 10, f.y + dy0, f.z - sm["ep"] - 120))
             cutp = cq.Solid.makeBox(sm["dx"][1] - sm["dx"][0] + 60, dy1 - dy0 + 20, 200, V(f.x + sm["dx"][0] - 30, f.y + dy0 - 10, f.z - sm["ep"])).rotate(f, f + V(0, 1, 0), m["quete_deg"])
             bou = pr.cut(cutp).cut(hull.translate(V(0, 0, ep_r))).intersect(
                 cq.Solid.makeBox(sm["dx"][1] - sm["dx"][0], dy1 - dy0, 200, V(f.x + sm["dx"][0], f.y + dy0, f.z - 200)).rotate(f, f + V(0, 1, 0), m["quete_deg"]))
-            A.add(bou, name=f"bourrage_{nom}", color=cq.Color(0.78, 0.55, 0.30))
+            A.add(encoche_(bou), name=f"bourrage_{nom}", color=cq.Color(0.78, 0.55, 0.30))
         hb_ = cfg.get("coffre", {}).get("haubans") if not plateforme_seule else None
         if hb_ and "collier_hauteur" in m:                 # haubans du coffre : attaches sur le collier, devant et derrière le mât
             sgm = 1 if y > 0 else -1

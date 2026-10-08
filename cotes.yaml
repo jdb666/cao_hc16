@@ -71,7 +71,8 @@ mats:
     tourillon: {d: 45, l: 80, jeu_tube: 3, prise: 35}   # tube alu Ø 45 collé à l'époxy dans une encoche des plis 2 à 6 (35 de prise), goupillé à travers les plis ; dépasse de 80 dans le tube Ø 50 × 2
     oeil: {saillie: 22, ep: 6, h: 24, dy_av: 40, dy_croise: -30, ar: [20, 70]}   # ferrures inox boulonnées : devant (direct AV à 40 vers l'extérieur ; croisé AV à 30 vers l'intérieur, loin de la livarde rangée) ; AR sur la face extérieure, de 20 à 70 derrière l'axe du mât (JD 06/10 : le hauban AR reste à l'extérieur du mât) ; diagonale en haut de la face intérieure
   emplanture:               # (JD 06/10) cale triangulaire dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au trou du boulon
-    rail: {type: joues_cp, l: 180, joue_ep: 10, h: 40, jeu: 0.5, trou: 8, pas: 20, crans: [-2, -1, 0, 1, 2], axe_z: 18}   # (JD 06/10 soir) deux joues CP 10 collées sur la semelle et stratifiées, trous Ø 8 tous les 20 (surpercés, remplis d'époxy, repercés), axe du boulon à 18 au-dessus de la semelle
+    rail: {type: joues_cp, l: 140, joue_ep: 10, h: 40, jeu: 0.5, trou: 8, pas: 20, crans: [-1, 0, 1], axe_z: 18}   # (JD 08/10 soir) 3 crans au lieu de 5 : joues de 140 (180 avant)
+    # avant le 08/10 soir : l 180, crans [-2, -1, 0, 1, 2]   # (JD 06/10 soir) deux joues CP 10 collées sur la semelle et stratifiées, trous Ø 8 tous les 20 (surpercés, remplis d'époxy, repercés), axe du boulon à 18 au-dessus de la semelle
     cale: {haut: 70, pointe: 6, pointe_z: 7, h: 38, larg: 30, plis: 3}   # (JD 06/10 soir) 3 plis de CP 10 collés, stratifiés ; triangle pointe en bas : elle pivote sur le boulon (quête, pose du mât), le boulon la tient ; dessus 70 de long à 45 au-dessus de la semelle
     ergot: {d: 20, h: 20}   # sur le dessus de la cale ; le pied du mât (embout percé) tourne dessus ; mât raccourci de 45 pour garder la bordure
   longueur: 7300
@@ -80,8 +81,11 @@ mats:
   haubanage: 700           # le long du mât, depuis le pied
   semelle:                 # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
     y_mat: 1161            # axe du mât : 161 à l'extérieur de l'axe de coque (1 151 avant le 06/10)
-    dx: [-100, 150]        # autour du pied de mât (x_pied) : x 1 860 → 2 110, 14 derrière la semelle des tubes du coffre ; à 10 du pylône de la poutre AV
-    dy: [-116, 26]         # côté bâbord (miroir à tribord) : y 1 045 → 1 187 (joue extérieure de l'emplanture CP), 10 de jeu au pylône de la poutre AV ; reçoit le rail de l'emplanture et les pontets (les tubes du coffre ont leurs semelles : coffre.pylones.semelle)
+    dx: [-304, 90]         # (JD 08/10 soir) une seule semelle par bord pour le mât et les deux tubes du coffre : x 1 656 → 2 050 (plus de pontets au bout)
+    # avant : dx: [-100, 150]        # autour du pied de mât (x_pied) : x 1 860 → 2 110, 14 derrière la semelle des tubes du coffre ; à 10 du pylône de la poutre AV
+    dy: [-141, 26]         # y 1 020 → 1 187 (tubes du coffre à y 1 066)
+    encoche: {dx0: 65, dy1: -116}   # coin arrière intérieur échancré au pylône de la poutre AV : x ≥ 2 025 et y ≤ 1 045 (10 de jeu)
+    # avant : dy: [-116, 26]         # côté bâbord (miroir à tribord) : y 1 045 → 1 187 (joue extérieure de l'emplanture CP), 10 de jeu au pylône de la poutre AV ; reçoit le rail de l'emplanture et les pontets (les tubes du coffre ont leurs semelles : coffre.pylones.semelle)
     ep: 18                 # 2 × CP 9 collés
     bourrage_min: 3
     inclinaison_laterale: 0   # mât vertical en travers ; la quête (quete_deg) et l'inclinaison sont fixées par la semelle et le collier
@@ -183,15 +187,23 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   trappes_exterieures: null   # (JD 08/10) essai d'une grande trappe dans le dessus des compartiments extérieurs, abandonné : la trappe va dans C4
   rangements:              # (JD 08/10) caissons de rangement de chaque côté du moteur : de la paroi du puits au couple plein ±420, de la cloison du puits (prolongée jusqu'au couple) à C4 ; fermés dessus par le capot arrière
     trappe: {x0: 1785, x1: 1990, y0: 150, y1: 400}   # découpée dans le capot, posée sur un cadre de tasseaux 15 x 15 collés sous le capot, joint, deux tourniquets
-  glissiere_collier:       # (JD 08/10) reprise des efforts verticaux des colliers : c'est le TUBE (où les colliers tournent sur leurs tourillons) qui repose dans une glissière sur un sabot ;
-                           # le collier ne touche pas le sabot (il reste libre de tourner autour du tube quand on change la quête)
-    x: [2050, 2120]        # sabot centré sur l'axe du tube (x 2 085)
-    y_int: 990             # sabot assez long : de la joue jusqu'à y 990, sous tout le tourillon (1 001 -> 1 081 dans le tube)
-    berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}   # glissière en U sous le bout du tube (jusqu'à 1 078), 4 × CP 9 sur le sabot ; ses joues s'arrêtent 11 sous l'axe du tube (le tube s'enlève par le haut), 3 de jeu de chaque côté
-    pehd: {ep: 3}          # garniture PEHD dans le berceau : le tube glisse dans son axe
-    sabot: {h: 60}         # de 1 078 à la joue, le sabot reste au ras du haut de la joue : 10 sous le collier
-    poteau: {x: [2055, 2115], ep: 9}   # poteau caisson (3 parois CP 9, la joue fait la 4e) collé contre la joue, sur toute la longueur du sabot (990 -> joue) : du sabot à l'assise, puis de l'assise au bas de la joue
-    cale: true             # cale coulée (époxy chargée) sous la joue et le poteau, posée sur la pièce d'angle AV
+  glissiere_collier:       # (JD 08/10) reprise des efforts verticaux des colliers : c'est le TUBE (où les colliers tournent sur leurs tourillons) qui repose dans une glissière ;
+                           # le collier ne la touche pas (il reste libre de tourner autour du tube quand on change la quête)
+    type: tube_pehd        # (JD 08/10 soir) simplifiée : un bloc PEHD (sabot et berceau d'une pièce) sur un poteau en tube carbone
+    x: [2050, 2120]        # bloc centré sur l'axe du tube (x 2 085)
+    y_int: 990             # de la joue jusqu'à y 990, sous tout le tourillon (1 001 -> 1 081 dans le tube)
+    berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}   # U sous le bout du tube (jusqu'à 1 078), creusé dans le bloc ; ses joues s'arrêtent 11 sous l'axe du tube (le tube s'enlève par le haut), 3 de jeu de chaque côté
+    bloc: {h: 60, jeu_tube: 0.5, douille: 15}   # bloc PEHD : 60 sous le haut de la joue, de y 990 à la joue (vissé à travers la joue) ; le tube y glisse et y tourne (0,5 de jeu) ; douille de 15 pour le haut du poteau
+    poteau: {d: 40, ep: 2, y: 1025}   # tube carbone Ø 40 × 2 (comme les appuis du coffre), sous l'axe du tube, au-dessus du manchon de la pièce d'angle ; traverse l'assise ; bouchon collé en haut
+    cale: true             # cale coulée (époxy chargée) en godet sous le poteau, sur la pièce d'angle AV (coffre en place)
+  glissiere_collier_avant_0810:   # ancienne glissière (JD 08/10 midi) : sabot 6 × CP 10, berceau 4 × CP 9, garniture PEHD 3, poteau caisson 3 parois CP 9
+      x: [2050, 2120]        # sabot centré sur l'axe du tube (x 2 085)
+      y_int: 990             # sabot assez long : de la joue jusqu'à y 990, sous tout le tourillon (1 001 -> 1 081 dans le tube)
+      berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}   # glissière en U sous le bout du tube (jusqu'à 1 078), 4 × CP 9 sur le sabot ; ses joues s'arrêtent 11 sous l'axe du tube (le tube s'enlève par le haut), 3 de jeu de chaque côté
+      pehd: {ep: 3}          # garniture PEHD dans le berceau : le tube glisse dans son axe
+      sabot: {h: 60}         # de 1 078 à la joue, le sabot reste au ras du haut de la joue : 10 sous le collier
+      poteau: {x: [2055, 2115], ep: 9}   # poteau caisson (3 parois CP 9, la joue fait la 4e) collé contre la joue, sur toute la longueur du sabot (990 -> joue) : du sabot à l'assise, puis de l'assise au bas de la joue
+      cale: true             # cale coulée (époxy chargée) sous la joue et le poteau, posée sur la pièce d'angle AV
   moteur:                  # Haswing Protruar 2.0 24 V
     mode: vertical2        # JD 29/09 soir : relevage vertical dans l'axe, puits le plus petit possible ; bascule abandonnée
     vertical2:
@@ -330,7 +342,9 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     renfort: {ep: 18, dx: 120, dy: 100}   # semelle CP 18 collée sur le fond contre la joue, sur les deux tubes (220 × 100) (JD 30/09 : pas de couple en travers) ; haut du tube coupé à la pente du fond
     dy: 90                 # (ancien pylône CP)
     x_ref: 1766            # (JD 06/10) les tubes restent à l'ancienne place du pied de mât
-    semelle: {dx: [-110, 80], y: [1020, 1111], ep: 18}   # (JD 06/10, mâts reculés) semelles CP 18 des tubes, sur bourrage, à l'ancienne place de la semelle du mât (même plan), x 1 656 → 1 846
+    semelle: null          # (JD 08/10 soir) les tubes portent sur la semelle du mât (une seule par bord) ; avant : {dx: [-110, 80], y: [1020, 1111], ep: 18}
+    sur_semelle_mat: true  # pied des tubes dans le plan de la semelle du mât
+    # ancienne semelle des tubes (JD 06/10, mâts reculés) semelles CP 18 des tubes, sur bourrage, à l'ancienne place de la semelle du mât (même plan), x 1 656 → 1 846
   ref_mat: {z_pied: 348.1}   # (JD 06/10) hauteurs du coffre : ancien dessus de semelle (haut des joues z 1 122) ; le sommet des joues suit le mât (x)
   milieu_x_pied: 1766        # (JD 06/10) milieu inchangé (batterie, caisse, puits, table) : courbe avant au milieu sur l'ancien pied de mât ; raccord linéaire de ±360 aux joues
   accroches_poutre:        # accroches sur la poutre AV : demi-profil DWG + jeu, ouvertes vers le bas, collées derrière C4 (JD 29/09)
@@ -382,13 +396,14 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     attache_dy_av: 40        # (JD 30/09 soir) direct AV du collier attaché 40 plus à l'extérieur, sur l'oreille du collier : il passait contre la joue, là où la livarde est rangée
     etrave: {x: 50, dz: 12}  # pattes d'étrave (pointes des coques), sur l'axe de coque, au-dessus du pont
     cadene: {x: 2690, dy: 186, dz: 8}   # cadènes d'origine, bord extérieur du pont, ≈ 620 derrière la poutre AV (photo de dessus)
-    croises_avant: true      # croisés vers la patte d'étrave opposée
+    croises_avant: false     # (JD 08/10 soir) collier à 3 haubans : direct AV, direct AR, diagonale vers la poutre ; avant : croisés vers la patte d'étrave opposée
     croise_dz: 45            # ancien collier : œil des croisés sur un plot au-dessus du collier (35 -> 45 avec les joues arrondies, JD 30/09) ; collier du 06/10 : ferrure avant
     croises_arriere: false   # retirés (JD 29/09) : remplacés par le tube entre les colliers
     x_croise_ar: 1995
     collier_poutre: {dz: 100, poutre_dz: 10, x_poutre: 2085}   # (JD 05/10) hauban du collier au milieu de la poutre AV, en diagonale au-dessus du coffre, ferrure sur le dessus de la poutre (y 0) ; ancien collier : œil sur un plot de 100 (dz) ; collier du 06/10 : ferrure en haut de sa face intérieure
     tube_colliers: {diam: 50, ep: 2, x: 2085}   # tube alu d'un collier à l'autre, au-dessus du coffre (JD 06/10 : z calculé, sur l'axe des tourillons) ; x 2 085 avec les mâts reculés : derrière la tête du moteur (15), au-dessus de la poutre AV ; avant : x 1 741, devant la tête
-    semelle:                 # plan horizontal des semelles (JD 29/09) : directs AV et AR ; croisés passés à l'arrière (libèrent le moteur relevé)
+    semelle: null            # (JD 08/10 soir) plus de haubans de pied : la semelle collée sur le renfort passe l'effort du pied (≈ 2,4 kN) au pont
+    semelle_avant_0810:      # ancien étage des semelles (JD 29/09) : directs AV et AR ; croisés passés à l'arrière (libèrent le moteur relevé)
       attache_dx: 100        # pontets sur la semelle, au bout du rail (60 avant le 06/10)
       attache_dx_av: 100     # pontet AV 100 devant le pied de mât, 14 vers l'extérieur (attache_dy_av) : le croisé AV passe à 14 des tubes du coffre
       attache_dy_av: 14

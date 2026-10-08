@@ -138,18 +138,16 @@ mats:
   emplanture:
     rail:
       type: joues_cp
-      l: 180
+      l: 140
       joue_ep: 10
       h: 40
       jeu: 0.5
       trou: 8
       pas: 20
       crans:
-      - -2
       - -1
       - 0
       - 1
-      - 2
       axe_z: 18
     cale:
       haut: 70
@@ -168,11 +166,14 @@ mats:
   semelle:
     y_mat: 1161
     dx:
-    - -100
-    - 150
+    - -304
+    - 90
     dy:
-    - -116
+    - -141
     - 26
+    encoche:
+      dx0: 65
+      dy1: -116
     ep: 18
     bourrage_min: 3
     inclinaison_laterale: 0
@@ -346,6 +347,25 @@ coffre:
       y0: 150
       y1: 400
   glissiere_collier:
+    type: tube_pehd
+    x:
+    - 2050
+    - 2120
+    y_int: 990
+    berceau:
+      y_fin: 1078
+      sous_axe: 11
+      jeu_x: 3
+    bloc:
+      h: 60
+      jeu_tube: 0.5
+      douille: 15
+    poteau:
+      d: 40
+      ep: 2
+      y: 1025
+    cale: true
+  glissiere_collier_avant_0810:
     x:
     - 2050
     - 2120
@@ -551,14 +571,8 @@ coffre:
       dy: 100
     dy: 90
     x_ref: 1766
-    semelle:
-      dx:
-      - -110
-      - 80
-      y:
-      - 1020
-      - 1111
-      ep: 18
+    semelle: null
+    sur_semelle_mat: true
   ref_mat:
     z_pied: 348.1
   milieu_x_pied: 1766
@@ -648,7 +662,7 @@ coffre:
       x: 2690
       dy: 186
       dz: 8
-    croises_avant: true
+    croises_avant: false
     croise_dz: 45
     croises_arriere: false
     x_croise_ar: 1995
@@ -660,7 +674,8 @@ coffre:
       diam: 50
       ep: 2
       x: 2085
-    semelle:
+    semelle: null
+    semelle_avant_0810:
       attache_dx: 100
       attache_dx_av: 100
       attache_dy_av: 14
