@@ -1,9 +1,9 @@
-# HC16 « Nacra 5.80 Rando »
+# HC16 Rando
 
 Conversion d'un Hobie Cat 16 :
-- gréement Nacra 5.80 Rando dessiné par JD (deux mâts carbone de 7,30 m posés sur le pont des coques, voiles sur enrouleur, livardes) ; collier, haubans, tube et mâts forment un ensemble indépendant du coffre ; collier et emplanture en CP collé stratifié, quête réglée au trou ;
+- gréement Rando dessiné par JD (deux mâts carbone de 7,30 m posés sur le pont des coques, voiles sur enrouleur, livardes) ; collier, haubans, tube et mâts forment un ensemble indépendant du coffre ; collier et emplanture en CP collé stratifié, quête réglée au trou ;
 - coffre en CP cousu-collé avec joues, bancs, accroches de poutre intégrées aux couples ;
-- moteur Haswing Protruar relevable à la verticale dans un puits central, batterie 24 V.
+- moteur Haswing Protruar relevable à la verticale dans un puits central, deux batteries 24 V dans les accoudoirs des bancs.
 
 Repère : origine à l'étrave, à la flottaison, dans l'axe du bateau. X vers l'arrière, Y vers bâbord, Z vers le haut. Unités : mm.
 

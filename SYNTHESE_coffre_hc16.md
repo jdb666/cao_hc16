@@ -1,4 +1,4 @@
-# HC16 « Nacra 5.80 Rando » — coffre porte-mâts et bancs : état du projet (08/10/2026)
+# HC16 Rando — coffre porte-mâts et bancs : état du projet (08/10/2026)
 
 ## Repère et sources
 - Origine : étrave à la flottaison, dans l'axe. X vers l'arrière, Y vers bâbord, Z vers le haut. Unités : mm.
@@ -7,6 +7,7 @@
 - Modèle paramétrique : `hc16_rando.py` lit `cotes.yaml` et régénère le STEP (`python hc16_rando.py cotes.yaml sortie.step`).
 
 ## Contraintes figées (décisions JD)
+- Nom du projet : HC16 Rando (JD 08/10/2026 : plus de référence au Nacra 5.80).
 - Voile d'origine et hauteur de bordure inchangées ; mâts posés sur le pont des coques (pas emplantés au fond).
 - Quête 3° ; pied de mât placé pour que le CV voiles pleines = CV HC16 d'origine.
 - Collier de mât à 70–80 cm du pied, porté par la joue.
@@ -376,10 +377,11 @@
 - Volumes : coffre 469 L à l'extérieur, 446 L à l'intérieur ; compartiments extérieurs 139 L par côté ; caissons de rangement 2 × 42 L ; puits 42 L ; coffre à ancre 20 L ; accoudoirs 2 × 12 L.
 - Plan de découpe : 56 repères, 173 pièces (plis compris), 5,5 plaques (CP 4 : 1 ; CP 6 : 2 ; CP 9 : 2 ; CP 10 : 0,5) : la demi-plaque de CP 4 disparaît. Nouvelles pièces K420 (remplace K331), TG, AF, AI, AV (remplacent BB, BR, BV), BL1–BL4, BJ, GS, GB, GP1–GP4 ; TR et TG sont pris dans la chute de C4 et du capot. Dépliage : les panneaux plans et coplanaires sont réunis (le fond de chaque côté, de ±250 à la joue, sort d'un seul tenant : F1, au lieu de F1, F5 et F6) ; le biseau de la peau coupée par le plan du capot (16 de large) n'est plus pris pour un panneau.
 - Fiche technique : à vide ≈ 215 kg (216 : coffre et bancs 40,2 ; gréement 35,0 dont haubans Ø 5 4,2 ; moteur et batteries 30,2), ancre 3,5 en plus ; charge utile au déplacement maxi CE du HC16 ≈ 170 kg (US ≈ 292). Assiette au repos, équipage égal près de la poutre AV : 0,4° de plus sur le nez que le HC16 coffre vide (étrave + 43, tableau + 10), 1,1° avec 60 kg au coffre, 0,1° avec 60 kg sous l'arrière des bancs (0,7 ; 1,4 ; 0,3° le 07/10) ; garde du coffre 204, 175 avec 60 kg. Bilan (kg·m, sur le nez) : gréement 17,0 ; coffre et bancs 13,1 ; moteur 4,0 ; batteries − 14,5 ; total 19,6 ≈ 0,3°. Rangement : coffre 2 × 139 L, caissons 2 × 42 L, 45 L sous chaque banc.
-- Book (74 pages, v16) : nouvelles pages « Le tube des colliers repose sur les joues » (coupes), « Caissons de rangement et trappes de C4 », « Assez costaud pour s'asseoir à deux » (tableau de résistance) ; « Bancs renforcés et laçage » (coupes), « Batteries dans les accoudoirs, coffre à ancre » refaites ; vues du coffre, nomenclature, plaques, fiche technique refaites. Page 3D (v33), plan de découpe (v9) et STEP refaits. Figures : `book/fig_coupes.py` (depuis `etudes/coupes_book.py`). Sauvegardes : `cotes_avant_rangements.yaml`, `hc16_rando_avant_rangements.py`.
+- Book (74 pages) : nouvelles pages « Le tube des colliers repose sur les joues » (coupes), « Caissons de rangement et trappes de C4 », « Assez costaud pour s'asseoir à deux » (tableau de résistance) ; « Bancs renforcés et laçage » (coupes), « Batteries dans les accoudoirs, coffre à ancre » refaites ; vues du coffre, nomenclature, plaques, fiche technique refaites. Page 3D (v33), plan de découpe (v9) et STEP refaits. Figures : `book/fig_coupes.py` (depuis `etudes/coupes_book.py`). Sauvegardes : `cotes_avant_rangements.yaml`, `hc16_rando_avant_rangements.py`.
 
 ## Points ouverts / mesures à prendre
 - À valider (JD) : accoudoirs, caissons de rangement et trappes de C4, glissière du tube des colliers, bancs renforcés (08/10) ; collier et emplanture en CP collé stratifié (06/10 soir) : chemise PEHD vissée ou époxy graphite, trous du boulon d'emplanture bouchés à l'époxy.
+- Poteau de la glissière (question JD 08/10 : pourquoi pas dans le coffre ?) : il est sous le tube, 33 derrière C4, en compression directe sur la pièce d'angle AV ; dans le coffre, il faudrait un sabot en porte-à-faux de ≈ 90 à travers C4 (0,5 kN·m à 5,1 kN) et un appui sur le toit de la poche du nez : variante proposée, en attente de JD.
 - Glissière du tube : à l'essai, vérifier que le tube tourne et glisse sans dureté dans le PEHD quand on change de cran (collier) ; cale coulée sous le poteau une fois le coffre posé et brêlé.
 - Assiette en route : relever aux essais les hauteurs d'eau à l'étrave et au tableau (repères), au repos et en navigation, pour recaler le CdG du HC16 nu et l'écart calculé (0,4° statique avec les batteries dans les accoudoirs).
 - Batteries : deux 24 V 50 Ah en parallèle (2,6 kWh), une dans chaque accoudoir (paramètre `accoudoirs.cotes`) ; câbles de même longueur vers le moteur.

@@ -169,7 +169,7 @@ ul.notes{{margin:0;padding-left:20px;display:grid;gap:8px;max-width:80ch}}
 </style>
 <div class="wrap">
 <header>
-  <div class="eyebrow">Nacra 5.80 Rando · coffre HC16 · état du {esc(J['date'])}</div>
+  <div class="eyebrow">HC16 Rando · coffre · état du {esc(J['date'])}</div>
   <h1>Plan de découpe du coffre</h1>
   <p class="lead">Tout sort du modèle CAO : le bordé est déplié exactement, facette par facette, depuis sa face extérieure ; les pièces planes sont prises dans leur plan, trous compris. Pièces imbriquées par épaisseur sur des plaques de CP de 2 500 × 1 220, 10 de marge, 8 entre pièces. Les DXF (une plaque par fichier, et une pièce par fichier, à l'échelle 1) sont joints à part. Survoler une pièce ou une ligne de la nomenclature la montre partout.</p>
   <div class="figs">
