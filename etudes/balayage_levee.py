@@ -49,9 +49,10 @@ for lv in levees:
     res.append(r)
     print(f"{lv:6.1f} z {r['zmin']}–{r['zmax']} | contacts {hits or '-'} | " + ' '.join(f"{k}:{v[0]}({v[1][7:]}/{v[2]})" for k, v in sorted(best.items())), flush=True)
 # sortie du bac : monté à la verticale de 0 à 700
-bac = [n for n in ('batterie_bac', 'batterie') if n in d]
-ref_ = 'batterie_bac' if 'batterie_bac' in d else 'batterie'
-haut_ = 701 if 'batterie_bac' in d else 251          # (JD 07/10) batterie du banc : levée de 250, couvercle du caisson ôté, puis glissée vers l'intérieur sous le tube
+bac = [n for n in ('batterie_bac', 'batterie') if n in d] or ['batterie_babord']   # (JD 08/10) batteries au fond du coffre : on sort celle de bâbord (symétrique)
+ref_ = 'batterie_bac' if 'batterie_bac' in d else bac[0]
+haut_ = 251 if 'caisson_babord_couvercle' in d else 701
+OTES = ('coffre_caisse_couvercle', 'coffre_table', 'coffre_capot_arriere', 'coffre_capot_joue_babord', 'coffre_capot_joue_tribord', 'coffre_capot')   # ôtés pour sortir la batterie : capot arrière (vissé) et couvercle du coffre à ancre
 sortie = []
 for dz in range(0, haut_, 50 if haut_ > 300 else 25):
     bh = {n: d[n].translate(V(0, 0, dz)) for n in bac}
@@ -59,7 +60,7 @@ for dz in range(0, haut_, 50 if haut_ > 300 else 25):
     for a, sa in bh.items():
         ba = sa.BoundingBox()
         for b in oth:
-            if b in bac or b in ('coffre_caisse_couvercle', 'coffre_table') or b.startswith('ancre_') or (b.startswith('caisson_') and b.endswith('_couvercle')) or not proche(ba, BB[b], 60):   # table, couvercle et ancre ôtés pour sortir le bac
+            if b in bac or b in OTES or b.startswith(('ancre_', 'batterie_cale')) or (b.startswith('caisson_') and b.endswith('_couvercle')) or not proche(ba, BB[b], 60):   # table, couvercle et ancre ôtés pour sortir le bac
                 continue
             v = sa.intersect(d[b]).Volume()
             if v > 0.5:

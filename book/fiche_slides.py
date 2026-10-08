@@ -16,7 +16,7 @@ bag = utile_ce - 160
 
 # ---------------------------------------------------------------- s8 : intercalaire
 big = [(f'≈ {vide} kg', f"à vide, prêt à naviguer, sans ancre (HC16 d'origine : {num(Hc['poids'])} kg)"),
-       (f"{Vo['hors_centre']} L", f"de rangement dans le coffre hors puits du moteur et coffre à ancre, plus {Vo['bancs_par_cote']} L sous chaque banc"),
+       (f"{Vo['hors_centre'] + 2 * Vo.get('rangement', 0)} L", f"de rangement dans le coffre : deux compartiments extérieurs et deux caissons à côté du moteur ; plus {Vo['bancs_par_cote']} L sous chaque banc"),
        (f'≈ {utile_ce} kg', f"de charge utile au déplacement maxi CE du HC16 ({num(C['depl_ce'])} kg) ; HC16 : 240 kg")]
 cells = ''.join(f'<div style="flex:1;display:flex;flex-direction:column;gap:8px;border-top:2px solid #6DB9D4;padding:20px 0px 0px 0px">'
                 f'<p style="{MONO};font-size:44px;line-height:1.15;color:#EDF0F0">{esc(a)}</p><p style="font-size:24px;line-height:1.35;color:#9AABB3">{esc(b)}</p></div>' for a, b in big)
@@ -43,8 +43,8 @@ lignes = [
     ('Voilure', '18,9 m²', '22,2 m², deux voiles sur enrouleur', '+ 17 %'),
     ('Centre vélique x · z', '3 206 · 3 735', '3 206 · 3 993', '258 plus haut'),
     ('Couple de chavirage', '100 %', '125 %', ''),
-    ('Rangement', 'aucun', f"coffre {Vo['hors_centre']} L + bancs 2 × {Vo['bancs_par_cote']} L + caisson {num(Vo['caisson_banc'])} L", ''),
-    ('Moteur', 'aucun', 'Protruar 2.0, batterie 24 V 50 Ah (1,3 kWh) sur le banc', ''),
+    ('Rangement', 'aucun', f"coffre 2 × {Vo['par_cote']} L + caissons 2 × {Vo.get('rangement', 0)} L + bancs 2 × {Vo['bancs_par_cote']} L", ''),
+    ('Moteur', 'aucun', 'Protruar 2.0, 2 batteries 24 V 50 Ah (2,6 kWh) dans les accoudoirs', ''),
     (f"Charge utile, déplacement maxi CE {num(C['depl_ce'])} kg", '240 kg', f'≈ {utile_ce} kg', f'− {240 - utile_ce} kg'),
     (f"Charge utile, déplacement maxi US {num(C['depl_us'])} kg", '362 kg', f'≈ {utile_us} kg', f'− {362 - utile_us} kg'),
 ]
@@ -55,7 +55,7 @@ fc = f'''<section id="f-comparaison" style="background:#EDF0F0;color:#18262E;fon
 <table style="position:absolute;left:128px;top:190px;width:1664px;font-size:24px;color:#18262E">
 <tr>{th('', 30)}{th("HC16 d'origine", 25)}{th('HC16 Rando : deux mâts, coffre, moteur', 31)}{th('Écart', 14, 'right')}</tr>
 {rows}</table>
-<p style="position:absolute;left:128px;top:880px;width:1664px;font-size:22px;line-height:1.4;color:#4A5A63">HC16 : données Hobie (poids 145 kg, charge maxi 240 kg en CE, 362 kg aux États-Unis). Rando : poids estimés, détail page suivante. Même déplacement maxi pour les deux : la charge utile baisse de ce que pèsent coffre, moteur et batterie.</p>
+<p style="position:absolute;left:128px;top:880px;width:1664px;font-size:22px;line-height:1.4;color:#4A5A63">HC16 : données Hobie (poids 145 kg, charge maxi 240 kg en CE, 362 kg aux États-Unis). Rando : poids estimés, détail page suivante. Même déplacement maxi pour les deux : la charge utile baisse de ce que pèsent coffre, moteur et batteries.</p>
 {PAGE('#4A5A63')}
 </section>
 '''
@@ -66,7 +66,7 @@ poids = [
     ('Plateforme HC16 sans son gréement', f"≈ {arr(R['plateforme'])} kg", f"145 kg moins un gréement d'origine estimé à {arr(Hc['gréement'])} kg"),
     ('Gréement Rando', f"≈ {arr(R['gréement'])} kg", f"mâts carbone 2 × 6,5 (estimé), voiles 2 × 3,5, colliers et emplantures CP, tube, semelles, haubans"),
     ('Coffre et bancs', f"≈ {arr(R['coffre_bancs'])} kg", f"CP {num(cd['cp'])} kg sur {num(cd['aire_m2'], 1)} m², époxy, verre et peinture {num(cd['stratification'])} kg, tubes, cordages, quincaillerie"),
-    ('Moteur et batterie', f"{num(R['moteur'], 1)} kg", ' ; '.join(f"{k.split(' (')[0].split(',')[0].replace('Haswing ', '').replace(' 2.0', '')} {num(v, 1)}" for k, v in R['moteur_detail'].items())),
+    ('Moteur et batteries', f"{num(R['moteur'], 1)} kg", ' ; '.join(f"{k.split(' (')[0].split(',')[0].replace('Haswing ', '').replace(' 2.0', '')} {num(v, 1)}" for k, v in R['moteur_detail'].items())),
     ('À vide, prêt à naviguer', f'≈ {vide} kg', f"ancre en plus : {num(R['ancre'], 1)} kg"),
 ]
 rp = ''.join(f'<tr><td>{"<b>" if i == len(poids) - 1 else ""}{esc(a)}{"</b>" if i == len(poids) - 1 else ""}</td><td style="text-align:right">{"<b>" if i == len(poids) - 1 else ""}{esc(b)}{"</b>" if i == len(poids) - 1 else ""}</td><td style="color:#4A5A63;font-size:20px">{esc(c)}</td></tr>\n'
@@ -96,7 +96,7 @@ fp = f'''<section id="f-poids" style="background:#EDF0F0;color:#18262E;font-fami
 <table style="position:absolute;left:128px;top:540px;width:1664px;font-size:22px;color:#18262E">
 <tr><th style="width:40%">Chargement</th><th style="width:11%;text-align:right">Déplacement</th><th style="width:14%;text-align:right">Écart d'assiette</th><th style="width:12%;text-align:right">Eau à l'étrave</th><th style="width:11%;text-align:right">Au tableau</th><th style="width:12%;text-align:right">Garde du coffre</th></tr>
 {rc}</table>
-<p style="position:absolute;left:128px;top:900px;width:1664px;font-size:20px;line-height:1.4;color:#4A5A63">Calcul statique (au repos), équipage près de la poutre AV (x {num(PO['equipage'])}) sur les deux bateaux. Écart dû aux poids : batterie {num(BI['batterie et câbles'])} kg·m, coffre {num(BI['coffre et bancs'])}, gréement {num(gre_)}, moteur {num(BI['moteur'])} ; {num(tot_)} kg·m ≈ {num(tot_ / F['mct'], 1)}°. En route, la vitesse enfonce l'arrière et la voile appuie sur le nez, autant pour les deux : là où le HC16 s'assied sur l'arrière, la Rando le fera d'environ {num(tot_ / F['mct'], 1)}° de moins. Même assiette que le HC16 : équipage {num((XP['coffre vide'] - PO['equipage']) / 1000, 2)} m plus en arrière coffre vide, {num((XP['60 kg au coffre'] - PO['equipage']) / 1000, 2)} m avec 60 kg au coffre.</p>
+<p style="position:absolute;left:128px;top:900px;width:1664px;font-size:20px;line-height:1.4;color:#4A5A63">Calcul statique (au repos), équipage près de la poutre AV (x {num(PO['equipage'])}) sur les deux bateaux. Écart dû aux poids : batteries {('− ' + num(abs(BI['batterie et câbles'])) + ' kg·m (sur l’arrière)') if BI['batterie et câbles'] < 0 else num(BI['batterie et câbles']) + ' kg·m'}, coffre {num(BI['coffre et bancs'])}, gréement {num(gre_)}, moteur {num(BI['moteur'])} ; {num(tot_)} kg·m ≈ {num(tot_ / F['mct'], 1)}°. En route, la vitesse enfonce l'arrière et la voile appuie sur le nez, autant pour les deux : là où le HC16 s'assied sur l'arrière, la Rando le fera d'environ {num(tot_ / F['mct'], 1)}° de moins. Même assiette que le HC16 : équipage {num((XP['coffre vide'] - PO['equipage']) / 1000, 2)} m plus en arrière coffre vide, {num((XP['60 kg au coffre'] - PO['equipage']) / 1000, 2)} m avec 60 kg au coffre.</p>
 {PAGE('#4A5A63')}
 </section>
 '''

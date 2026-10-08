@@ -1,0 +1,454 @@
+{
+ "hauban": {
+  "diam": 5,
+  "MBL": 19500.0,
+  "EA": 1767146
+ },
+ "tube": {
+  "EA": 20809910,
+  "L": 2156,
+  "P_cr": 12747
+ },
+ "voile": {
+  "S": 11.09,
+  "w_cv": 3663,
+  "h_collier": 784,
+  "z_cv": 4049,
+  "RM": 5388,
+  "F_par_voile": 642,
+  "R_etambrai": 2999
+ },
+ "cas": [
+  {
+   "cas": "réglage 300 N",
+   "V": [
+    950,
+    950
+   ],
+   "M": [
+    -50,
+    -50
+   ],
+   "Tmax": 779,
+   "tube": -541
+  },
+  {
+   "cas": "réglage 300 N, poussée 90° x1.0",
+   "V": [
+    316,
+    4028
+   ],
+   "M": [
+    -15,
+    -285
+   ],
+   "Tmax": 5278,
+   "tube": -3027,
+   "mous": [
+    "avc_babord",
+    "pou_babord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 90° x1.5",
+   "V": [
+    117,
+    5701
+   ],
+   "M": [
+    -6,
+    -412
+   ],
+   "Tmax": 7983,
+   "tube": -4508,
+   "mous": [
+    "avc_babord",
+    "pou_babord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 60° x1.0",
+   "V": [
+    2124,
+    4913
+   ],
+   "M": [
+    -20,
+    -241
+   ],
+   "Tmax": 5024,
+   "tube": -2677,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 60° x1.5",
+   "V": [
+    3187,
+    7242
+   ],
+   "M": [
+    -30,
+    -358
+   ],
+   "Tmax": 7663,
+   "tube": -4016,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 30° x1.0",
+   "V": [
+    3680,
+    4823
+   ],
+   "M": [
+    -34,
+    -148
+   ],
+   "Tmax": 4506,
+   "tube": -1639,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 30° x1.5",
+   "V": [
+    5520,
+    7235
+   ],
+   "M": [
+    -52,
+    -222
+   ],
+   "Tmax": 6759,
+   "tube": -2458,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 0° x1.0",
+   "V": [
+    4507,
+    4507
+   ],
+   "M": [
+    -65,
+    -65
+   ],
+   "Tmax": 5110,
+   "tube": -838,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée 0° x1.5",
+   "V": [
+    6721,
+    6721
+   ],
+   "M": [
+    -94,
+    -94
+   ],
+   "Tmax": 7679,
+   "tube": -1152,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée -30° x1.0",
+   "V": [
+    4823,
+    3680
+   ],
+   "M": [
+    -148,
+    -34
+   ],
+   "Tmax": 4506,
+   "tube": -1639,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord",
+    "pou_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 300 N, poussée -30° x1.5",
+   "V": [
+    7235,
+    5520
+   ],
+   "M": [
+    -222,
+    -52
+   ],
+   "Tmax": 6759,
+   "tube": -2458,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord",
+    "pou_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N",
+   "V": [
+    1583,
+    1583
+   ],
+   "M": [
+    -84,
+    -84
+   ],
+   "Tmax": 1299,
+   "tube": -902
+  },
+  {
+   "cas": "réglage 500 N, poussée 90° x1.0",
+   "V": [
+    792,
+    4482
+   ],
+   "M": [
+    -38,
+    -305
+   ],
+   "Tmax": 5189,
+   "tube": -3069,
+   "mous": [
+    "avc_babord",
+    "pou_babord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 90° x1.5",
+   "V": [
+    594,
+    6155
+   ],
+   "M": [
+    -28,
+    -432
+   ],
+   "Tmax": 7894,
+   "tube": -4551,
+   "mous": [
+    "avc_babord",
+    "pou_babord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 60° x1.0",
+   "V": [
+    2124,
+    5082
+   ],
+   "M": [
+    -20,
+    -246
+   ],
+   "Tmax": 4856,
+   "tube": -2677,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 60° x1.5",
+   "V": [
+    3187,
+    7412
+   ],
+   "M": [
+    -30,
+    -363
+   ],
+   "Tmax": 7494,
+   "tube": -4016,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 30° x1.0",
+   "V": [
+    3680,
+    4942
+   ],
+   "M": [
+    -34,
+    -152
+   ],
+   "Tmax": 4506,
+   "tube": -1639,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 30° x1.5",
+   "V": [
+    5520,
+    7235
+   ],
+   "M": [
+    -52,
+    -222
+   ],
+   "Tmax": 6759,
+   "tube": -2458,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "pou_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 0° x1.0",
+   "V": [
+    4560,
+    4560
+   ],
+   "M": [
+    -71,
+    -71
+   ],
+   "Tmax": 5091,
+   "tube": -976,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée 0° x1.5",
+   "V": [
+    6774,
+    6774
+   ],
+   "M": [
+    -99,
+    -99
+   ],
+   "Tmax": 7660,
+   "tube": -1291,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée -30° x1.0",
+   "V": [
+    4942,
+    3680
+   ],
+   "M": [
+    -152,
+    -34
+   ],
+   "Tmax": 4506,
+   "tube": -1639,
+   "mous": [
+    "av_babord",
+    "av_tribord",
+    "avc_tribord",
+    "pou_tribord"
+   ]
+  },
+  {
+   "cas": "réglage 500 N, poussée -30° x1.5",
+   "V": [
+    7235,
+    5520
+   ],
+   "M": [
+    -222,
+    -52
+   ],
+   "Tmax": 6759,
+   "tube": -2458,
+   "mous": [
+    "av_babord",
+    "avc_babord",
+    "av_tribord",
+    "avc_tribord",
+    "pou_tribord"
+   ]
+  }
+ ],
+ "synthese": {
+  "V_reglage": [
+   950,
+   1583
+  ],
+  "V_max": 5082,
+  "V_max_15": 7412,
+  "T_max": 5278,
+  "T_max_15": 7983,
+  "SF_hauban": 3.69,
+  "SF_hauban_15": 2.44,
+  "tube_max": 4551,
+  "SF_tube": 2.8,
+  "M_tangage_reglage": [
+   50,
+   84
+  ],
+  "M_tangage_max": 305,
+  "F_bords_alesage_max": 4357
+ },
+ "glissiere": {
+  "p_pehd": 2.8,
+  "s_poteau": 2.9,
+  "s_assise": 2.9,
+  "s_tourillon": 38.1,
+  "p_piece_angle": 1.0
+ }
+}

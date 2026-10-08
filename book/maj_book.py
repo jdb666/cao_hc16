@@ -10,15 +10,22 @@ mil = lambda n: f'{n:,}'.replace(',', ' ')
 NOMS = {
     'C4': "Face arrière C4, milieu",
     'B': "Bordé (avant cintré + dessus)", 'F': "Fond", 'P': "Paroi de poche (pièce d'angle)",
-    'TR': "Trappe de visite de C4, dans la chute de C4",
+    'TR': "Trappe d'un compartiment extérieur, dans la chute de C4", 'TG': "Trappe d'un caisson de rangement, dans la chute du capot",
     'CV': "Couvercle du coffre à ancre : bordé central cintré, échancré pour le puits",
     'CA': "Caisse de la batterie : cloison avant", 'CB': "Caisse de la batterie : côté",
-    'CM': "Cloison avant du puits, arrière du coffre à ancre",
+    'CM': "Cloison avant du puits, jusqu'aux couples ±420",
     'AN': "Cloison du coffre à ancre (±250)",
-    'BB': "Caisson du banc : côté intérieur", 'BR': "Caisson du banc : face arrière", 'BV': "Caisson du banc : couvercle",
+    'AF': "Accoudoir : face avant ou arrière, collée sur l'assise", 'AI': "Accoudoir : côté intérieur, collé sur l'assise", 'AV': "Accoudoir : couvercle sur joint",
+    'BL': "Lisse sous la rive de l'assise, entre deux couples", 'BJ': "Joue de jambe de couple de banc, une de chaque côté",
+    'GS': "Sabot de la glissière du tube, 60 = 6 × CP 10", 'GB': "Berceau en U de la glissière, 36 = 4 × CP 9, gorge creusée",
+    'GP': "Poteau de la glissière : paroi CP 9",
+    'GP1': "Poteau de la glissière, sous l'assise : parois avant et arrière", 'GP2': "Poteau de la glissière, sous l'assise : paroi intérieure",
+    'GP3': "Poteau de la glissière, de l'assise au sabot : parois avant et arrière", 'GP4': "Poteau de la glissière, de l'assise au sabot : paroi intérieure",
+    'BL1': "Lisse sous la rive de l'assise, de C4 au couple 2 160", 'BL2': "Lisse sous la rive, du couple 2 160 au couple 2 410",
+    'BL3': "Lisse sous la rive, de 2 410 à 2 680 et de 2 680 à 2 950", 'BL4': "Lisse sous la rive, du couple 2 950 au couple 3 212",
     'PM': "Paroi du puits moteur et son accroche (±131), au travers de C4",
-    'K331': "Couple ±331, de la cloison du puits à C4, et son accroche", 'K850': "Couple ±850 et son accroche, au travers de C4",
-    'CL1': "Cale du bac de batterie, 40 = 4 × CP 10", 'CL2': "Cale du bac de batterie, 40 = 4 × CP 10",
+    'K420': "Couple plein ±420 (côté du caisson de rangement) et son accroche", 'K850': "Couple ±850 et son accroche, au travers de C4",
+    'CL1': "Cale de batterie, taillée au fond, 40 = 4 × CP 10", 'CL2': "Cale de batterie, taillée au fond, 40 = 4 × CP 10",
     'PL': "Planche de la pince du moteur, 40 = 4 × CP 10", 'TA': "Table, sur la caisse",
     'CR': "Capot arrière en pente, découpé pour la tête du moteur", 'CJ': "Joue triangulaire du capot arrière",
     'J': "Joue, dossier du banc", 'AS': "Assise du banc",
@@ -41,10 +48,10 @@ def nom(ref):
     return f'{base}, {cote}'
 
 GROUPES = {
-    'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'CV', 'F1', 'F2', 'F3', 'F4', 'F5', 'P1', 'P2', 'P3', 'TR'],
-    'p-nom2': ['AN', 'CM', 'PM', 'K331', 'K850', 'PL', 'CR', 'CJ'],
-    'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'BB', 'BR', 'BV', 'SR', 'ST'],
-    'p-nom4': ['RP', 'SM', 'JE', 'CE', 'CO1', 'CO2', 'CO3', 'LC', 'LG', 'LF'],
+    'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'B5', 'CV', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'P1', 'P2', 'P3', 'TR', 'TG'],
+    'p-nom2': ['AN', 'CM', 'PM', 'K420', 'K850', 'PL', 'CR', 'CJ', 'GS', 'GB', 'GP1', 'GP2', 'GP3', 'GP4'],
+    'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'BL1', 'BL2', 'BL3', 'BL4', 'BL5', 'BJ', 'AF', 'AI', 'AV'],
+    'p-nom4': ['RP', 'SM', 'SR', 'ST', 'JE', 'CE', 'CO1', 'CO2', 'CO3', 'LC', 'LG', 'LF'],
 }
 TD = '<td style="text-align:right">'
 for sid, refs in GROUPES.items():
@@ -100,10 +107,10 @@ IMAGES = {
     's5-prt': ['s5_bas_pr_transp', 's5_haut_pr_transp'], 's5-coupe': ['coupe_bas', 'coupe_haut'],
     'd-vprofil': ['vue_profil'], 'd-vdessus': ['vue_dessus'], 'd-vface': ['vue_face'], 'd-semelle': ['semelle'], 'd-pied': ['d_pied_mat'],
     'd-collier': ['d_collier', 'd_collier_av'], 'd-emplanture': ['d_emplanture'],
-    'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['d_bancs'], 'd-batterie': ['d_caisson', 'd_ancre'],
+    'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['f_banc'], 'd-batterie': ['v_acc_transp', 'd_ancre'], 'd-glissiere': ['v_glissiere_berceau', 'f_glissiere'], 'd-rangements': ['v_rang_transp', 'f_trappe_c4'],
     'd-haubans': ['d_haubans'], 'd-hpieds': ['h_pieds_av', 'h_pieds_de'], 'd-hpied': ['h_pied_detail'], 'd-ecoute': ['d_ecoute'], 'd-assiette': ['d_assiette_0', 'd_assiette_150'],
     'p-4a': ['planche_4-A'], 'p-6a': ['planche_6-A'], 'p-6b': ['planche_6-B'], 'p-9a': ['planche_9-A'], 'p-9b': ['planche_9-B'], 
-    'p-demi': ['planche_4-B', 'planche_10-A'],
+    'p-demi': ['planche_10-A'],
 }
 if len(sys.argv) > 1:
     carte = json.load(open(sys.argv[1]))

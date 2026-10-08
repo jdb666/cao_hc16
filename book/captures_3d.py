@@ -51,6 +51,21 @@ SCENES = (VUES('s1_hc16', **H16) + VUES('s2_rando') + VUES('s3_transp', trp=True
     ('d_assiette_0', W16, dict(rig=False, charge=0), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_assiette_150', W16, dict(rig=False, charge=150), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_ecoute', W16, dict(tire=True, choc=25, cv=False), ([-0.5, 1.15, 9500], [3500, 500, 1700], 28)),
+    # (JD 08/10) accoudoirs étanches sur l'arrière des bancs, batteries dedans ; la joue finit avec eux
+    ('v_acc_ar', W16, dict(rig=False, cv=False), ([0.62, 1.12, 3600], [2900, 1000, 760], 30)),
+    ('v_acc_transp', W16, dict(rig=False, trp=True, cv=False), ([0.62, 1.12, 3600], [2900, 1000, 760], 30)),
+    ('v_acc_int', W16, dict(rig=False, cv=False), ([-0.55, 1.02, 4200], [2850, 900, 760], 30)),
+    ('v_acc_pr', W16, dict(rig=False, cv=False), ([PI / 2, PI / 2, 11000], [2450, 0, 760], 24)),
+    # (JD 08/10) caissons de rangement de chaque côté du moteur, trappes ; trappes C4 au-dessus des bancs ; glissière du collier ; banc renforcé
+    ('v_rang_ar', W16, dict(rig=False, cv=False), ([-0.62, 1.0, 4300], [1900, 0, 700], 26)),
+    ('v_rang_transp', W16, dict(rig=False, trp=True, cv=False), ([-0.62, 1.0, 4300], [1900, 0, 650], 26)),
+    ('v_trappes_dessus', W16, dict(rig=False, cv=False, hau=False), ([PI / 2, 0.02, 5600], [1900, 0, 900], 26)),
+    ('v_trappes_c4', W16, dict(rig=False, cv=False), ([-0.45, 1.35, 1900], [2022, 890, 805], 30)),
+    ('v_glissiere', W16, dict(rig=True, hau=True, cv=False, enr_b=100, enr_t=100), ([-0.45, 1.2, 1150], [2085, 1080, 1060], 30)),
+    ('v_glissiere_berceau', W16, dict(rig=True, hau=True, cv=False, enr_b=100, enr_t=100), ([-1.0, 1.05, 900], [2085, 1050, 1150], 30)),
+    ('v_glissiere_transp', W16, dict(rig=True, trp=True, cv=False, enr_b=100, enr_t=100), ([-0.45, 1.25, 1700], [2085, 1080, 900], 30)),
+    ('v_banc_dessous', W16, dict(rig=False, cv=False), ([-1.45, 1.38, 1700], [2450, 950, 610], 34)),
+    ('v_banc_jambes', W16, dict(rig=False, cv=False), ([1.15, 1.42, 2300], [2560, 1140, 520], 30)),
     # (JD 07/10) batterie dans le caisson du banc bâbord, coffre à ancre devant le puits
     ('d_caisson', W16, dict(rig=False, trp=True), ([-0.3, 1.02, 2100], [2165, 1010, 820], 30)),
     ('d_ancre', W16, dict(rig=False, trp=True), ([2.6, 0.95, 2300], [1650, 0, 520], 30)),

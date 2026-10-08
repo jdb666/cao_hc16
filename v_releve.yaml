@@ -239,12 +239,13 @@ coffre:
   capot_arriere:
     x0: 1760
     z_c4: 740
-    demi_y: 360
+    demi_y: 450
     ep: 6
     decoupe_moteur:
       x0: 1771
       demi_y: 70
-  dessus_plat_demi: 360
+    demontable: false
+  dessus_plat_demi: 450
   dessus_cotes_au_dessus_collier: 25
   pattes_collier:
     larg: 60
@@ -296,12 +297,9 @@ coffre:
       r: 180
       marge: 30
   couples_coffre:
-  - y: 331
+  - y: 420
     x0: puits
     ep: 6
-    evidement:
-      marge: 50
-      rayon: 25
   - y: 850
     ep: 9
     evidement:
@@ -309,18 +307,21 @@ coffre:
       rayon: 30
   couples_travers: []
   batterie: null
-  batterie_banc:
-    l: 260
-    larg: 165
-    h: 210
-    masse: 11.0
+  batterie_banc: null
+  batteries_puits: null
+  accoudoirs:
+    jeu: 5
+    h_libre: 15
+    ep: 6
+    couvercle: 6
+    batterie:
+      l: 260
+      larg: 165
+      h: 210
+      masse: 11.0
     cotes:
     - babord
-    caisson:
-      jeu: 10
-      h_libre: 15
-      ep: 6
-      couvercle: 6
+    - tribord
   trappe:
     x0: 1560
     x1: 1800
@@ -329,14 +330,40 @@ coffre:
     z_seuil: 450
     ouverte: false
   trappes_c4:
-  - y0: -800
-    y1: -500
-    z0: 700
-    z1: 850
-  - y0: 500
-    y1: 800
-    z0: 700
-    z1: 850
+  - y0: -1088
+    y1: -690
+    z0: 710
+    z1: 898
+  - y0: 690
+    y1: 1088
+    z0: 710
+    z1: 898
+  trappes_exterieures: null
+  rangements:
+    trappe:
+      x0: 1785
+      x1: 1990
+      y0: 150
+      y1: 400
+  glissiere_collier:
+    x:
+    - 2050
+    - 2120
+    y_int: 990
+    berceau:
+      y_fin: 1078
+      sous_axe: 11
+      jeu_x: 3
+    pehd:
+      ep: 3
+    sabot:
+      h: 60
+    poteau:
+      x:
+      - 2055
+      - 2115
+      ep: 9
+    cale: true
   moteur:
     mode: vertical2
     vertical2:
@@ -538,10 +565,10 @@ coffre:
   accroches_poutre:
     y:
     - -850
-    - -331
+    - -420
     - -131
     - 131
-    - 331
+    - 420
     - 850
     ep: 9
     jeu: 2
@@ -587,10 +614,14 @@ coffre:
     joue_jusqu_au_longeron: true
     entaille_dans_joue: true
     jeu_joue_longeron: 2
-    evidement:
-      ame: 55
-      rayon: 25
-      marge: 35
+    evidement: null
+    jambe:
+      sous_axe: 115
+      ext: 1162
+      joues: 9
+    lisse_rive:
+      h: 40
+      ep: 9
     rayon_assise: 4
     couple_ext: 1140
     couple_sous_axe: 44
@@ -605,8 +636,9 @@ coffre:
       diam: 5
       haut: 25
       droit: true
+      matiere: Dyneema
   haubans:
-    diam: 4
+    diam: 5
     attache_dx: 60
     attache_dy_av: 40
     etrave:

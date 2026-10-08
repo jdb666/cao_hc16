@@ -123,8 +123,8 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     collier: {diam: 32, ouverture: 30, sous_haut: 60}   # 60 sous le haut de la joue : 20 sous le hauban direct AV   # livarde rangée (JD 30/09) : trou dans le dessus, 180 devant l'axe du mât au collier,
                                                                                                      # contre la joue ; fourreau de 300 dans le coffre, collier ouvert sur le dessus pour la tenir
   table: null              # (JD 07/10) retirée avec la caisse de la batterie qui la portait (avant : x 1 384 → 1 760, demi_y 360, CP 10, découpée pour la tête du moteur)
-  capot_arriere: {x0: 1760, z_c4: 740, demi_y: 360, ep: 6, decoupe_moteur: {x0: 1771, demi_y: 70}}   # (JD 05/10) dessus du milieu en pente de x 1 760 (z 810) à C4 (z 750) : les haubans collier -> milieu de la poutre AV passent au-dessus
-  dessus_plat_demi: 360      # même cassure que le fond : bordé central C5 cylindrique, trappe de batterie plane dans C5
+  capot_arriere: {x0: 1760, z_c4: 740, demi_y: 450, ep: 6, decoupe_moteur: {x0: 1771, demi_y: 70}, demontable: false}   # (JD 08/10) élargi à ±450 avec le dessus plat ; fixe (collé) : les batteries sont dans les accoudoirs, une trappe par caisson de rangement   # (JD 05/10) dessus du milieu en pente de x 1 760 (z 810) à C4 (z 740) : les haubans collier -> milieu de la poutre AV passent au-dessus
+  dessus_plat_demi: 450      # (JD 08/10) surface plate agrandie de chaque côté du moteur : ±360 -> ±450 (caissons de rangement dessous) ; même cassure que le fond, bordé central C5 cylindrique
   dessus_cotes_au_dessus_collier: 25   # dessus au droit des joues = haut du collier
   pattes_collier:          # pattes alu sur la face extérieure des joues, devant et derrière le mât
     larg: 60
@@ -154,18 +154,20 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     joues: {x: 2250, z: 870, r: 180, ep: 0.5}          # sur le dossier, derrière le mât
     voiles: {dx: 2558, dz: 1791, r: 180, marge: 30}    # même taille que sur les joues, dans le coin du point d'écoute au-dessus de la livarde (JD 29/09) : centre x 4 324, z 2 139, à 100 de la chute et 60 de la livarde ; suit la toile quand elle est roulée
   couples_coffre:          # couples intérieurs dans le plan des accroches de la poutre AV (JD 29/09) : les efforts des accroches passent dans le fond et le dessus
-    - {y: 331, x0: puits, ep: 6, evidement: {marge: 50, rayon: 25}}   # prolongent les côtés de la caisse batterie jusqu'à C4
+    - {y: 420, x0: puits, ep: 6}   # (JD 08/10) couple plein déplacé de ±331 à ±420 : côté extérieur des caissons de rangement, de la cloison du puits à C4 (avant : ±331 évidé)
     - {y: 850, ep: 9, evidement: {marge: 60, rayon: 30}}              # sous l'avant des bancs ; ±131 : parois du puits moteur
   couples_travers: []      # retirés (JD 30/09 : seulement les couples dans le sens de la longueur) ; x = face avant, y0 = départ (caisse | puits), jusqu'à la joue
                            # essai du 29/09 : {x: 1497, y0: caisse, ep: 6}, {x: 1705, y0: caisse, ep: 9}, {x: 1811.5, y0: puits, ep: 9}, évidés {marge: 60, rayon: 30}
   batterie: null           # (JD 07/10) plus de batterie dans le coffre (avant : Dyness 24 V 100 Ah, 531 × 206 × 217, 19,3 kg, dans un bac 650 × 315 × 320 en travers devant le puits, x 1 393 → 1 708)
-  batterie_banc:           # (JD 07/10) batterie LiFePO4 24 V 50 Ah (type Sterling LH2450 : 260 × 165 × 210, 11 kg, 80 A en continu) dans un caisson sur l'avant du banc, contre C4
-    l: 260                 # dans le sens de la marche
-    larg: 165
-    h: 210
-    masse: 11.0
-    cotes: [babord]        # une seule batterie, à bâbord ; le caisson tribord, identique, sert de rangement
-    caisson: {jeu: 10, h_libre: 15, ep: 6, couvercle: 6}   # CP 6 : côté intérieur et face arrière collés sur l'assise ; C4 fait l'avant, la joue l'extérieur ; couvercle amovible
+  batterie_banc: null      # (JD 08/10) plus de caisson sur l'avant du banc : deux batteries, une dans chaque accoudoir, au bout des bancs (07/10 : une 24 V 50 Ah dans un caisson sur l'avant du banc bâbord)
+  batteries_puits: null    # (JD 08/10 matin, abandonné) deux batteries au fond du coffre, de chaque côté du puits
+  accoudoirs:              # (JD 08/10) caisson étanche sur l'arrière de chaque banc, comme un accoudoir, le plus petit possible : toute la profondeur de l'assise, batterie en travers ; l'arrondi de la joue arrive au bout du dessus du caisson
+    jeu: 5                 # autour de la batterie, dans le sens de la marche (en travers : 305 de libre pour 260)
+    h_libre: 15            # au-dessus de la batterie, pour les bornes et les câbles
+    ep: 6                  # CP 6 : face avant, côté intérieur, face arrière ; la joue fait l'extérieur, l'assise le fond
+    couvercle: 6           # amovible, sur joint, deux grenouillères
+    batterie: {l: 260, larg: 165, h: 210, masse: 11.0}   # LiFePO4 24 V 50 Ah (type Sterling LH2450), en travers : 260 en y, 165 dans le sens de la marche ; une par accoudoir, en parallèle : 100 Ah
+    cotes: [babord, tribord]
   trappe:                  # (JD 07/10) couvercle du coffre à ancre, découpé dans le bordé avant au-dessus de z 450 (avant : dessus ouvert au droit de la caisse de batterie, x 1 384 → 1 717, ±334)
     x0: 1560
     x1: 1800               # jusqu'au capot arrière (rogné à son plan) : tout le bordé central devant le capot, entre les stations du loft à ±250 (un seul panneau développable), bords posés sur des tasseaux le long des cloisons
@@ -173,9 +175,23 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     y1: 250
     z_seuil: 450
     ouverte: false
-  trappes_c4:              # trappes de visite dans la face arrière, au-dessus de la poutre (seuls autres accès)
-    - {y0: -800, y1: -500, z0: 700, z1: 850}   # entre les couples à -331 et -850, sous le haut de C4 (dessus central abaissé à 810)
-    - {y0: 500, y1: 800, z0: 700, z1: 850}     # entre les couples à 331 et 850
+  trappes_c4:              # (JD 08/10) une seule trappe rectangulaire par compartiment extérieur (de ±420 à la joue), la plus grande possible dans C4, à l'horizontale :
+                           # surface maxi sous le haut de C4 qui monte vers la joue (25 de bord), 25 au-dessus de l'assise, 5 du poteau de la glissière ;
+                           # le couple ±850 passe derrière, au milieu : il sert d'appui au couvercle (avant : y ±500 -> ±800, z 700 -> 850, puis deux au-dessus des bancs)
+    - {y0: -1088, y1: -690, z0: 710, z1: 898}
+    - {y0: 690, y1: 1088, z0: 710, z1: 898}
+  trappes_exterieures: null   # (JD 08/10) essai d'une grande trappe dans le dessus des compartiments extérieurs, abandonné : la trappe va dans C4
+  rangements:              # (JD 08/10) caissons de rangement de chaque côté du moteur : de la paroi du puits au couple plein ±420, de la cloison du puits (prolongée jusqu'au couple) à C4 ; fermés dessus par le capot arrière
+    trappe: {x0: 1785, x1: 1990, y0: 150, y1: 400}   # découpée dans le capot, posée sur un cadre de tasseaux 15 x 15 collés sous le capot, joint, deux tourniquets
+  glissiere_collier:       # (JD 08/10) reprise des efforts verticaux des colliers : c'est le TUBE (où les colliers tournent sur leurs tourillons) qui repose dans une glissière sur un sabot ;
+                           # le collier ne touche pas le sabot (il reste libre de tourner autour du tube quand on change la quête)
+    x: [2050, 2120]        # sabot centré sur l'axe du tube (x 2 085)
+    y_int: 990             # sabot assez long : de la joue jusqu'à y 990, sous tout le tourillon (1 001 -> 1 081 dans le tube)
+    berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}   # glissière en U sous le bout du tube (jusqu'à 1 078), 4 × CP 9 sur le sabot ; ses joues s'arrêtent 11 sous l'axe du tube (le tube s'enlève par le haut), 3 de jeu de chaque côté
+    pehd: {ep: 3}          # garniture PEHD dans le berceau : le tube glisse dans son axe
+    sabot: {h: 60}         # de 1 078 à la joue, le sabot reste au ras du haut de la joue : 10 sous le collier
+    poteau: {x: [2055, 2115], ep: 9}   # poteau caisson (3 parois CP 9, la joue fait la 4e) collé contre la joue, sur toute la longueur du sabot (990 -> joue) : du sabot à l'assise, puis de l'assise au bas de la joue
+    cale: true             # cale coulée (époxy chargée) sous la joue et le poteau, posée sur la pièce d'angle AV
   moteur:                  # Haswing Protruar 2.0 24 V
     mode: vertical2        # JD 29/09 soir : relevage vertical dans l'axe, puits le plus petit possible ; bascule abandonnée
     vertical2:
@@ -318,7 +334,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   ref_mat: {z_pied: 348.1}   # (JD 06/10) hauteurs du coffre : ancien dessus de semelle (haut des joues z 1 122) ; le sommet des joues suit le mât (x)
   milieu_x_pied: 1766        # (JD 06/10) milieu inchangé (batterie, caisse, puits, table) : courbe avant au milieu sur l'ancien pied de mât ; raccord linéaire de ±360 aux joues
   accroches_poutre:        # accroches sur la poutre AV : demi-profil DWG + jeu, ouvertes vers le bas, collées derrière C4 (JD 29/09)
-    y: [-850, -331, -131, 131, 331, 850]   # dans le plan des couples intérieurs : parois du puits (±131), côtés de la caisse batterie prolongés (±331), couples ±850
+    y: [-850, -420, -131, 131, 420, 850]   # dans le plan des couples intérieurs : parois du puits (±131), couples des caissons de rangement (±420, JD 08/10 ; avant ±331), couples ±850
     ep: 9
     jeu: 2
     au_dessus: 45          # dépasse de 45 au-dessus de la poutre
@@ -351,15 +367,17 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     joue_jusqu_au_longeron: true   # rangement entre trampoline et assise (JD 29/09) : la joue (dossier) descend jusqu'au longeron
     entaille_dans_joue: true       # (JD 30/09 : couple trop fragile) c'est la joue qui est entaillée par le bas au droit des couples, le couple reste entier
     jeu_joue_longeron: 2
-    evidement: {ame: 55, rayon: 25, marge: 35}   # couples évidés sous l'assise (JD 29/09) ; renforcés (JD 30/09) : âme 45 -> 55, marge au longeron 15 -> 35
+    evidement: null        # (08/10) couples pleins sous l'assise : l'âme de 55 sous un pied au bord travaillait à 23 MPa (avant : {ame: 55, rayon: 25, marge: 35}, JD 29-30/09)
+    jambe: {sous_axe: 115, ext: 1162, joues: 9}   # (08/10) jambe extérieure du couple descendue à 115 sous l'axe du longeron, élargie à 1 162, doublée de deux joues CP 9 : le laçage passe dessous, 2,2 fois plus bas sous le pivot (basculement du banc vers l'intérieur)
+    lisse_rive: {h: 40, ep: 9}   # (08/10) lisse CP 9 x 40 collée sous la rive intérieure de l'assise, entre les couples : un pied au bord passe de SF 1,1 à 2,9
     rayon_assise: 4
     couple_ext: 1140       # joue extérieure du couple : 25 au-delà du nez du longeron, pour boulonner la mâchoire (JD 29/09)
     couple_sous_axe: 44    # à l'extérieur du nez, descend 22 sous le nez (JD 30/09 : plus enveloppant) ; le laçage passe dessous
     couple_ext_haut: 25    # (JD 30/09) la joue du couple monte 25 au-dessus du fond du banc : la joue (dossier) est entaillée d'autant, le cou du couple fait ≈ 50
     # (JD 30/09) plus de mâchoire boulonnée : le couple tient par sa joue extérieure, qui descend sous le nez, et par le laçage sous la toile ; ancienne : {ep: 9, levre: 12, u_ext: -47, v_haut: -4}
-    lacage: {x: [2160, 2410, 2680, 2950, 3212], diam: 5, haut: 25, droit: true}   # droit : sous le bas des joues de couple, d'un bord à l'autre   # d'un longeron à l'autre sous la toile (JD 29/09) ; plus de moteur sous le trampoline : tous les couples
+    lacage: {x: [2160, 2410, 2680, 2950, 3212], diam: 5, haut: 25, droit: true, matiere: Dyneema}   # (08/10) Dyneema 5 (raide : le banc bascule de moins de 1°) ; droit : sous le bas des jambes de couple, d'un bord à l'autre   # d'un longeron à l'autre sous la toile (JD 29/09) ; plus de moteur sous le trampoline : tous les couples
   haubans:                 # coffre haubané sur les pièces d'origine (JD 28/09) ; attaches sur le collier, devant et derrière le mât
-    diam: 4
+    diam: 5                  # (JD 08/10) Ø 5 inox 1x19 (rupture ≈ 19,5 kN) : à la gîte maxi le plus chargé monte à ≈ 5 kN (7,9 kN avec x1,5) ; Ø 4 (12,6 kN) était juste
     attache_dx: 60           # attaches à ±60 de l'axe du mât, dans le plan du collier
     attache_dy_av: 40        # (JD 30/09 soir) direct AV du collier attaché 40 plus à l'extérieur, sur l'oreille du collier : il passait contre la joue, là où la livarde est rangée
     etrave: {x: 50, dz: 12}  # pattes d'étrave (pointes des coques), sur l'axe de coque, au-dessus du pont

@@ -1,4 +1,4 @@
-"""Plan de découpe du coffre HC16 Rando (état du 07/10/2026 : coffre raccourci devant au ras des joues, coffre à ancre, batterie dans un caisson sur le banc bâbord ; collier et emplanture en CP).
+"""Plan de découpe du coffre HC16 Rando (état du 08/10/2026 : coffre raccourci devant au ras des joues, coffre à ancre, deux batteries au fond du coffre de chaque côté du puits ; collier et emplanture en CP).
 Tout vient du modèle CAO (v_pleine_0.yaml) :
 - bordé : les faces extérieures de coffre_coque (toutes planes : loft réglé entre stations) sont regroupées en panneaux
   (angle entre facettes voisines < SEUIL : la planche se cintre ; au-delà : bouchain, joint collé-stratifié),
@@ -19,7 +19,7 @@ from OCP.TopAbs import TopAbs_EDGE, TopAbs_FACE
 from OCP.TopTools import TopTools_IndexedDataMapOfShapeListOfShape
 
 V = cq.Vector
-NON_IMBRIQUE = ('TR',)   # trappes de C4 : c'est la chute de C4 (même contour que le trou), pas de place à part
+NON_IMBRIQUE = ('TR', 'TG')   # trappes de C4 et des caissons de rangement : chutes de C4 et du capot (même contour que le trou), pas de place à part
 EP_BORDE = {'B': 4, 'F': 6, 'C4': 6, 'P': 6}   # « Bordé cintré : 4 mm ; fond 6 ; face AR 6 » (SYNTHESE, construction)
 SEUIL = 8.0            # degrés : au-dessous, deux facettes voisines sont dans la même planche (cintrée)
 OUT = os.environ.get('DECOUPE_OUT', '/home/claude/cao/plans')
@@ -95,6 +95,14 @@ def deplier(co):
     BORNES = sorted({b for c_ in (cpl_, cpt_, cpa_) if c_ > 1 for b in (-c_, c_)})
     def zone(i):
         return sum(CTR[i][1] > b for b in BORNES)
+    def plane_(i):                                         # plane en fait (le loft réglé peut donner des surfaces B-spline planes)
+        if faces[i].geomType() == 'PLANE':
+            return True
+        vs, _ = faces[i].tessellate(0.1, 0.1)
+        return bool(vs) and max(abs(float((npv(v) - CTR[i]) @ NRM[i])) for v in vs) < 0.05
+    PLAN = {i: plane_(i) for i in ext}
+    def meme_panneau(a, b):
+        return angle(a, b) < SEUIL and zone(a) == zone(b)
     panneau_de, panneaux = {}, []
     for i in sorted(ext, key=lambda i: -faces[i].Area()):
         if i in panneau_de:
@@ -103,7 +111,7 @@ def deplier(co):
         while pile:
             a = pile.pop()
             for b, P, Q in voisins[a]:
-                if b not in panneau_de and angle(a, b) < SEUIL and zone(a) == zone(b):
+                if b not in panneau_de and meme_panneau(a, b):
                     panneau_de[b] = len(panneaux); comp.append(b); pile.append(b)
         panneaux.append(comp)
     # dépliage de chaque panneau
@@ -115,12 +123,45 @@ def deplier(co):
         vs, ts = faces[i].tessellate(0.1, 0.1)
         P = [npv(v) for v in vs]
         return [[P[a], P[b], P[c]] for a, b, c in ts]
+    # (08/10) panneaux plans et coplanaires qui se touchent (faces du loft séparées aux stations ±360, ±450) : un seul panneau ;
+    # le fond en V de ±250 à la joue sortait en trois morceaux (F1, F5, F6). Les panneaux cintrés (facettes planes mais non
+    # coplanaires entre elles) ne sont pas concernés : ils restent coupés aux stations
+    def plan_comp(comp):
+        if not all(PLAN[i] for i in comp) or any(angle(comp[0], j) > 0.3 for j in comp):
+            return None
+        return NRM[comp[0]], float(NRM[comp[0]] @ CTR[comp[0]])
+    def proj2d(comp, o, e1, e2):
+        return poly2d([[((X - o) @ e1, (X - o) @ e2) for X in t] for i in comp for t in tris3d(i)])
+    PLC = [plan_comp(cp) for cp in panneaux]
+    chef = list(range(len(panneaux)))
+    def tete(a):
+        while chef[a] != a:
+            a = chef[a]
+        return a
+    for ia in range(len(panneaux)):
+        for ib in range(ia + 1, len(panneaux)):
+            if PLC[ia] is None or PLC[ib] is None or tete(ia) == tete(ib):
+                continue
+            (na, da), (nb, db) = PLC[ia], PLC[ib]
+            if float(na @ nb) < math.cos(math.radians(0.3)) or abs(da - db) > 0.3:
+                continue
+            e1_, e2_ = base(panneaux[ia][0]); o_ = CTR[panneaux[ia][0]]
+            if proj2d(panneaux[ia], o_, e1_, e2_).distance(proj2d(panneaux[ib], o_, e1_, e2_)) < 0.3:
+                chef[tete(ib)] = tete(ia)
+    if any(chef[i] != i for i in range(len(chef))):
+        grp_ = {}
+        for i_, cp in enumerate(panneaux):
+            grp_.setdefault(tete(i_), []).extend(cp)
+        panneaux = list(grp_.values())
+        panneau_de = {f: ip for ip, cp in enumerate(panneaux) for f in cp}
     DEV = []
     for ip, comp in enumerate(panneaux):
         r = comp[0]; e1, e2 = base(r); o = CTR[r]
         T = {r: lambda X, o=o, e1=e1, e2=e2: np.array([(X - o) @ e1, (X - o) @ e2])}
+        if plan_comp(comp) is not None:                    # panneau plan : le dépliage est la projection sur son plan
+            T = {i: T[r] for i in comp}
         C2 = {r: T[r](CTR[r])}
-        file_, vu = [r], {r}
+        file_, vu = [r], set(T)
         ecart = 0.0
         while file_:
             a = file_.pop(0)
@@ -179,6 +220,8 @@ n_b, grp_b = {}, []
 for d in DEV:
     if d['aire3d'] < 2000:
         continue
+    if min(dims(d['poly'])) < 25 and len(d['comp']) == 1:  # (08/10) biseau de la peau coupée par le plan du capot (4 mm vus à 15° = 16 de large) : chant, pas un panneau
+        continue
     n = d['n']; n = n / np.linalg.norm(n)
     poche = d['xmin'] > 1950 and min(abs(d['ymin']), abs(d['ymax'])) > 900 and d['aire3d'] < 0.06e6
     if poche:
@@ -231,24 +274,31 @@ def plate(sh):
 REGLES = [   # (motif, ref, nom, épaisseur de CP, plis)
     (r'^joue_(babord|tribord)$', 'J', 'Joue (dossier du banc)', 9, 1),
     (r'^couple_coffre_(babord|tribord)_331$', 'K331', 'Couple ±331, de la cloison du puits à C4, et son accroche au travers de C4', 6, 1),
+    (r'^couple_coffre_(babord|tribord)_420$', 'K420', 'Couple plein ±420 (côté du caisson de rangement), de la cloison du puits à C4, et son accroche au travers de C4', 6, 1),
     (r'^couple_coffre_(babord|tribord)_850$', 'K850', 'Couple ±850 et son accroche, au travers de C4', 9, 1),
     (r'^coffre_batterie_avant$', 'CA', 'Caisse batterie : cloison avant', 6, 1),
     (r'^coffre_batterie_(babord|tribord)$', 'CB', 'Caisse batterie : côté', 6, 1),
-    (r'^coffre_cloison_moteur$', 'CM', 'Cloison avant du puits (ferme aussi le coffre à ancre)', 6, 1),
+    (r'^coffre_cloison_moteur$', 'CM', 'Cloison avant du puits, jusqu\'aux couples ±420 (ferme le coffre à ancre et l\'avant des caissons de rangement)', 6, 1),
     (r'^coffre_ancre_(babord|tribord)$', 'AN', 'Cloison du coffre à ancre (±250), de l\'avant à la cloison du puits', 6, 1),
-    (r'^caisson_(babord|tribord)_cote$', 'BB', 'Caisson du banc : côté intérieur, collé sur l\'assise et contre C4', 6, 1),
-    (r'^caisson_(babord|tribord)_ar$', 'BR', 'Caisson du banc : face arrière, collée sur l\'assise contre la joue', 6, 1),
-    (r'^caisson_(babord|tribord)_couvercle$', 'BV', 'Caisson du banc : couvercle amovible', 6, 1),
+    (r'^accoudoir_(babord|tribord)_(avant|arriere)$', 'AF', 'Accoudoir : face avant ou arrière, collée sur l\'assise et contre la joue', 6, 1),
+    (r'^accoudoir_(babord|tribord)_interieur$', 'AI', 'Accoudoir : côté intérieur, collé sur l\'assise', 6, 1),
+    (r'^accoudoir_(babord|tribord)_couvercle$', 'AV', 'Accoudoir : couvercle amovible sur joint, deux grenouillères', 6, 1),
+    (r'^banc_(babord|tribord)_lisse_\d$', 'BL', 'Lisse sous la rive intérieure de l\'assise, entre deux couples', 9, 1),
+    (r'^banc_(babord|tribord)_jambe_\d_(av|ar)$', 'BJ', 'Joue de jambe de couple de banc (une de chaque côté de la jambe)', 9, 1),
+    (r'^glissiere_sabot_(babord|tribord)$', 'GS', 'Sabot de la glissière du tube des colliers (70 × 121 × 60, 6 × CP 10)', 10, 6),
+    (r'^glissiere_berceau_(babord|tribord)$', 'GB', 'Berceau en U du tube, sur le sabot : 4 × CP 9 collés, gorge creusée, garniture PEHD 3', 9, 4),
+    (r'^glissiere_poteau_(haut|bas)_(babord|tribord)_(av|ar|int)$', 'GP', 'Poteau caisson de la glissière : paroi CP 9 (trois parois collées contre la joue, au-dessus et au-dessous de l\'assise)', 9, 1),
     (r'^moteur_puits$', 'PM', 'Paroi du puits moteur et son accroche (±131), au travers de C4', 6, 1),
     (r'^coffre_table$', 'TA', 'Table (sur la caisse)', 10, 1),
     (r'^coffre_capot_arriere$', 'CR', 'Capot arrière en pente, découpé pour la tête du moteur', 6, 1),
     (r'^coffre_capot_joue_(babord|tribord)$', 'CJ', 'Joue triangulaire du capot arrière', 4, 1),
-    (r'^coffre_trappe_c4_\d$', 'TR', 'Trappe de visite C4 (dans la chute de C4)', 6, 1),
+    (r'^coffre_trappe_c4_\d$', 'TR', 'Trappe du compartiment extérieur, dans C4 (dans la chute de C4)', 6, 1),
+    (r'^coffre_trappe_rangement_(babord|tribord)$', 'TG', 'Trappe du caisson de rangement (dans la chute du capot)', 6, 1),
     (r'^accroche_poutre_\d$', 'AC', 'Accroche sur la poutre AV', 9, 1),
     (r'^banc_(babord|tribord)_assise$', 'AS', 'Assise du banc', 9, 1),
     (r'^banc_(babord|tribord)_couple_\d$', 'BC', 'Couple de banc', 9, 1),
     (r'^banc_(babord|tribord)_machoire_\d$', 'MA', 'Mâchoire de banc', 9, 1),
-    (r'^batterie_cale_(av|ar)$', 'CL', 'Cale du bac de batterie (40 = 4 × CP 10)', 10, 4),
+    (r'^batterie_cale_(av|ar)(_babord|_tribord)?$', 'CL', 'Cale de batterie, taillée au fond en pente et en V (40 = 4 × CP 10)', 10, 4),
     (r'^moteur_tableau$', 'PL', 'Planche de la pince moteur (40 = 4 × CP 10)', 10, 4),
     (r'^pylone_renfort_(babord|tribord)$', 'SR', 'Semelle sur les tubes carbone (18 = 2 × CP 9)', 9, 2),
     (r'^semelle_(babord|tribord)$', 'SM', 'Semelle de pied de mât, sous l\'emplanture (18 = 2 × CP 9)', 9, 2),

@@ -288,5 +288,75 @@
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
   "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
   "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_acc_ar": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_acc_transp": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_acc_int": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_acc_pr": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_rang_ar": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_rang_transp": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_trappes_c4": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_glissiere": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "v_glissiere_transp": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "v_banc_dessous": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_banc_jambes": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_trappes_dessus": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "v_trappe_ext": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
+ },
+ "v_glissiere_berceau": {
+  "cv": "—\nvoiles roulées",
+  "chav": "0 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "0,0 m²\n0 % des deux voiles pleines"
  }
 }

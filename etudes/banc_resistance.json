@@ -1,0 +1,114 @@
+{
+ "parametres": {
+  "assise": 9,
+  "couples": [
+   2160,
+   2410,
+   2680,
+   2950
+  ],
+  "x": [
+   2022.5,
+   3031.0
+  ],
+  "y": [
+   800,
+   1111.0
+  ],
+  "lisse": {
+   "h": 40,
+   "ep": 9
+  },
+  "jambe": {
+   "sous_axe": 115,
+   "ext": 1162,
+   "joues": 9
+  },
+  "pivot_z": 548
+ },
+ "avant": {
+  "2 assis côte à côte": {
+   "assise_SF": 2.56,
+   "fleche": 1.5,
+   "ame_MPa": 5.7,
+   "T_lacage": 1453,
+   "s_jambe": 80.6,
+   "rotation_deg": 2.6,
+   "rive_mm": 11.2
+  },
+  "assis sur le bord": {
+   "assise_SF": 2.12,
+   "fleche": 3.9,
+   "ame_MPa": 12.2,
+   "T_lacage": 2527,
+   "s_jambe": 140.1,
+   "rotation_deg": 4.6,
+   "rive_mm": 19.4
+  },
+  "pied sur la rive, entre couples": {
+   "assise_SF": 1.1,
+   "fleche": 6.8,
+   "ame_MPa": 14.0,
+   "T_lacage": 2810,
+   "s_jambe": 155.8,
+   "rotation_deg": 5.1,
+   "rive_mm": 21.6
+  },
+  "pied sur la rive, au droit d'un couple": {
+   "assise_SF": 2.4,
+   "fleche": 0.4,
+   "ame_MPa": 22.9,
+   "T_lacage": 4542,
+   "s_jambe": 251.9,
+   "rotation_deg": 8.3,
+   "rive_mm": 34.9
+  }
+ },
+ "renforce": {
+  "2 assis côte à côte": {
+   "assise_SF": 2.57,
+   "fleche": 1.5,
+   "ame_MPa": 2.4,
+   "T_lacage": 669,
+   "s_jambe": 8.4,
+   "rotation_deg": 0.3,
+   "rive_mm": 1.2
+  },
+  "assis sur le bord": {
+   "assise_SF": 2.92,
+   "fleche": 1.9,
+   "ame_MPa": 4.9,
+   "T_lacage": 1134,
+   "s_jambe": 14.3,
+   "rotation_deg": 0.5,
+   "rive_mm": 2.0
+  },
+  "pied sur la rive, entre couples": {
+   "assise_SF": 2.91,
+   "fleche": 2.1,
+   "ame_MPa": 5.6,
+   "T_lacage": 1248,
+   "s_jambe": 15.7,
+   "rotation_deg": 0.5,
+   "rive_mm": 2.2
+  },
+  "pied sur la rive, au droit d'un couple": {
+   "assise_SF": 2.47,
+   "fleche": 0.2,
+   "ame_MPa": 9.4,
+   "T_lacage": 2068,
+   "s_jambe": 26.1,
+   "rotation_deg": 0.9,
+   "rive_mm": 3.7
+  }
+ },
+ "dossier": {
+  "charge_N": 500,
+  "SF_min": 2.5,
+  "fleche_mm": [
+   14,
+   47
+  ],
+  "note": "solide mais souple : 1,4 à 4,7 cm en haut selon l'encastrement à l'assise"
+ }
+}

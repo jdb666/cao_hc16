@@ -11,9 +11,9 @@ FIXE = ('coque_', 'poutre_', 'longeron_', 'piece_angle', 'trampoline', 'martinga
 APRES = ('mat_', 'hauban', 'voile', 'decor_yinyang_voile', 'lacage', 'brelage', 'tube_colliers', 'bras_tube')
 import re
 FIXE = ('poutre_av', 'longeron_', 'piece_angle_av', 'trampoline', 'martingale', 'semelle_', 'renfort_pont', 'bourrage_')   # coques : sous les semelles, hors d'atteinte
-MOB = ('coffre_coque', 'couple_coffre_', 'moteur_puits', 'joue_', 'banc_', 'pylone_coffre', 'pylone_renfort', 'coffre_table', 'moteur_tableau', 'coffre_cloison')
+MOB = ('coffre_coque', 'couple_coffre_', 'moteur_puits', 'joue_', 'banc_', 'pylone_coffre', 'pylone_renfort', 'coffre_table', 'moteur_tableau', 'coffre_cloison', 'glissiere_')
 fixes = {n: s for n, s in D.items() if n.startswith(FIXE)}
-mob = {n: s for n, s in D.items() if n.startswith(MOB)}      # le reste est dans le coffre ou au-dessus, loin de la plateforme
+mob = {n: s for n, s in D.items() if n.startswith(MOB) and not n.startswith('glissiere_cale')}   # le reste est dans le coffre ou au-dessus ; la cale de la glissière est coulée après la pose
 # zone utile : de l'avant des pylônes au 2e couple de banc (au-delà, joues et bancs glissent le long des longerons, parallèles)
 ROI = cq.Solid.makeBox(2280 - 1640, 3000, 1500, cq.Vector(1640, -1500, 0))
 def clip(n, s_):

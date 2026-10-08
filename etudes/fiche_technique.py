@@ -2,7 +2,7 @@
 Poids tirés du modèle (volumes des pièces) et du plan de découpe (CP), densités usuelles ; ce qui n'est pas dans le modèle
 (voiles, mâts carbone, coques du HC16) est estimé et marqué comme tel.
 python3 etudes/fiche_technique.py -> etudes/fiche_technique.json"""
-import sys, math, json, warnings; warnings.filterwarnings('ignore'); sys.path.insert(0, '/home/claude/cao')
+import sys, math, json, re, warnings; warnings.filterwarnings('ignore'); sys.path.insert(0, '/home/claude/cao')
 import yaml, cadquery as cq, hc16_rando as H
 from shapely.geometry import Polygon, box as sbox
 from shapely.ops import unary_union
@@ -20,7 +20,8 @@ cdg = lambda n: D[n].Center().x if n in D else None
 noms = lambda p: [n for n in D if n.startswith(p)]
 
 # ---------------- coffre et bancs : CP du plan de découpe
-J = json.load(open('/home/claude/cao/plans/decoupe3.json'))
+import os
+J = json.load(open(os.environ.get('DECOUPE_JSON', '/home/claude/cao/plans/decoupe3.json')))   # pièces du plan de découpe (aires, épaisseurs)
 GREEMENT = ('CO', 'JE', 'CE', 'SM', 'RP')
 cof_cp = cof_aire = gr_cp = 0.0
 detail_cp = {}
@@ -34,15 +35,18 @@ for p in J['pieces']:
         detail_cp[p['ep']] = detail_cp.get(p['ep'], 0) + m
 cof_strat = STRAT * cof_aire
 pyl = sum(vol(n) for n in noms('pylone_coffre')) * CARB           # tubes Ø 40 × 2, creux dans le modèle
-cordage = 0.5
-quinc = 1.0                                                     # charnières, vis, taquets, poignées
-coffre_total = cof_cp + cof_strat + pyl + cordage + quinc
+cordage = 0.5                                                   # laçages Dyneema 5, brêlages
+quinc = 1.0                                                     # charnières, vis, taquets, poignées, tourniquets des trappes
+glis = sum(vol(n) for n in noms('glissiere_pehd')) * PEHD + sum(vol(n) for n in noms('glissiere_cale')) * EPOX   # (JD 08/10) garnitures PEHD et cales coulées
+coffre_total = cof_cp + cof_strat + pyl + cordage + quinc + glis
 # centre de gravité du coffre et des bancs : volumes du modèle
-cg_parts = [n for n in D if n.startswith(('coffre_', 'joue_', 'banc_', 'caisson_', 'couple_coffre', 'moteur_puits', 'moteur_tableau', 'batterie_cale', 'accroche_'))]
+cg_parts = [n for n in D if n.startswith(('coffre_', 'joue_', 'banc_', 'caisson_', 'accoudoir_', 'couple_coffre', 'moteur_puits', 'moteur_tableau', 'batterie_cale', 'accroche_', 'glissiere_'))]
 xg_coffre = sum(vol(n) * cdg(n) for n in cg_parts) / sum(vol(n) for n in cg_parts)
 
 # ---------------- gréement Rando
-lg_h = sum(vol(n) for n in noms('hauban')) / (math.pi * 2.0 ** 2) / 1000      # m de câble Ø 4
+D_H = c['coffre']['haubans']['diam']                                            # (JD 08/10) Ø 5
+lg_h = sum(vol(n) for n in noms('hauban')) / (math.pi * (D_H / 2) ** 2) / 1000    # m de câble
+KG_M_H = {4: 0.079, 5: 0.123, 6: 0.177}.get(D_H, 0.0049 * D_H ** 2)          # inox 1x19
 gr = {
     'mâts carbone Ø 60 × 7,30 (2), renforts compris (estimé)': 2 * 6.5,
     'voiles 11,1 m² sur enrouleur (2, estimé)': 2 * 3.5,
@@ -56,7 +60,7 @@ gr = {
     'semelles, renforts de pont et bourrage (2)': sum(vol(n) for n in ('semelle_babord', 'semelle_tribord', 'renfort_pont_babord', 'renfort_pont_tribord')) * CP
         + sum(vol(n) for n in ('bourrage_babord', 'bourrage_tribord')) * EPOX + 2 * 0.2,
     'tube alu Ø 50 × 2 des colliers': vol('tube_colliers') * ALU,
-    f'haubans inox Ø 4 ({lg_h:.0f} m) et pontets': lg_h * 0.077 + 0.6,
+    f'haubans inox Ø {D_H} ({lg_h:.0f} m) et pontets': lg_h * KG_M_H + 0.6,
     'écoutes, poulies, taquets (estimé)': 2.0,
 }
 gr_total = sum(gr.values())
@@ -86,6 +90,9 @@ plateforme = HC16 - hc16_gr
 moteur = {'Haswing Protruar 2.0 (manuel)': 6.7}
 if c['coffre'].get('batterie'):                                  # ancien état : batterie dans le coffre, dans son bac
     moteur.update({'batterie Dyness 24 V 100 Ah': c['coffre']['batterie'].get('masse', 19.3), 'bac de la batterie (estimé)': 3.0})
+elif c['coffre'].get('accoudoirs'):                             # (JD 08/10) une batterie 24 V 50 Ah dans chaque accoudoir, sur l'arrière des bancs
+    ac_ = c['coffre']['accoudoirs']; nb_b = len(ac_.get('cotes') or [1])
+    moteur[f"batteries LiFePO4 24 V 50 Ah × {nb_b}, dans les accoudoirs"] = ac_['batterie']['masse'] * nb_b
 else:                                                            # (JD 07/10) batterie 24 V 50 Ah dans le caisson du banc bâbord
     cbk_ = c['coffre']['batterie_banc']; nb_b = len(cbk_.get('cotes') or [1])
     moteur[f"batterie LiFePO4 24 V 50 Ah{' × ' + str(nb_b) if nb_b > 1 else ''}, dans le caisson du banc"] = cbk_['masse'] * nb_b
@@ -152,7 +159,8 @@ def etat(M, xG):
 X_MAT_HC16, X_MAT = 2070.0, c['mats']['x_pied']
 EQ_X = 2300.0                                                   # équipage assis juste derrière la poutre AV (axe x 2 070)
 x_moteur = c['coffre']['moteur']['vertical2']['x_arbre']
-x_batt = D['batterie'].Center().x if 'batterie' in D else 1550.0
+_bats = [n for n in D if re.match(r'^batterie(_babord|_tribord)?$', n)]
+x_batt = sum(D[n].Center().x for n in _bats) / len(_bats) if _bats else 1550.0
 M_h = plateforme + hc16_gr
 dz_ = (M_h + 160 - D0) / (RHO * 2 * aw / 1e6 / 1000)
 for _ in range(30):                                             # enfoncement à plat pour HC16 + 2 équipiers
@@ -210,7 +218,8 @@ out = dict(
     hc16=dict(poids=HC16, gréement=round(hc16_gr, 1), gréement_detail=hc16_greement, plateforme=round(plateforme, 1), capacite_ce=240, capacite_us=362, voilure=18.9),
     rando=dict(plateforme=round(plateforme, 1), gréement=round(gr_total, 1), gréement_detail={k: round(v, 2) for k, v in gr.items()},
                coffre_bancs=round(coffre_total, 1), coffre_detail=dict(cp=round(cof_cp, 1), cp_par_ep={k: round(v, 1) for k, v in sorted(detail_cp.items())},
-                                                                     aire_m2=round(cof_aire, 2), stratification=round(cof_strat, 1), tubes=round(pyl, 2), cordages=cordage, quincaillerie=quinc),
+                                                                     aire_m2=round(cof_aire, 2), stratification=round(cof_strat, 1), tubes=round(pyl, 2), cordages=cordage, quincaillerie=quinc,
+                                                                     glissieres=round(glis, 2)),
                moteur=round(moteur_total, 1), moteur_detail=moteur, ancre=ancre, vide=round(vide, 1), vide_ancre=round(vide_ancre, 1),
                cp_greement=round(gr_cp, 2), xg_coffre=round(xg_coffre), xg_vide=round(xg_r), voilure=22.2),
     charge=dict(depl_ce=DEPL_EU, depl_us=DEPL_US, utile_ce=round(DEPL_EU - vide), utile_us=round(DEPL_US - vide), utile_ce_ancre=round(DEPL_EU - vide_ancre)),
@@ -220,7 +229,8 @@ out = dict(
                    moteur=round(x_moteur), coffre_bas=[round(X_COF), round(Z_COF)]),
     volumes=dict(coffre_ext=round(VZ['ext_L']), coffre_int=round(VZ['int_L']), hors_centre=round(VZ['hors_centre_L']), par_cote=round(VZ['hors_centre_L'] / 2),
                  centre=round(VZ['centre_L']), coffre_ancre=round(VZ.get('coffre_ancre_L', 0)), caisson_banc=round(VZ.get('caisson_banc_L', 0), 1),
-                 bancs_par_cote=round(1195.5 * 311 * 127 / 1e6)),
+                 rangement=round(VZ.get('rangement_L', 0)), accoudoir=round(VZ.get('accoudoir_L', 0), 1),
+                 bancs_par_cote=round(((1195.5 - 5 * 9) * 311 * 127 - 9 * 40 * 1150) / 1e6)),   # (08/10) moins les couples (5 × CP 9) et la lisse sous la rive
 )
 json.dump(out, open('/home/claude/cao/etudes/fiche_technique.json', 'w'), ensure_ascii=False, indent=1)
 print(json.dumps(out, ensure_ascii=False, indent=1))

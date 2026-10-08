@@ -7,7 +7,7 @@ if 'parts' not in globals():                                   # lancé seul
     OUT = os.environ.get('DECOUPE_OUT', '/home/claude/cao/plans')
     _pk = pickle.load(open(f"{OUT}/pieces.pkl", 'rb'))
     parts, CONTROLE, SEUIL = _pk['parts'], _pk['controle'], _pk['seuil']
-    NON_IMBRIQUE = ('TR',)
+    NON_IMBRIQUE = ('TR', 'TG')
 ESSAIS = int(sys.argv[1]) if len(sys.argv) > 1 and 'imbrique3' in sys.argv[0] else int(os.environ.get('DECOUPE_ESSAIS', 150))
 GRAINES = [int(g) for g in sys.argv[2:]] if len(sys.argv) > 2 and 'imbrique3' in sys.argv[0] else [3]
 RES = float(os.environ.get('DECOUPE_RES', 4.0))
@@ -69,7 +69,7 @@ def chemin(g):
             out.append('M' + ' '.join(f"{x:.1f},{-y:.1f}" for x, y in c) + 'Z')
     return ''.join(out)
 data = dict(
-    date='06/10/2026', seuil=SEUIL, panneau=[I.SW, I.SH],
+    date='08/10/2026', seuil=SEUIL, panneau=[I.SW, I.SH],
     pieces=[dict(ref=p['ref'], nom=p['nom'], ep=p['ep'], qte=p['qte'], plis=p['plis'], note=p['note'],
                  dim=[round(p['poly'].bounds[2]), round(p['poly'].bounds[3])], aire=round(p['poly'].area / 1e6, 3),
                  d=chemin(p['poly'].simplify(0.3))) for p in parts],
