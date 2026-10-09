@@ -70,12 +70,7 @@ mats:
     demi_y: 55
     tourillon: {d: 45, l: 80, jeu_tube: 3, prise: 35}   # tube alu Ø 45 collé à l'époxy dans une encoche des plis 2 à 6 (35 de prise), goupillé à travers les plis ; dépasse de 80 dans le tube Ø 50 × 2
     oeil: {saillie: 22, ep: 6, h: 24, dy_av: 40, dy_croise: -30, ar: [20, 70]}   # ferrures inox boulonnées : devant (direct AV à 40 vers l'extérieur ; croisé AV à 30 vers l'intérieur, loin de la livarde rangée) ; AR sur la face extérieure, de 20 à 70 derrière l'axe du mât (JD 06/10 : le hauban AR reste à l'extérieur du mât) ; diagonale en haut de la face intérieure
-  emplanture: null          # (JD 08/10 soir) remplacée par le puits de mât dans le pont surélevé (quête fixe)
-  puits:                    # (JD 08/10 soir) puits de mât rond dans le pont surélevé : quête fixe (3°), le mât y descend à la verticale ; le dessus du pont surélevé le tient en travers
-    fourreau: {d_int: 63, ep: 2, rebord: 5}   # fourreau PEHD (ou verre-époxy) collé dans la mousse : le mât Ø 60 y tourne (1,5 de jeu)
-    talon: {h: 45, d: 100}  # pied du mât à 45 au-dessus de l'ancien dessus de semelle (z 390) : voile et bordure inchangées ; plot CP collé sur le pont sous le talon
-    ergot: {d: 20, h: 20}   # ergot inox sur le plot : le mât tourne dessus
-  emplanture_avant_0810b:   # (JD 06/10) cale triangulaire dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au trou du boulon
+  emplanture:               # (JD 06/10) cale triangulaire dans un rail U sur la semelle ; le mât tourne sur l'ergot ; la quête se règle au trou du boulon
     rail: {type: joues_cp, l: 140, joue_ep: 10, h: 40, jeu: 0.5, trou: 8, pas: 20, crans: [-1, 0, 1], axe_z: 18}   # (JD 08/10 soir) 3 crans au lieu de 5 : joues de 140 (180 avant)
     # avant le 08/10 soir : l 180, crans [-2, -1, 0, 1, 2]   # (JD 06/10 soir) deux joues CP 10 collées sur la semelle et stratifiées, trous Ø 8 tous les 20 (surpercés, remplis d'époxy, repercés), axe du boulon à 18 au-dessus de la semelle
     cale: {haut: 70, pointe: 6, pointe_z: 7, h: 38, larg: 30, plis: 3}   # (JD 06/10 soir) 3 plis de CP 10 collés, stratifiés ; triangle pointe en bas : elle pivote sur le boulon (quête, pose du mât), le boulon la tient ; dessus 70 de long à 45 au-dessus de la semelle
@@ -84,8 +79,7 @@ mats:
   diam: 60
   quete_deg: 3
   haubanage: 700           # le long du mât, depuis le pied
-  semelle: null            # (JD 08/10 soir) plus de semelle ni de bourrage ni de renfort de pont : le mât est dans un puits du pont surélevé
-  semelle_avant_0810b:      # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
+  semelle:                 # plat CP collé au pont sur bourrage époxy, perpendiculaire au mât, parallèle au collier CP (JD 28/09)
     y_mat: 1161            # axe du mât : 161 à l'extérieur de l'axe de coque (1 151 avant le 06/10)
     dx: [-304, 90]         # (JD 08/10 soir) une seule semelle par bord pour le mât et les deux tubes du coffre : x 1 656 → 2 050 (plus de pontets au bout)
     # avant : dx: [-100, 150]        # autour du pied de mât (x_pied) : x 1 860 → 2 110, 14 derrière la semelle des tubes du coffre ; à 10 du pylône de la poutre AV
@@ -340,7 +334,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   joues:
     montee_fin_devant_mat: 0
   pylones:                 # seuls appuis du coffre sur le pont : tubes carbone sous les joues, posés sur les semelles (JD 29/09)
-    type: aucun            # (JD 08/10 soir) le coffre se pose sur le pont surélevé : plus de tubes carbone ; avant : tube
+    type: tube
     diam: 40
     ep: 2
     dx: [-50, 50]          # deux tubes par bord, de part et d'autre du pied de mât
@@ -395,8 +389,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     couple_sous_axe: 44    # à l'extérieur du nez, descend 22 sous le nez (JD 30/09 : plus enveloppant) ; le laçage passe dessous
     couple_ext_haut: 25    # (JD 30/09) la joue du couple monte 25 au-dessus du fond du banc : la joue (dossier) est entaillée d'autant, le cou du couple fait ≈ 50
     # (JD 30/09) plus de mâchoire boulonnée : le couple tient par sa joue extérieure, qui descend sous le nez, et par le laçage sous la toile ; ancienne : {ep: 9, levre: 12, u_ext: -47, v_haut: -4}
-    lacage: null           # (JD 08/10 soir) les couples reposent sur le pont surélevé et y sont amarrés ; avant :
-    lacage_avant_0810b: {x: [2160, 2410, 2680, 2950, 3212], diam: 5, haut: 25, droit: true, matiere: Dyneema}   # (08/10) Dyneema 5 (raide : le banc bascule de moins de 1°) ; droit : sous le bas des jambes de couple, d'un bord à l'autre   # d'un longeron à l'autre sous la toile (JD 29/09) ; plus de moteur sous le trampoline : tous les couples
+    lacage: {x: [2160, 2410, 2680, 2950, 3212], diam: 5, haut: 25, droit: true, matiere: Dyneema}   # (08/10) Dyneema 5 (raide : le banc bascule de moins de 1°) ; droit : sous le bas des jambes de couple, d'un bord à l'autre   # d'un longeron à l'autre sous la toile (JD 29/09) ; plus de moteur sous le trampoline : tous les couples
   haubans:                 # coffre haubané sur les pièces d'origine (JD 28/09) ; attaches sur le collier, devant et derrière le mât
     diam: 5                  # (JD 08/10) Ø 5 inox 1x19 (rupture ≈ 19,5 kN) : à la gîte maxi le plus chargé monte à ≈ 5 kN (7,9 kN avec x1,5) ; Ø 4 (12,6 kN) était juste
     attache_dx: 60           # attaches à ±60 de l'axe du mât, dans le plan du collier
@@ -454,19 +447,3 @@ peinture:                  # finition (JD 29/09 soir) : coffre et bancs blancs, 
   - ['^(couple_coffre|moteur_puits|moteur_tableau|pylone_renfort)', [0.13, 0.13, 0.14]]
   - ['^(coffre_coque|coffre_trappe|coffre_capot|coffre_caisse|coffre_batterie_|coffre_cloison_moteur|coffre_table|joue_|banc_.*_(assise|caisson))', [0.95, 0.95, 0.93]]
   - ['^trampoline', [0.96, 0.96, 0.94]]   # trampoline mesh blanc (JD 29/09)
-
-pont_sureleve:             # (JD 08/10 soir) mousse PVC collée sur le pont de chaque coque, stratifiée : monte progressivement depuis l'étrave jusque sous le coffre
-                           # (qui s'y pose), passe sous la poutre AV et les longerons, porte les couples des bancs, s'arrête au bout du trampoline (poutre AR)
-  x0: 150                  # départ, épaisseur nulle au livet, derrière la patte d'étrave
-  x_plateau: 1400          # fin de la montée (courbe douce)
-  z_plateau: 495           # dessus : 7 sous le dessous des longerons
-  x_fin: 4080              # 30 devant le pylône de la poutre AR ; le trampoline s'arrête à la queue de la poutre AR (x 4 097)
-  jeu: 5                   # sous la pièce d'angle AV, la martingale, le brêlage, l'accroche ±850, les poutres, le longeron, le trampoline
-  jeu_coffre: 3            # le coffre se pose dessus (cales néoprène de 3)
-  marge_pose: 30           # devant le coffre : place pour la fin de pose en diagonale
-  pylone_jeu: 10           # autour du pylône de la poutre AV
-  bulbe_mat: 25            # mur autour du fourreau du mât, en débord du livet
-  bulbe_sous_livet: 30     # le débord descend 30 sous le livet, collé sur le bordé
-  cadene_dessus: true      # cadène du direct AR remontée sur le dessus (rallonge inox jusqu'à la cadène d'origine)
-  mousse: 60               # kg/m3, PVC
-  peau: 1.2                # kg/m2 : verre-époxy dessus et sur les flancs

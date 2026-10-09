@@ -688,19 +688,13 @@ def coffre(A, k):
             y0b = W / 2 if sgf > 0 else -W / 2 - sb_
             blk = lambda z0_, h_: cq.Solid.makeBox(lb_, sb_, h_, V(x_l - lb_ / 2, y0b, z0_))
             trou_ = cq.Solid.makeCylinder(rl_["godet"]["diam"] / 2, 3 * eb_, V(x_l, sgf * y_l, z_g - eb_))
-            zps_ = k.get("_z_ps")
-            if zps_ is None:
-                A.add(blk(z_g, eb_), name=f"livarde_godet_fond_{nomf}", color=noir_)                       # pli du fond, plein : le pied y repose
-                A.add(blk(z_g + eb_, eb_).cut(trou_), name=f"livarde_godet_{nomf}", color=noir_)           # pli percé : le trou
+            A.add(blk(z_g, eb_), name=f"livarde_godet_fond_{nomf}", color=noir_)                       # pli du fond, plein : le pied y repose
+            A.add(blk(z_g + eb_, eb_).cut(trou_), name=f"livarde_godet_{nomf}", color=noir_)           # pli percé : le trou
             ouv_ = cq.Solid.makeBox(rl_["collier"]["ouverture"], sb_ + 10, 2 * eb_ + 2,
                                     V(x_l - rl_["collier"]["ouverture"] / 2, sgf * y_l if sgf > 0 else sgf * y_l - sb_ - 10, z_c - 1))   # ouvert vers l'extérieur
             siege_ = cq.Solid.makeCylinder(rl_["collier"]["diam"] / 2, 2 * eb_ + 2, V(x_l, sgf * y_l, z_c - 1))
             A.add(blk(z_c, 2 * eb_).cut(siege_).cut(ouv_), name=f"livarde_collier_{nomf}", color=noir_)
             k["_fourreau"][nomf] = dict(x=x_l, y=sgf * y_l, z_bas=z_g + eb_, z_dessus=z_c + 2 * eb_, r=rl_["godet"]["diam"] / 2)
-            if zps_ is not None:                        # (JD 08/10 soir) le pied de la livarde rangée est dans une douille du pont surélevé
-                z_d = zps_(x_l) - rl_["godet"].get("douille", 15)
-                k["_fourreau"][nomf]["z_bas"] = z_d
-                k.setdefault("_livarde_douille", {})[nomf] = dict(x=x_l, y=sgf * y_l, r=rl_["godet"]["diam"] / 2, z=z_d)
         k["_rangement_livarde"] = dict(x=round(x_l, 1), y=round(y_l, 1), joue_z=[round(z_bot_, 1), round(z_top_, 1)], godet_z=round(z_g, 1), collier_z=round(z_c, 1))
     zt0, L, hb = b["plan_z"], b["longueur"], b["hauteur"]
     zs = zt0 + hb
@@ -986,7 +980,7 @@ def coffre(A, k):
                 pad = sous_fond().translate(V(0, 0, rf["ep"])).cut(sous_fond()).intersect(
                     cq.Solid.makeBox(xr1 - xr0, yb_r - ya_r, 2000, V(xr0, ya_r, zb - 500)))
                 A.add(pad, name=f"pylone_renfort_{nom}", color=cq.Color(0.13, 0.13, 0.14))
-    for nom, sg in (("babord", 1), ("tribord", -1)) if py.get("type") in (None, "cp") else ():
+    for nom, sg in (("babord", 1), ("tribord", -1)) if py.get("type") != "tube" else ():
         z0 = m["z_pied"] if m.get("semelle") else interp_pont(m["x_pied"], sg * PONT_CFG["entraxe"] / 2) + 1   # sur la semelle
         x0, y0 = m["x_pied"] - py["dx"] / 2, (sg * (wi - py["dy"] / 2)) - py["dy"] / 2
         ztp = zb_at(abs(y0) if sg > 0 else abs(y0 + py["dy"])) 
@@ -1378,132 +1372,6 @@ def glissiere_tube_pehd(A, k, JOUES, wi, W, b):
                                     poteau=dict(x=xt, y=yp_, d=2 * rp_, ep=ep_p, z0=round(zb_p, 1), z1=round(z1_p, 1)))
 
 
-def z_pont_sureleve(cfg, x):
-    """(JD 08/10 soir) Dessus du pont surélevé à l'abscisse x, hors obstacles : part du livet à `x0` (épaisseur nulle) et
-    monte progressivement jusqu'au plateau `z_plateau`, atteint à `x_plateau`."""
-    ps, C = cfg["pont_sureleve"], cfg["coques"]
-    liv = interp(C["pont"], x) - C["bouge_pont"]
-    t = min(1.0, max(0.0, (x - ps["x0"]) / (ps["x_plateau"] - ps["x0"])))
-    sm = t * t * (3 - 2 * t)
-    return liv + (ps["z_plateau"] - liv) * sm
-
-
-def pont_sureleve(A, cfg, COQUES):
-    """(JD 08/10 soir) Pont surélevé en mousse (PVC) collée sur le pont de chaque coque et stratifiée : monte depuis l'étrave
-    jusque sous le coffre, qui s'y pose, passe sous la poutre AV et les longerons, porte les couples des bancs et s'arrête au
-    bout du trampoline. Puits de mât rond (quête fixe), fourreau, plot sous le talon, ergot. Les obstacles (dessous du coffre,
-    pièce d'angle AV, martingale, brêlage, accroche ±850, poutres, longeron, trampoline) plafonnent le dessus."""
-    ps = cfg.get("pont_sureleve")
-    if not ps:
-        return
-    C, k, m = cfg["coques"], cfg.get("coffre") or {}, cfg["mats"]
-    hy = C["entraxe"] / 2
-    jeu, jc = ps.get("jeu", 5), ps.get("jeu_coffre", 3)
-    x0, xf = ps["x0"], ps["x_fin"]
-    xs = [x0 + i * 25.0 for i in range(int((xf - x0) / 25) + 1)]
-    if xs[-1] < xf:
-        xs.append(xf)
-    liv = lambda x: interp(C["pont"], x) - C["bouge_pont"]
-    mousse = cq.Color(0.86, 0.87, 0.84)
-    ps["_parts"] = {}
-    for nom, sg in (("babord", 1), ("tribord", -1)):
-        yc = sg * hy
-        hull = COQUES[nom]
-        # profil (x, z) : du livet au dessus, extrudé en travers ; contour en plan : le livet (largeur maxi de la coque)
-        prof = [(x, liv(x) - 10.0) for x in xs] + [(x, z_pont_sureleve(cfg, x)) for x in reversed(xs)]   # fond dans la coque, sous le livet
-        raw = cq.Workplane("XZ", origin=(0, yc + 300, 0)).polyline(prof).close().extrude(600).val()     # de yc+300 vers yc-300
-        rt_ = ps.get("retrait_livet", 3.0)                         # flancs 3 en retrait du livet : ils coupent le bouge franchement (booléen sûr)
-        plan = [(x, yc + interp(C["demi_largeur"], x) - rt_) for x in xs] + [(x, yc - interp(C["demi_largeur"], x) + rt_) for x in reversed(xs)]
-        pr_ = cq.Workplane("XY").polyline(plan).close().extrude(1200).translate((0, 0, -100)).val()
-        sol = raw.intersect(pr_)
-        _dbg = __import__('os').environ.get('PS_DEBUG'); _pv = (lambda t_, s_: print('PS', nom, t_, round(s_.Volume() / 1e6, 2), s_.isValid(), len(s_.Solids()))) if _dbg else (lambda t_, s_: None)
-        _pv('raw', raw); _pv('inter', sol)
-        # débord autour du puits du mât (le mât est à 29 du livet)
-        pu = m.get("puits")
-        a_ = math.radians(m["quete_deg"]); u_ = V(math.sin(a_), 0, math.cos(a_))
-        f_ = V(m["x_pied"], sg * m["y_axe"], m["z_pied"])
-        if pu:
-            r_ext = pu["fourreau"]["d_int"] / 2 + pu["fourreau"]["ep"]
-            zb_ = liv(f_.x) - ps.get("bulbe_sous_livet", 30)
-            xm_ = f_.x + (ps["z_plateau"] - f_.z) * math.tan(a_) * 0.5
-            bul = cq.Solid.makeCylinder(r_ext + ps.get("bulbe_mat", 25), z_pont_sureleve(cfg, f_.x) - zb_, V(xm_, f_.y, zb_))
-            sol = sol.fuse(bul)
-        zone_ = sol                                                 # volume du pont surélevé avant les plafonds (pour le plot du talon)
-        _pv('bulbe', sol)
-        sol = sol.cut(hull)
-        _pv('coque', sol)
-        # plafonds : boîtes au-dessus des obstacles (dans la bande du pont), et dessous du coffre (analytique, en avant de 30 pour la pose)
-        ya, yb = sorted((yc - 260, yc + 260))
-        bande = cq.Solid.makeBox(xf - x0 + 200, yb - ya, 1200, V(x0 - 100, ya, -100))
-        noms_obs = [f"piece_angle_av_{nom}", f"martingale_tige_{nom}", "poutre_av", f"longeron_{nom}", "trampoline", "poutre_ar",
-                    f"piece_angle_ar_{nom}", f"couple_coffre_{nom}_850"] + [n_ for n_ in A.objects if n_.startswith("brelage_poutre_")]
-        for n_ in noms_obs:
-            o_ = A.objects.get(n_)
-            if o_ is None:
-                continue
-            so_ = o_.obj.val() if hasattr(o_.obj, "val") else o_.obj
-            if n_.startswith("couple_coffre"):                      # seulement l'accroche, derrière C4
-                so_ = so_.intersect(cq.Solid.makeBox(400, 3000, 3000, V(k["face_ar_x"], -1500, -1000)))
-            try:
-                part = so_.intersect(bande)
-            except Exception:
-                continue
-            if part is None or part.Volume() < 1e-3:
-                continue
-            bb = part.BoundingBox()
-            sol = sol.cut(cq.Solid.makeBox(bb.xlen + 2 * jeu, bb.ylen + 2 * jeu, 2000, V(bb.xmin - jeu, bb.ymin - jeu, bb.zmin - jeu)))
-            _pv(n_, sol)
-        if k.get("face_ar_x"):                                      # dessous du coffre : fond en V, pente vers l'avant ; jusqu'à la face extérieure de la joue
-            W_, wi_ = k["largeur"], k["largeur"] / 2 - k["ep_flasque"]
-            fp_ = k.get("fond_pente") or {}; tg_ = math.tan(math.radians(fp_.get("deg", 0))); xp0_ = fp_.get("x0", -1e9)
-            def zf_(x, y):
-                yy = min(abs(y), wi_)
-                z = k["fond_z"] + (k["fond_z_cotes"] - k["fond_z"]) * max(0.0, yy - k["fond_plat_demi"]) / (wi_ - k["fond_plat_demi"])
-                return z + max(0.0, (xp0_ - x) * tg_)
-            x_av = k.get("avant_x", 1584) - ps.get("marge_pose", 30)
-            secs = []
-            jl_ = ps.get("jeu_lateral", 5)                         # jeu le long de la face extérieure de la joue et derrière C4
-            for xq in (x_av, max(x_av + 1, min(xp0_, k["face_ar_x"])), k["face_ar_x"] + jl_):
-                ys_ = [700 + 10 * i for i in range(int((W_ / 2 + jl_ - 700) / 10) + 1)] + [W_ / 2 + jl_]
-                pts = [V(xq, sg * yv, zf_(max(xq, k.get("avant_x", 1584)), yv) - jc) for yv in ys_]
-                pts += [V(xq, sg * ys_[-1], 2000), V(xq, sg * ys_[0], 2000)]
-                secs.append(cq.Wire.makePolygon(pts, close=True))
-            sol = sol.cut(cq.Solid.makeLoft(secs, True))
-            _pv('coffre', sol)
-        # pylône de la poutre AV : trou autour
-        py_ = A.objects.get(f"pylone_av_{nom}")
-        if py_ is not None:
-            bp = (py_.obj.val() if hasattr(py_.obj, "val") else py_.obj).BoundingBox()
-            sol = sol.cut(cq.Solid.makeCylinder(max(bp.xlen, bp.ylen) / 2 + ps.get("pylone_jeu", 10), 1500, V(bp.center.x, bp.center.y, -200)))
-        # puits du mât : fourreau, plot sous le talon, ergot
-        if pu:
-            fo_, ta_ = pu["fourreau"], pu["talon"]
-            r_i, r_e = fo_["d_int"] / 2, fo_["d_int"] / 2 + fo_["ep"]
-            talon_pt = f_ + u_ * ta_["h"]
-            haut = (z_pont_sureleve(cfg, talon_pt.x) - talon_pt.z) / math.cos(a_) + fo_.get("rebord", 0)
-            plot = cq.Solid.makeCylinder(ta_["d"] / 2, 200, talon_pt - u_ * 200, u_).intersect(zone_).cut(hull)
-            sol = sol.cut(cq.Solid.makeCylinder(r_e, haut + 200, talon_pt, u_)).cut(plot)
-            A.add(plot, name=f"puits_plot_{nom}", color=cq.Color(0.80, 0.58, 0.38))
-            A.add(cq.Solid.makeCylinder(r_e, haut, talon_pt, u_).cut(cq.Solid.makeCylinder(r_i, haut, talon_pt, u_)),
-                  name=f"puits_fourreau_{nom}", color=cq.Color(0.93, 0.93, 0.90))
-            eg_ = pu["ergot"]
-            A.add(cq.Solid.makeCylinder(eg_["d"] / 2, eg_["h"], talon_pt, u_), name=f"puits_ergot_{nom}", color=cq.Color(0.80, 0.82, 0.84))
-            ps.setdefault("_puits", {})[nom] = dict(talon=(talon_pt.x, talon_pt.y, talon_pt.z), profondeur=round(haut - fo_.get("rebord", 0), 1))
-        ld_ = (k.get("_livarde_douille") or {}).get(nom)
-        if ld_:                                                     # douille du pied de la livarde rangée
-            sol = sol.cut(cq.Solid.makeCylinder(ld_["r"], 300, V(ld_["x"], ld_["y"], ld_["z"])))
-        A.add(sol, name=f"pont_sureleve_{nom}", color=mousse)
-        ps["_parts"][nom] = sol
-        # couples des bancs posés dessus : coupés au dessus du pont surélevé
-        for ch_ in A.children:
-            if ch_.name.startswith((f"banc_{nom}_couple_", f"banc_{nom}_jambe_")):
-                so_ = ch_.obj.val() if hasattr(ch_.obj, "val") else ch_.obj
-                ch_.obj = so_.cut(sol)
-                if ch_.name in A.objects:
-                    A.objects[ch_.name].obj = ch_.obj
-    return ps["_parts"]
-
-
 def capot_arriere(A, k):
     """(JD 05/10) Capot arrière en pente : au milieu (|y| <= demi_y), le dessus descend de z_dessus en x0 jusqu'à z_c4 contre C4,
     pour que les haubans collier -> milieu de la poutre AV passent au-dessus du coffre. Panneau plan CP fixe, découpé pour la tête
@@ -1766,7 +1634,7 @@ def collier_geom(cfg):
 def pied_mat(cfg):
     """Pied du mât (bas du tube, sur la cale de l'emplanture) : repère de la voile. Le mât garde sa longueur (JD 06/10)."""
     m = cfg["mats"]; a = math.radians(m["quete_deg"]); emp = m.get("emplanture")
-    h = hauteur_emplanture(emp) if emp else ((m.get("puits") or {}).get("talon", {}).get("h", 0.0))
+    h = hauteur_emplanture(emp) if emp else 0.0
     return m["x_pied"] + h * math.sin(a), m["z_pied"] + h * math.cos(a)
 
 
@@ -1990,11 +1858,7 @@ def build(cfg, plateforme_seule=False):
         cfg["coffre"]["_collier_geom"] = dict(c=CG["c"], a=CG["a"], tube_x=CG["tube_x"], tube_z=CG["tube_z"], ep=co0["ep"])   # (08/10) pour la glissière sur la joue
     if "coffre" in cfg and not plateforme_seule:
         cfg["coffre"]["_livarde_diam"] = ((cfg.get("voile") or {}).get("livarde") or {}).get("diam", 30)
-        if cfg.get("pont_sureleve"):                    # (JD 08/10 soir) dessus du pont surélevé, pour le pied de la livarde rangée
-            cfg["coffre"]["_z_ps"] = lambda x_, c_=cfg: z_pont_sureleve(c_, x_)
         coffre(A, cfg["coffre"])
-        if cfg.get("pont_sureleve"):
-            pont_sureleve(A, cfg, COQUES)
     if plateforme_seule:
         return A
 
@@ -2003,9 +1867,6 @@ def build(cfg, plateforme_seule=False):
     enr = vo.get("enroulement", {})
     emp = m.get("emplanture")
     h_emp = hauteur_emplanture(emp) if emp else 0.0                    # (JD 06/10) pied du mât sur la cale : mât raccourci d'autant, bordure inchangée
-    pu_ = m.get("puits")
-    if pu_ and not emp:                                                 # (JD 08/10 soir) puits de mât : talon sur le plot, à la hauteur de l'ancienne cale
-        h_emp = pu_["talon"]["h"]
     def placer(sol, o_, sg_):                                           # repère local (s arrière, t extérieur, n le long du mât) -> global
         sol = sol.mirror("XZ") if sg_ < 0 else sol
         return sol.rotate(V(0, 0, 0), V(0, 1, 0), m["quete_deg"]).translate(o_)
@@ -2018,9 +1879,6 @@ def build(cfg, plateforme_seule=False):
             eg_ = emp["ergot"]                                          # embout du pied percé pour l'ergot
             mat_ = mat_.cut(cq.Solid.makeCylinder(eg_["d"] / 2 + 1, eg_["h"] + 2, fm, u))
             emplanture(A, emp, nom, lambda s_, f_=f, sg_=sgm: placer(s_, f_, sg_))
-        elif pu_:
-            eg_ = pu_["ergot"]
-            mat_ = mat_.cut(cq.Solid.makeCylinder(eg_["d"] / 2 + 1, eg_["h"] + 2, fm, u))
         A.add(mat_, name=f"mat_{nom}", color=noir)
         if CG:
             cg_c = f + u * CG["h"]
@@ -2088,8 +1946,6 @@ def build(cfg, plateforme_seule=False):
                 return V(hb_["etrave"]["x"], s_ * hy, interp(c["pont"], hb_["etrave"]["x"]) + hb_["etrave"]["dz"])
             def pts_cadene(s_):
                 yc2 = s_ * (hy + hb_["cadene"]["dy"])
-                if (cfg.get("pont_sureleve") or {}).get("cadene_dessus"):   # (JD 08/10 soir) cadène remontée sur le pont surélevé
-                    return V(hb_["cadene"]["x"], yc2, z_pont_sureleve(cfg, hb_["cadene"]["x"]) + hb_["cadene"]["dz"])
                 return V(hb_["cadene"]["x"], yc2, interp_pont(hb_["cadene"]["x"], yc2) + hb_["cadene"]["dz"])
             inox = cq.Color(0.80, 0.82, 0.84)
             dyav_ = hb_.get("attache_dy_av", 0)            # (JD 30/09 soir) direct AV attaché plus à l'extérieur : il passe dehors de la livarde rangée contre la joue

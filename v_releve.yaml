@@ -135,19 +135,7 @@ mats:
       ar:
       - 20
       - 70
-  emplanture: null
-  puits:
-    fourreau:
-      d_int: 63
-      ep: 2
-      rebord: 5
-    talon:
-      h: 45
-      d: 100
-    ergot:
-      d: 20
-      h: 20
-  emplanture_avant_0810b:
+  emplanture:
     rail:
       type: joues_cp
       l: 140
@@ -175,8 +163,7 @@ mats:
   diam: 60
   quete_deg: 3
   haubanage: 700
-  semelle: null
-  semelle_avant_0810b:
+  semelle:
     y_mat: 1161
     dx:
     - -304
@@ -571,7 +558,7 @@ coffre:
   joues:
     montee_fin_devant_mat: 0
   pylones:
-    type: aucun
+    type: tube
     diam: 40
     ep: 2
     dx:
@@ -653,8 +640,7 @@ coffre:
     couple_ext: 1140
     couple_sous_axe: 44
     couple_ext_haut: 25
-    lacage: null
-    lacage_avant_0810b:
+    lacage:
       x:
       - 2160
       - 2410
@@ -780,17 +766,3 @@ peinture:
   - - 0.96
     - 0.96
     - 0.94
-pont_sureleve:
-  x0: 150
-  x_plateau: 1400
-  z_plateau: 495
-  x_fin: 4080
-  jeu: 5
-  jeu_coffre: 3
-  marge_pose: 30
-  pylone_jeu: 10
-  bulbe_mat: 25
-  bulbe_sous_livet: 30
-  cadene_dessus: true
-  mousse: 60
-  peau: 1.2
