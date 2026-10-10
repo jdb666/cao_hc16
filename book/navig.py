@@ -1,8 +1,9 @@
 """Navigateur sans tête pour les captures du book : three.js et polices servis en local, page en mode « rendu » (maquette plein cadre)."""
 import asyncio, os
 from playwright.async_api import async_playwright
-THREE = '/tmp/claude-0/package/build/three.min.js'
-FONTS = '/tmp/claude-0/-home-claude/443c7138-f497-5d10-bc14-ca79d36f67f9/scratchpad/fonts'
+VENDOR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'vendor')   # (10/10) three.js r128 et polices servis depuis le dépôt
+THREE = os.path.join(VENDOR, 'three.min.js')
+FONTS = os.path.join(VENDOR, 'fonts')
 FACES = [('Barlow Semi Condensed', 'barlow-semi-condensed', (500, 600)), ('IBM Plex Sans', 'ibm-plex-sans', (400, 500, 600)), ('IBM Plex Mono', 'ibm-plex-mono', (400, 500))]
 CSS = ''.join(f'@font-face{{font-family:"{fam}";font-style:normal;font-weight:{w};src:url(https://fonts.gstatic.com/local/{d}/{d}-latin-{w}-normal.woff2) format("woff2")}}\n'
               for fam, d, ws in FACES for w in ws)

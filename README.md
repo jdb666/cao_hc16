@@ -47,3 +47,13 @@ Chaque série de modifications arrive en `hc16_rando_N.bundle` (un commit, à ap
 ```sh
 git pull /chemin/vers/hc16_rando_N.bundle main
 ```
+
+## Reprendre avec un autre compte Claude
+
+Le dépôt se suffit à lui-même : modèle, cotes, études, pages, sources du book, images, DXF, STEP, synthèse et tout l'historique git. Les artifacts publiés (page 3D, book, plan de découpe), le projet claude.ai et la mémoire restent attachés au compte qui les a créés.
+
+1. **Dossier** : dans l'appli de bureau Claude de l'autre compte, connecter ce dossier (`cao_hc16`) à la conversation ; ou bien le pousser sur un dépôt GitHub privé et connecter GitHub à l'autre compte.
+2. **Contexte** : joindre `SYNTHESE_coffre_hc16.md` (et ce README) aux connaissances d'un projet de l'autre compte : c'est l'état des décisions, des cotes et des contrôles.
+3. **Environnement** : `pip install -r requirements.txt` ; les scripts écrivent sous `/home/claude/cao/` (cloner à cet endroit, ou remplacer ce préfixe). Captures du book : Playwright + Chromium ; three.js et les polices sont dans `book/vendor/`.
+4. **Pages** : `plateforme/plateforme_hc16.html` et `plans/decoupe_coffre_hc16.html` sont autonomes : les republier comme nouveaux artifacts.
+5. **Book** : les diapos (`book/deck/`) pointent vers des images stockées dans l'artifact d'origine (`/_blob/…`). Dans un nouveau deck : téléverser `book/img/*` comme assets, écrire la nouvelle correspondance nom → url dans `book/carte_images.json`, lancer `python3 book/maj_book.py book/carte_images.json`, puis publier `book/deck/` (deck.json et slides). Ordre de régénération complet : `regen_v.py` → `plateforme/export3d.py` → `plans/tente.py` → `plateforme/page.py` ; `plans/decoupe3.py` → `plans/page_decoupe.py` → `etudes/fiche_technique.py` ; études (`etudes/*.py`) ; `book/captures_3d.py 1.5`, `book/captures_page.py`, `book/fiche_slides.py`, `book/maj_book.py`.
