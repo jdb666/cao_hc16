@@ -43,6 +43,17 @@ def coupe(nom, axe, val, fen):
     return out
 
 COUPES = {
+    # (JD 09/10) poteau de la glissière dans le coffre, potence au-dessus de C4
+    'gl2_y1045': ('y', 1045.0, ('coffre_coque', 'glissiere_poteau_babord', 'glissiere_potence_babord', 'glissiere_bloc_babord', 'glissiere_bague_babord',
+                                'glissiere_cale_babord', 'piece_angle_av_babord', 'poutre_av', 'banc_babord_assise', 'tube_colliers',
+                                'collier_tourillon_babord', 'longeron_babord', 'coque_babord', 'coffre_hiloire')),
+    'gl2_x2085': ('x', 2085.0, ('joue_babord', 'glissiere_potence_babord', 'glissiere_bloc_babord', 'banc_babord_assise', 'banc_babord_lisse_0',
+                                'tube_colliers', 'collier_tourillon_babord', 'collier_pli1_babord', 'collier_pli2_babord', 'collier_pli3_babord',
+                                'collier_pli4_babord', 'collier_pli5_babord', 'collier_pli6_babord', 'collier_pli7_babord', 'tape_piece_angle_babord',
+                                'piece_angle_av_babord', 'poutre_av', 'longeron_babord', 'coque_babord', 'mat_babord')),
+    'gl2_x1988': ('x', 1988.5, ('coffre_coque', 'joue_babord', 'glissiere_poteau_babord', 'glissiere_potence_babord', 'glissiere_bague_babord',
+                                'glissiere_cale_babord', 'piece_angle_av_babord', 'coque_babord', 'mat_babord', 'semelle_babord')),
+    'banc2_x2545': ('x', 2545.0, ('banc_babord_assise', 'banc_babord_lisse_2', 'joue_babord', 'longeron_babord', 'trampoline', 'joint_longeron_babord', 'coque_babord')),
     'glissiere_x2085': ('x', 2085.0, ('joue_babord', 'glissiere_sabot_babord', 'glissiere_berceau_babord', 'glissiere_pehd_babord',
                                       'glissiere_poteau_haut_babord_int', 'glissiere_poteau_bas_babord_int', 'glissiere_cale_babord',
                                       'banc_babord_assise', 'banc_babord_lisse_0', 'tube_colliers', 'collier_tourillon_babord',

@@ -120,6 +120,21 @@ if gl.get('type') == 'tube_pehd':                                      # (JD 08/
                 P_cr_poteau=round(math.pi ** 2 * E_c * I_p / L_p ** 2), L_poteau=round(L_p),
                 p_douille=round(Vmax15 / (math.pi * r_p ** 2), 1), s_tourillon=round(M_t / W_t, 1),
                 p_piece_angle=round(Vmax15 / (60 * 60), 1))
+elif gl.get('type') == 'poteau_coffre':                                # (JD 09/10) poteau carbone dans le coffre, potence CP en porte-à-faux au-dessus de C4
+    po = gl['poteau']; r_p = po['d'] / 2; e_p = po['ep']
+    A_p = math.pi * (r_p ** 2 - (r_p - e_p) ** 2); I_p = math.pi / 4 * (r_p ** 4 - (r_p - e_p) ** 4); W_p = I_p / r_p
+    g_ = (c['coffre'].get('_glissiere') or {}).get('babord') or {}; gp_ = g_.get('poteau') or {}
+    z_0, z_b = gp_.get('z0', 590), gp_.get('dessus_coffre', 915)
+    L_p = gp_.get('z1', 1114) - z_0; e_pf = g_.get('porte_a_faux', 96.5)
+    M_p = Vmax15 * e_pf; H_ = M_p / (z_b - z_0)                        # moment au sommet, repris par la bague (dessus du coffre) et le pied
+    pt_ = gl.get('potence') or {}; h_pt = pt_.get('h', 40); b_pt = yb - yi
+    M_pt = Vmax15 * (e_pf - r_p)                                       # potence encastrée au bord arrière du poteau
+    E_c = 70e3
+    GLIS = dict(type='poteau_coffre', p_pehd=round(Vmax15 / A_pehd, 1), s_poteau_compression=round(Vmax15 / A_p, 1),
+                s_poteau_flexion=round(M_p / W_p, 1), M_poteau=round(M_p / 1e3), M_poteau_reglage=[round(v * e_pf / 1e3) for v in (min(Vreg), max(Vreg))],
+                H_appuis=round(H_), p_bague=round(H_ / (2 * r_p * 18), 1), P_cr_poteau=round(math.pi ** 2 * E_c * I_p / L_p ** 2), L_poteau=round(L_p),
+                porte_a_faux=e_pf, s_potence=round(M_pt / (b_pt * h_pt ** 2 / 6), 1), s_tourillon=round(M_t / W_t, 1),
+                p_piece_angle=round(Vmax15 / (60 * 60), 1))
 else:
     po = gl['poteau']; xp0, xp1 = po['x']; ep = po.get('ep', 9)
     A_pot = (2 * (wi - yi) + (xp1 - xp0 - 2 * ep)) * ep                  # trois parois CP 9 (la joue en plus, non comptée)

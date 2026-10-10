@@ -8,7 +8,7 @@ c = yaml.safe_load(open('/home/claude/cao/v_releve.yaml'))
 A = H.build(c)
 D = {ch.name: (ch.obj.val() if isinstance(ch.obj, cq.Workplane) else ch.obj) for ch in A.children if ch.obj is not None}
 FIXE = ('coque_', 'poutre_', 'longeron_', 'piece_angle', 'trampoline', 'martingale', 'safran_', 'barre_', 'pylone_av', 'pylone_ar', 'repere_', 'semelle_', 'renfort_pont', 'bourrage_')
-APRES = ('mat_', 'hauban', 'voile', 'decor_yinyang_voile', 'lacage', 'brelage', 'tube_colliers', 'bras_tube')
+APRES = ('mat_', 'hauban', 'voile', 'decor_yinyang_voile', 'lacage', 'brelage', 'tube_colliers', 'bras_tube', 'tape_piece_angle', 'joint_longeron')   # (09/10) tapes et joints posés après le coffre
 import re
 FIXE = ('poutre_av', 'longeron_', 'piece_angle_av', 'trampoline', 'martingale', 'semelle_', 'renfort_pont', 'bourrage_')   # coques : sous les semelles, hors d'atteinte
 MOB = ('coffre_coque', 'couple_coffre_', 'moteur_puits', 'joue_', 'banc_', 'pylone_coffre', 'pylone_renfort', 'coffre_table', 'moteur_tableau', 'coffre_cloison', 'glissiere_')

@@ -9,7 +9,7 @@ FILTRE = sys.argv[2] if len(sys.argv) > 2 else ''
 OUT = sys.argv[3] if len(sys.argv) > 3 else '/home/claude/cao/book/img/'
 os.makedirs(OUT, exist_ok=True)
 W16, SQ = (1600, 900), (1000, 1000)
-BASE = dict(h16=False, cof=True, trp=False, rig=True, hau=True, tra=True, eau=True, cv=True, lbl=False, enr_b=0, enr_t=0, choc=15, am=1, levee=0, tire=False, charge=0)
+BASE = dict(h16=False, cof=True, trp=False, rig=True, hau=True, tra=True, eau=True, cv=True, lbl=False, ten=False, enr_b=0, enr_t=0, choc=15, am=1, levee=0, tire=False, charge=0)
 # vues d'ensemble : [th, ph, rayon], cible (x, y, z), champ (°)
 AV, AR = ([2.35, 1.22, 27500], [2700, 0, 3800], 20), ([-0.75, 1.17, 27500], [2750, 0, 3800], 20)
 PR, FA = ([PI / 2, PI / 2, 50500], [2650, 0, 4050], 12), ([PI, PI / 2, 50500], [2500, 0, 4050], 12)
@@ -74,10 +74,29 @@ SCENES = (VUES('s1_hc16', **H16) + VUES('s2_rando') + VUES('s3_transp', trp=True
     ('h_pieds_ar', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([-0.8, 1.0, 7800], [2000, 0, 520], 32)),
     ('h_pieds_de', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([PI / 2, 0.02, 41000], [2600, 0, 450], 6.2)),
     ('h_pied_detail', W16, dict(cof=False, tra=False, enr_b=100, enr_t=100, cv=False), ([2.0, 1.02, 1700], [1990, 1150, 430], 32)),
+    # (JD 09/10) moustache à 10°, hiloire, poteau de glissière dans le coffre, trampoline étanche, fermeture sous les bancs
+    ('m_coffre_av', W16, dict(enr_b=100, enr_t=100, cv=False), ([2.45, 1.08, 9800], [1800, 0, 700], 24)),
+    ('m_coffre_fa', W16, dict(enr_b=100, enr_t=100, cv=False, eau=False), ([PI, PI / 2, 9800], [1800, 0, 650], 20)),
+    ('m_coffre_ar', W16, dict(enr_b=100, enr_t=100, cv=False), ([-0.75, 1.05, 9800], [2200, 0, 700], 24)),
+    ('m_hiloire', W16, dict(enr_b=100, enr_t=100, cv=False, hau=False), ([2.25, 0.82, 3600], [1860, 0, 860], 30)),
+    ('m_glissiere', W16, dict(enr_b=100, enr_t=100, cv=False), ([-0.5, 1.2, 1500], [2040, 1045, 1000], 30)),
+    ('m_glissiere_transp', W16, dict(enr_b=100, enr_t=100, cv=False, trp=True), ([2.35, 1.2, 2100], [2000, 1045, 850], 30)),
+    ('m_banc_tape', W16, dict(rig=False, cv=False), ([-1.35, 1.4, 1500], [2080, 1010, 610], 34)),
+    ('m_banc_joint', W16, dict(rig=False, cv=False), ([1.2, 1.45, 1900], [2250, 1120, 560], 30)),
+    # (JD 09/10 après-midi) le coffre par en dessous ; tente igloo sur deux arceaux ; coffre à ancre ouvert ; appui du tube sans glissière
+    ('s3_dessous_av', W16, dict(rig=False, eau=False, cv=False), ([2.6, 2.05, 4200], [1800, 0, 450], 30)),
+    ('s3_dessous_ar', W16, dict(rig=False, eau=False, cv=False, tra=False), ([-0.5, 2.3, 4200], [1900, 0, 450], 30)),   # trampoline ôté
+    ('s3_dessous_fa', W16, dict(rig=False, eau=False, cv=False), ([PI, 1.85, 6000], [1750, 0, 500], 24)),
+    ('t_tente_av', W16, dict(ten=True, enr_b=100, enr_t=100, cv=False), ([2.35, 1.22, 9800], [2900, 0, 1100], 26)),
+    ('t_tente_ar', W16, dict(ten=True, enr_b=100, enr_t=100, cv=False), ([-0.75, 1.17, 9800], [3000, 0, 1100], 26)),
+    ('t_tente_pr', W16, dict(ten=True, enr_b=100, enr_t=100, cv=False), ([PI / 2, PI / 2, 14000], [2900, 0, 1100], 14)),
+    ('m_ancre_poche', W16, dict(rig=False, cv=False), ([2.7, 0.85, 2600], [1660, 0, 600], 30)),
+    # (JD 09/10 17 h) puits du moteur sans face arrière : C4 ouverte sur la largeur du puits
+    ('m_puits_ar', W16, dict(rig=False, cv=False, eau=False, tra=False), ([0.25, 1.6, 1900], [2010, 0, 480], 32)),   # sans le trampoline, de derrière, sous la poutre AR
 ])
 
 async def etat(n, s):
-    for k, id_ in (('h16', 'c-h16'), ('cof', 'c-cof'), ('trp', 'c-trp'), ('rig', 'c-rig'), ('hau', 'c-hau'), ('tra', 'c-tra'), ('eau', 'c-eau'), ('cv', 'c-cv'), ('lbl', 'c-lbl')):
+    for k, id_ in (('h16', 'c-h16'), ('cof', 'c-cof'), ('trp', 'c-trp'), ('rig', 'c-rig'), ('hau', 'c-hau'), ('tra', 'c-tra'), ('eau', 'c-eau'), ('cv', 'c-cv'), ('lbl', 'c-lbl'), ('ten', 'c-ten')):
         await n.case(id_, s[k])
     await n.pg.evaluate(f"window.__book = {{sansTire: {str(not s['tire']).lower()}}}")
     await n.curseur('r-enr-b', s['enr_b']); await n.curseur('r-enr-t', s['enr_t']); await n.curseur('r-choc', s['choc'])

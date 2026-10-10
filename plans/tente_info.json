@@ -1,1 +1,32 @@
-{"long": 2570, "larg": 2240, "sommet": 1901, "haut_tramp": 1308, "arceau": 4238, "angle_pied": 51, "toile": 9.31, "jupe": 0.26, "jupe_max": 197, "garde": 17, "garde_ou": "coffre_coque"}
+{
+ "long": 2375,
+ "long_coins": 2243,
+ "larg": 2224,
+ "x": [
+  1770,
+  4145
+ ],
+ "x_coins": 1902,
+ "sommet": 1884,
+ "haut_tramp": 1304,
+ "arceau": 4029,
+ "angle_pied": 52,
+ "toile": 8.82,
+ "porte": "pan arrière",
+ "jupe": 0.46,
+ "jupe_max": 461,
+ "bord_avant": {
+  "x_milieu": 1770,
+  "z_milieu": 813,
+  "x_coins": 1902,
+  "coins": 1077,
+  "derriere_hiloire": 15
+ },
+ "garde": 25,
+ "garde_ou": "tube_colliers",
+ "garde_pt": [
+  2083,
+  -1029,
+  1218
+ ]
+}

@@ -29,7 +29,7 @@ for n in sorted(D):
     if n.startswith(('brelage_poutre', 'lacage_banc', 'hauban_')):
         out['longueurs'][n] = longueur_cyl(n)
         out['boites'][n] = bb(n)
-for key in ('_accroches', '_capot_arriere', '_rangements', '_glissiere', '_accoudoirs', '_collier_geom', '_puits', '_geom', '_trappe'):
+for key in ('_accroches', '_capot_arriere', '_rangements', '_glissiere', '_accoudoirs', '_collier_geom', '_puits', '_geom', '_trappe', '_ouvertures_c4'):
     if key in k:
         v = k[key]
         try:

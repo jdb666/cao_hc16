@@ -8,7 +8,7 @@ fr = lambda v, d=3: f'{v:.{d}f}'.replace('.', ',')
 mil = lambda n: f'{n:,}'.replace(',', ' ')
 
 NOMS = {
-    'C4': "Face arrière C4, milieu",
+    'C4': "Face arrière C4, de part et d'autre du puits (ouvert derrière)",
     'B': "Bordé (avant cintré + dessus)", 'F': "Fond", 'P': "Paroi de poche (pièce d'angle)",
     'TR': "Trappe d'un compartiment extérieur, dans la chute de C4", 'TG': "Trappe d'un caisson de rangement, dans la chute du capot",
     'CV': "Couvercle du coffre à ancre : bordé central cintré, échancré pour le puits",
@@ -27,18 +27,21 @@ NOMS = {
     'K420': "Couple plein ±420 (côté du caisson de rangement) et son accroche", 'K850': "Couple ±850 et son accroche, au travers de C4",
     'CL1': "Cale de batterie, taillée au fond, 40 = 4 × CP 10", 'CL2': "Cale de batterie, taillée au fond, 40 = 4 × CP 10",
     'PL': "Planche de la pince du moteur, 40 = 4 × CP 10", 'TA': "Table, sur la caisse",
-    'CR': "Capot arrière en pente, découpé pour la tête du moteur", 'CJ': "Joue triangulaire du capot arrière",
+    'CR': "Capot arrière horizontal, découpé pour la tête du moteur", 'CJ': "Joue triangulaire du capot arrière",
     'J': "Joue, dossier du banc", 'AS': "Assise du banc",
     'BC1': "Couple de banc, x 2 160", 'BC2': "Couple de banc, x 2 410", 'BC3': "Couple de banc, x 2 680",
     'BC4': "Couple de banc, x 2 950", 'BC5': "Couple de banc, x 3 212",
     'SR': "Semelle sur les tubes carbone, 18 = 2 × CP 9",
-    'SM': "Semelle de pied de mât, sous l'emplanture, 18 = 2 × CP 9",
+    'SM': "Semelle du mât et des tubes du coffre, sous l'emplanture, 18 = 2 × CP 9",
     'JE': "Joue de l'emplanture, percée Ø 8 tous les 20", 'CE': "Cale de l'emplanture, 30 = 3 × CP 10, percée Ø 8",
     'CO1': "Collier du mât : plis 1 et 7, dessous et dessus", 'CO2': "Collier : plis 2 et 6, encoche du tourillon de 34",
     'CO3': "Collier : plis 3, 4 et 5, encoche du tourillon de 45",
     'ST': "Semelle des tubes du coffre, sur le pont, 18 = 2 × CP 9",
     'RP': "Renfort de pont, 8 = 2 × CP 4, cintré en place",
     'LC': "Collier ouvert de la livarde, 20 = 2 × CP 10", 'LG': "Godet de la livarde, pli percé Ø 34", 'LF': "Godet de la livarde, pli du fond",
+    'HI1': "Hiloire : branche en V, de la bande droite à la joue, bâbord et tribord",
+    'HI2': "Hiloire : bande droite devant le capot (±460), d'un tenant", 'GQ': "Potence d'appui du tube, au-dessus de C4, 40 = 4 × CP 10",
+    'GA': "Bague du poteau d'appui du tube, sous le dessus, 18 = 2 × CP 9", 'TP': "Tape contre la joue, au-dessus de la pièce d'angle AV (posée après le coffre)",
 }
 def nom(ref):
     if ref in NOMS:
@@ -48,8 +51,8 @@ def nom(ref):
     return f'{base}, {cote}'
 
 GROUPES = {
-    'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'B5', 'CV', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'P1', 'P2', 'P3', 'TR', 'TG'],
-    'p-nom2': ['AN', 'CM', 'PM', 'K420', 'K850', 'PL', 'CR', 'CJ', 'GS', 'GB', 'GP1', 'GP2', 'GP3', 'GP4'],
+    'p-nom1': ['C4', 'B1', 'B2', 'B3', 'B4', 'B5', 'CV', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'P1', 'P2', 'P3', 'CR', 'TR', 'TG'],
+    'p-nom2': ['AN', 'CM', 'PM', 'K420', 'K850', 'PL', 'HI1', 'HI2', 'GQ', 'GA', 'TP', 'CJ', 'GS', 'GB', 'GP1', 'GP2', 'GP3', 'GP4'],
     'p-nom3': ['J', 'AS', 'BC1', 'BC2', 'BC3', 'BC4', 'BC5', 'BL1', 'BL2', 'BL3', 'BL4', 'BL5', 'BJ', 'AF', 'AI', 'AV'],
     'p-nom4': ['RP', 'SM', 'SR', 'ST', 'JE', 'CE', 'CO1', 'CO2', 'CO3', 'LC', 'LG', 'LF'],
 }
@@ -83,7 +86,7 @@ print('plans :', nref, 'repères,', npieces, 'pièces,', nplaques, 'plaques', [(
 d = json.load(open(S + 'deck.json')); o = d['order']
 for i, sid in enumerate(o):
     p = S + f'slides/{sid}.html'; t = open(p, encoding='utf-8').read()
-    t2 = re.sub(r'(<p style="position:absolute;right:128px;bottom:56px;[^"]*">)\d+(</p>)', f'\\g<1>{i + 1}\\2', t)
+    t2 = re.sub(r'(<p style="position:absolute;\s*right:128px;\s*bottom:(?:56|32)px;[^"]*">)\d+(</p>)', f'\\g<1>{i + 1}\\2', t)   # (09/10) aussi les diapos retouchées par JD (espaces)
     if t2 != t:
         open(p, 'w', encoding='utf-8').write(t2)
 debut = {k: o.index(v['start']) + 1 for k, v in d['sections'].items()}
@@ -101,15 +104,17 @@ IMAGES = {
     's2-av': ['s2_rando_av'], 's2-ar': ['s2_rando_ar'], 's2-prfa': ['s2_rando_pr', 's2_rando_fa'], 's2-de': ['s2_rando_de'],
     's3-av': ['s3_transp_av'], 's3-ar': ['s3_transp_ar'], 's3-prfa': ['s3_transp_pr', 's3_transp_fa'], 's3-de': ['s3_transp_de'],
     's3-cav': ['s3_coffre_av'], 's3-car': ['s3_coffre_ar'], 's3-cde': ['s3_coffre_de'], 's3-cpr': ['s3_coffre_pr'],
+    's3-dsav': ['s3_dessous_av'], 's3-dsar': ['s3_dessous_ar'], 's3-dsfa': ['s3_dessous_fa'],
+    'd-poche': ['m_ancre_poche', 'm_puits_ar'], 'd-tente': ['t_tente_av', 't_tente_pr'],
     's4-00-av': ['s4_00_av'], 's4-00-prfa': ['s4_00_pr', 's4_00_fa'], 's4-50-av': ['s4_50_av'], 's4-50-prfa': ['s4_50_pr', 's4_50_fa'],
     's4-75-av': ['s4_75_av'], 's4-75-prfa': ['s4_75_pr', 's4_75_fa'], 's4-de': ['s4_00_de', 's4_50_de', 's4_75_de'],
     's5-ar': ['s5_bas_ar', 's5_haut_ar'], 's5-art': ['s5_bas_ar_transp', 's5_haut_ar_transp'], 's5-avt': ['s5_bas_av_transp', 's5_haut_av_transp'],
     's5-prt': ['s5_bas_pr_transp', 's5_haut_pr_transp'], 's5-coupe': ['coupe_bas', 'coupe_haut'],
     'd-vprofil': ['vue_profil'], 'd-vdessus': ['vue_dessus'], 'd-vface': ['vue_face'], 'd-semelle': ['semelle'], 'd-pied': ['d_pied_mat'],
     'd-collier': ['d_collier', 'd_collier_av'], 'd-emplanture': ['d_emplanture'],
-    'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['f_banc'], 'd-batterie': ['v_acc_transp', 'd_ancre'], 'd-glissiere': ['v_glissiere_berceau', 'f_glissiere'], 'd-rangements': ['v_rang_transp', 'f_trappe_c4'],
-    'd-haubans': ['d_haubans'], 'd-hpieds': ['h_pieds_av', 'h_pieds_de'], 'd-hpied': ['h_pied_detail'], 'd-ecoute': ['d_ecoute'], 'd-assiette': ['d_assiette_0', 'd_assiette_150'],
-    'p-4a': ['planche_4-A'], 'p-6a': ['planche_6-A'], 'p-6b': ['planche_6-B'], 'p-9a': ['planche_9-A'], 'p-9b': ['planche_9-B'], 
+    'd-joue': ['d_joue'], 'd-livarde': ['d_livarde'], 'd-attaches': ['attaches'], 'd-accroches': ['d_accroches', 'd_brelage'], 'd-bancs': ['f_banc'], 'd-etanche': ['m_banc_tape', 'm_banc_joint'], 'd-batterie': ['v_acc_transp', 'd_ancre'], 'd-glissiere': ['m_glissiere', 'f_glissiere'], 'd-rangements': ['v_rang_transp', 'f_trappe_c4'],
+    'd-haubans': ['d_haubans'], 'd-moustache': ['m_coffre_fa', 'm_hiloire'], 'd-hpied': ['h_pied_detail'], 'd-ecoute': ['d_ecoute'], 'd-assiette': ['d_assiette_0', 'd_assiette_150'],
+    'p-4a': ['planche_4-A'], 'p-4b': ['planche_4-B'], 'p-6a': ['planche_6-A'], 'p-9a': ['planche_9-A'], 'p-9b': ['planche_9-B'], 
     'p-demi': ['planche_10-A'],
 }
 if len(sys.argv) > 1:

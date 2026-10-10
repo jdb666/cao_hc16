@@ -29,6 +29,15 @@
     ]
    ],
    [
+    15.0,
+    "glissiere_potence_babord",
+    [
+     2007,
+     983,
+     1157
+    ]
+   ],
+   [
     20.9,
     "moteur_puits",
     [
@@ -92,12 +101,12 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_babord",
+    38.1,
+    "coffre_coque",
     [
-     2010,
-     985,
-     1161
+     2060,
+     284,
+     816
     ]
    ],
    [
@@ -119,30 +128,30 @@
     ]
    ],
    [
-    46.3,
-    "glissiere_pehd_babord",
+    44.0,
+    "coffre_capot_arriere",
     [
-     2010,
-     985,
-     1161
+     2060,
+     286,
+     817
     ]
    ],
    [
-    47.3,
+    47.6,
+    "glissiere_poteau_babord",
+    [
+     2006,
+     1002,
+     1166
+    ]
+   ],
+   [
+    48.2,
     "trampoline",
     [
      2087,
      1,
      675
-    ]
-   ],
-   [
-    49.2,
-    "coffre_coque",
-    [
-     2071,
-     146,
-     748
     ]
    ],
    [
@@ -164,30 +173,12 @@
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_babord",
-    [
-     2010,
-     972,
-     1153
-    ]
-   ],
-   [
     53.8,
     "collier_tourillon_babord",
     [
      2009,
      997,
      1167
-    ]
-   ],
-   [
-    54.8,
-    "coffre_capot_arriere",
-    [
-     2071,
-     151,
-     750
     ]
    ]
   ],
@@ -217,6 +208,15 @@
      2084,
      -1,
      674
+    ]
+   ],
+   [
+    15.0,
+    "glissiere_potence_tribord",
+    [
+     2007,
+     -983,
+     1157
     ]
    ],
    [
@@ -283,12 +283,12 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_tribord",
+    38.1,
+    "coffre_coque",
     [
-     2010,
-     -985,
-     1161
+     2060,
+     -284,
+     816
     ]
    ],
    [
@@ -310,30 +310,30 @@
     ]
    ],
    [
-    46.3,
-    "glissiere_pehd_tribord",
+    44.0,
+    "coffre_capot_arriere",
     [
-     2010,
-     -985,
-     1161
+     2060,
+     -286,
+     817
     ]
    ],
    [
-    47.3,
+    47.6,
+    "glissiere_poteau_tribord",
+    [
+     2006,
+     -1002,
+     1166
+    ]
+   ],
+   [
+    48.2,
     "trampoline",
     [
      2087,
      -1,
      675
-    ]
-   ],
-   [
-    49.2,
-    "coffre_coque",
-    [
-     2071,
-     -146,
-     748
     ]
    ],
    [
@@ -355,30 +355,12 @@
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_tribord",
-    [
-     2010,
-     -972,
-     1153
-    ]
-   ],
-   [
     53.8,
     "collier_tourillon_tribord",
     [
      2009,
      -997,
      1167
-    ]
-   ],
-   [
-    54.8,
-    "coffre_capot_arriere",
-    [
-     2071,
-     -151,
-     750
     ]
    ]
   ]
@@ -410,6 +392,15 @@
      2084,
      1,
      674
+    ]
+   ],
+   [
+    15.0,
+    "glissiere_potence_babord",
+    [
+     2007,
+     983,
+     1157
     ]
    ],
    [
@@ -467,12 +458,12 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_babord",
+    38.1,
+    "coffre_coque",
     [
-     2010,
-     985,
-     1161
+     2060,
+     284,
+     816
     ]
    ],
    [
@@ -494,30 +485,30 @@
     ]
    ],
    [
-    46.3,
-    "glissiere_pehd_babord",
+    44.0,
+    "coffre_capot_arriere",
     [
-     2010,
-     985,
-     1161
+     2060,
+     286,
+     817
     ]
    ],
    [
-    47.3,
+    47.6,
+    "glissiere_poteau_babord",
+    [
+     2006,
+     1002,
+     1166
+    ]
+   ],
+   [
+    48.2,
     "trampoline",
     [
      2087,
      1,
      675
-    ]
-   ],
-   [
-    49.2,
-    "coffre_coque",
-    [
-     2071,
-     146,
-     748
     ]
    ],
    [
@@ -539,30 +530,12 @@
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_babord",
-    [
-     2010,
-     972,
-     1153
-    ]
-   ],
-   [
     53.8,
     "collier_tourillon_babord",
     [
      2009,
      997,
      1167
-    ]
-   ],
-   [
-    54.8,
-    "coffre_capot_arriere",
-    [
-     2071,
-     151,
-     750
     ]
    ]
   ],
@@ -592,6 +565,15 @@
      2084,
      -1,
      674
+    ]
+   ],
+   [
+    15.0,
+    "glissiere_potence_tribord",
+    [
+     2007,
+     -983,
+     1157
     ]
    ],
    [
@@ -649,12 +631,12 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_tribord",
+    38.1,
+    "coffre_coque",
     [
-     2010,
-     -985,
-     1161
+     2060,
+     -284,
+     816
     ]
    ],
    [
@@ -676,30 +658,30 @@
     ]
    ],
    [
-    46.3,
-    "glissiere_pehd_tribord",
+    44.0,
+    "coffre_capot_arriere",
     [
-     2010,
-     -985,
-     1161
+     2060,
+     -286,
+     817
     ]
    ],
    [
-    47.3,
+    47.6,
+    "glissiere_poteau_tribord",
+    [
+     2006,
+     -1002,
+     1166
+    ]
+   ],
+   [
+    48.2,
     "trampoline",
     [
      2087,
      -1,
      675
-    ]
-   ],
-   [
-    49.2,
-    "coffre_coque",
-    [
-     2071,
-     -146,
-     748
     ]
    ],
    [
@@ -721,30 +703,12 @@
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_tribord",
-    [
-     2010,
-     -972,
-     1153
-    ]
-   ],
-   [
     53.8,
     "collier_tourillon_tribord",
     [
      2009,
      -997,
      1167
-    ]
-   ],
-   [
-    54.8,
-    "coffre_capot_arriere",
-    [
-     2071,
-     -151,
-     750
     ]
    ]
   ]

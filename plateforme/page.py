@@ -21,6 +21,9 @@ sys.path.insert(0, '/home/claude/cao/etudes')
 from greement_hc16 import greement
 P3D = json.load(open(f"{d}/p3d.json"))
 P3D['rig']['hc16'] = greement(yaml.safe_load(open('/home/claude/cao/cotes.yaml'))['hc16_origine'])   # gréement HC16 d'origine (book, CV de comparaison)
+import os
+if os.path.exists('/home/claude/cao/plans/tente_3d.json'):          # (JD 09/10) tente igloo : python3 plans/tente.py (après export3d.py)
+    P3D['tente'] = json.load(open('/home/claude/cao/plans/tente_3d.json'))
 s = s.replace("/*P3D*/null", json.dumps(P3D, separators=(',', ':')))
 open(f"{d}/plateforme_hc16.html", "w").write(s)
 print("OK plateforme_hc16.html", len(s))

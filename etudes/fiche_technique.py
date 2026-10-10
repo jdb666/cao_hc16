@@ -34,10 +34,14 @@ for p in J['pieces']:
         cof_cp += m; cof_aire += p['aire'] * p['qte'] / (p.get('plis') or 1)
         detail_cp[p['ep']] = detail_cp.get(p['ep'], 0) + m
 cof_strat = STRAT * cof_aire
+VERRE = 0.35            # kg/m2 : (JD 09/10) bordé en CP 4 + verre : un tissu de 200 g/m2 + époxy sur la face extérieure du bordé, du fond, de C4, des poches, du capot et des trappes
+cof_verre = VERRE * sum(p['aire'] * p['qte'] for p in J['pieces'] if re.match(r'^(B\d|F\d|C4|P\d|CV|CR|TR|TG)', p['ref']))
+cof_strat += cof_verre
 pyl = sum(vol(n) for n in noms('pylone_coffre')) * CARB           # tubes Ø 40 × 2, creux dans le modèle
 cordage = 0.5                                                   # laçages Dyneema 5, brêlages
 quinc = 1.0                                                     # charnières, vis, taquets, poignées, tourniquets des trappes
-glis = sum(vol(n) for n in noms('glissiere_pehd')) * PEHD + sum(vol(n) for n in noms('glissiere_cale')) * EPOX   # (JD 08/10) garnitures PEHD et cales coulées
+glis = (sum(vol(n) for n in noms('glissiere_pehd') + noms('glissiere_bloc')) * PEHD + sum(vol(n) for n in noms('glissiere_cale')) * EPOX   # (JD 08/10) PEHD et cales coulées
+        + sum(vol(n) for n in noms('glissiere_poteau')) * CARB + sum(vol(n) for n in noms('joint_longeron')) * 0.3e-6)   # (JD 09/10) poteaux carbone, joints néoprène
 coffre_total = cof_cp + cof_strat + pyl + cordage + quinc + glis
 # centre de gravité du coffre et des bancs : volumes du modèle
 cg_parts = [n for n in D if n.startswith(('coffre_', 'joue_', 'banc_', 'caisson_', 'accoudoir_', 'couple_coffre', 'moteur_puits', 'moteur_tableau', 'batterie_cale', 'accroche_', 'glissiere_'))]

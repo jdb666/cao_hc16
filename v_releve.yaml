@@ -92,6 +92,10 @@ plateforme:
     bossage_d: 84
     bossage_bas: 58
   trampoline_z: 580
+  trampoline_milieu:
+    jeu: 20
+    pas: 150
+    diam: 4
   martingale:
     pied_sous_axe_extremites: 170
     y_cable: 1000
@@ -216,10 +220,11 @@ coffre:
   poches_pieces_angle:
     jeu: 4
     ouverte_dessous: true
-  fond_z: 250
-  fond_plat_demi: 250
+  fond_z: 270
+  fond_plat_demi: 150
   avant_plat_demi: 360
-  fond_z_cotes: 465
+  fond_z_cotes: 439.4
+  fond_pente_cotes_deg: 10
   dessus_z: 810
   fourreaux_livarde: null
   rangement_livarde:
@@ -239,7 +244,7 @@ coffre:
   table: null
   capot_arriere:
     x0: 1760
-    z_c4: 740
+    z_c4: 810
     demi_y: 450
     ep: 6
     decoupe_moteur:
@@ -248,21 +253,21 @@ coffre:
     demontable: false
   dessus_plat_demi: 450
   dessus_cotes_au_dessus_collier: 25
-  pattes_collier:
-    larg: 60
-    ep: 10
-    ecart: 50
-    recouvrement: 120
-    au_dessus_axe_collier: 40
+  dessus_pente_cotes_deg: 10
+  pattes_collier: null
   dessus_au_dessus_collier: 25
   avant_x: 1584
+  dossier:
+    h: 400
+    courbe_continue: true
+    x_fin_montee: 2160
   joues_forme:
     n_avant: 2.3
     n_arriere: 2.2
     plat_jusqu_a_c4: true
   avant_x_milieu: 1584
   fond_pente:
-    deg: 12
+    deg: 25
     x0: 1860
   plateau_z: 900
   ep_bordé: 6
@@ -287,11 +292,7 @@ coffre:
     demi_y: 250
     ep: 6
   yinyang:
-    joues:
-      x: 2250
-      z: 870
-      r: 180
-      ep: 0.5
+    joues: null
     voiles:
       dx: 2558
       dz: 1791
@@ -325,20 +326,24 @@ coffre:
     - tribord
   trappe:
     x0: 1560
-    x1: 1800
+    x1: 1711
     y0: -250
     y1: 250
-    z_seuil: 450
-    ouverte: false
-  trappes_c4:
-  - y0: -1088
-    y1: -690
-    z0: 710
-    z1: 898
-  - y0: 690
-    y1: 1088
-    z0: 710
-    z1: 898
+    z_seuil: 650
+    ouverte: true
+    evacuation:
+      d: 25
+      x: 1698
+      y:
+      - -120
+      - 120
+  trappes_c4: null
+  ouvertures_c4:
+    bas: 25
+    bord: 25
+    couple: 25
+    poteau: 5
+    rayon: 30
   trappes_exterieures: null
   rangements:
     trappe:
@@ -347,6 +352,27 @@ coffre:
       y0: 150
       y1: 400
   glissiere_collier:
+    type: poteau_coffre
+    x:
+    - 2050
+    - 2120
+    y_int: 990
+    berceau:
+      y_fin: 1078
+      sous_axe: 11
+      jeu_x: 3
+    bloc: null
+    potence:
+      h: 40
+      devant_poteau: 10
+    poteau:
+      d: 50
+      ep: 2.5
+      y: 1045
+      jeu_c4: 3
+      douille: 20
+    cale: true
+  glissiere_collier_avant_0910:
     type: tube_pehd
     x:
     - 2050
@@ -365,6 +391,13 @@ coffre:
       ep: 2
       y: 1025
     cale: true
+  hiloire:
+    h: 30
+    ep: 9
+    inclinaison_deg: 45
+    x_milieu: 1755
+    y_plat: 460
+    x_joue: 1950
   glissiere_collier_avant_0810:
     x:
     - 2050
@@ -429,6 +462,7 @@ coffre:
         demi_y: 128
         x_av: 1717
         fond_ouvert: true
+        arriere_ouvert: true
       encoche_c4_z: 680
       encoche_c4_demi_y: 70
       trou_fond: 50
@@ -609,6 +643,14 @@ coffre:
     y_int: 800
     hauteur: 100
     rayon_aretes: 20
+    etancheite:
+      joint:
+        larg: 10
+        h: 10
+      tape:
+        ep: 6
+        marge: 30
+        jeu: 1
     ep_assise: 9
     ep_cotes: 6
     ep_fond: 4
@@ -738,12 +780,13 @@ safrans:
   barre_x: 5350
   barre_z: 300
 tente:
-  x0: 1540
+  x0: 2125
   x1: 4145
-  demi_y: 1093
+  demi_y: 1112
   z_arriere: 555
-  sommet_z: 1900
-  exposant: 0.5
+  z_tube: 1197
+  y_tube: 1040
+  sommet_z: 1880
   arceau_diam: 11
 peinture:
 - - ^banc_.*_(couple|machoire)
@@ -758,11 +801,19 @@ peinture:
   - - 0.13
     - 0.13
     - 0.14
-- - ^(coffre_coque|coffre_trappe|coffre_capot|coffre_caisse|coffre_batterie_|coffre_cloison_moteur|coffre_table|joue_|banc_.*_(assise|caisson))
+- - ^coffre_trappe
+  - - 0.91
+    - 0.72
+    - 0.14
+- - ^(coffre_coque|coffre_capot|coffre_caisse|coffre_batterie_|coffre_cloison_moteur|coffre_table|joue_|banc_.*_(assise|caisson))
   - - 0.95
     - 0.95
     - 0.93
 - - ^trampoline
-  - - 0.96
-    - 0.96
-    - 0.94
+  - - 0.89
+    - 0.91
+    - 0.92
+- - ^lacage_trampoline
+  - - 0.18
+    - 0.44
+    - 0.69

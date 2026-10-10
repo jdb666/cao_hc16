@@ -5,34 +5,34 @@
     0.0,
     "semelle_babord",
     [
-     1870,
+     1890,
      1176,
-     350
+     349
     ]
    ],
    [
     18.0,
     "bourrage_babord",
     [
-     2049,
+     2029,
      1176,
-     323
+     324
     ]
    ],
    [
-    38.6,
+    39.4,
     "renfort_pont_babord",
     [
-     2049,
+     2029,
      1166,
      304
     ]
    ],
    [
-    46.3,
+    47.1,
     "coque_babord",
     [
-     2049,
+     2029,
      1164,
      296
     ]
@@ -43,54 +43,54 @@
     0.0,
     "semelle_babord",
     [
-     1870,
+     1890,
      1136,
-     350
+     349
     ]
    ],
    [
     18.0,
     "bourrage_babord",
     [
-     2049,
+     2029,
      1136,
-     323
+     324
     ]
    ],
    [
-    29.6,
+    30.4,
     "renfort_pont_babord",
     [
-     2049,
-     1131,
-     311
+     2029,
+     1130,
+     312
     ]
    ],
    [
-    35.0,
-    "semelle_tubes_babord",
-    [
-     1846,
-     1111,
-     344
-    ]
-   ],
-   [
-    37.5,
+    38.3,
     "coque_babord",
     [
-     2049,
+     2029,
      1129,
      304
     ]
    ],
    [
-    42.6,
-    "bourrage_tubes_babord",
+    52.7,
+    "joue_babord",
     [
-     1845,
+     1892,
+     1120,
+     439
+    ]
+   ],
+   [
+    56.0,
+    "coffre_coque",
+    [
+     1892,
      1111,
-     326
+     439
     ]
    ]
   ],
@@ -99,9 +99,9 @@
     7.0,
     "semelle_babord",
     [
-     1963,
+     1957,
      1146,
-     345
+     346
     ]
    ],
    [
@@ -130,9 +130,36 @@
      1137,
      304
     ]
+   ],
+   [
+    53.9,
+    "joue_babord",
+    [
+     1927,
+     1120,
+     439
+    ]
+   ],
+   [
+    58.8,
+    "coffre_coque",
+    [
+     1927,
+     1111,
+     439
+    ]
    ]
   ],
   "emplanture_ergot_babord": [
+   [
+    42.5,
+    "joue_babord",
+    [
+     1963,
+     1120,
+     439
+    ]
+   ],
    [
     45.0,
     "semelle_babord",
@@ -140,6 +167,15 @@
      1970,
      1161,
      345
+    ]
+   ],
+   [
+    49.5,
+    "coffre_coque",
+    [
+     1963,
+     1111,
+     439
     ]
    ]
   ],
@@ -195,9 +231,9 @@
     11.0,
     "joue_babord",
     [
-     1972,
+     1969,
      1120,
-     578
+     517
     ]
    ],
    [
@@ -213,9 +249,9 @@
     20.0,
     "coffre_coque",
     [
-     2000,
+     1990,
      1111,
-     1116
+     920
     ]
    ],
    [
@@ -228,6 +264,24 @@
     ]
    ],
    [
+    30.9,
+    "coffre_hiloire",
+    [
+     1956,
+     1111,
+     926
+    ]
+   ],
+   [
+    31.0,
+    "glissiere_bague_babord",
+    [
+     1989,
+     1100,
+     891
+    ]
+   ],
+   [
     37.2,
     "banc_babord_assise",
     [
@@ -237,12 +291,12 @@
     ]
    ],
    [
-    40.2,
-    "glissiere_sabot_babord",
+    37.3,
+    "tape_piece_angle_babord",
     [
-     2050,
+     2022,
      1111,
-     1122
+     676
     ]
    ],
    [
@@ -255,28 +309,28 @@
     ]
    ],
    [
-    46.1,
-    "glissiere_poteau_haut_babord_av",
+    53.0,
+    "glissiere_potence_babord",
     [
-     2055,
-     1111,
-     1062
+     2002,
+     1078,
+     1144
     ]
    ],
    [
-    48.0,
-    "coffre_trappe_c4_2",
+    56.0,
+    "glissiere_cale_babord",
     [
-     2016,
-     1088,
-     898
+     1972,
+     1075,
+     567
     ]
    ]
   ],
   "collier_pli1_babord": [
    [
     3.0,
-    "glissiere_berceau_babord",
+    "glissiere_potence_babord",
     [
      2103,
      1078,
@@ -284,457 +338,194 @@
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    18.6,
+    "glissiere_poteau_babord",
     [
-     2082,
-     1078,
-     1140
+     1990,
+     1070,
+     1124
     ]
    ],
    [
-    10.1,
-    "glissiere_sabot_babord",
-    [
-     2118,
-     1096,
-     1122
-    ]
-   ],
-   [
-    10.4,
+    47.4,
     "joue_babord",
     [
-     2118,
+     2117,
      1113,
-     1122
-    ]
-   ],
-   [
-    15.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1085
     ]
    ]
   ],
   "collier_pli2_babord": [
    [
     3.0,
-    "glissiere_berceau_babord",
+    "glissiere_potence_babord",
     [
-     2101,
+     2103,
      1078,
      1143
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    27.2,
+    "glissiere_poteau_babord",
     [
-     2057,
-     1078,
-     1155
+     1991,
+     1070,
+     1124
     ]
    ],
    [
-    20.0,
-    "glissiere_sabot_babord",
-    [
-     2118,
-     1096,
-     1122
-    ]
-   ],
-   [
-    20.4,
+    57.4,
     "joue_babord",
     [
      2118,
      1113,
-     1122
-    ]
-   ],
-   [
-    25.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1085
     ]
    ]
   ],
   "collier_pli3_babord": [
    [
-    3.0,
-    "glissiere_berceau_babord",
+    9.4,
+    "glissiere_potence_babord",
     [
-     2056,
+     2107,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    36.6,
+    "glissiere_poteau_babord",
     [
-     2056,
-     1078,
-     1158
-    ]
-   ],
-   [
-    30.0,
-    "glissiere_sabot_babord",
-    [
-     2119,
-     1096,
-     1122
-    ]
-   ],
-   [
-    30.3,
-    "joue_babord",
-    [
-     2118,
-     1113,
-     1122
-    ]
-   ],
-   [
-    35.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1992,
+     1070,
+     1124
     ]
    ]
   ],
   "collier_pli4_babord": [
    [
-    6.3,
-    "glissiere_pehd_babord",
+    19.1,
+    "glissiere_potence_babord",
     [
-     2111,
+     2108,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    7.3,
-    "glissiere_berceau_babord",
+    46.2,
+    "glissiere_poteau_babord",
     [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    40.0,
-    "glissiere_sabot_babord",
-    [
-     2119,
-     1096,
-     1122
-    ]
-   ],
-   [
-    40.3,
-    "joue_babord",
-    [
-     2119,
-     1113,
-     1122
-    ]
-   ],
-   [
-    45.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1993,
+     1069,
+     1124
     ]
    ]
   ],
   "collier_pli5_babord": [
    [
-    15.3,
-    "glissiere_pehd_babord",
+    29.0,
+    "glissiere_potence_babord",
     [
-     2111,
+     2110,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    15.6,
-    "glissiere_berceau_babord",
+    55.9,
+    "glissiere_poteau_babord",
     [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_sabot_babord",
-    [
-     2120,
-     1096,
-     1122
-    ]
-   ],
-   [
-    50.3,
-    "joue_babord",
-    [
-     2119,
-     1113,
-     1122
-    ]
-   ],
-   [
-    55.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1994,
+     1069,
+     1124
     ]
    ]
   ],
   "collier_pli6_babord": [
    [
-    25.0,
-    "glissiere_pehd_babord",
+    38.9,
+    "glissiere_potence_babord",
     [
-     2111,
+     2112,
      1078,
-     1158
-    ]
-   ],
-   [
-    25.1,
-    "glissiere_berceau_babord",
-    [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    60.0,
-    "glissiere_sabot_babord",
-    [
-     2120,
-     1096,
-     1122
+     1144
     ]
    ]
   ],
   "collier_pli7_babord": [
    [
-    34.9,
-    "glissiere_berceau_babord",
+    48.8,
+    "glissiere_potence_babord",
     [
-     2114,
+     2113,
      1078,
-     1158
-    ]
-   ],
-   [
-    34.9,
-    "glissiere_pehd_babord",
-    [
-     2112,
-     1078,
-     1158
+     1144
     ]
    ]
   ],
   "collier_chemise_babord": [
    [
-    15.5,
+    50.0,
+    "glissiere_potence_babord",
+    [
+     2002,
+     1078,
+     1138
+    ]
+   ],
+   [
+    51.0,
     "joue_babord",
     [
      2056,
      1120,
-     1122
-    ]
-   ],
-   [
-    21.6,
-    "glissiere_sabot_babord",
-    [
-     2056,
-     1111,
-     1122
-    ]
-   ],
-   [
-    22.6,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_berceau_babord",
-    [
-     2056,
-     1078,
-     1135
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1078,
-     1158
+     1085
     ]
    ]
   ],
   "collier_axe_babord": [
    [
-    10.9,
-    "glissiere_berceau_babord",
-    [
-     2050,
-     1078,
-     1158
-    ]
-   ],
-   [
-    14.6,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1078,
-     1158
-    ]
-   ],
-   [
-    44.1,
-    "joue_babord",
+    22.3,
+    "glissiere_potence_babord",
     [
      2041,
-     1120,
-     1122
+     1073,
+     1144
     ]
    ],
    [
-    44.9,
-    "glissiere_sabot_babord",
+    53.9,
+    "glissiere_poteau_babord",
     [
-     2050,
-     1111,
-     1122
-    ]
-   ],
-   [
-    47.5,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     2010,
+     1057,
+     1124
     ]
    ]
   ],
   "collier_tourillon_babord": [
    [
-    3.0,
-    "glissiere_pehd_babord",
+    2.5,
+    "glissiere_potence_babord",
     [
      2085,
      1001,
-     1143
-    ]
-   ],
-   [
-    6.0,
-    "glissiere_berceau_babord",
-    [
-     2085,
-     1001,
-     1140
-    ]
-   ],
-   [
-    24.3,
-    "glissiere_sabot_babord",
-    [
-     2085,
-     1001,
-     1122
-    ]
-   ],
-   [
-    24.4,
-    "joue_babord",
-    [
-     2085,
-     1116,
-     1122
-    ]
-   ],
-   [
-    55.6,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
-    ]
-   ]
-  ],
-  "collier_ferrure_av_croise_babord": [
-   [
-    45.4,
-    "joue_babord",
-    [
-     1947,
-     1120,
-     1120
-    ]
-   ],
-   [
-    47.8,
-    "coffre_coque",
-    [
-     1947,
-     1111,
-     1120
+     1144
     ]
    ]
   ],
   "collier_ferrure_poutre_babord": [
    [
-    53.0,
-    "glissiere_berceau_babord",
+    40.3,
+    "glissiere_potence_babord",
     [
-     2050,
+     2004,
      1059,
-     1158
-    ]
-   ],
-   [
-    58.0,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1059,
-     1158
+     1144
     ]
    ]
   ],
@@ -787,268 +578,6 @@
     ]
    ]
   ],
-  "hauban_coffre_av_croise_babord": [
-   [
-    13.5,
-    "coque_tribord",
-    [
-     60,
-     -999,
-     444
-    ]
-   ],
-   [
-    53.7,
-    "coffre_coque",
-    [
-     1907,
-     1111,
-     1114
-    ]
-   ],
-   [
-    53.7,
-    "joue_babord",
-    [
-     1907,
-     1111,
-     1114
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_av_babord": [
-   [
-    7.5,
-    "semelle_babord",
-    [
-     1860,
-     1175,
-     351
-    ]
-   ],
-   [
-    10.0,
-    "coque_babord",
-    [
-     60,
-     1000,
-     444
-    ]
-   ],
-   [
-    25.5,
-    "bourrage_babord",
-    [
-     1859,
-     1175,
-     333
-    ]
-   ],
-   [
-    45.0,
-    "semelle_tubes_babord",
-    [
-     1656,
-     1111,
-     354
-    ]
-   ],
-   [
-    52.2,
-    "renfort_pont_babord",
-    [
-     1859,
-     1161,
-     308
-    ]
-   ],
-   [
-    54.2,
-    "bourrage_tubes_babord",
-    [
-     1655,
-     1111,
-     336
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_ar_babord": [
-   [
-    4.4,
-    "coque_babord",
-    [
-     2690,
-     1183,
-     292
-    ]
-   ],
-   [
-    7.2,
-    "semelle_babord",
-    [
-     2110,
-     1161,
-     338
-    ]
-   ],
-   [
-    25.1,
-    "bourrage_babord",
-    [
-     2109,
-     1161,
-     320
-    ]
-   ],
-   [
-    37.9,
-    "renfort_pont_babord",
-    [
-     2130,
-     1153,
-     306
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_av_croise_babord": [
-   [
-    7.5,
-    "semelle_babord",
-    [
-     1860,
-     1175,
-     351
-    ]
-   ],
-   [
-    12.0,
-    "coque_tribord",
-    [
-     60,
-     -997,
-     443
-    ]
-   ],
-   [
-    13.4,
-    "pylone_coffre_babord_1",
-    [
-     1801,
-     1079,
-     364
-    ]
-   ],
-   [
-    15.0,
-    "semelle_tubes_babord",
-    [
-     1806,
-     1111,
-     346
-    ]
-   ],
-   [
-    18.5,
-    "pylone_coffre_babord_0",
-    [
-     1731,
-     1053,
-     367
-    ]
-   ],
-   [
-    25.5,
-    "bourrage_babord",
-    [
-     1859,
-     1175,
-     333
-    ]
-   ],
-   [
-    33.0,
-    "bourrage_tubes_babord",
-    [
-     1805,
-     1111,
-     328
-    ]
-   ],
-   [
-    38.9,
-    "renfort_pont_babord",
-    [
-     1741,
-     1031,
-     326
-    ]
-   ],
-   [
-    46.9,
-    "coque_babord",
-    [
-     1741,
-     1031,
-     318
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_ar_croise_babord": [
-   [
-    4.6,
-    "coque_tribord",
-    [
-     2690,
-     -816,
-     292
-    ]
-   ],
-   [
-    7.2,
-    "semelle_babord",
-    [
-     2110,
-     1125,
-     338
-    ]
-   ],
-   [
-    24.4,
-    "renfort_pont_babord",
-    [
-     2130,
-     1041,
-     319
-    ]
-   ],
-   [
-    25.1,
-    "bourrage_babord",
-    [
-     2109,
-     1124,
-     320
-    ]
-   ],
-   [
-    29.9,
-    "coque_babord",
-    [
-     2155,
-     976,
-     311
-    ]
-   ],
-   [
-    37.3,
-    "pylone_av_babord",
-    [
-     2104,
-     1010,
-     345
-    ]
-   ]
-  ],
   "hauban_coffre_collier_poutre_babord": [
    [
     8.8,
@@ -1057,6 +586,15 @@
      2081,
      1,
      666
+    ]
+   ],
+   [
+    15.0,
+    "glissiere_potence_babord",
+    [
+     2007,
+     990,
+     1144
     ]
    ],
    [
@@ -1078,131 +616,77 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_babord",
-    [
-     2050,
-     990,
-     1158
-    ]
-   ],
-   [
-    46.3,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     990,
-     1158
-    ]
-   ],
-   [
-    47.3,
-    "trampoline",
-    [
-     2118,
-     1,
-     639
-    ]
-   ],
-   [
-    49.2,
+    38.1,
     "coffre_coque",
     [
      2022,
-     146,
-     740
+     284,
+     810
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_babord",
-    [
-     2050,
-     990,
-     1122
-    ]
-   ],
-   [
-    54.8,
+    44.0,
     "coffre_capot_arriere",
     [
      2016,
-     151,
-     742
+     286,
+     810
+    ]
+   ],
+   [
+    47.6,
+    "glissiere_poteau_babord",
+    [
+     1998,
+     1022,
+     1124
+    ]
+   ],
+   [
+    48.2,
+    "trampoline",
+    [
+     2118,
+     10,
+     639
     ]
    ]
   ],
   "tube_colliers": [
    [
-    0.5,
-    "glissiere_pehd_babord",
+    0.0,
+    "glissiere_potence_babord",
     [
      2085,
      1078,
-     1143
+     1144
     ]
    ],
    [
-    0.5,
-    "glissiere_pehd_tribord",
+    0.0,
+    "glissiere_potence_tribord",
     [
      2085,
      -1078,
-     1143
+     1144
     ]
    ],
    [
-    3.5,
-    "glissiere_berceau_babord",
+    59.5,
+    "glissiere_poteau_babord",
     [
-     2085,
-     1078,
-     1140
+     2014,
+     1045,
+     1124
     ]
    ],
    [
-    3.5,
-    "glissiere_berceau_tribord",
+    59.5,
+    "glissiere_poteau_tribord",
     [
-     2085,
-     -1078,
-     1140
-    ]
-   ],
-   [
-    21.8,
-    "glissiere_sabot_babord",
-    [
-     2085,
-     1078,
-     1122
-    ]
-   ],
-   [
-    21.8,
-    "glissiere_sabot_tribord",
-    [
-     2085,
-     -1078,
-     1122
-    ]
-   ],
-   [
-    39.6,
-    "joue_babord",
-    [
-     2085,
-     1111,
-     1122
-    ]
-   ],
-   [
-    39.6,
-    "joue_tribord",
-    [
-     2085,
-     -1111,
-     1122
+     2014,
+     -1045,
+     1124
     ]
    ]
   ]
@@ -1213,34 +697,34 @@
     0.0,
     "semelle_babord",
     [
-     1870,
+     1890,
      1176,
-     350
+     349
     ]
    ],
    [
     18.0,
     "bourrage_babord",
     [
-     2049,
+     2029,
      1176,
-     323
+     324
     ]
    ],
    [
-    38.6,
+    39.4,
     "renfort_pont_babord",
     [
-     2049,
+     2029,
      1166,
      304
     ]
    ],
    [
-    46.3,
+    47.1,
     "coque_babord",
     [
-     2049,
+     2029,
      1164,
      296
     ]
@@ -1251,54 +735,54 @@
     0.0,
     "semelle_babord",
     [
-     1870,
+     1890,
      1136,
-     350
+     349
     ]
    ],
    [
     18.0,
     "bourrage_babord",
     [
-     2049,
+     2029,
      1136,
-     323
+     324
     ]
    ],
    [
-    29.6,
+    30.4,
     "renfort_pont_babord",
     [
-     2049,
-     1131,
-     311
+     2029,
+     1130,
+     312
     ]
    ],
    [
-    35.0,
-    "semelle_tubes_babord",
-    [
-     1846,
-     1111,
-     344
-    ]
-   ],
-   [
-    37.5,
+    38.3,
     "coque_babord",
     [
-     2049,
+     2029,
      1129,
      304
     ]
    ],
    [
-    42.6,
-    "bourrage_tubes_babord",
+    52.7,
+    "joue_babord",
     [
-     1845,
+     1892,
+     1120,
+     439
+    ]
+   ],
+   [
+    56.0,
+    "coffre_coque",
+    [
+     1892,
      1111,
-     326
+     439
     ]
    ]
   ],
@@ -1307,9 +791,9 @@
     7.0,
     "semelle_babord",
     [
-     1963,
+     1957,
      1146,
-     345
+     346
     ]
    ],
    [
@@ -1338,9 +822,36 @@
      1137,
      304
     ]
+   ],
+   [
+    53.9,
+    "joue_babord",
+    [
+     1927,
+     1120,
+     439
+    ]
+   ],
+   [
+    58.8,
+    "coffre_coque",
+    [
+     1927,
+     1111,
+     439
+    ]
    ]
   ],
   "emplanture_ergot_babord": [
+   [
+    42.5,
+    "joue_babord",
+    [
+     1963,
+     1120,
+     439
+    ]
+   ],
    [
     45.0,
     "semelle_babord",
@@ -1348,6 +859,15 @@
      1970,
      1161,
      345
+    ]
+   ],
+   [
+    49.5,
+    "coffre_coque",
+    [
+     1963,
+     1111,
+     439
     ]
    ]
   ],
@@ -1403,9 +923,9 @@
     11.0,
     "joue_babord",
     [
-     1972,
+     1969,
      1120,
-     578
+     517
     ]
    ],
    [
@@ -1421,9 +941,9 @@
     20.0,
     "coffre_coque",
     [
-     2000,
+     1990,
      1111,
-     1116
+     920
     ]
    ],
    [
@@ -1436,6 +956,24 @@
     ]
    ],
    [
+    30.9,
+    "coffre_hiloire",
+    [
+     1956,
+     1111,
+     926
+    ]
+   ],
+   [
+    31.0,
+    "glissiere_bague_babord",
+    [
+     1989,
+     1100,
+     891
+    ]
+   ],
+   [
     37.2,
     "banc_babord_assise",
     [
@@ -1445,12 +983,12 @@
     ]
    ],
    [
-    40.2,
-    "glissiere_sabot_babord",
+    37.3,
+    "tape_piece_angle_babord",
     [
-     2050,
+     2022,
      1111,
-     1122
+     676
     ]
    ],
    [
@@ -1463,28 +1001,28 @@
     ]
    ],
    [
-    46.1,
-    "glissiere_poteau_haut_babord_av",
+    53.0,
+    "glissiere_potence_babord",
     [
-     2055,
-     1111,
-     1062
+     2002,
+     1078,
+     1144
     ]
    ],
    [
-    48.0,
-    "coffre_trappe_c4_2",
+    56.0,
+    "glissiere_cale_babord",
     [
-     2016,
-     1088,
-     898
+     1972,
+     1075,
+     567
     ]
    ]
   ],
   "collier_pli1_babord": [
    [
     3.0,
-    "glissiere_berceau_babord",
+    "glissiere_potence_babord",
     [
      2103,
      1078,
@@ -1492,457 +1030,194 @@
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    18.6,
+    "glissiere_poteau_babord",
     [
-     2082,
-     1078,
-     1140
+     1990,
+     1070,
+     1124
     ]
    ],
    [
-    10.1,
-    "glissiere_sabot_babord",
-    [
-     2118,
-     1096,
-     1122
-    ]
-   ],
-   [
-    10.4,
+    47.4,
     "joue_babord",
     [
-     2118,
+     2117,
      1113,
-     1122
-    ]
-   ],
-   [
-    15.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1085
     ]
    ]
   ],
   "collier_pli2_babord": [
    [
     3.0,
-    "glissiere_berceau_babord",
+    "glissiere_potence_babord",
     [
-     2101,
+     2103,
      1078,
      1143
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    27.2,
+    "glissiere_poteau_babord",
     [
-     2057,
-     1078,
-     1155
+     1991,
+     1070,
+     1124
     ]
    ],
    [
-    20.0,
-    "glissiere_sabot_babord",
-    [
-     2118,
-     1096,
-     1122
-    ]
-   ],
-   [
-    20.4,
+    57.4,
     "joue_babord",
     [
      2118,
      1113,
-     1122
-    ]
-   ],
-   [
-    25.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1085
     ]
    ]
   ],
   "collier_pli3_babord": [
    [
-    3.0,
-    "glissiere_berceau_babord",
+    9.4,
+    "glissiere_potence_babord",
     [
-     2056,
+     2107,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    36.6,
+    "glissiere_poteau_babord",
     [
-     2056,
-     1078,
-     1158
-    ]
-   ],
-   [
-    30.0,
-    "glissiere_sabot_babord",
-    [
-     2119,
-     1096,
-     1122
-    ]
-   ],
-   [
-    30.3,
-    "joue_babord",
-    [
-     2118,
-     1113,
-     1122
-    ]
-   ],
-   [
-    35.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1992,
+     1070,
+     1124
     ]
    ]
   ],
   "collier_pli4_babord": [
    [
-    6.3,
-    "glissiere_pehd_babord",
+    19.1,
+    "glissiere_potence_babord",
     [
-     2111,
+     2108,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    7.3,
-    "glissiere_berceau_babord",
+    46.2,
+    "glissiere_poteau_babord",
     [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    40.0,
-    "glissiere_sabot_babord",
-    [
-     2119,
-     1096,
-     1122
-    ]
-   ],
-   [
-    40.3,
-    "joue_babord",
-    [
-     2119,
-     1113,
-     1122
-    ]
-   ],
-   [
-    45.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1993,
+     1069,
+     1124
     ]
    ]
   ],
   "collier_pli5_babord": [
    [
-    15.3,
-    "glissiere_pehd_babord",
+    29.0,
+    "glissiere_potence_babord",
     [
-     2111,
+     2110,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    15.6,
-    "glissiere_berceau_babord",
+    55.9,
+    "glissiere_poteau_babord",
     [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_sabot_babord",
-    [
-     2120,
-     1096,
-     1122
-    ]
-   ],
-   [
-    50.3,
-    "joue_babord",
-    [
-     2119,
-     1113,
-     1122
-    ]
-   ],
-   [
-    55.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1994,
+     1069,
+     1124
     ]
    ]
   ],
   "collier_pli6_babord": [
    [
-    25.0,
-    "glissiere_pehd_babord",
+    38.9,
+    "glissiere_potence_babord",
     [
-     2111,
+     2112,
      1078,
-     1158
-    ]
-   ],
-   [
-    25.1,
-    "glissiere_berceau_babord",
-    [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    60.0,
-    "glissiere_sabot_babord",
-    [
-     2120,
-     1096,
-     1122
+     1144
     ]
    ]
   ],
   "collier_pli7_babord": [
    [
-    34.9,
-    "glissiere_berceau_babord",
+    48.8,
+    "glissiere_potence_babord",
     [
-     2114,
+     2113,
      1078,
-     1158
-    ]
-   ],
-   [
-    34.9,
-    "glissiere_pehd_babord",
-    [
-     2112,
-     1078,
-     1158
+     1144
     ]
    ]
   ],
   "collier_chemise_babord": [
    [
-    15.5,
+    50.0,
+    "glissiere_potence_babord",
+    [
+     2002,
+     1078,
+     1138
+    ]
+   ],
+   [
+    51.0,
     "joue_babord",
     [
      2056,
      1120,
-     1122
-    ]
-   ],
-   [
-    21.6,
-    "glissiere_sabot_babord",
-    [
-     2056,
-     1111,
-     1122
-    ]
-   ],
-   [
-    22.6,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_berceau_babord",
-    [
-     2056,
-     1078,
-     1135
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1078,
-     1158
+     1085
     ]
    ]
   ],
   "collier_axe_babord": [
    [
-    10.9,
-    "glissiere_berceau_babord",
-    [
-     2050,
-     1078,
-     1158
-    ]
-   ],
-   [
-    14.6,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1078,
-     1158
-    ]
-   ],
-   [
-    44.1,
-    "joue_babord",
+    22.3,
+    "glissiere_potence_babord",
     [
      2041,
-     1120,
-     1122
+     1073,
+     1144
     ]
    ],
    [
-    44.9,
-    "glissiere_sabot_babord",
+    53.9,
+    "glissiere_poteau_babord",
     [
-     2050,
-     1111,
-     1122
-    ]
-   ],
-   [
-    47.5,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     2010,
+     1057,
+     1124
     ]
    ]
   ],
   "collier_tourillon_babord": [
    [
-    3.0,
-    "glissiere_pehd_babord",
+    2.5,
+    "glissiere_potence_babord",
     [
      2085,
      1001,
-     1143
-    ]
-   ],
-   [
-    6.0,
-    "glissiere_berceau_babord",
-    [
-     2085,
-     1001,
-     1140
-    ]
-   ],
-   [
-    24.3,
-    "glissiere_sabot_babord",
-    [
-     2085,
-     1001,
-     1122
-    ]
-   ],
-   [
-    24.4,
-    "joue_babord",
-    [
-     2085,
-     1116,
-     1122
-    ]
-   ],
-   [
-    55.6,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
-    ]
-   ]
-  ],
-  "collier_ferrure_av_croise_babord": [
-   [
-    45.4,
-    "joue_babord",
-    [
-     1947,
-     1120,
-     1120
-    ]
-   ],
-   [
-    47.8,
-    "coffre_coque",
-    [
-     1947,
-     1111,
-     1120
+     1144
     ]
    ]
   ],
   "collier_ferrure_poutre_babord": [
    [
-    53.0,
-    "glissiere_berceau_babord",
+    40.3,
+    "glissiere_potence_babord",
     [
-     2050,
+     2004,
      1059,
-     1158
-    ]
-   ],
-   [
-    58.0,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1059,
-     1158
+     1144
     ]
    ]
   ],
@@ -1995,268 +1270,6 @@
     ]
    ]
   ],
-  "hauban_coffre_av_croise_babord": [
-   [
-    13.5,
-    "coque_tribord",
-    [
-     60,
-     -999,
-     444
-    ]
-   ],
-   [
-    53.7,
-    "coffre_coque",
-    [
-     1907,
-     1111,
-     1114
-    ]
-   ],
-   [
-    53.7,
-    "joue_babord",
-    [
-     1907,
-     1111,
-     1114
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_av_babord": [
-   [
-    7.5,
-    "semelle_babord",
-    [
-     1860,
-     1175,
-     351
-    ]
-   ],
-   [
-    10.0,
-    "coque_babord",
-    [
-     60,
-     1000,
-     444
-    ]
-   ],
-   [
-    25.5,
-    "bourrage_babord",
-    [
-     1859,
-     1175,
-     333
-    ]
-   ],
-   [
-    45.0,
-    "semelle_tubes_babord",
-    [
-     1656,
-     1111,
-     354
-    ]
-   ],
-   [
-    52.2,
-    "renfort_pont_babord",
-    [
-     1859,
-     1161,
-     308
-    ]
-   ],
-   [
-    54.2,
-    "bourrage_tubes_babord",
-    [
-     1655,
-     1111,
-     336
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_ar_babord": [
-   [
-    4.4,
-    "coque_babord",
-    [
-     2690,
-     1183,
-     292
-    ]
-   ],
-   [
-    7.2,
-    "semelle_babord",
-    [
-     2110,
-     1161,
-     338
-    ]
-   ],
-   [
-    25.1,
-    "bourrage_babord",
-    [
-     2109,
-     1161,
-     320
-    ]
-   ],
-   [
-    37.9,
-    "renfort_pont_babord",
-    [
-     2130,
-     1153,
-     306
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_av_croise_babord": [
-   [
-    7.5,
-    "semelle_babord",
-    [
-     1860,
-     1175,
-     351
-    ]
-   ],
-   [
-    12.0,
-    "coque_tribord",
-    [
-     60,
-     -997,
-     443
-    ]
-   ],
-   [
-    13.4,
-    "pylone_coffre_babord_1",
-    [
-     1801,
-     1079,
-     364
-    ]
-   ],
-   [
-    15.0,
-    "semelle_tubes_babord",
-    [
-     1806,
-     1111,
-     346
-    ]
-   ],
-   [
-    18.5,
-    "pylone_coffre_babord_0",
-    [
-     1731,
-     1053,
-     367
-    ]
-   ],
-   [
-    25.5,
-    "bourrage_babord",
-    [
-     1859,
-     1175,
-     333
-    ]
-   ],
-   [
-    33.0,
-    "bourrage_tubes_babord",
-    [
-     1805,
-     1111,
-     328
-    ]
-   ],
-   [
-    38.9,
-    "renfort_pont_babord",
-    [
-     1741,
-     1031,
-     326
-    ]
-   ],
-   [
-    46.9,
-    "coque_babord",
-    [
-     1741,
-     1031,
-     318
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_ar_croise_babord": [
-   [
-    4.6,
-    "coque_tribord",
-    [
-     2690,
-     -816,
-     292
-    ]
-   ],
-   [
-    7.2,
-    "semelle_babord",
-    [
-     2110,
-     1125,
-     338
-    ]
-   ],
-   [
-    24.4,
-    "renfort_pont_babord",
-    [
-     2130,
-     1041,
-     319
-    ]
-   ],
-   [
-    25.1,
-    "bourrage_babord",
-    [
-     2109,
-     1124,
-     320
-    ]
-   ],
-   [
-    29.9,
-    "coque_babord",
-    [
-     2155,
-     976,
-     311
-    ]
-   ],
-   [
-    37.3,
-    "pylone_av_babord",
-    [
-     2104,
-     1010,
-     345
-    ]
-   ]
-  ],
   "hauban_coffre_collier_poutre_babord": [
    [
     8.8,
@@ -2265,6 +1278,15 @@
      2081,
      1,
      666
+    ]
+   ],
+   [
+    15.0,
+    "glissiere_potence_babord",
+    [
+     2007,
+     990,
+     1144
     ]
    ],
    [
@@ -2277,57 +1299,39 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_babord",
-    [
-     2050,
-     990,
-     1158
-    ]
-   ],
-   [
-    46.3,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     990,
-     1158
-    ]
-   ],
-   [
-    47.3,
-    "trampoline",
-    [
-     2118,
-     1,
-     639
-    ]
-   ],
-   [
-    49.2,
+    38.1,
     "coffre_coque",
     [
      2022,
-     146,
-     740
+     284,
+     810
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_babord",
-    [
-     2050,
-     990,
-     1122
-    ]
-   ],
-   [
-    54.8,
+    44.0,
     "coffre_capot_arriere",
     [
      2016,
-     151,
-     742
+     286,
+     810
+    ]
+   ],
+   [
+    47.6,
+    "glissiere_poteau_babord",
+    [
+     1998,
+     1022,
+     1124
+    ]
+   ],
+   [
+    48.2,
+    "trampoline",
+    [
+     2118,
+     10,
+     639
     ]
    ]
   ],
@@ -2342,75 +1346,39 @@
     ]
    ],
    [
-    0.5,
-    "glissiere_pehd_babord",
+    0.0,
+    "glissiere_potence_babord",
     [
      2085,
      1078,
-     1143
+     1144
     ]
    ],
    [
-    0.5,
-    "glissiere_pehd_tribord",
+    0.0,
+    "glissiere_potence_tribord",
     [
      2085,
      -1078,
-     1143
+     1144
     ]
    ],
    [
-    3.5,
-    "glissiere_berceau_babord",
+    59.5,
+    "glissiere_poteau_babord",
     [
-     2085,
-     1078,
-     1140
+     2014,
+     1045,
+     1124
     ]
    ],
    [
-    3.5,
-    "glissiere_berceau_tribord",
+    59.5,
+    "glissiere_poteau_tribord",
     [
-     2085,
-     -1078,
-     1140
-    ]
-   ],
-   [
-    21.8,
-    "glissiere_sabot_babord",
-    [
-     2085,
-     1078,
-     1122
-    ]
-   ],
-   [
-    21.8,
-    "glissiere_sabot_tribord",
-    [
-     2085,
-     -1078,
-     1122
-    ]
-   ],
-   [
-    39.6,
-    "joue_babord",
-    [
-     2085,
-     1111,
-     1122
-    ]
-   ],
-   [
-    39.6,
-    "joue_tribord",
-    [
-     2085,
-     -1111,
-     1122
+     2014,
+     -1045,
+     1124
     ]
    ]
   ]
@@ -2421,34 +1389,34 @@
     0.0,
     "semelle_babord",
     [
-     1870,
+     1890,
      1176,
-     350
+     349
     ]
    ],
    [
     18.0,
     "bourrage_babord",
     [
-     2049,
+     2029,
      1176,
-     323
+     324
     ]
    ],
    [
-    38.6,
+    39.4,
     "renfort_pont_babord",
     [
-     2049,
+     2029,
      1166,
      304
     ]
    ],
    [
-    46.3,
+    47.1,
     "coque_babord",
     [
-     2049,
+     2029,
      1164,
      296
     ]
@@ -2459,54 +1427,54 @@
     0.0,
     "semelle_babord",
     [
-     1870,
+     1890,
      1136,
-     350
+     349
     ]
    ],
    [
     18.0,
     "bourrage_babord",
     [
-     2049,
+     2029,
      1136,
-     323
+     324
     ]
    ],
    [
-    29.6,
+    30.4,
     "renfort_pont_babord",
     [
-     2049,
-     1131,
-     311
+     2029,
+     1130,
+     312
     ]
    ],
    [
-    35.0,
-    "semelle_tubes_babord",
-    [
-     1846,
-     1111,
-     344
-    ]
-   ],
-   [
-    37.5,
+    38.3,
     "coque_babord",
     [
-     2049,
+     2029,
      1129,
      304
     ]
    ],
    [
-    42.6,
-    "bourrage_tubes_babord",
+    52.7,
+    "joue_babord",
     [
-     1845,
+     1892,
+     1120,
+     439
+    ]
+   ],
+   [
+    56.0,
+    "coffre_coque",
+    [
+     1892,
      1111,
-     326
+     439
     ]
    ]
   ],
@@ -2515,9 +1483,9 @@
     7.0,
     "semelle_babord",
     [
-     1963,
+     1957,
      1146,
-     345
+     346
     ]
    ],
    [
@@ -2546,9 +1514,36 @@
      1137,
      304
     ]
+   ],
+   [
+    53.9,
+    "joue_babord",
+    [
+     1927,
+     1120,
+     439
+    ]
+   ],
+   [
+    58.8,
+    "coffre_coque",
+    [
+     1927,
+     1111,
+     439
+    ]
    ]
   ],
   "emplanture_ergot_babord": [
+   [
+    42.5,
+    "joue_babord",
+    [
+     1963,
+     1120,
+     439
+    ]
+   ],
    [
     45.0,
     "semelle_babord",
@@ -2556,6 +1551,15 @@
      1970,
      1161,
      345
+    ]
+   ],
+   [
+    49.5,
+    "coffre_coque",
+    [
+     1963,
+     1111,
+     439
     ]
    ]
   ],
@@ -2602,9 +1606,9 @@
     11.0,
     "joue_babord",
     [
-     1972,
+     1969,
      1120,
-     578
+     517
     ]
    ],
    [
@@ -2620,9 +1624,9 @@
     20.0,
     "coffre_coque",
     [
-     2000,
+     1990,
      1111,
-     1116
+     920
     ]
    ],
    [
@@ -2635,6 +1639,24 @@
     ]
    ],
    [
+    30.9,
+    "coffre_hiloire",
+    [
+     1956,
+     1111,
+     926
+    ]
+   ],
+   [
+    31.0,
+    "glissiere_bague_babord",
+    [
+     1989,
+     1100,
+     891
+    ]
+   ],
+   [
     37.2,
     "banc_babord_assise",
     [
@@ -2644,12 +1666,12 @@
     ]
    ],
    [
-    40.2,
-    "glissiere_sabot_babord",
+    37.3,
+    "tape_piece_angle_babord",
     [
-     2050,
+     2022,
      1111,
-     1122
+     676
     ]
    ],
    [
@@ -2662,28 +1684,28 @@
     ]
    ],
    [
-    46.1,
-    "glissiere_poteau_haut_babord_av",
+    53.0,
+    "glissiere_potence_babord",
     [
-     2055,
-     1111,
-     1062
+     2002,
+     1078,
+     1144
     ]
    ],
    [
-    48.0,
-    "coffre_trappe_c4_2",
+    56.0,
+    "glissiere_cale_babord",
     [
-     2016,
-     1088,
-     898
+     1972,
+     1075,
+     567
     ]
    ]
   ],
   "collier_pli1_babord": [
    [
     3.0,
-    "glissiere_berceau_babord",
+    "glissiere_potence_babord",
     [
      2103,
      1078,
@@ -2691,457 +1713,194 @@
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    18.6,
+    "glissiere_poteau_babord",
     [
-     2082,
-     1078,
-     1140
+     1990,
+     1070,
+     1124
     ]
    ],
    [
-    10.1,
-    "glissiere_sabot_babord",
-    [
-     2118,
-     1096,
-     1122
-    ]
-   ],
-   [
-    10.4,
+    47.4,
     "joue_babord",
     [
-     2118,
+     2117,
      1113,
-     1122
-    ]
-   ],
-   [
-    15.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1085
     ]
    ]
   ],
   "collier_pli2_babord": [
    [
     3.0,
-    "glissiere_berceau_babord",
+    "glissiere_potence_babord",
     [
-     2101,
+     2103,
      1078,
      1143
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    27.2,
+    "glissiere_poteau_babord",
     [
-     2057,
-     1078,
-     1155
+     1991,
+     1070,
+     1124
     ]
    ],
    [
-    20.0,
-    "glissiere_sabot_babord",
-    [
-     2118,
-     1096,
-     1122
-    ]
-   ],
-   [
-    20.4,
+    57.4,
     "joue_babord",
     [
      2118,
      1113,
-     1122
-    ]
-   ],
-   [
-    25.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1085
     ]
    ]
   ],
   "collier_pli3_babord": [
    [
-    3.0,
-    "glissiere_berceau_babord",
+    9.4,
+    "glissiere_potence_babord",
     [
-     2056,
+     2107,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    3.0,
-    "glissiere_pehd_babord",
+    36.6,
+    "glissiere_poteau_babord",
     [
-     2056,
-     1078,
-     1158
-    ]
-   ],
-   [
-    30.0,
-    "glissiere_sabot_babord",
-    [
-     2119,
-     1096,
-     1122
-    ]
-   ],
-   [
-    30.3,
-    "joue_babord",
-    [
-     2118,
-     1113,
-     1122
-    ]
-   ],
-   [
-    35.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1992,
+     1070,
+     1124
     ]
    ]
   ],
   "collier_pli4_babord": [
    [
-    6.3,
-    "glissiere_pehd_babord",
+    19.1,
+    "glissiere_potence_babord",
     [
-     2111,
+     2108,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    7.3,
-    "glissiere_berceau_babord",
+    46.2,
+    "glissiere_poteau_babord",
     [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    40.0,
-    "glissiere_sabot_babord",
-    [
-     2119,
-     1096,
-     1122
-    ]
-   ],
-   [
-    40.3,
-    "joue_babord",
-    [
-     2119,
-     1113,
-     1122
-    ]
-   ],
-   [
-    45.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1993,
+     1069,
+     1124
     ]
    ]
   ],
   "collier_pli5_babord": [
    [
-    15.3,
-    "glissiere_pehd_babord",
+    29.0,
+    "glissiere_potence_babord",
     [
-     2111,
+     2110,
      1078,
-     1158
+     1144
     ]
    ],
    [
-    15.6,
-    "glissiere_berceau_babord",
+    55.9,
+    "glissiere_poteau_babord",
     [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_sabot_babord",
-    [
-     2120,
-     1096,
-     1122
-    ]
-   ],
-   [
-    50.3,
-    "joue_babord",
-    [
-     2119,
-     1113,
-     1122
-    ]
-   ],
-   [
-    55.0,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     1994,
+     1069,
+     1124
     ]
    ]
   ],
   "collier_pli6_babord": [
    [
-    25.0,
-    "glissiere_pehd_babord",
+    38.9,
+    "glissiere_potence_babord",
     [
-     2111,
+     2112,
      1078,
-     1158
-    ]
-   ],
-   [
-    25.1,
-    "glissiere_berceau_babord",
-    [
-     2114,
-     1078,
-     1158
-    ]
-   ],
-   [
-    60.0,
-    "glissiere_sabot_babord",
-    [
-     2120,
-     1096,
-     1122
+     1144
     ]
    ]
   ],
   "collier_pli7_babord": [
    [
-    34.9,
-    "glissiere_berceau_babord",
+    48.8,
+    "glissiere_potence_babord",
     [
-     2114,
+     2113,
      1078,
-     1158
-    ]
-   ],
-   [
-    34.9,
-    "glissiere_pehd_babord",
-    [
-     2112,
-     1078,
-     1158
+     1144
     ]
    ]
   ],
   "collier_chemise_babord": [
    [
-    15.5,
+    50.0,
+    "glissiere_potence_babord",
+    [
+     2002,
+     1078,
+     1138
+    ]
+   ],
+   [
+    51.0,
     "joue_babord",
     [
      2056,
      1120,
-     1122
-    ]
-   ],
-   [
-    21.6,
-    "glissiere_sabot_babord",
-    [
-     2056,
-     1111,
-     1122
-    ]
-   ],
-   [
-    22.6,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_berceau_babord",
-    [
-     2056,
-     1078,
-     1135
-    ]
-   ],
-   [
-    50.0,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1078,
-     1158
+     1085
     ]
    ]
   ],
   "collier_axe_babord": [
    [
-    10.9,
-    "glissiere_berceau_babord",
-    [
-     2050,
-     1078,
-     1158
-    ]
-   ],
-   [
-    14.6,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1078,
-     1158
-    ]
-   ],
-   [
-    44.1,
-    "joue_babord",
+    22.3,
+    "glissiere_potence_babord",
     [
      2041,
-     1120,
-     1122
+     1073,
+     1144
     ]
    ],
    [
-    44.9,
-    "glissiere_sabot_babord",
+    53.9,
+    "glissiere_poteau_babord",
     [
-     2050,
-     1111,
-     1122
-    ]
-   ],
-   [
-    47.5,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
+     2010,
+     1057,
+     1124
     ]
    ]
   ],
   "collier_tourillon_babord": [
    [
-    3.0,
-    "glissiere_pehd_babord",
+    2.5,
+    "glissiere_potence_babord",
     [
      2085,
      1001,
-     1143
-    ]
-   ],
-   [
-    6.0,
-    "glissiere_berceau_babord",
-    [
-     2085,
-     1001,
-     1140
-    ]
-   ],
-   [
-    24.3,
-    "glissiere_sabot_babord",
-    [
-     2085,
-     1001,
-     1122
-    ]
-   ],
-   [
-    24.4,
-    "joue_babord",
-    [
-     2085,
-     1116,
-     1122
-    ]
-   ],
-   [
-    55.6,
-    "coffre_coque",
-    [
-     2022,
-     1111,
-     1122
-    ]
-   ]
-  ],
-  "collier_ferrure_av_croise_babord": [
-   [
-    45.4,
-    "joue_babord",
-    [
-     1947,
-     1120,
-     1120
-    ]
-   ],
-   [
-    47.8,
-    "coffre_coque",
-    [
-     1947,
-     1111,
-     1120
+     1144
     ]
    ]
   ],
   "collier_ferrure_poutre_babord": [
    [
-    53.0,
-    "glissiere_berceau_babord",
+    40.3,
+    "glissiere_potence_babord",
     [
-     2050,
+     2004,
      1059,
-     1158
-    ]
-   ],
-   [
-    58.0,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     1059,
-     1158
+     1144
     ]
    ]
   ],
@@ -3203,268 +1962,6 @@
     ]
    ]
   ],
-  "hauban_coffre_av_croise_babord": [
-   [
-    13.5,
-    "coque_tribord",
-    [
-     60,
-     -999,
-     444
-    ]
-   ],
-   [
-    53.7,
-    "coffre_coque",
-    [
-     1907,
-     1111,
-     1114
-    ]
-   ],
-   [
-    53.7,
-    "joue_babord",
-    [
-     1907,
-     1111,
-     1114
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_av_babord": [
-   [
-    7.5,
-    "semelle_babord",
-    [
-     1860,
-     1175,
-     351
-    ]
-   ],
-   [
-    10.0,
-    "coque_babord",
-    [
-     60,
-     1000,
-     444
-    ]
-   ],
-   [
-    25.5,
-    "bourrage_babord",
-    [
-     1859,
-     1175,
-     333
-    ]
-   ],
-   [
-    45.0,
-    "semelle_tubes_babord",
-    [
-     1656,
-     1111,
-     354
-    ]
-   ],
-   [
-    52.2,
-    "renfort_pont_babord",
-    [
-     1859,
-     1161,
-     308
-    ]
-   ],
-   [
-    54.2,
-    "bourrage_tubes_babord",
-    [
-     1655,
-     1111,
-     336
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_ar_babord": [
-   [
-    4.4,
-    "coque_babord",
-    [
-     2690,
-     1183,
-     292
-    ]
-   ],
-   [
-    7.2,
-    "semelle_babord",
-    [
-     2110,
-     1161,
-     338
-    ]
-   ],
-   [
-    25.1,
-    "bourrage_babord",
-    [
-     2109,
-     1161,
-     320
-    ]
-   ],
-   [
-    37.9,
-    "renfort_pont_babord",
-    [
-     2130,
-     1153,
-     306
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_av_croise_babord": [
-   [
-    7.5,
-    "semelle_babord",
-    [
-     1860,
-     1175,
-     351
-    ]
-   ],
-   [
-    12.0,
-    "coque_tribord",
-    [
-     60,
-     -997,
-     443
-    ]
-   ],
-   [
-    13.4,
-    "pylone_coffre_babord_1",
-    [
-     1801,
-     1079,
-     364
-    ]
-   ],
-   [
-    15.0,
-    "semelle_tubes_babord",
-    [
-     1806,
-     1111,
-     346
-    ]
-   ],
-   [
-    18.5,
-    "pylone_coffre_babord_0",
-    [
-     1731,
-     1053,
-     367
-    ]
-   ],
-   [
-    25.5,
-    "bourrage_babord",
-    [
-     1859,
-     1175,
-     333
-    ]
-   ],
-   [
-    33.0,
-    "bourrage_tubes_babord",
-    [
-     1805,
-     1111,
-     328
-    ]
-   ],
-   [
-    38.9,
-    "renfort_pont_babord",
-    [
-     1741,
-     1031,
-     326
-    ]
-   ],
-   [
-    46.9,
-    "coque_babord",
-    [
-     1741,
-     1031,
-     318
-    ]
-   ]
-  ],
-  "hauban_coffre_semelle_ar_croise_babord": [
-   [
-    4.6,
-    "coque_tribord",
-    [
-     2690,
-     -816,
-     292
-    ]
-   ],
-   [
-    7.2,
-    "semelle_babord",
-    [
-     2110,
-     1125,
-     338
-    ]
-   ],
-   [
-    24.4,
-    "renfort_pont_babord",
-    [
-     2130,
-     1041,
-     319
-    ]
-   ],
-   [
-    25.1,
-    "bourrage_babord",
-    [
-     2109,
-     1124,
-     320
-    ]
-   ],
-   [
-    29.9,
-    "coque_babord",
-    [
-     2155,
-     976,
-     311
-    ]
-   ],
-   [
-    37.3,
-    "pylone_av_babord",
-    [
-     2104,
-     1010,
-     345
-    ]
-   ]
-  ],
   "hauban_coffre_collier_poutre_babord": [
    [
     8.8,
@@ -3473,6 +1970,15 @@
      2081,
      1,
      666
+    ]
+   ],
+   [
+    15.0,
+    "glissiere_potence_babord",
+    [
+     2007,
+     990,
+     1144
     ]
    ],
    [
@@ -3494,140 +2000,82 @@
     ]
    ],
    [
-    40.6,
-    "glissiere_berceau_babord",
-    [
-     2050,
-     990,
-     1158
-    ]
-   ],
-   [
-    46.3,
-    "glissiere_pehd_babord",
-    [
-     2056,
-     990,
-     1158
-    ]
-   ],
-   [
-    47.3,
-    "trampoline",
-    [
-     2118,
-     1,
-     639
-    ]
-   ],
-   [
-    49.2,
+    38.1,
     "coffre_coque",
     [
      2022,
-     146,
-     740
+     284,
+     810
     ]
    ],
    [
-    53.3,
-    "glissiere_sabot_babord",
-    [
-     2050,
-     990,
-     1122
-    ]
-   ],
-   [
-    54.8,
+    44.0,
     "coffre_capot_arriere",
     [
      2016,
-     151,
-     742
+     286,
+     810
+    ]
+   ],
+   [
+    47.6,
+    "glissiere_poteau_babord",
+    [
+     1998,
+     1022,
+     1124
+    ]
+   ],
+   [
+    48.2,
+    "trampoline",
+    [
+     2118,
+     10,
+     639
     ]
    ]
   ],
   "tube_colliers": [
    [
-    0.5,
-    "glissiere_pehd_babord",
+    0.0,
+    "glissiere_potence_babord",
     [
      2085,
      1078,
-     1143
+     1144
     ]
    ],
    [
-    0.5,
-    "glissiere_pehd_tribord",
+    0.0,
+    "glissiere_potence_tribord",
     [
      2085,
      -1078,
-     1143
+     1144
     ]
    ],
    [
-    3.5,
-    "glissiere_berceau_babord",
+    59.5,
+    "glissiere_poteau_babord",
     [
-     2085,
-     1078,
-     1140
+     2014,
+     1045,
+     1124
     ]
    ],
    [
-    3.5,
-    "glissiere_berceau_tribord",
+    59.5,
+    "glissiere_poteau_tribord",
     [
-     2085,
-     -1078,
-     1140
-    ]
-   ],
-   [
-    21.8,
-    "glissiere_sabot_babord",
-    [
-     2085,
-     1078,
-     1122
-    ]
-   ],
-   [
-    21.8,
-    "glissiere_sabot_tribord",
-    [
-     2085,
-     -1078,
-     1122
-    ]
-   ],
-   [
-    39.6,
-    "joue_babord",
-    [
-     2085,
-     1111,
-     1122
-    ]
-   ],
-   [
-    39.6,
-    "joue_tribord",
-    [
-     2085,
-     -1111,
-     1122
+     2014,
+     -1045,
+     1124
     ]
    ]
   ]
  },
  "quetes_crans": [
-  [
-   -2,
-   5.8241891774539845
-  ],
   [
    -1,
    4.412952831062958
@@ -3639,10 +2087,6 @@
   [
    1,
    1.5870471689370445
-  ],
-  [
-   2,
-   0.17581082254601751
   ]
  ]
 }

@@ -256,7 +256,7 @@ def semelle():
     a1.set_title(f'En travers au pied de mât (x {XM:,.0f}), vue de l’avant'.replace(',', ' '), fontsize=9, color=INK, loc='left')
     a1.set_aspect('equal'); a1.set_xlim(790, 1250); a1.set_ylim(190, 520); a1.axis('off')
     # coupe en long dans l'axe du mât (y = YM), vue de bâbord (étrave à gauche)
-    XL0, XL1 = XM - 206, XM + 214
+    XL0, XL1 = min(XM - 206, X0 - 40), max(XM + 214, X1 + 80)      # (JD 08/10 soir) semelle unique, de x 1 656 à 2 050 : toute la semelle
     xsd = np.linspace(XL0, XL1, 120)
     a2.add_patch(MPoly([(x, pont_p4(x, YM)) for x in xsd] + [(XL1, 190), (XL0, 190)], closed=True, fc='#F4F6F6', ec='none'))
     a2.plot(xsd, [pont_p4(x, YM) for x in xsd], color=INK, lw=1.1)
@@ -284,11 +284,11 @@ def semelle():
         qq = (' · '.join(f'{v:.1f}' for _, v in qc_).replace('.', ',') + '°') if qc_ else None
         a2.annotate(f"trous Ø {r_['trou']:.0f} tous les {r_['pas']:.0f}" + (f"\nquête {qq}" if qq else ''), xy=P_(r_['l'] / 2 - 10, nb_),
                     xytext=(XM + 106, 440), fontsize=7, color=INK, ha='left', va='center', arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
-        a2.annotate('cale triangulaire pointe en bas :\nelle pivote sur le boulon', xy=P_(-24, n0 - 4), xytext=(XM - 181, 440), fontsize=7, color=INK, ha='left', va='center',
+        a2.annotate('cale triangulaire pointe en bas :\nelle pivote sur le boulon', xy=P_(-24, n0 - 4), xytext=(XL0 + 25, 440), fontsize=7, color=INK, ha='left', va='center',
                     arrowprops=dict(arrowstyle='-', color=DIM, lw=.5))
     a2.plot([XM, XM], [ztop, 515], color=DIM, lw=.6, ls=(0, (3, 2)))
     a2.text(XM + 10, 492, f'quête {MATS["quete_deg"]:.0f}°', fontsize=8, color=DIM, fontweight='bold')
-    a2.text(XM - 191, 212, f'pont +{SM["pente_pont_p4"]:.1f}° vers l’étrave (P4)'.replace('.', ','), fontsize=7.5, color=INK)
+    a2.text(XL0 + 15, 212, f'pont +{SM["pente_pont_p4"]:.1f}° vers l’étrave (P4)'.replace('.', ','), fontsize=7.5, color=INK)
     for x, ha in ((X0, 'right'), (X1, 'left')):
         j = zu(x, YM) - sup(x, YM)
         a2.annotate(f'{j:.0f}', xy=(x, sup(x, YM) + j / 2), xytext=(x + (-24 if ha == 'right' else 24), pont_p4(x, YM) - 30),

@@ -20,6 +20,8 @@ async def route(r):
     elif u.startswith('https://fonts.gstatic.com/local/'):
         rel = u.split('/local/')[1]
         await r.fulfill(path=os.path.join(FONTS, rel.split('/')[0], 'files', rel.split('/')[1]), content_type='font/woff2')
+    elif u.startswith('file:') and u.split('?')[0].endswith('.html'):      # (09/10) page locale servie en UTF-8 (sans <meta charset>, le navigateur la lisait en latin-1)
+        await r.fulfill(path=u.split('?')[0][len('file://'):], content_type='text/html; charset=utf-8')
     elif u.startswith('file:') or u.startswith('data:'):
         await r.continue_()
     else:

@@ -14,73 +14,71 @@
   "w_cv": 3663,
   "h_collier": 784,
   "z_cv": 4049,
-  "RM": 5388,
-  "F_par_voile": 642,
-  "R_etambrai": 2999
+  "RM": 5347,
+  "F_par_voile": 637,
+  "R_etambrai": 2976
  },
  "cas": [
   {
    "cas": "réglage 300 N",
    "V": [
-    950,
-    950
+    604,
+    604
    ],
    "M": [
-    -50,
-    -50
+    -34,
+    -34
    ],
-   "Tmax": 779,
-   "tube": -541
+   "Tmax": 446,
+   "tube": -312
   },
   {
    "cas": "réglage 300 N, poussée 90° x1.0",
    "V": [
-    316,
-    4028
+    22,
+    3618
    ],
    "M": [
-    -15,
-    -285
+    -1,
+    -288
    ],
-   "Tmax": 5278,
-   "tube": -3027,
+   "Tmax": 6540,
+   "tube": -2978,
    "mous": [
-    "avc_babord",
     "pou_babord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée 90° x1.5",
    "V": [
-    117,
-    5701
+    0,
+    5206
    ],
    "M": [
-    -6,
-    -412
+    0,
+    -421
    ],
-   "Tmax": 7983,
-   "tube": -4508,
+   "Tmax": 9830,
+   "tube": -4464,
    "mous": [
-    "avc_babord",
+    "av_babord",
     "pou_babord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée 60° x1.0",
    "V": [
-    2124,
-    4913
+    2109,
+    4075
    ],
    "M": [
     -20,
-    -241
+    -215
    ],
-   "Tmax": 5024,
-   "tube": -2677,
+   "Tmax": 5783,
+   "tube": -2657,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
     "av_tribord"
    ]
@@ -88,18 +86,17 @@
   {
    "cas": "réglage 300 N, poussée 60° x1.5",
    "V": [
-    3187,
-    7242
+    3163,
+    6112
    ],
    "M": [
     -30,
-    -358
+    -323
    ],
-   "Tmax": 7663,
-   "tube": -4016,
+   "Tmax": 8675,
+   "tube": -3986,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
     "av_tribord"
    ]
@@ -107,202 +104,185 @@
   {
    "cas": "réglage 300 N, poussée 30° x1.0",
    "V": [
-    3680,
-    4823
+    3652,
+    4787
    ],
    "M": [
     -34,
-    -148
+    -147
    ],
-   "Tmax": 4506,
-   "tube": -1639,
+   "Tmax": 4472,
+   "tube": -1626,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée 30° x1.5",
    "V": [
-    5520,
-    7235
+    5478,
+    7181
    ],
    "M": [
-    -52,
-    -222
+    -51,
+    -221
    ],
-   "Tmax": 6759,
-   "tube": -2458,
+   "Tmax": 6708,
+   "tube": -2440,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée 0° x1.0",
    "V": [
-    4507,
-    4507
+    4481,
+    4481
    ],
    "M": [
-    -65,
-    -65
+    -66,
+    -66
    ],
-   "Tmax": 5110,
-   "tube": -838,
+   "Tmax": 5069,
+   "tube": -850,
    "mous": [
     "av_babord",
-    "avc_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée 0° x1.5",
    "V": [
-    6721,
-    6721
+    6678,
+    6678
    ],
    "M": [
     -94,
     -94
    ],
-   "Tmax": 7679,
-   "tube": -1152,
+   "Tmax": 7619,
+   "tube": -1163,
    "mous": [
     "av_babord",
-    "avc_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée -30° x1.0",
    "V": [
-    4823,
-    3680
+    4787,
+    3652
    ],
    "M": [
-    -148,
+    -147,
     -34
    ],
-   "Tmax": 4506,
-   "tube": -1639,
+   "Tmax": 4472,
+   "tube": -1626,
    "mous": [
     "av_babord",
-    "avc_babord",
     "av_tribord",
-    "avc_tribord",
     "pou_tribord"
    ]
   },
   {
    "cas": "réglage 300 N, poussée -30° x1.5",
    "V": [
-    7235,
-    5520
+    7181,
+    5478
    ],
    "M": [
-    -222,
-    -52
+    -221,
+    -51
    ],
-   "Tmax": 6759,
-   "tube": -2458,
+   "Tmax": 6708,
+   "tube": -2440,
    "mous": [
     "av_babord",
-    "avc_babord",
     "av_tribord",
-    "avc_tribord",
     "pou_tribord"
    ]
   },
   {
    "cas": "réglage 500 N",
    "V": [
-    1583,
-    1583
+    1007,
+    1007
    ],
    "M": [
-    -84,
-    -84
+    -57,
+    -57
    ],
-   "Tmax": 1299,
-   "tube": -902
+   "Tmax": 744,
+   "tube": -521
   },
   {
    "cas": "réglage 500 N, poussée 90° x1.0",
    "V": [
-    792,
-    4482
+    357,
+    3925
    ],
    "M": [
-    -38,
-    -305
+    -17,
+    -302
    ],
-   "Tmax": 5189,
-   "tube": -3069,
+   "Tmax": 6543,
+   "tube": -3008,
    "mous": [
-    "avc_babord",
     "pou_babord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée 90° x1.5",
    "V": [
-    594,
-    6155
+    117,
+    5504
    ],
    "M": [
-    -28,
-    -432
+    -6,
+    -435
    ],
-   "Tmax": 7894,
-   "tube": -4551,
+   "Tmax": 9811,
+   "tube": -4475,
    "mous": [
-    "avc_babord",
     "pou_babord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée 60° x1.0",
    "V": [
-    2124,
-    5082
+    2109,
+    4104
    ],
    "M": [
     -20,
-    -246
+    -217
    ],
-   "Tmax": 4856,
-   "tube": -2677,
+   "Tmax": 5780,
+   "tube": -2657,
    "mous": [
     "av_babord",
-    "avc_babord",
-    "pou_babord",
-    "av_tribord"
+    "pou_babord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée 60° x1.5",
    "V": [
-    3187,
-    7412
+    3163,
+    6112
    ],
    "M": [
     -30,
-    -363
+    -323
    ],
-   "Tmax": 7494,
-   "tube": -4016,
+   "Tmax": 8675,
+   "tube": -3986,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
     "av_tribord"
    ]
@@ -310,18 +290,17 @@
   {
    "cas": "réglage 500 N, poussée 30° x1.0",
    "V": [
-    3680,
-    4942
+    3652,
+    4787
    ],
    "M": [
     -34,
-    -152
+    -147
    ],
-   "Tmax": 4506,
-   "tube": -1639,
+   "Tmax": 4472,
+   "tube": -1626,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
     "av_tribord"
    ]
@@ -329,126 +308,129 @@
   {
    "cas": "réglage 500 N, poussée 30° x1.5",
    "V": [
-    5520,
-    7235
+    5478,
+    7181
    ],
    "M": [
-    -52,
-    -222
+    -51,
+    -221
    ],
-   "Tmax": 6759,
-   "tube": -2458,
+   "Tmax": 6708,
+   "tube": -2440,
    "mous": [
     "av_babord",
-    "avc_babord",
     "pou_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée 0° x1.0",
    "V": [
-    4560,
-    4560
+    4538,
+    4538
    ],
    "M": [
     -71,
     -71
    ],
-   "Tmax": 5091,
-   "tube": -976,
+   "Tmax": 5049,
+   "tube": -1001,
    "mous": [
     "av_babord",
-    "avc_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée 0° x1.5",
    "V": [
-    6774,
-    6774
+    6735,
+    6735
    ],
    "M": [
-    -99,
-    -99
+    -100,
+    -100
    ],
-   "Tmax": 7660,
-   "tube": -1291,
+   "Tmax": 7599,
+   "tube": -1313,
    "mous": [
     "av_babord",
-    "avc_babord",
-    "av_tribord",
-    "avc_tribord"
+    "av_tribord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée -30° x1.0",
    "V": [
-    4942,
-    3680
+    4787,
+    3652
    ],
    "M": [
-    -152,
+    -147,
     -34
    ],
-   "Tmax": 4506,
-   "tube": -1639,
+   "Tmax": 4472,
+   "tube": -1626,
    "mous": [
     "av_babord",
     "av_tribord",
-    "avc_tribord",
     "pou_tribord"
    ]
   },
   {
    "cas": "réglage 500 N, poussée -30° x1.5",
    "V": [
-    7235,
-    5520
+    7181,
+    5478
    ],
    "M": [
-    -222,
-    -52
+    -221,
+    -51
    ],
-   "Tmax": 6759,
-   "tube": -2458,
+   "Tmax": 6708,
+   "tube": -2440,
    "mous": [
     "av_babord",
-    "avc_babord",
     "av_tribord",
-    "avc_tribord",
     "pou_tribord"
    ]
   }
  ],
  "synthese": {
   "V_reglage": [
-   950,
-   1583
+   604,
+   1007
   ],
-  "V_max": 5082,
-  "V_max_15": 7412,
-  "T_max": 5278,
-  "T_max_15": 7983,
-  "SF_hauban": 3.69,
-  "SF_hauban_15": 2.44,
-  "tube_max": 4551,
+  "V_max": 4787,
+  "V_max_15": 7181,
+  "T_max": 6543,
+  "T_max_15": 9830,
+  "SF_hauban": 2.98,
+  "SF_hauban_15": 1.98,
+  "tube_max": 4475,
   "SF_tube": 2.8,
   "M_tangage_reglage": [
-   50,
-   84
+   34,
+   57
   ],
-  "M_tangage_max": 305,
-  "F_bords_alesage_max": 4357
+  "M_tangage_max": 302,
+  "F_bords_alesage_max": 4314
  },
  "glissiere": {
-  "p_pehd": 2.8,
-  "s_poteau": 2.9,
-  "s_assise": 2.9,
-  "s_tourillon": 38.1,
-  "p_piece_angle": 1.0
+  "type": "poteau_coffre",
+  "p_pehd": 2.7,
+  "s_poteau_compression": 19.2,
+  "s_poteau_flexion": 164.2,
+  "M_poteau": 693,
+  "M_poteau_reglage": [
+   58,
+   97
+  ],
+  "H_appuis": 2128,
+  "p_bague": 2.4,
+  "P_cr_poteau": 255335,
+  "L_poteau": 534,
+  "porte_a_faux": 96.5,
+  "s_potence": 21.9,
+  "s_tourillon": 37.0,
+  "p_piece_angle": 2.0
  }
 }

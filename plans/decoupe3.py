@@ -20,7 +20,7 @@ from OCP.TopTools import TopTools_IndexedDataMapOfShapeListOfShape
 
 V = cq.Vector
 NON_IMBRIQUE = ('TR', 'TG')   # trappes de C4 et des caissons de rangement : chutes de C4 et du capot (même contour que le trou), pas de place à part
-EP_BORDE = {'B': 4, 'F': 6, 'C4': 6, 'P': 6}   # « Bordé cintré : 4 mm ; fond 6 ; face AR 6 » (SYNTHESE, construction)
+EP_BORDE = {'B': 4, 'F': 4, 'C4': 4, 'P': 4}   # (JD 09/10) tout le bordé en CP 4 + verre (avant : fond, C4 et poches en CP 6)
 SEUIL = 8.0            # degrés : au-dessous, deux facettes voisines sont dans la même planche (cintrée)
 OUT = os.environ.get('DECOUPE_OUT', '/home/claude/cao/plans')
 cfg = yaml.safe_load(open('/home/claude/cao/v_pleine_0.yaml'))
@@ -57,8 +57,8 @@ def deplier(co):
         c, n = normale(f)
         if f.Area() < 1:
             continue
-        if INT.isInside(c - n * (e + 1.0), 0.05):         # vers l'intérieur, on traverse le bordé et on tombe dans le coffre
-            ext.append(i)
+        if any(INT.isInside(c - n * d_, 0.05) for d_ in (e + 1.0, 1.6 * e, 2.5 * e)):   # vers l'intérieur, on traverse le bordé et on tombe dans le coffre
+            ext.append(i)                                  # (09/10) plusieurs profondeurs : avec le fond à 25°, la peau du fond avant fait plus de 7 mm d'épaisseur normale
     EXT = set(ext)
     emap = TopTools_IndexedDataMapOfShapeListOfShape()
     TopExp.MapShapesAndAncestors_s(co.wrapped, TopAbs_EDGE, TopAbs_FACE, emap)
@@ -92,7 +92,9 @@ def deplier(co):
     # chaque tronçon entre deux stations est développable, mais deux tronçons voisins ne le sont pas ensemble
     # (le dépliage d'un seul tenant du bordé avant + dessus perdait 3 % de surface) ; y = 0 se traverse (même profil de part et d'autre)
     cpl_ = k.get('fond_plat_demi', 0.0); cpt_ = k.get('dessus_plat_demi', cpl_); cpa_ = k.get('avant_plat_demi', cpl_)
-    BORNES = sorted({b for c_ in (cpl_, cpt_, cpa_) if c_ > 1 for b in (-c_, c_)})
+    # (09/10) plus de borne au bord du plat du fond (±150) : le fond se sépare déjà à l'angle du V (10°), et la borne coupait
+    # le bordé avant et le couvercle du coffre à ancre (±250) en trois morceaux
+    BORNES = sorted({b for c_ in (cpt_, cpa_) if c_ > 1 for b in (-c_, c_)})
     def zone(i):
         return sum(CTR[i][1] > b for b in BORNES)
     def plane_(i):                                         # plane en fait (le loft réglé peut donner des surfaces B-spline planes)
@@ -217,8 +219,15 @@ def ajoute(ref, nom, ep, poly, qte=1, note='', plis=None):
 # nommage des panneaux du bordé ; les panneaux symétriques (bâbord / tribord) sont regroupés
 DEV.sort(key=lambda d: (-d['aire3d']))
 n_b, grp_b = {}, []
+CAP_ = k.get('capot_arriere') or {}
+def sous_capot(d):                                        # (09/10) capot horizontal à 810 : la peau qu'il remplace laisse des copeaux sans épaisseur
+    return bool(CAP_) and len(d['comp']) == 1 and d['xmin'] >= CAP_['x0'] - 10 and max(abs(d['ymin']), abs(d['ymax'])) <= CAP_['demi_y'] + 5 \
+        and d['zmin'] >= CAP_['z_c4'] - 12
 for d in DEV:
     if d['aire3d'] < 2000:
+        continue
+    if sous_capot(d):
+        print('copeau sous le capot écarté', round(d['xmin']), round(d['xmax']), round(d['ymin']), round(d['ymax']), round(d['aire3d']))
         continue
     if min(dims(d['poly'])) < 25 and len(d['comp']) == 1:  # (08/10) biseau de la peau coupée par le plan du capot (4 mm vus à 15° = 16 de large) : chant, pas un panneau
         continue
@@ -249,7 +258,7 @@ for gr in grp_b:
     for d in gr['d']:
         d['ref'] = ref
 for d in DEV_CV:                                           # (07/10) couvercle du coffre à ancre, développé comme le bordé
-    if d['aire3d'] < 2000:
+    if d['aire3d'] < 2000 or sous_capot(d):
         continue
     d['ref'] = 'CV'
     ajoute('CV', "Couvercle du coffre à ancre : bordé central au-dessus de z 450, cintré, découpé pour le puits", EP_BORDE['B'], d['poly'], qte=1,
@@ -288,12 +297,16 @@ REGLES = [   # (motif, ref, nom, épaisseur de CP, plis)
     (r'^glissiere_sabot_(babord|tribord)$', 'GS', 'Sabot de la glissière du tube des colliers (70 × 121 × 60, 6 × CP 10)', 10, 6),
     (r'^glissiere_berceau_(babord|tribord)$', 'GB', 'Berceau en U du tube, sur le sabot : 4 × CP 9 collés, gorge creusée, garniture PEHD 3', 9, 4),
     (r'^glissiere_poteau_(haut|bas)_(babord|tribord)_(av|ar|int)$', 'GP', 'Poteau caisson de la glissière : paroi CP 9 (trois parois collées contre la joue, au-dessus et au-dessous de l\'assise)', 9, 1),
+    (r'^coffre_hiloire$', 'HI', 'Hiloire (brise-lames) en haut de l\'arrondi avant : bande CP 9 de 30, penchée à 45° vers l\'avant, collée sur le dessus (congé époxy) ; pied biseauté et bouts coupés d\'onglet en place', 9, 1),   # (09/10 après-midi : plus de couvercle du coffre à ancre, la bande droite n'est plus coupée à ±250)
+    (r'^glissiere_potence_(babord|tribord)$', 'GQ', 'Potence de la glissière, sur le poteau, au-dessus de C4 jusqu\'au berceau PEHD (40 = 4 × CP 10)', 10, 4),
+    (r'^glissiere_bague_(babord|tribord)$', 'GA', 'Bague du poteau de la glissière, collée sous le dessus du coffre (18 = 2 × CP 9)', 9, 2),
+    (r'^tape_piece_angle_(babord|tribord)$', 'TP', 'Tape de fermeture contre la joue, au-dessus de la pièce d\'angle AV, découpée à son profil (posée après le coffre)', 6, 1),
     (r'^moteur_puits$', 'PM', 'Paroi du puits moteur et son accroche (±131), au travers de C4', 6, 1),
     (r'^coffre_table$', 'TA', 'Table (sur la caisse)', 10, 1),
-    (r'^coffre_capot_arriere$', 'CR', 'Capot arrière en pente, découpé pour la tête du moteur', 6, 1),
+    (r'^coffre_capot_arriere$', 'CR', 'Capot arrière horizontal (dessus des caissons de rangement), découpé pour la tête du moteur, CP 4 + verre', 4, 1),
     (r'^coffre_capot_joue_(babord|tribord)$', 'CJ', 'Joue triangulaire du capot arrière', 4, 1),
-    (r'^coffre_trappe_c4_\d$', 'TR', 'Trappe du compartiment extérieur, dans C4 (dans la chute de C4)', 6, 1),
-    (r'^coffre_trappe_rangement_(babord|tribord)$', 'TG', 'Trappe du caisson de rangement (dans la chute du capot)', 6, 1),
+    (r'^coffre_trappe_c4_\d$', 'TR', 'Trappe du compartiment extérieur, dans C4 (dans la chute de C4), CP 4 + verre', 4, 1),
+    (r'^coffre_trappe_rangement_(babord|tribord)$', 'TG', 'Trappe du caisson de rangement (dans la chute du capot), CP 4 + verre', 4, 1),
     (r'^accroche_poutre_\d$', 'AC', 'Accroche sur la poutre AV', 9, 1),
     (r'^banc_(babord|tribord)_assise$', 'AS', 'Assise du banc', 9, 1),
     (r'^banc_(babord|tribord)_couple_\d$', 'BC', 'Couple de banc', 9, 1),
@@ -311,6 +324,13 @@ REGLES = [   # (motif, ref, nom, épaisseur de CP, plis)
     (r'^livarde_godet_(babord|tribord)$', 'LG', 'Godet de la livarde, pli percé Ø 34, collé sur la joue', 10, 1),
     (r'^livarde_godet_fond_(babord|tribord)$', 'LF', 'Godet de la livarde, pli du fond', 10, 1),
 ]
+def bande(sh, h):
+    """(09/10) Hiloire : le loft (une face par section) n'a pas de grande face plane ; bande droite de la longueur du
+    segment (axe principal des sommets) et de la hauteur de l'hiloire ; le pied est biseauté et ajusté en place."""
+    V = np.array([npv(v.Center()) for v in sh.Vertices()]); c = V.mean(axis=0)
+    ax = np.linalg.svd(V - c, full_matrices=False)[2][0]; t = (V - c) @ ax
+    L = float(t.max() - t.min())
+    return Polygon([(0, 0), (L, 0), (L, h), (0, h)]), 9.0
 vus = {}
 for nom in sorted(D):
     for motif, ref, lib, ep, plis in REGLES:
@@ -320,7 +340,7 @@ for nom in sorted(D):
             for j, so in enumerate(sols):
                 if so.Volume() < 100:
                     continue
-                g, ep_m = plate(so)
+                g, ep_m = bande(so, k['hiloire']['h'] / math.cos(math.radians(k['hiloire'].get('inclinaison_deg', 0)))) if ref == 'HI' else plate(so)   # largeur de la bande penchée
                 vus.setdefault(ref, []).append((nom, g, ep_m, lib, ep, plis))
             break
 hors = sorted(n for n in D if not any(re.match(m, n) for m, *_ in REGLES))

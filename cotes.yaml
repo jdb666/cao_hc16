@@ -40,6 +40,7 @@ plateforme:
     bossage_d: 84
     bossage_bas: 58          # bas de l'emboîture sous l'axe de poutre
   trampoline_z: 580        # au centre du trampoline (bord avant sur la poutre cintrée, bord arrière à 524)
+  trampoline_milieu: {jeu: 20, pas: 150, diam: 4}   # (JD 09/10) deux moitiés lacées au milieu, dans la longueur : l'eau s'en va par l'arrière toute seule
   martingale:              # V4, V5 (28/09/2026) ; pilier + deux tiges inox rigides (pas des câbles)
     pied_sous_axe_extremites: 170   # V4 : bas du pilier sous l'axe de la poutre aux extrémités
     y_cable: 1000                   # V5 : attaches des tiges à 1 000 de l'axe du bateau (axe des coques)
@@ -112,10 +113,13 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   largeur: 2240            # joues à ±1 120 : mâts à ±1 151, tout près du bord du pont ; joues au-dessus du nez des longerons (±1 115)
   face_ar_x: 2022.5        # C4 contre le nez de la poutre AV, sans jour (JD 29/09) ; poches dans les coins arrière pour le nez et le manchon des pièces d'angle
   poches_pieces_angle: {jeu: 4, ouverte_dessous: true}   # ouverte dessous (JD 30/09) : le coffre se pose par-dessus ; avant, le fond fermait la poche et la pièce d'angle bloquait la pose   # coins arrière du coffre évidés autour des pièces d'angle AV (nez jusqu'à x 1 973, manchon dès x 2 016), parois CP comme le bordé
-  fond_z: 250              # fond polygonal à 3 segments : plat au milieu ; puits moteur descendu sous l'hélice relevée (JD 29/09 : hélice à 296, aileron à 274)
-  fond_plat_demi: 250       # plat C1 de 500 ; au-delà, le V remonte aux joues et reste 19 au-dessus des haubans croisés AR (z 342 au droit de C4, y ±704)
+  fond_z: 270              # (JD 09/10, moustache à 10°) fond remonté de 20 : aileron relevé au ras (274), hélice 26 au-dessus ; avant : 250
+                           # fond polygonal à 3 segments : plat au milieu ; puits moteur descendu sous l'hélice relevée (JD 29/09 : hélice à 296, aileron à 274)
+  fond_plat_demi: 150       # (JD 09/10) plat réduit à ±150 (puits ±134 + parois) : le V à 10° part plus près du milieu et reste haut au-dessus des coques ; avant : 250
+                            # plat C1 de 500 ; au-delà, le V remonte aux joues et reste 19 au-dessus des haubans croisés AR (z 342 au droit de C4, y ±704)
   avant_plat_demi: 360      # pointe du fond : x 1 250 sur ±360, raccord droit jusqu'aux joues (forme de l'avant inchangée)
-  fond_z_cotes: 465        # au droit des joues (base des joues)
+  fond_z_cotes: 439.4      # (JD 09/10) moustache : fond à 10° vers les joues, comme le dessus (270 + 961 × tan 10°) ; avant : 465 (14°)
+  fond_pente_cotes_deg: 10 # (pour mémoire : fond_z_cotes en découle)
   dessus_z: 810            # partie centrale plate au niveau du haut de la caisse batterie + ancre (JD 30/09) ; la table se pose dessus
   fourreaux_livarde: null  # (ancien, JD 30/09 matin : trou dans le dessus + fourreau dans le coffre) {dx: 180, y: 1080, diam: 40, ep: 2, l: 300, collier: {h: 20, ouverture: 70}}
   rangement_livarde:       # (JD 30/09 soir) livarde rangée debout À L'EXTÉRIEUR, contre la face extérieure de la joue, 180 devant l'axe du mât au collier :
@@ -127,21 +131,20 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     collier: {diam: 32, ouverture: 30, sous_haut: 60}   # 60 sous le haut de la joue : 20 sous le hauban direct AV   # livarde rangée (JD 30/09) : trou dans le dessus, 180 devant l'axe du mât au collier,
                                                                                                      # contre la joue ; fourreau de 300 dans le coffre, collier ouvert sur le dessus pour la tenir
   table: null              # (JD 07/10) retirée avec la caisse de la batterie qui la portait (avant : x 1 384 → 1 760, demi_y 360, CP 10, découpée pour la tête du moteur)
-  capot_arriere: {x0: 1760, z_c4: 740, demi_y: 450, ep: 6, decoupe_moteur: {x0: 1771, demi_y: 70}, demontable: false}   # (JD 08/10) élargi à ±450 avec le dessus plat ; fixe (collé) : les batteries sont dans les accoudoirs, une trappe par caisson de rangement   # (JD 05/10) dessus du milieu en pente de x 1 760 (z 810) à C4 (z 740) : les haubans collier -> milieu de la poutre AV passent au-dessus
+  capot_arriere: {x0: 1760, z_c4: 810, demi_y: 450, ep: 6, decoupe_moteur: {x0: 1771, demi_y: 70}, demontable: false}   # (JD 09/10) capot horizontal à 810 (dessus des caissons de rangement à plat, au ras du dessus) : depuis le recul des mâts (06/10), les haubans collier -> poutre passent à 38 au-dessus ; avant : en pente jusqu'à 740 contre C4   # (JD 08/10) élargi à ±450 avec le dessus plat ; fixe (collé) : les batteries sont dans les accoudoirs, une trappe par caisson de rangement   # (JD 05/10) dessus du milieu en pente de x 1 760 (z 810) à C4 (z 740) : les haubans collier -> milieu de la poutre AV passent au-dessus
   dessus_plat_demi: 450      # (JD 08/10) surface plate agrandie de chaque côté du moteur : ±360 -> ±450 (caissons de rangement dessous) ; même cassure que le fond, bordé central C5 cylindrique
-  dessus_cotes_au_dessus_collier: 25   # dessus au droit des joues = haut du collier
-  pattes_collier:          # pattes alu sur la face extérieure des joues, devant et derrière le mât
-    larg: 60
-    ep: 10
-    ecart: 50              # du bord de la patte à l axe du collier (dégage le mât incliné)
-    recouvrement: 120      # longueur boulonnée sur la joue
-    au_dessus_axe_collier: 40
+  dessus_cotes_au_dessus_collier: 25   # hauteur du collier sur le mât (collier_geom) : inchangée ; le dessus ne monte plus jusqu'au collier
+  dessus_pente_cotes_deg: 10   # (JD 09/10) moustache : dessus à 10° du plat (±450) jusqu'aux joues (z 926,6), même angle que le fond ; avant : jusqu'au collier (≈ 25°)
+  pattes_collier: null     # (JD 09/10) inutiles : le mât ne tient plus au coffre (avant : pattes alu {larg: 60, ep: 10, ecart: 50, recouvrement: 120, au_dessus_axe_collier: 40})
   dessus_au_dessus_collier: 25   # haut du coffre et des joues = haut du collier
   avant_x: 1584            # pointe avant au droit des joues : 1 390 avant le 06/10 ; reculée de 194 avec les mâts (JD : côtés raccourcis, joue toujours tangente au collier)
+  dossier: {h: 400, courbe_continue: true, x_fin_montee: 2160}   # (JD 09/10) dossier relevé à 400 au-dessus de l'assise (z 1 085), indépendant du dessus du coffre (moustache 10°, 927 contre la joue) ;
+                           # courbe continue (JD 11 h 45, « pas de décrochage ») : l'arrondi de la joue monte de la pointe jusqu'au dossier, la joue dépasse au-dessus du coffre ;
+                           # (courbe_continue: false : montée en S derrière le mât jusqu'à x_fin_montee)
   joues_forme: {n_avant: 2.3, n_arriere: 2.2, plat_jusqu_a_c4: true}   # joues arrondies (JD 30/09) : superellipses (2 = ellipse) ; avant tangent horizontal au collier sans saut de courbure,
                                                                        # dessus plat du collier à C4 (comme le coffre), dossier depuis C4 ; le bordé du coffre suit l'avant à la station des joues
   avant_x_milieu: 1584     # (JD 07/10) avant droit au ras de la pointe des joues : coffre raccourci de 334 au milieu (avant : 1 250, pointe avancée au milieu seulement, JD 29/09 soir)
-  fond_pente: {deg: 12, x0: 1860}   # fond bas (z 250) sous l'aileron et l'hélice relevés, de x 1 860 à C4, puis remonte à 12° jusqu'à la pointe (z ≈ 380 au milieu) ; même pente partout -> panneaux plans
+  fond_pente: {deg: 25, x0: 1860}   # (JD 09/10 : « garder voire augmenter », c'est lui qui protège des vagues) 12° -> 25° (pointe + 55 sur 15°) ; fond bas (z 250) sous l'aileron et l'hélice relevés, de x 1 860 à C4, puis remonte à 12° jusqu'à la pointe (z ≈ 380 au milieu) ; même pente partout -> panneaux plans
   plateau_z: 900           # plateau intérieur
   ep_bordé: 6
   ep_plateau: 6
@@ -155,7 +158,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
   ancre: {faisceau: [200, 100], verge: [120, 20], anneau: 50, sur: fond}   # grappin pliant ≈ 3–4 kg (hypothèse), couché en travers sur le fond du coffre à ancre, contre la cloison du puits
   coffre_ancre: {demi_y: 250, ep: 6}   # (JD 07/10) petit coffre à ancre devant le puits : deux cloisons CP 6 à ±250, de l'avant à la cloison du puits ; couvercle découpé dans le bordé (trappe)
   yinyang:                 # dessin du bateau (JD 29/09) : taijitu sur la face extérieure des joues et sur les deux faces des voiles
-    joues: {x: 2250, z: 870, r: 180, ep: 0.5}          # sur le dossier, derrière le mât
+    joues: null            # (JD 09/10) plus de yin-yang sur les joues ; avant : {x: 2250, z: 870, r: 180, ep: 0.5}, sur le dossier derrière le mât
     voiles: {dx: 2558, dz: 1791, r: 180, marge: 30}    # même taille que sur les joues, dans le coin du point d'écoute au-dessus de la livarde (JD 29/09) : centre x 4 324, z 2 139, à 100 de la chute et 60 de la livarde ; suit la toile quand elle est roulée
   couples_coffre:          # couples intérieurs dans le plan des accroches de la poutre AV (JD 29/09) : les efforts des accroches passent dans le fond et le dessus
     - {y: 420, x0: puits, ep: 6}   # (JD 08/10) couple plein déplacé de ±331 à ±420 : côté extérieur des caissons de rangement, de la cloison du puits à C4 (avant : ±331 évidé)
@@ -174,28 +177,45 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     cotes: [babord, tribord]
   trappe:                  # (JD 07/10) couvercle du coffre à ancre, découpé dans le bordé avant au-dessus de z 450 (avant : dessus ouvert au droit de la caisse de batterie, x 1 384 → 1 717, ±334)
     x0: 1560
-    x1: 1800               # jusqu'au capot arrière (rogné à son plan) : tout le bordé central devant le capot, entre les stations du loft à ±250 (un seul panneau développable), bords posés sur des tasseaux le long des cloisons
+    x1: 1711               # (JD 09/10 après-midi) jusqu'à la cloison du puits seulement : poche ouverte (avant : 1 800, couvercle jusqu'au capot arrière)
+    # x1: 1800             # jusqu'au capot arrière (rogné à son plan) : tout le bordé central devant le capot, entre les stations du loft à ±250 (un seul panneau développable), bords posés sur des tasseaux le long des cloisons
     y0: -250
     y1: 250
-    z_seuil: 450
-    ouverte: false
-  trappes_c4:              # (JD 08/10) une seule trappe rectangulaire par compartiment extérieur (de ±420 à la joue), la plus grande possible dans C4, à l'horizontale :
+    z_seuil: 650            # (JD 09/10 17 h) face avant du coffre à ancre remontée : bordé découpé au-dessus de z 650 seulement (avant : 450, simple lèvre de 50 au-dessus du bas de la pointe)
+    ouverte: true          # (JD 09/10 après-midi) coffre à ancre ouvert dessus, comme une poche, évacuation en dessous (avant : couvercle découpé dans le bordé)
+    evacuation: {d: 25, x: 1698, y: [-120, 120]}   # deux trous Ø 25 dans le fond, au point bas de la poche, contre la cloison du puits
+  trappes_c4: null         # (JD 08/10) une seule trappe rectangulaire par compartiment extérieur (de ±420 à la joue), la plus grande possible dans C4, à l'horizontale :
                            # surface maxi sous le haut de C4 qui monte vers la joue (25 de bord), 25 au-dessus de l'assise, 5 du poteau de la glissière ;
                            # le couple ±850 passe derrière, au milieu : il sert d'appui au couvercle (avant : y ±500 -> ±800, z 700 -> 850, puis deux au-dessus des bancs)
-    - {y0: -1088, y1: -690, z0: 710, z1: 898}
-    - {y0: 690, y1: 1088, z0: 710, z1: 898}
+    # (JD 09/10 17 h 30) plus de trappes : ouvertures_c4 ; jusque-là : {y0: ±690, y1: ±1010, z0: 710, z1: 827} (320 × 117, sous le dessus abaissé, 10 du poteau)
+  ouvertures_c4: {bas: 25, bord: 25, couple: 25, poteau: 5, rayon: 30}   # (JD 09/10 17 h 30 : « pas de trappes sur les caissons extérieurs, une ouverture polygonale aussi grande que possible
+                           # au-dessus du niveau des sièges ») : dans C4, une par compartiment extérieur, sans couvercle : de 25 au-dessus des assises jusqu'à 25 sous le haut de C4
+                           # (qui monte à 10° vers la joue), de 25 du couple plein ±420 à 5 du poteau d'appui du tube ; coins arrondis R 30 ; le couple ±850 passe derrière
   trappes_exterieures: null   # (JD 08/10) essai d'une grande trappe dans le dessus des compartiments extérieurs, abandonné : la trappe va dans C4
   rangements:              # (JD 08/10) caissons de rangement de chaque côté du moteur : de la paroi du puits au couple plein ±420, de la cloison du puits (prolongée jusqu'au couple) à C4 ; fermés dessus par le capot arrière
     trappe: {x0: 1785, x1: 1990, y0: 150, y1: 400}   # découpée dans le capot, posée sur un cadre de tasseaux 15 x 15 collés sous le capot, joint, deux tourniquets
   glissiere_collier:       # (JD 08/10) reprise des efforts verticaux des colliers : c'est le TUBE (où les colliers tournent sur leurs tourillons) qui repose dans une glissière ;
                            # le collier ne la touche pas (il reste libre de tourner autour du tube quand on change la quête)
-    type: tube_pehd        # (JD 08/10 soir) simplifiée : un bloc PEHD (sabot et berceau d'une pièce) sur un poteau en tube carbone
-    x: [2050, 2120]        # bloc centré sur l'axe du tube (x 2 085)
-    y_int: 990             # de la joue jusqu'à y 990, sous tout le tourillon (1 001 -> 1 081 dans le tube)
-    berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}   # U sous le bout du tube (jusqu'à 1 078), creusé dans le bloc ; ses joues s'arrêtent 11 sous l'axe du tube (le tube s'enlève par le haut), 3 de jeu de chaque côté
-    bloc: {h: 60, jeu_tube: 0.5, douille: 15}   # bloc PEHD : 60 sous le haut de la joue, de y 990 à la joue (vissé à travers la joue) ; le tube y glisse et y tourne (0,5 de jeu) ; douille de 15 pour le haut du poteau
-    poteau: {d: 40, ep: 2, y: 1025}   # tube carbone Ø 40 × 2 (comme les appuis du coffre), sous l'axe du tube, au-dessus du manchon de la pièce d'angle ; traverse l'assise ; bouchon collé en haut
-    cale: true             # cale coulée (époxy chargée) en godet sous le poteau, sur la pièce d'angle AV (coffre en place)
+    type: poteau_coffre    # (JD 09/10 : « mettre le poteau du collier dans le coffre ») poteau carbone dans le coffre, contre C4, sur le toit de la poche de la pièce d'angle ;
+                           # il sort par le dessus et porte une potence CP qui passe au-dessus de C4 jusqu'au berceau PEHD du tube
+    x: [2050, 2120]        # berceau centré sur l'axe du tube (x 2 085)
+    y_int: 990             # sous tout le tourillon (1 001 -> 1 081 dans le tube)
+    berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}   # U sous le bout du tube, creusé dans le bloc PEHD ; joues 11 sous l'axe (le tube s'enlève par le haut), 3 de jeu
+    bloc: null             # (JD 09/10 après-midi) plus de glissière : le collier tourne dans le tube, le tube n'a pas à tourner ; il repose à plat
+                           # sur la potence et les haubans l'avancent ou le reculent (avant : bloc PEHD {jeu_tube: 0.5, sous_tube: 10}, berceau en U creusé)
+    potence: {h: 40, devant_poteau: 10}              # CP collé (4 × CP 10), du devant du poteau au bout du berceau ; porte-à-faux ≈ 95 de l'axe du poteau à celui du tube
+    poteau: {d: 50, ep: 2.5, y: 1045, jeu_c4: 3, douille: 20}   # tube carbone Ø 50 × 2,5 à 3 de C4 ; douille de 20 dans la potence ; dessus du coffre percé, bague CP 18 dessous
+    cale: true             # cale coulée (époxy chargée) entre le toit de la poche et le nez de la pièce d'angle, sous le poteau (coffre en place)
+  glissiere_collier_avant_0910:   # glissière du 08/10 soir : bloc PEHD vissé à travers la joue, poteau carbone Ø 40 × 2 derrière C4, à travers l'assise, sur la pièce d'angle
+    type: tube_pehd
+    x: [2050, 2120]
+    y_int: 990
+    berceau: {y_fin: 1078, sous_axe: 11, jeu_x: 3}
+    bloc: {h: 60, jeu_tube: 0.5, douille: 15}
+    poteau: {d: 40, ep: 2, y: 1025}
+    cale: true
+  hiloire: {h: 30, ep: 9, inclinaison_deg: 45, x_milieu: 1755, y_plat: 460, x_joue: 1950}   # (JD 09/10) hiloire (brise-lames) CP 9 en haut de l'arrondi avant, 30 de haut, penchée à 45° vers l'avant (JD, avant : 50 debout) : droite devant le capot et les trappes (x 1 755, ±460),
+                           # puis en V jusqu'aux joues (x 1 950, 30 devant le poteau de la glissière) ; l'eau qui monte sur l'arrondi est renvoyée sur les côtés
   glissiere_collier_avant_0810:   # ancienne glissière (JD 08/10 midi) : sabot 6 × CP 10, berceau 4 × CP 9, garniture PEHD 3, poteau caisson 3 parois CP 9
       x: [2050, 2120]        # sabot centré sur l'axe du tube (x 2 085)
       y_int: 990             # sabot assez long : de la joue jusqu'à y 990, sous tout le tourillon (1 001 -> 1 081 dans le tube)
@@ -220,7 +240,8 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
       aileron: {h: 90, x0: -50, x1: 10, ep: 10}                  # aileron sous la nacelle
       bride: {dessous_tete: 52, h: 164, derriere: 40, demi_y: 40}  # fourreau de direction 164 de haut ; collier de hauteur (52) entre tête et bride
       tableau: {ep: 40, h: 110, devant_arbre: 56, sous_bride: 48}  # planche CP collée entre les parois du puits, face arrière à 56 de l'arbre ; bas à 16 au-dessus de la nacelle rentrée
-      puits: {ep: 6, demi_y: 128, x_av: 1717, fond_ouvert: true}  # puits CP 6 de 256 × 300, ouvert dessous et dessus : l'hélice (Ø 236) y rentre ; paroi avant = cloison arrière du compartiment batterie
+      puits: {ep: 6, demi_y: 128, x_av: 1717, fond_ouvert: true, arriere_ouvert: true}  # puits CP 6 de 256 × 300, ouvert dessous et dessus : l'hélice (Ø 236) y rentre ; paroi avant = cloison arrière du compartiment batterie
+                           # (JD 09/10 17 h) arriere_ouvert : plus de face arrière (C4 ouverte sur toute la largeur du puits, du fond au capot) : l'eau des vagues qui frappent ressort derrière au lieu de monter dans le puits
       encoche_c4_z: 680    # C4 échancrée au-dessus : l'arrière de la tête dépasse de C4 au-dessus du nez de la poutre
       encoche_c4_demi_y: 70
       trou_fond: 50
@@ -366,6 +387,7 @@ coffre:                    # joues ellipsoïdales (pointe avant du coffre, colli
     y_int: 800             # assise de 311 de large (jusqu'à la joue à 1 111)
     hauteur: 100
     rayon_aretes: 20
+    etancheite: {joint: {larg: 10, h: 10}, tape: {ep: 6, marge: 30, jeu: 1}}   # (JD 09/10, trampoline étanche) joint néoprène sur le longeron sous la joue, tape CP au-dessus de la pièce d'angle AV (posée après le coffre)
     ep_assise: 9
     ep_cotes: 6
     ep_fond: 4
@@ -433,17 +455,23 @@ safrans:
   barre_x: 5350
   barre_z: 300
 
-tente:                     # tente igloo (camping au mouillage) : couvre coffre, bancs et trampoline ; voiles roulées
-  x0: 1540                 # bord avant : lacé sur le dessus du coffre (latte transversale), nez du coffre dehors
+tente:                     # (JD 09/10) tente igloo, deux arceaux diagonaux croisés au sommet (camping au mouillage) : couvre le dessus du coffre derrière l'hiloire, les bancs et le trampoline ; voiles roulées
+  derriere_hiloire: 15     # (JD 09/10 17 h 40 : « tente inclut le coffre, ou derrière l'hiloire ») bord avant posé sur le dessus du coffre, 15 derrière le pied de l'hiloire
+  devant_collier: 40       # coins avant sur les joues, 40 devant les colliers : l'arceau passe en dedans du collier
+  garde: 25                # la toile passe à 25 au moins au-dessus du bateau (coffre, tube, moteur) ; les colliers traversent les flancs (manchons)
+  x0: 2125                 # (16 h 40) bord avant lacé sur le tube des colliers, juste derrière lui ; plus utilisé (avant, 30/09 : sur le dessus du coffre, x 1 540)
   x1: 4145                 # bord arrière : poutre arrière (axe)
-  demi_y: 1093             # bords latéraux : dessus des joues puis des bancs, puis le long des longerons
+  demi_y: 1112             # bords latéraux : haut des joues (dossiers) et des accoudoirs, puis le long des longerons
   z_arriere: 555           # dessus de la poutre arrière
-  sommet_z: 1900           # 1 330 au-dessus du trampoline
-  exposant: 0.5            # forme : 1 = coussin, 0.5 = dôme à parois raides
+  z_tube: 1197             # bord avant sur le dessus du tube (1 194)
+  y_tube: 1040             # au-delà, le bord descend vers les coins, sur les joues, derrière les colliers
+  sommet_z: 1880           # 1 300 au-dessus du trampoline
   arceau_diam: 11          # 2 arceaux alu Ø 11 en diagonale, croisés au sommet
 peinture:                  # finition (JD 29/09 soir) : coffre et bancs blancs, couples et pièces de maintien noirs (le premier motif qui convient l'emporte)
   - ['^banc_.*_(couple|machoire)', [0.13, 0.13, 0.14]]
   - ['^(accroche_poutre|machoire_poutre|collier_|semelle_|renfort_pont_|bourrage_)', [0.13, 0.13, 0.14]]
   - ['^(couple_coffre|moteur_puits|moteur_tableau|pylone_renfort)', [0.13, 0.13, 0.14]]
-  - ['^(coffre_coque|coffre_trappe|coffre_capot|coffre_caisse|coffre_batterie_|coffre_cloison_moteur|coffre_table|joue_|banc_.*_(assise|caisson))', [0.95, 0.95, 0.93]]
-  - ['^trampoline', [0.96, 0.96, 0.94]]   # trampoline mesh blanc (JD 29/09)
+  - ['^coffre_trappe', [0.91, 0.72, 0.14]]   # (JD 09/10) trappes en jaune
+  - ['^(coffre_coque|coffre_capot|coffre_caisse|coffre_batterie_|coffre_cloison_moteur|coffre_table|joue_|banc_.*_(assise|caisson))', [0.95, 0.95, 0.93]]
+  - ['^trampoline', [0.89, 0.91, 0.92]]   # (JD 09/10) trampoline étanche PVC (mesh blanc avant, JD 29/09)
+  - ['^lacage_trampoline', [0.18, 0.44, 0.69]]
