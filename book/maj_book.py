@@ -105,7 +105,7 @@ IMAGES = {
     's3-av': ['s3_transp_av'], 's3-ar': ['s3_transp_ar'], 's3-prfa': ['s3_transp_pr', 's3_transp_fa'], 's3-de': ['s3_transp_de'],
     's3-cav': ['s3_coffre_av'], 's3-car': ['s3_coffre_ar'], 's3-cde': ['s3_coffre_de'], 's3-cpr': ['s3_coffre_pr'],
     's3-dsav': ['s3_dessous_av'], 's3-dsar': ['s3_dessous_ar'], 's3-dsfa': ['s3_dessous_fa'],
-    'd-poche': ['m_ancre_poche', 'm_puits_ar'], 'd-tente': ['t_tente_av', 't_tente_pr'],
+    'd-poche': ['m_ancre_poche', 'm_puits_ar'], 'd-tente': ['t_tente_av', 't_tente_pr'], 'd-equipage': ['e_equ_ar', 'e_equ_fa'],
     's4-00-av': ['s4_00_av'], 's4-00-prfa': ['s4_00_pr', 's4_00_fa'], 's4-50-av': ['s4_50_av'], 's4-50-prfa': ['s4_50_pr', 's4_50_fa'],
     's4-75-av': ['s4_75_av'], 's4-75-prfa': ['s4_75_pr', 's4_75_fa'], 's4-de': ['s4_00_de', 's4_50_de', 's4_75_de'],
     's5-ar': ['s5_bas_ar', 's5_haut_ar'], 's5-art': ['s5_bas_ar_transp', 's5_haut_ar_transp'], 's5-avt': ['s5_bas_av_transp', 's5_haut_av_transp'],

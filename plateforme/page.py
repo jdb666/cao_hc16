@@ -24,6 +24,24 @@ P3D['rig']['hc16'] = greement(yaml.safe_load(open('/home/claude/cao/cotes.yaml')
 import os
 if os.path.exists('/home/claude/cao/plans/tente_3d.json'):          # (JD 09/10) tente igloo : python3 plans/tente.py (après export3d.py)
     P3D['tente'] = json.load(open('/home/claude/cao/plans/tente_3d.json'))
+def _bb(n):                                                          # boîte englobante d'une pièce du modèle exporté
+    o = next((o for g in ('full', 'new') for o in P3D.get(g, []) if o['n'] == n and o['v']), None)
+    if o is None: return None
+    v = o['v']; return [min(v[0::3]), max(v[0::3]), min(v[1::3]), max(v[1::3]), min(v[2::3]), max(v[2::3])]
+# (JD 12/10) équipage assis face à face sur les bancs : assise, dossier (joue), accoudoir, dessus du trampoline, tube des colliers
+_as, _ac, _tu, _jo = _bb('banc_babord_assise'), _bb('accoudoir_babord_avant'), _bb('tube_colliers'), _bb('joue_babord')
+_tr = next((o for o in P3D['new'] if o['n'] == 'trampoline'), None)
+if _as and _tr:
+    v = _tr['v']; pts = list(zip(v[0::3], v[1::3], v[2::3])); x0_ = min(p[0] for p in pts)
+    prof = {}
+    for x, y, z in pts:                                              # dessus du trampoline en travers (bombé au laçage, plus bas vers les longerons)
+        if abs(x - x0_) < 1: prof[round(abs(y))] = max(prof.get(round(abs(y)), -1e9), z)
+    P3D['equipage'] = dict(
+        z_assise=round(_as[5], 1), y_dos=round(_as[3], 1), y_bord=round(_as[2], 1), x_assise=[round(_as[0], 1), round(_as[1], 1)],
+        x_accoudoir=round(_ac[0], 1) if _ac else round(_as[1], 1), z_dossier=round(_jo[5], 1) if _jo else None,
+        tramp=[[y, round(z, 1)] for y, z in sorted(prof.items())],
+        tube=dict(x=round((_tu[0] + _tu[1]) / 2, 1), z=round((_tu[4] + _tu[5]) / 2, 1), r=round((_tu[1] - _tu[0]) / 2, 1), y=round(_tu[3], 1)) if _tu else None,
+        x_def=2450)
 s = s.replace("/*P3D*/null", json.dumps(P3D, separators=(',', ':')))
 open(f"{d}/plateforme_hc16.html", "w").write(s)
 print("OK plateforme_hc16.html", len(s))

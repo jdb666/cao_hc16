@@ -9,7 +9,8 @@ FILTRE = sys.argv[2] if len(sys.argv) > 2 else ''
 OUT = sys.argv[3] if len(sys.argv) > 3 else '/home/claude/cao/book/img/'
 os.makedirs(OUT, exist_ok=True)
 W16, SQ = (1600, 900), (1000, 1000)
-BASE = dict(h16=False, cof=True, trp=False, rig=True, hau=True, tra=True, eau=True, cv=True, lbl=False, ten=False, enr_b=0, enr_t=0, choc=15, am=1, levee=0, tire=False, charge=0)
+BASE = dict(h16=False, cof=True, trp=False, rig=True, hau=True, tra=True, eau=True, cv=True, lbl=False, ten=False, enr_b=0, enr_t=0, choc=15, am=1, levee=0, tire=False, charge=0,
+            equ=False, eqx=2450, hbab=True, auto=True)   # (JD 12/10) équipage assis (masqué par défaut), point d'écoute automatique
 # vues d'ensemble : [th, ph, rayon], cible (x, y, z), champ (°)
 AV, AR = ([2.35, 1.22, 27500], [2700, 0, 3800], 20), ([-0.75, 1.17, 27500], [2750, 0, 3800], 20)
 PR, FA = ([PI / 2, PI / 2, 50500], [2650, 0, 4050], 12), ([PI, PI / 2, 50500], [2500, 0, 4050], 12)
@@ -50,7 +51,7 @@ SCENES = (VUES('s1_hc16', **H16) + VUES('s2_rando') + VUES('s3_transp', trp=True
     ('d_haubans', W16, dict(rig=True, trp=True, cv=False), ([2.55, 1.18, 6000], [2000, 0, 900], 28)),
     ('d_assiette_0', W16, dict(rig=False, charge=0), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
     ('d_assiette_150', W16, dict(rig=False, charge=150), ([PI / 2, 1.49, 17500], [2650, 0, 250], 12)),
-    ('d_ecoute', W16, dict(tire=True, choc=25, cv=False), ([-0.5, 1.15, 9500], [3500, 500, 1700], 28)),
+    ('d_ecoute', W16, dict(tire=True, choc=15, cv=False, enr_b=50, enr_t=80), ([-0.62, 1.12, 9000], [3700, 0, 1300], 30)),   # (JD 12/10) point d'écoute automatique : flotteur à 50 %, angle des poutres à 80 %
     # (JD 08/10) accoudoirs étanches sur l'arrière des bancs, batteries dedans ; la joue finit avec eux
     ('v_acc_ar', W16, dict(rig=False, cv=False), ([0.62, 1.12, 3600], [2900, 1000, 760], 30)),
     ('v_acc_transp', W16, dict(rig=False, trp=True, cv=False), ([0.62, 1.12, 3600], [2900, 1000, 760], 30)),
@@ -93,11 +94,16 @@ SCENES = (VUES('s1_hc16', **H16) + VUES('s2_rando') + VUES('s3_transp', trp=True
     ('m_ancre_poche', W16, dict(rig=False, cv=False), ([2.7, 0.85, 2600], [1660, 0, 600], 30)),
     # (JD 09/10 17 h) puits du moteur sans face arrière : C4 ouverte sur la largeur du puits
     ('m_puits_ar', W16, dict(rig=False, cv=False, eau=False, tra=False), ([0.25, 1.6, 1900], [2010, 0, 480], 32)),   # sans le trampoline, de derrière, sous la poutre AR
+    # (JD 12/10) deux personnes assises face à face, H 1,80 m à bâbord, F 1,60 m à tribord
+    ('e_equ_ar', W16, dict(equ=True, cv=False, choc=15, am=-1), ([0.0, 1.16, 4600], [2450, 0, 1250], 30)),      # de l'arrière, dans l'axe    # bâbord amures : H au vent, la bordure de la voile bâbord sur la tête
+    ('e_equ_fa', W16, dict(equ=True, cv=False, choc=15, am=1, eau=False), ([PI, 1.5, 9000], [2450, 0, 1300], 14)),    # tribord amures : F au vent, sous la bordure de la voile tribord
 ])
 
 async def etat(n, s):
-    for k, id_ in (('h16', 'c-h16'), ('cof', 'c-cof'), ('trp', 'c-trp'), ('rig', 'c-rig'), ('hau', 'c-hau'), ('tra', 'c-tra'), ('eau', 'c-eau'), ('cv', 'c-cv'), ('lbl', 'c-lbl'), ('ten', 'c-ten')):
+    for k, id_ in (('h16', 'c-h16'), ('cof', 'c-cof'), ('trp', 'c-trp'), ('rig', 'c-rig'), ('hau', 'c-hau'), ('tra', 'c-tra'), ('eau', 'c-eau'), ('cv', 'c-cv'), ('lbl', 'c-lbl'), ('ten', 'c-ten'),
+                   ('equ', 'c-equ'), ('auto', 'c-auto')):
         await n.case(id_, s[k])
+    await n.pg.evaluate(f"window.__equipage && window.__equipage({s['eqx']}, {str(s['hbab']).lower()})")
     await n.pg.evaluate(f"window.__book = {{sansTire: {str(not s['tire']).lower()}}}")
     await n.curseur('r-enr-b', s['enr_b']); await n.curseur('r-enr-t', s['enr_t']); await n.curseur('r-choc', s['choc'])
     await n.amures(s['am'])
@@ -118,7 +124,7 @@ async def main():
             await etat(n, s)
             await n.cam(a, p) if fov is None else await n.pg.evaluate(f"window.__cam({list(a)}, {list(p)}, {fov})")
             await n.shot(OUT + nom + '.jpg', t=1100)
-            info[nom] = await n.pg.evaluate("({cv: document.getElementById('v-cv').innerText, chav: document.getElementById('v-chav').innerText, surf: document.getElementById('v-surf').innerText})")
+            info[nom] = await n.pg.evaluate("({cv: document.getElementById('v-cv').innerText, chav: document.getElementById('v-chav').innerText, surf: document.getElementById('v-surf').innerText, gardes: window.__gardesVal || null})")
             print(nom, info[nom]['cv'].replace('\n', ' | '), '|', info[nom]['chav'].split('\n')[0], flush=True)
         old = json.load(open(OUT + 'info.json')) if os.path.exists(OUT + 'info.json') else {}
         old.update(info); json.dump(old, open(OUT + 'info.json', 'w'), ensure_ascii=False, indent=1)

@@ -97,62 +97,374 @@
  "s4_00_av": {
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
   "chav": "63 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "11,1 m²\n50 % des deux voiles pleines"
+  "surf": "11,1 m²\n50 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 209.88300698164386,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2094.670333987435,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_00_pr": {
   "cv": "x 3 206 · z 3 993\nHC16 d'origine x 3 206 · z 3 735 : 0 en arrière, 259 plus haut",
   "chav": "63 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "11,1 m²\n50 % des deux voiles pleines"
+  "surf": "11,1 m²\n50 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 107.93111431791127,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2054.1974246095483,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_00_fa": {
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
   "chav": "63 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "11,1 m²\n50 % des deux voiles pleines"
+  "surf": "11,1 m²\n50 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 209.88300698164386,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2094.670333987435,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_00_de": {
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
   "chav": "63 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "11,1 m²\n50 % des deux voiles pleines"
+  "surf": "11,1 m²\n50 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 209.88300698164386,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2094.670333987435,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_50_av": {
   "cv": "x 2 775 · z 3 607\nHC16 d'origine x 3 176 · z 3 739 : 401 en avant, 133 plus bas",
   "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "5,5 m²\n25 % des deux voiles pleines"
+  "surf": "5,5 m²\n25 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 264.5112320615535,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2106.2302093170915,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_50_pr": {
   "cv": "x 2 797 · z 3 605\nHC16 d'origine x 3 206 · z 3 735 : 409 en avant, 129 plus bas",
   "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "5,5 m²\n25 % des deux voiles pleines"
+  "surf": "5,5 m²\n25 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 187.41903782654236,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2071.025766789306,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_50_fa": {
   "cv": "x 2 775 · z 3 607\nHC16 d'origine x 3 176 · z 3 739 : 401 en avant, 133 plus bas",
   "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "5,5 m²\n25 % des deux voiles pleines"
+  "surf": "5,5 m²\n25 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 264.5112320615535,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2106.2302093170915,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_50_de": {
   "cv": "x 2 775 · z 3 607\nHC16 d'origine x 3 176 · z 3 739 : 401 en avant, 133 plus bas",
   "chav": "28 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "5,5 m²\n25 % des deux voiles pleines"
+  "surf": "5,5 m²\n25 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 264.5112320615535,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2106.2302093170915,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_75_av": {
   "cv": "x 2 540 · z 3 216\nHC16 d'origine x 3 176 · z 3 739 : 636 en avant, 523 plus bas",
   "chav": "13 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "2,8 m²\n12 % des deux voiles pleines"
+  "surf": "2,8 m²\n12 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 325.2376046085299,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2119.3874195202998,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_75_pr": {
   "cv": "x 2 555 · z 3 216\nHC16 d'origine x 3 206 · z 3 735 : 651 en avant, 519 plus bas",
   "chav": "13 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "2,8 m²\n12 % des deux voiles pleines"
+  "surf": "2,8 m²\n12 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 264.33212951762164,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2087.3426379132306,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_75_fa": {
   "cv": "x 2 540 · z 3 216\nHC16 d'origine x 3 176 · z 3 739 : 636 en avant, 523 plus bas",
   "chav": "13 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "2,8 m²\n12 % des deux voiles pleines"
+  "surf": "2,8 m²\n12 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 325.2376046085299,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2119.3874195202998,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s4_75_de": {
   "cv": "x 2 540 · z 3 216\nHC16 d'origine x 3 176 · z 3 739 : 636 en avant, 523 plus bas",
   "chav": "13 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "2,8 m²\n12 % des deux voiles pleines"
+  "surf": "2,8 m²\n12 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 325.2376046085299,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 2119.3874195202998,
+     "voile": "babord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "s5_bas_ar": {
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
@@ -230,9 +542,35 @@
   "surf": "22,2 m²\n100 % des deux voiles pleines"
  },
  "d_ecoute": {
-  "cv": "x 3 108 · z 3 999\nHC16 d'origine x 3 123 · z 3 747 : 16 en avant, 251 plus haut",
-  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
-  "surf": "22,2 m²\n100 % des deux voiles pleines"
+  "cv": "x 2 692 · z 3 464\nHC16 d'origine x 3 176 · z 3 739 : 484 en avant, 276 plus bas",
+  "chav": "38 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "7,8 m²\n35 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 264.5112320615535,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 340.24003857866575,
+     "voile": "tribord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  },
  "d_assiette_0": {
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
@@ -433,5 +771,67 @@
   "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
   "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
   "surf": "22,2 m²\n100 % des deux voiles pleines"
+ },
+ "e_equ_ar": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": -1.2900918266359866,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 231.39923766534204,
+     "voile": "tribord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
+ },
+ "e_equ_fa": {
+  "cv": "x 3 170 · z 3 995\nHC16 d'origine x 3 176 · z 3 739 : 6 en avant, 256 plus haut",
+  "chav": "126 %\ndu HC16 d'origine (surface × hauteur du CV, rond de chute compris pour les deux)",
+  "surf": "22,2 m²\n100 % des deux voiles pleines",
+  "gardes": {
+   "tetes": [
+    {
+     "nom": "H 1,80",
+     "bord": "bâbord",
+     "m": 209.88300698164386,
+     "voile": "babord"
+    },
+    {
+     "nom": "F 1,60",
+     "bord": "tribord",
+     "m": 65.37415696030547,
+     "voile": "tribord"
+    }
+   ],
+   "bras": [
+    {
+     "nom": "H 1,80",
+     "m": 80.68704959461711
+    },
+    {
+     "nom": "F 1,60",
+     "m": 126.80077126553209
+    }
+   ]
+  }
  }
 }
