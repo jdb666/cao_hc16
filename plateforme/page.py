@@ -22,8 +22,9 @@ from greement_hc16 import greement
 P3D = json.load(open(f"{d}/p3d.json"))
 P3D['rig']['hc16'] = greement(yaml.safe_load(open('/home/claude/cao/cotes.yaml'))['hc16_origine'])   # gréement HC16 d'origine (book, CV de comparaison)
 import os
-if os.path.exists('/home/claude/cao/plans/tente_3d.json'):          # (JD 09/10) tente igloo : python3 plans/tente.py (après export3d.py)
-    P3D['tente'] = json.load(open('/home/claude/cao/plans/tente_3d.json'))
+_TJ = os.environ.get('TENTE_JSON', '/home/claude/cao/plans/tente_3d.json')   # (12/10) TENTE_JSON, PAGE_OUT : variantes de tente sans toucher à la page publiée
+if os.path.exists(_TJ):                                              # (JD 09/10) tente igloo : python3 plans/tente.py (après export3d.py)
+    P3D['tente'] = json.load(open(_TJ))
 def _bb(n):                                                          # boîte englobante d'une pièce du modèle exporté
     o = next((o for g in ('full', 'new') for o in P3D.get(g, []) if o['n'] == n and o['v']), None)
     if o is None: return None
@@ -43,5 +44,5 @@ if _as and _tr:
         tube=dict(x=round((_tu[0] + _tu[1]) / 2, 1), z=round((_tu[4] + _tu[5]) / 2, 1), r=round((_tu[1] - _tu[0]) / 2, 1), y=round(_tu[3], 1)) if _tu else None,
         x_def=2450)
 s = s.replace("/*P3D*/null", json.dumps(P3D, separators=(',', ':')))
-open(f"{d}/plateforme_hc16.html", "w").write(s)
+open(os.environ.get("PAGE_OUT", f"{d}/plateforme_hc16.html"), "w").write(s)
 print("OK plateforme_hc16.html", len(s))

@@ -4,8 +4,10 @@ la jambe extérieure des couples), dossier (joue). Comparaison banc d'avant (riv
 laçage 57 sous le pivot) et banc renforcé (lisse sous la rive, couples pleins, jambe doublée et descendue, Dyneema).
 Charges : 100 kg par personne ; assis : 80 % du poids sur l'assise, x2 dynamique ; debout : un pied, x1,5.
 Résistances du CP okoumé : flexion 40 MPa le long du fil des plis extérieurs, 22 en travers ; compression dans le plan 25.
-python3 etudes/banc_resistance.py -> etudes/banc_resistance.json"""
-import json, math, yaml
+python3 etudes/banc_resistance.py -> etudes/banc_resistance.json
+(12/10, JD : « tout faire en CP 6 ? ») BANC_EP=6 : assise, âmes, lisse et jambes dans cette épaisseur ; BANC_COUPLES_DOUBLES=1 : un couple de plus
+entre deux ; BANC_OUT=chemin.json. Ex. : BANC_EP=6 BANC_OUT=etudes/banc_cp6.json python3 etudes/banc_resistance.py"""
+import json, math, os, yaml
 import numpy as np
 from skfem import MeshTri, Basis, ElementTriMorley, BilinearForm, LinearForm, asm, condense, solve
 from skfem.helpers import dd
@@ -15,7 +17,9 @@ X0 = b['x_debut']; XR = c['coffre']['face_ar_x'] + b['longueur']
 X1 = XR - (acc['batterie']['larg'] + 2 * acc['jeu'] + 2 * acc['ep']) if acc else XR     # face avant de l'accoudoir
 Y0, Y1 = b['y_int'], c['coffre']['largeur'] / 2 - c['coffre']['ep_flasque']
 COUPLES = [x for x in b['couples_x'] if X0 < x < X1]
-T = b['ep_assise']; EL, ET, NU, G = 9000.0, 450.0, 0.06, 550.0
+if os.environ.get('BANC_COUPLES_DOUBLES'):                          # (12/10) un couple de plus entre deux (et contre C4, l'accoudoir)
+    _c = [X0] + COUPLES + [X1]; COUPLES = sorted(COUPLES + [round((p + q) / 2, 1) for p, q in zip(_c[:-1], _c[1:])])
+EP_ENV = os.environ.get('BANC_EP'); T = float(EP_ENV) if EP_ENV else b['ep_assise']; TW = T if EP_ENV else 9.0; EL, ET, NU, G = 9000.0, 450.0, 0.06, 550.0
 FMX, FMY, FC = 40.0, 22.0, 25.0
 def rigidites(t, npl=5):
     tp = t / npl; D11 = D22 = 0.0
@@ -36,7 +40,7 @@ def assise(lisse_h):
         return D11 * U[0, 0] * W_[0, 0] + D22 * U[1, 1] * W_[1, 1] + D12 * (U[0, 0] * W_[1, 1] + U[1, 1] * W_[0, 0]) + 4 * D66 * U[0, 1] * W_[0, 1]
     K = asm(plaque, ib)
     if lisse_h:                                                # lisse CP 9 sous la rive : bande raide de 20 mm le long de y_int
-        EI = 5580.0 * (9 * lisse_h ** 3 / 12 + 9 * lisse_h * (lisse_h / 2 + T / 2) ** 2)
+        EI = 5580.0 * (TW * lisse_h ** 3 / 12 + TW * lisse_h * (lisse_h / 2 + T / 2) ** 2)
         @BilinearForm
         def raid(u, v, w):
             return (w.x[1] < Y0 + 20.0) * (EI / 20.0) * dd(u)[0, 0] * dd(v)[0, 0]
@@ -70,8 +74,8 @@ def assise(lisse_h):
                         M_ame=round(max(v['M_ame'] for v in cpl.values()) / 1e3, 1), M_bascule=round(max(v['M_bascule'] for v in cpl.values()) / 1e3, 1))
     return out
 def ame(M_Nm, h):                                              # âme CP 9 x h + assise collaborante (12 t + 9) : compression au bas de l'âme
-    bf = 12 * T + 9; Af, zf, Aw, zw = bf * T, h + T / 2, 9 * h, h / 2
-    zn = (Af * zf + Aw * zw) / (Af + Aw); I = bf * T ** 3 / 12 + Af * (zf - zn) ** 2 + 9 * h ** 3 / 12 + Aw * (zw - zn) ** 2
+    bf = 12 * T + TW; Af, zf, Aw, zw = bf * T, h + T / 2, TW * h, h / 2
+    zn = (Af * zf + Aw * zw) / (Af + Aw); I = bf * T ** 3 / 12 + Af * (zf - zn) ** 2 + TW * h ** 3 / 12 + Aw * (zw - zn) ** 2
     return round(M_Nm * 1e3 / (I / zn), 1)
 def bascule(M_Nm, bras, ep_j, larg_j, bras_j, k_lac):         # laçage sous la jambe : tension, contrainte dans la jambe, rotation du banc
     T_ = M_Nm * 1e3 / bras; s = T_ * bras_j / (ep_j * larg_j ** 2 / 6); th = M_Nm * 1e3 / (k_lac * bras ** 2)
@@ -89,9 +93,11 @@ for nom in avant:
     res['avant'][nom] = dict(assise_SF=a_['SF'], fleche=a_['fleche'], ame_MPa=ame(a_['M_ame'], 55),
                             **bascule(a_['M_bascule'], z_piv - (za - b['couple_sous_axe'] - 3.5), 9, 23, 44, k_poly))
     res['renforce'][nom] = dict(assise_SF=r_['SF'], fleche=r_['fleche'], ame_MPa=ame(r_['M_ame'], b['hauteur'] - T),
-                               **bascule(r_['M_bascule'], z_piv - (za - jb.get('sous_axe', 115) - 3.5), 9 + 2 * jb.get('joues', 9),
+                               **bascule(r_['M_bascule'], z_piv - (za - jb.get('sous_axe', 115) - 3.5), TW + 2 * (TW if EP_ENV else jb.get('joues', 9)),
                                          jb.get('ext', 1162) - 1117, (za - 0) - (za - jb.get('sous_axe', 115)) - 0, k_dyn))
 # dossier (joue CP 9 au-dessus de l'assise) : une personne qui s'adosse (500 N), voir scratch : contraintes faibles, flèche notable
 res['dossier'] = dict(charge_N=500, SF_min=2.5, fleche_mm=[14, 47], note="solide mais souple : 1,4 à 4,7 cm en haut selon l'encastrement à l'assise")
-json.dump(res, open('/home/claude/cao/etudes/banc_resistance.json', 'w'), ensure_ascii=False, indent=1)
+if EP_ENV:                                                     # dossier dans l'épaisseur demandée : contrainte en 1/e², flèche en 1/e³ (calcul du CP 9)
+    res['dossier'] = dict(charge_N=500, SF_min=round(2.5 * (T / 9) ** 2, 2), fleche_mm=[round(14 * (9 / T) ** 3), round(47 * (9 / T) ** 3)], note=f"CP {T:g} : déduit du CP 9 (contrainte en 1/e², flèche en 1/e³)")
+json.dump(res, open(os.environ.get('BANC_OUT', '/home/claude/cao/etudes/banc_resistance.json'), 'w'), ensure_ascii=False, indent=1)
 print(json.dumps(res, ensure_ascii=False, indent=1))

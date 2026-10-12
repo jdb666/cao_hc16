@@ -1,0 +1,119 @@
+{
+ "parametres": {
+  "assise": 6.0,
+  "couples": [
+   2091.2,
+   2160,
+   2285.0,
+   2410,
+   2545.0,
+   2680,
+   2815.0,
+   2950,
+   2990.5
+  ],
+  "x": [
+   2022.5,
+   3031.0
+  ],
+  "y": [
+   800,
+   1111.0
+  ],
+  "lisse": {
+   "h": 40,
+   "ep": 9
+  },
+  "jambe": {
+   "sous_axe": 115,
+   "ext": 1162,
+   "joues": 9
+  },
+  "pivot_z": 548
+ },
+ "avant": {
+  "2 assis côte à côte": {
+   "assise_SF": 3.5,
+   "fleche": 0.4,
+   "ame_MPa": 4.7,
+   "T_lacage": 717,
+   "s_jambe": 39.8,
+   "rotation_deg": 1.3,
+   "rive_mm": 5.5
+  },
+  "assis sur le bord": {
+   "assise_SF": 1.34,
+   "fleche": 0.6,
+   "ame_MPa": 23.4,
+   "T_lacage": 2906,
+   "s_jambe": 161.1,
+   "rotation_deg": 5.3,
+   "rive_mm": 22.4
+  },
+  "pied sur la rive, entre couples": {
+   "assise_SF": 1.15,
+   "fleche": 0.5,
+   "ame_MPa": 35.5,
+   "T_lacage": 4238,
+   "s_jambe": 235.0,
+   "rotation_deg": 7.7,
+   "rive_mm": 32.6
+  },
+  "pied sur la rive, au droit d'un couple": {
+   "assise_SF": 1.2,
+   "fleche": 0.5,
+   "ame_MPa": 35.5,
+   "T_lacage": 4245,
+   "s_jambe": 235.4,
+   "rotation_deg": 7.7,
+   "rive_mm": 32.7
+  }
+ },
+ "renforce": {
+  "2 assis côte à côte": {
+   "assise_SF": 3.5,
+   "fleche": 0.4,
+   "ame_MPa": 1.8,
+   "T_lacage": 330,
+   "s_jambe": 6.2,
+   "rotation_deg": 0.1,
+   "rive_mm": 0.6
+  },
+  "assis sur le bord": {
+   "assise_SF": 1.35,
+   "fleche": 0.5,
+   "ame_MPa": 8.7,
+   "T_lacage": 1300,
+   "s_jambe": 24.6,
+   "rotation_deg": 0.5,
+   "rive_mm": 2.3
+  },
+  "pied sur la rive, entre couples": {
+   "assise_SF": 1.14,
+   "fleche": 0.4,
+   "ame_MPa": 13.2,
+   "T_lacage": 1889,
+   "s_jambe": 35.8,
+   "rotation_deg": 0.8,
+   "rive_mm": 3.3
+  },
+  "pied sur la rive, au droit d'un couple": {
+   "assise_SF": 1.19,
+   "fleche": 0.4,
+   "ame_MPa": 13.2,
+   "T_lacage": 1892,
+   "s_jambe": 35.8,
+   "rotation_deg": 0.8,
+   "rive_mm": 3.3
+  }
+ },
+ "dossier": {
+  "charge_N": 500,
+  "SF_min": 1.11,
+  "fleche_mm": [
+   47,
+   159
+  ],
+  "note": "CP 6 : déduit du CP 9 (contrainte en 1/e², flèche en 1/e³)"
+ }
+}

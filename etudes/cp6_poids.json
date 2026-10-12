@@ -1,0 +1,50 @@
+{
+ "delta_coffre_bancs_kg": -1.59,
+ "delta_greement_kg": 0.04,
+ "delta_par_ep_kg": {
+  "4": 3.2,
+  "6": 0.0,
+  "9": -4.83,
+  "10": 0.08
+ },
+ "aire_cp6_m2": 9.26,
+ "plaques_2500x1220": 3.04,
+ "plaques_a_78pc": 3.89,
+ "aire_par_ep_m2": {
+  "4": 3.92,
+  "6": 1.52,
+  "9": 3.59,
+  "10": 0.44
+ },
+ "borde_cintre_cp4_m2": 1.19,
+ "delta_si_borde_reste_cp4_kg": -1.19,
+ "rayons_borde_avant_mm": {
+  "|y| 200-450": {
+   "p5": 104,
+   "mediane": 400
+  },
+  "|y| 450-700": {
+   "p5": 83,
+   "mediane": 165
+  },
+  "|y| 700-950": {
+   "p5": 170,
+   "mediane": 474
+  }
+ },
+ "rayon_mini_a_froid_mm": {
+  "CP 4 (3 plis)": [
+   254,
+   406
+  ],
+  "CP 6 (5 plis)": [
+   508,
+   787
+  ],
+  "CP 9 (5 plis)": [
+   914,
+   1372
+  ],
+  "source": "FAA AC 43.13-1B (0-45° / 90° du fil des plis extérieurs)"
+ }
+}

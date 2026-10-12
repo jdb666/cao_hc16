@@ -1,0 +1,194 @@
+{
+ "detail_traverse": {
+  "barre du moteur": {
+   "maxi": 247,
+   "pt": [
+    1801,
+    0,
+    925
+   ]
+  },
+  "potence et bout du tube": {
+   "maxi": 349,
+   "pt": [
+    2112,
+    1035,
+    873
+   ]
+  },
+  "dessus du coffre contre la joue": {
+   "maxi": 274,
+   "pt": [
+    1949,
+    1035,
+    897
+   ]
+  },
+  "accoudoirs": {
+   "maxi": 224,
+   "pt": [
+    3212,
+    -1035,
+    719
+   ]
+  },
+  "assise et dossier": {
+   "maxi": 346,
+   "pt": [
+    2127,
+    -1035,
+    870
+   ]
+  },
+  "longeron et poutre AR": 0
+ },
+ "tente": {
+  "L": 2400.0,
+  "W": 2100.0,
+  "h": 1300.0
+ },
+ "pieds": {
+  "ar": [
+   4145.0,
+   1050.0,
+   570
+  ],
+  "av": [
+   1765,
+   1050.0,
+   883
+  ],
+  "inclinaison_deg": 7.5,
+  "plan": 2380,
+  "arceau": 4341,
+  "angle_pied": 61
+ },
+ "sommet": 2015,
+ "sommet_naturel": 2015,
+ "aire_naturelle": 9.73,
+ "aire_drapee": 9.85,
+ "traverse_naturelle": [
+  {
+   "zone": "coffre et capot (x < 2022)",
+   "maxi": 308,
+   "x": 2008,
+   "y": -1035,
+   "z": 888
+  },
+  {
+   "zone": "tube et potences",
+   "maxi": 349,
+   "x": 2112,
+   "y": 1035,
+   "z": 873
+  },
+  {
+   "zone": "bancs et accoudoirs",
+   "maxi": 349,
+   "x": 2112,
+   "y": 1035,
+   "z": 873
+  }
+ ],
+ "gréement": {
+  "mat_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli1_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli2_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli3_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli4_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli5_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli6_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_pli7_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "collier_chemise_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "livarde_babord_rangee": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "hauban_coffre_av_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "hauban_coffre_ar_babord": {
+   "dans_naturelle": 0,
+   "dans_drapee": 0,
+   "exemple": []
+  },
+  "hauban_coffre_collier_poutre_babord": {
+   "dans_naturelle": 108,
+   "dans_drapee": 116,
+   "exemple": [
+    [
+     2003,
+     1022,
+     1177
+    ]
+   ]
+  },
+  "tube_colliers": {
+   "dans_naturelle": 51,
+   "dans_drapee": 59,
+   "exemple": [
+    [
+     2085,
+     0,
+     1194
+    ]
+   ]
+  }
+ },
+ "tetes": {
+  "au-dessus du trampoline x 2600": 1212,
+  "au-dessus du trampoline x 2900": 1400,
+  "au-dessus du trampoline x 3100": 1432,
+  "au-dessus du trampoline x 3400": 1294,
+  "au-dessus de l'assise x 2450, y 961 (tete assise : H 936, F 832)": 330
+ },
+ "garde_dessus": {
+  "coffre milieu x 1650": null,
+  "coffre milieu x 1800": -126,
+  "capot x 1900": 263,
+  "joue x 1800": null,
+  "joue x 2400": null,
+  "joue x 3000": null,
+  "accoudoir x 3100": 52,
+  "pointe joue x 1620": null
+ }
+}
