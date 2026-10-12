@@ -1,4 +1,5 @@
 {
+ "variante": "hiloire",
  "long": 2375,
  "long_coins": 2243,
  "larg": 2224,
@@ -7,11 +8,38 @@
   4145
  ],
  "x_coins": 1902,
- "sommet": 1884,
- "haut_tramp": 1304,
- "arceau": 4029,
- "angle_pied": 52,
- "toile": 8.82,
+ "rectangle": {
+  "x": [
+   2085,
+   4145
+  ],
+  "long": 2060,
+  "larg_av": 2100,
+  "larg_ar": 2080,
+  "z_av": 1194,
+  "z_ar": 555,
+  "denivele": 639
+ },
+ "avancee": {
+  "x_bord": 1770,
+  "long": 315,
+  "z_bord": 813
+ },
+ "sommet": 1881,
+ "sommet_xy": [
+  3076,
+  -56
+ ],
+ "haut_tramp": 1301,
+ "croisement": {
+  "x": 3120,
+  "z": 1885
+ },
+ "arceau": 3755,
+ "angle_pied": 40,
+ "angle_pied_ar": 65,
+ "arceau_z_max": 1887,
+ "toile": 8.48,
  "porte": "pan arrière",
  "jupe": 0.46,
  "jupe_max": 461,
@@ -22,11 +50,19 @@
   "coins": 1077,
   "derriere_hiloire": 15
  },
- "garde": 25,
- "garde_ou": "tube_colliers",
+ "garde": 0,
  "garde_pt": [
-  2083,
-  -1029,
-  1218
- ]
+  2082,
+  1056,
+  1193
+ ],
+ "tetes_x2450": {
+  "H 1,80": -402,
+  "F 1,60": -312
+ },
+ "tetes_x2700": {
+  "H 1,80": -427,
+  "F 1,60": -335
+ },
+ "iterations": 257
 }

@@ -455,7 +455,7 @@ safrans:
   barre_x: 5350
   barre_z: 300
 
-tente:                     # (JD 09/10) tente igloo, deux arceaux diagonaux croisés au sommet (camping au mouillage) : couvre le dessus du coffre derrière l'hiloire, les bancs et le trampoline ; voiles roulées
+tente:                     # (JD 09/10) tente igloo, deux arceaux diagonaux croisés au sommet (camping au mouillage) : couvre le dessus du coffre derrière l'hiloire, les bancs et le trampoline ; voiles roulées. (JD 12/10) arceaux posés sur le tube des colliers et sur la poutre AR, avancée devant le tube
   derriere_hiloire: 15     # (JD 09/10 17 h 40 : « tente inclut le coffre, ou derrière l'hiloire ») bord avant posé sur le dessus du coffre, 15 derrière le pied de l'hiloire
   devant_collier: 40       # coins avant sur les joues, 40 devant les colliers : l'arceau passe en dedans du collier
   garde: 25                # la toile passe à 25 au moins au-dessus du bateau (coffre, tube, moteur) ; les colliers traversent les flancs (manchons)
@@ -467,6 +467,9 @@ tente:                     # (JD 09/10) tente igloo, deux arceaux diagonaux croi
   y_tube: 1040             # au-delà, le bord descend vers les coins, sur les joues, derrière les colliers
   sommet_z: 1880           # 1 300 au-dessus du trampoline
   arceau_diam: 11          # 2 arceaux alu Ø 11 en diagonale, croisés au sommet
+  pieds_av: {y: 1050}      # (JD 12/10) arceaux posés sur le tube des colliers, au bout, contre les joues (au-dessus des potences) ; avant : coins sur les joues devant les colliers
+  pieds_ar: {y: 1040}      # (JD 12/10) et sur la poutre AR, au bout, contre les pièces d'angle
+  avancee: hiloire         # (JD 12/10) devant le tube, la toile descend en avancée jusqu'au bord avant : hiloire (dessus du coffre, 15 derrière l'hiloire) ou c4 (haut de C4, juste sous le tube)
 peinture:                  # finition (JD 29/09 soir) : coffre et bancs blancs, couples et pièces de maintien noirs (le premier motif qui convient l'emporte)
   - ['^banc_.*_(couple|machoire)', [0.13, 0.13, 0.14]]
   - ['^(accroche_poutre|machoire_poutre|collier_|semelle_|renfort_pont_|bourrage_)', [0.13, 0.13, 0.14]]

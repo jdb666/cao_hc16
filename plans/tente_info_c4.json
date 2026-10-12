@@ -1,0 +1,68 @@
+{
+ "variante": "c4",
+ "long": 2126,
+ "long_coins": 2126,
+ "larg": 2224,
+ "x": [
+  2020,
+  4145
+ ],
+ "x_coins": 2020,
+ "rectangle": {
+  "x": [
+   2085,
+   4145
+  ],
+  "long": 2060,
+  "larg_av": 2100,
+  "larg_ar": 2080,
+  "z_av": 1194,
+  "z_ar": 555,
+  "denivele": 639
+ },
+ "avancee": {
+  "x_bord": 2020,
+  "long": 66,
+  "z_bord": 833
+ },
+ "sommet": 1881,
+ "sommet_xy": [
+  3072,
+  -56
+ ],
+ "haut_tramp": 1301,
+ "croisement": {
+  "x": 3120,
+  "z": 1885
+ },
+ "arceau": 3755,
+ "angle_pied": 40,
+ "angle_pied_ar": 65,
+ "arceau_z_max": 1887,
+ "toile": 8.22,
+ "porte": "pan arrière",
+ "jupe": 0.46,
+ "jupe_max": 486,
+ "bord_avant": {
+  "x_milieu": 2020,
+  "z_milieu": 833,
+  "x_coins": 2020,
+  "coins": 1085,
+  "derriere_hiloire": null
+ },
+ "garde": 0,
+ "garde_pt": [
+  2083,
+  1056,
+  1193
+ ],
+ "tetes_x2450": {
+  "H 1,80": -404,
+  "F 1,60": -313
+ },
+ "tetes_x2700": {
+  "H 1,80": -429,
+  "F 1,60": -337
+ },
+ "iterations": 293
+}
